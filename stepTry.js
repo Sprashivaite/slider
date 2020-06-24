@@ -6,8 +6,6 @@
 // }
 // console.log(arr);
 
-// let step = 10;
-
 // let count = 1;
 // let prevVal = min;
 
