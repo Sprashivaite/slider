@@ -48,14 +48,21 @@ color: #1F2041;
 
 .flag{
   position: absolute;
-  display: none;
-  top: -16px;
-  left: 2px;
-  width: 10px;
-  height: 10px;
-  background-color: blue;
+  width: 16px;
+  height: 12px;
+  background: linear-gradient(180deg, #6FCF97 0%, #66D2EA 100%);
   font-size: 10px;
   text-align: center;
+  z-index: 2;
+}
+.flag:after{
+  content: '';
+  position: absolute;
+  left: 2px;
+  bottom: -8px;
+  border: 4px solid transparent;
+  border-top: 4px solid #66D2EA;
+  z-index: 0;
 }
 
 .slider__field {
