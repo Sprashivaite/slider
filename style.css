@@ -19,7 +19,16 @@ body{
   top: 50px;
   display: inline-block;
 }
-
+.cofig {
+  position: relative;
+  width: 266px;
+  height: 50px;
+  top: 100px;
+}
+.config input{
+  position: absolute;
+  margin-top: 40px;
+}
 .slider__title {
   display: inline-block;
   position: absolute;
@@ -37,6 +46,18 @@ color: #1F2041;
   right: 10px;
 }
 
+.flag{
+  position: absolute;
+  display: none;
+  top: -16px;
+  left: 2px;
+  width: 10px;
+  height: 10px;
+  background-color: blue;
+  font-size: 10px;
+  text-align: center;
+}
+
 .slider__field {
   position: absolute;
   background: #FFFFFF;
@@ -49,7 +70,7 @@ height: 6px;
 top: 38px;
 cursor: pointer;
 }
-.slider__button, .slider__button-2{
+.slider__button, .slider__button_2{
   display: inline-block;
   position: absolute;
   width: 12px;
@@ -60,12 +81,9 @@ border-radius: 10px;
 top: -6px;
 cursor: pointer;
 }
-.toggle {
-  width: 50px;
-  height: 25px;
-  position: absolute;
+.slider__button_2 {
+  background: blue;
 }
-
 
 
 

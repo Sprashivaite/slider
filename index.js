@@ -5,40 +5,42 @@ const value = document.querySelector('.slider__value')
 const btn = document.querySelector('.toggle')
 
 let typeValue = 'minmax';
-let max = 999;
+let max = 100;
 let min = 0;
 let prevVal = min;
-let step = 3;
+let step = 1;
 let stepPX = (field.offsetWidth - button.offsetWidth) * step / (max - min);
 
-function sliderMove(button) {
-  function onMouseMove(event) {
+function onMouseMove() {
 
-    let shiftLeft = event.clientX - field.getBoundingClientRect().left - button.offsetWidth / 2;
-  
-    if (shiftLeft + stepPX/2 > field.offsetWidth - button.offsetWidth) {
-      button.style.left = field.offsetWidth - button.offsetWidth + 'px';
-      prevVal =  field.offsetWidth - button.offsetWidth;
-    }
-    else if (shiftLeft - stepPX/2 < 0) {
-      button.style.left = 0;
-      prevVal = 0;
-    } 
-    else {
-      console.log(prevVal);
-      if (step === 1) {button.style.left = shiftLeft + 'px'}
-      else {
-      if( (shiftLeft) - prevVal > stepPX/2 ) {
-        button.style.left = stepPX  + prevVal + 'px';
-        prevVal = stepPX  + prevVal
-      }
-      else if( (shiftLeft) < prevVal - stepPX/2) {
-        button.style.left = prevVal - stepPX + 'px';
-        prevVal = prevVal - stepPX;
-      }
-    }
-    };
+  let shiftLeft = event.clientX - field.getBoundingClientRect().left - button.offsetWidth / 2;
+
+  if (shiftLeft + stepPX / 2 > field.offsetWidth - button.offsetWidth) {
+    button.style.left = field.offsetWidth - button.offsetWidth + 'px';
+    prevVal =  field.offsetWidth - button.offsetWidth;
   }
+  else if (shiftLeft - stepPX / 2 < 0) {
+    button.style.left = 0;
+    prevVal = 0;
+  } 
+  else {
+    console.log(prevVal);
+    if (step === 1) {button.style.left = shiftLeft + 'px'}
+    else {
+    if( (shiftLeft) - prevVal > stepPX/2 ) {
+      button.style.left = stepPX  + prevVal + 'px';
+      prevVal = stepPX  + prevVal
+    }
+    else if( (shiftLeft) < prevVal - stepPX/2) {
+      button.style.left = prevVal - stepPX + 'px';
+      prevVal = prevVal - stepPX;
+    }
+  }
+  };
+}
+
+function sliderMove() {
+  onMouseMove(event);
   document.addEventListener('mousemove', onMouseMove)
   
   document.onmouseup = function(){
