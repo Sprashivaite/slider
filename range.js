@@ -4,55 +4,32 @@ const button = document.querySelector(".slider__button");
 const value = document.querySelector(".slider__value");
 const char = document.querySelector(".char");
 const vl = document.querySelector(".vl");
-const tooltip = document.querySelector('#tooltip');
-const maxBtn = document.querySelector('#max');
-const minBtn = document.querySelector('#min');
-
-let max = 100;
-maxBtn.addEventListener('input', function(){
-  max = maxBtn.value;
-})
-
-let min = 15;
-// minBtn.addEventListener('input', function(){
-//   min = minBtn.value;
-//   vl.value = min / 10;
-// })
-
-let step = 15;
-let fieldRange = field.offsetWidth - button.offsetWidth;
-
-let horizontal = true;
 
 const flag = document.createElement("div");
 flag.className = "flag";
 flag.style.top = button.offsetTop - 15 + "px";
 flag.innerHTML = vl.value;
 button.after(flag);
-
-
+flag.hidden = false;
 
 const button_2 = document.createElement("div");
 button_2.className = "slider__button_2";
-
-let rangeSlider = false;
+button_2.style.left = button.offsetLeft + button.offsetWidth + 20 + "px";
+let rangeSlider = true;
 if (rangeSlider) {
   button.after(button_2);
-  if(horizontal){
-  button_2.style.left = stepPX + 'px';}
-  if(!horizontal){
-    button_2.style.top = stepPX + 'px';
-  }
 }
 const flag_2 = flag.cloneNode(true);
 flag_2.innerHTML = vl.value;
 button_2.after(flag_2);
 
-tooltip.addEventListener('input', function(){
-  flag.hidden = !tooltip.checked;
-  flag_2.hidden = !tooltip.checked;
-})
+let max = 100;
+let min = 0;
+let step = 1;
+let fieldRange = field.offsetWidth - button.offsetWidth;
 let stepPX = (fieldRange * step) / (max - min);
+let horizontal = true;
+
 let breakPoint = [];
 for (let i = 0; i <= fieldRange; i += stepPX) {
   breakPoint.push(i);
@@ -62,10 +39,9 @@ if (!horizontal) {
   field.style.width = "6px";
   field.style.height = "266px";
   button.style.left = "-6px";
-  button_2.style.left = "-6px";
 }
 
-function pxLength() {
+function pxLength(btn) {
   let shiftLeft;
   if (horizontal) {
     shiftLeft =
@@ -77,7 +53,13 @@ function pxLength() {
     shiftLeft =
       event.clientY -
       field.getBoundingClientRect().top -
-      button.offsetWidth / 2;
+      btn.offsetWidth / 2;
+  }
+  if (btn.nextElementSibling === button_2 &&
+    shiftLeft >=
+    btn.nextElementSibling.offsetLeft - btn.offsetWidth
+  ) {
+    return
   }
   if (shiftLeft >= fieldRange) {
     return fieldRange;
@@ -91,46 +73,47 @@ function pxLength() {
 
 document.addEventListener("mousemove", pxLength);
 
-function shiftBreakPoint(button) {
+function shiftBreakPoint(btn) {
   breakPoint.forEach(function (item, index, array) {
     if (pxLength() >= item && pxLength() <= array[index + 1] - stepPX / 2) {
       if (horizontal) {
-        button.style.left = item + "px";
+        btn.style.left = item + "px";
       }
       if (!horizontal) {
-        button.style.top = item + "px";
+        btn.style.top = item + "px";
       }
     } else if (
       pxLength() >= item + stepPX / 2 &&
       pxLength() <= array[index + 1]
     ) {
       if (horizontal) {
-        button.style.left = array[index + 1] + "px";
+        btn.style.left = array[index + 1] + "px";
       }
       if (!horizontal) {
-        button.style.top = array[index + 1] + "px";
+        btn.style.top = array[index + 1] + "px";
       }
     }
   });
 }
 
-function sliderMove(button) {
+function sliderMove(btn) {
   slider.onmousedown = () => false;
   slider.oncontextmenu = () => false;
 
   function onMouseMove() {
     if (horizontal) {
-      button.style.left = pxLength() + "px";
+      btn.style.left = pxLength(btn) + "px";
     }
     if (!horizontal) {
-      button.style.top = pxLength() + "px";
+      btn.style.top = pxLength(btn) + "px";
     }
     flagMove();
   }
   document.addEventListener("mousemove", onMouseMove);
 
   document.onmouseup = function () {
-    shiftBreakPoint(button);
+      
+    shiftBreakPoint(btn);
     flagMove();
     document.removeEventListener("mousemove", onMouseMove);
     document.onmouseup = null;
@@ -158,13 +141,13 @@ function flagMove() {
   flag_2.style.top = button_2.offsetTop - 15 + "px";
 }
 
-function view(button) {
+function view(btn) {
   let result;
   if (horizontal) {
-    result = min + Math.trunc((button.offsetLeft * (max - min)) / fieldRange);
+    result = min + Math.trunc((btn.offsetLeft * (max - min)) / fieldRange);
   }
   if (!horizontal) {
-    result = min + Math.trunc((button.offsetTop * (max - min)) / fieldRange);
+    result = min + Math.trunc((btn.offsetTop * (max - min)) / fieldRange);
   }
   return result;
 }
@@ -213,49 +196,17 @@ vl.addEventListener("input", function () {
   flag.innerHTML = vl.value;
   flagMove();
 });
-if(rangeSlider){
-function makeDistanceButton() {
-  if(horizontal){
-  if (button.offsetLeft >= button_2.offsetLeft - button_2.offsetWidth) {
-    button.style.left = button_2.offsetLeft - stepPX + "px";
-  }
-  }
-  if(!horizontal){
-    if (button.offsetTop >= button_2.offsetTop - button_2.offsetWidth) {
-    button.style.top = button_2.offsetTop - stepPX + "px";
-  }}
-  flagMove();
-}
 
+// function makeDistanceButton() {
+//   let shiftLeft =
+//     event.clientX - field.getBoundingClientRect().left - button.offsetWidth / 2;
+//   if (event.target == button) {
+//     if (shiftLeft >= button_2.offsetLeft - button_2.offsetWidth) {
+//       button.style.left = button_2.offsetLeft - button_2.offsetWidth + "px";
+//     }
+//   }
+// }
 
-function makeDistanceButton_2() {
-  if(horizontal){
-  if (button.offsetLeft >= button_2.offsetLeft - button_2.offsetWidth) {
-    button_2.style.left = button.offsetLeft + stepPX + "px";
-  }}
-  if(!horizontal){
-    if (button.offsetTop >= button_2.offsetTop - button_2.offsetWidth) {
-      button_2.style.top = button.offsetTop + stepPX + "px";
-    }
-  }
-  flagMove();
-}
-button.addEventListener("mousedown", function () {
-  document.addEventListener("mousemove", makeDistanceButton);
-
-  document.addEventListener("mouseup", function () {
-    makeDistanceButton();
-    document.removeEventListener("mousemove", makeDistanceButton);
-    document.removeEventListener("mouseup", makeDistanceButton);
-  });
-});
-button_2.addEventListener("mousedown", function () {
-  document.addEventListener("mousemove", makeDistanceButton_2);
-
-  document.addEventListener("mouseup", function () {
-    makeDistanceButton_2();
-    document.removeEventListener("mousemove", makeDistanceButton_2);
-    document.removeEventListener("mouseup", makeDistanceButton_2);
-  });
-});
-}
+// document.addEventListener("mousemove", makeDistanceButton);
+// document.addEventListener("mousedown", makeDistanceButton);
+// document.addEventListener("mouseup", makeDistanceButton);
