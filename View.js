@@ -71,6 +71,7 @@ export class View {
     View.field.append(View.button);
     View.flag.className = "flag";
     View.flag.style.top = View.button.offsetTop - 15 + "px";
+    View.flag.innerHTML = 0;
     View.button.after(View.flag);
   }
 

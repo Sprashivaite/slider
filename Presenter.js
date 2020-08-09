@@ -21,7 +21,7 @@ export class Presenter {
     function removeTooltip(subscriber) {
       View.removeFlag();
     }
-    broadcast(changeOrientation);
+    // broadcast(changeOrientation);
     // broadcast(removeTooltip);
 
     // function сlickHoldListener(target, fn) {
@@ -38,16 +38,24 @@ export class Presenter {
 
     // сlickHoldListener(button, move);
   }
+  static fieldRange = View.field.offsetWidth - View.button.offsetWidth
   makeMove() {
     function move() {
       new View().sliderMove(Model.pxLength( View.field, View.button), Model.calcValue(View.field, View.button));
       
     }
+    function breaker() {
+      new View().sliderMove(Model.breakPoint( View.field, View.button), Model.calcValue(View.field, View.button));
+
+      console.log(Model.breakPoint( View.field, View.button));
+    }
     View.button.addEventListener("mousedown", function () {
       document.addEventListener("mousemove", move);
 
       document.addEventListener("mouseup", function () {
+        new View().sliderMove(Model.breakPoint( View.field, View.button), Model.calcValue(View.field, View.button));
         document.removeEventListener("mousemove", move);
+
         document.removeEventListener("mouseup", move);
       });
     });

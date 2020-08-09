@@ -37,32 +37,7 @@ export class Model {
     //     clickListener(button, makeDistanceButton);
     //     clickListener(button_2, makeDistanceButton_2);
     //   }
-    // static breakPoint() {
-    //   let stepPX = (this.fieldRange * this.step) / (this.max - this.min);
-    //   let arr = [];
-    //   for (let i = 0; i <= this.fieldRange; i += stepPX) {
-    //     arr.push(i);
-    //   }
-    //   arr.forEach(function (item, index, array) {
-    //     if (
-    //       Model.pxLength() >= item &&
-    //       Model.pxLength() <= array[index + 1] - stepPX / 2
-    //     ) {
-    //       if (Model.horizontal) {
-    //         // console.log(item);
-    //         return item;
-    //       }
-    //     } else if (
-    //       Model.pxLength() >= item + stepPX / 2 &&
-    //       Model.pxLength() <= array[index + 1]
-    //     ) {
-    //       if (Model.horizontal) {
-    //         // console.log(array[index + 1]);
-    //         return array[index + 1];
-    //       }
-    //     }
-    //   });
-    // }
+
   }
 
   // static field = document.querySelector(".slider__field");
@@ -71,7 +46,7 @@ export class Model {
   static shiftLeft;
   static max = 100;
   static min = 0;
-  static step = 25;
+  static step = 38;
   static rangeSlider = false;
   static horizontal = true;
 
@@ -106,6 +81,40 @@ export class Model {
     result =
       Model.min +
       Math.trunc((buttonOffset * (Model.max - Model.min)) / fieldRange);
-    return result;
+
+    let countStep = 0;
+    while (result > countStep + Model.step / 2) {
+      countStep += Model.step;
+      if (countStep>=Model.max) {return countStep -= Model.step}
+    }
+    return countStep;
+  }
+  static breakPoint(field, button) {
+    let stepPX = ((field.offsetWidth - button.offsetWidth) * Model.step) / (Model.max - Model.min);
+
+    let arr = [];
+    for (let i = 0; i <= (field.offsetWidth - button.offsetWidth); i += stepPX) {
+      arr.push(i);
+    }
+    let val;
+    arr.forEach(function (item, index, array) {
+      
+      if (
+        Model.pxLength(field, button) >= item &&
+        Model.pxLength(field, button) <= array[index + 1] - stepPX / 2
+      ) {
+
+          val = item;
+        
+      } else if (
+        Model.pxLength(field, button) >= item + stepPX / 2 &&
+        Model.pxLength(field, button) <= array[index + 1]
+      ) {
+        
+          val = array[index + 1];
+        
+      }
+    });
+    return val;
   }
 }
