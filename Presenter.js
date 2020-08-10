@@ -38,26 +38,62 @@ export class Presenter {
 
     // сlickHoldListener(button, move);
   }
-  static fieldRange = View.field.offsetWidth - View.button.offsetWidth
+  // static fieldRange = View.field.offsetWidth - View.button.offsetWidth;
   makeMove() {
     function move() {
-      new View().sliderMove(Model.pxLength( View.field, View.button), Model.calcValue(View.field, View.button));
-      
+      new View().sliderMove(
+        View.button,
+        Model.pxLength(View.field, View.button)
+      );
+    }
+    function move_2() {
+      new View().sliderMove(
+        View.button_2,
+        Model.pxLength(View.field, View.button_2)
+      );
+    }
+    function changeFlag(){
+      View.flagValue(View.flag,
+        Model.calcValue(View.field, View.button))
+    }
+    function changeFlag_2(){
+      View.flagValue(View.flag_2,
+        Model.calcValue(View.field, View.button_2))
     }
     function breaker() {
-      new View().sliderMove(Model.breakPoint( View.field, View.button), Model.calcValue(View.field, View.button));
-
-      console.log(Model.breakPoint( View.field, View.button));
+      new View().sliderMove(
+        View.button,
+        Model.breakPoint(View.field, View.button),
+        View.flag,
+        Model.calcValue(View.field, View.button)
+      );
+    }
+    function breaker_2() {
+      new View().sliderMove(
+        View.button_2,
+        Model.breakPoint(View.field, View.button_2)
+      );
     }
     View.button.addEventListener("mousedown", function () {
       document.addEventListener("mousemove", move);
-
-      document.addEventListener("mouseup", function () {
-        new View().sliderMove(Model.breakPoint( View.field, View.button), Model.calcValue(View.field, View.button));
+      document.addEventListener("mousemove", changeFlag);
+      document.onmouseup =  function () {
+        breaker();
         document.removeEventListener("mousemove", move);
+        document.removeEventListener("mousemove", changeFlag);
+        document.onmouseup = null;
 
-        document.removeEventListener("mouseup", move);
-      });
+      };
+    });
+    View.button_2.addEventListener("mousedown", function () {
+      document.addEventListener("mousemove", changeFlag_2);
+      document.addEventListener("mousemove", move_2);
+      document.onmouseup =  function () {
+        breaker_2() ;
+        document.removeEventListener("mousemove", changeFlag_2);
+        document.removeEventListener("mousemove", move_2);
+        document.onmouseup = null;
+      };
     });
   }
 }

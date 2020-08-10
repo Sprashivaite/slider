@@ -46,8 +46,8 @@ export class Model {
   static shiftLeft;
   static max = 100;
   static min = 0;
-  static step = 38;
-  static rangeSlider = false;
+  static step = 25;
+  static rangeSlider = true;
   static horizontal = true;
 
   static pxLength(field, button) {
@@ -70,10 +70,12 @@ export class Model {
       return this.shiftLeft;
     }
   }
+
   static calcValue(field, button) {
     let result;
     let buttonOffset;
     let fieldRange = field.offsetWidth - button.offsetWidth;
+
     Model.horizontal
       ? (buttonOffset = button.offsetLeft)
       : (buttonOffset = button.offsetTop);
@@ -83,12 +85,14 @@ export class Model {
       Math.trunc((buttonOffset * (Model.max - Model.min)) / fieldRange);
 
     let countStep = 0;
+
     while (result > countStep + Model.step / 2) {
       countStep += Model.step;
-      if (countStep>=Model.max) {return countStep -= Model.step}
+      if (countStep > Model.max) {return countStep -= Model.step}
     }
     return countStep;
   }
+
   static breakPoint(field, button) {
     let stepPX = ((field.offsetWidth - button.offsetWidth) * Model.step) / (Model.max - Model.min);
 
@@ -96,6 +100,7 @@ export class Model {
     for (let i = 0; i <= (field.offsetWidth - button.offsetWidth); i += stepPX) {
       arr.push(i);
     }
+
     let val;
     arr.forEach(function (item, index, array) {
       
