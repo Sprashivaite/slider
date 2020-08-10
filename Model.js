@@ -37,7 +37,6 @@ export class Model {
     //     clickListener(button, makeDistanceButton);
     //     clickListener(button_2, makeDistanceButton_2);
     //   }
-
   }
 
   // static field = document.querySelector(".slider__field");
@@ -49,32 +48,42 @@ export class Model {
   static step = 25;
   static rangeSlider = true;
   static horizontal = true;
+  
 
   static pxLength(field, button) {
+    let Field;
     Model.horizontal
-      ? (this.shiftLeft =
+      ? (Model.shiftLeft =
           event.clientX -
           field.getBoundingClientRect().left -
           button.offsetWidth / 2)
-      : (this.shiftLeft =
+      : (Model.shiftLeft =
           event.clientY -
           field.getBoundingClientRect().top -
           button.offsetWidth / 2);
 
-    if (this.shiftLeft >= field.offsetWidth - button.offsetWidth) {
-      return field.offsetWidth - button.offsetWidth;
+    Model.horizontal
+      ? (Field = field.offsetWidth)
+      : (Field = field.offsetHeight);
+
+    if (Model.shiftLeft >= Field - button.offsetWidth) {
+      return Field - button.offsetWidth;
     }
-    if (this.shiftLeft <= 0) {
+    if (Model.shiftLeft <= 0) {
       return 0;
     } else {
-      return this.shiftLeft;
+      return Model.shiftLeft;
     }
   }
 
   static calcValue(field, button) {
     let result;
     let buttonOffset;
-    let fieldRange = field.offsetWidth - button.offsetWidth;
+    let Field;
+    Model.horizontal
+    ? (Field = field.offsetWidth)
+    : (Field = field.offsetHeight);
+    let fieldRange = Field - button.offsetWidth;
 
     Model.horizontal
       ? (buttonOffset = button.offsetLeft)
@@ -88,36 +97,40 @@ export class Model {
 
     while (result > countStep + Model.step / 2) {
       countStep += Model.step;
-      if (countStep > Model.max) {return countStep -= Model.step}
+      if (countStep > Model.max) {
+        return (countStep -= Model.step);
+      }
     }
     return countStep;
   }
 
   static breakPoint(field, button) {
-    let stepPX = ((field.offsetWidth - button.offsetWidth) * Model.step) / (Model.max - Model.min);
+    let Field;
+    Model.horizontal
+    ? (Field = field.offsetWidth)
+    : (Field = field.offsetHeight);
+    
+    let stepPX =
+      ((Field - button.offsetWidth) * Model.step) /
+      (Model.max - Model.min);
 
     let arr = [];
-    for (let i = 0; i <= (field.offsetWidth - button.offsetWidth); i += stepPX) {
+    for (let i = 0; i <= Field - button.offsetWidth; i += stepPX) {
       arr.push(i);
     }
 
     let val;
     arr.forEach(function (item, index, array) {
-      
       if (
         Model.pxLength(field, button) >= item &&
         Model.pxLength(field, button) <= array[index + 1] - stepPX / 2
       ) {
-
-          val = item;
-        
+        val = item;
       } else if (
         Model.pxLength(field, button) >= item + stepPX / 2 &&
         Model.pxLength(field, button) <= array[index + 1]
       ) {
-        
-          val = array[index + 1];
-        
+        val = array[index + 1];
       }
     });
     return val;

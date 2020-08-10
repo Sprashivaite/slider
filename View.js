@@ -49,7 +49,7 @@ export class View {
   static horizontal = true;
   static rangeSlider = true;
 
-  renderElements() {
+  static renderElements() {
     View.button.className = "slider__button";
     View.field.className = "slider__field";
     if (!View.horizontal) {
@@ -79,7 +79,7 @@ export class View {
     }
   }
 
-  sliderMove(button, px) {
+  static sliderMove(button, px) {
     View.slider.onmousedown = () => false;
     View.slider.oncontextmenu = () => false;
 
@@ -91,7 +91,7 @@ export class View {
     
   }
 
-   flagMove() {
+   static flagMove() {
     View.flag.style.left = View.button.offsetLeft + "px";
     View.flag.style.top = View.button.offsetTop - 15 + "px";
     if (View.rangeSlider) {
@@ -106,5 +106,7 @@ export class View {
 
   static removeFlag() {
     View.flag.style.display = "none";
+    if(View.flag_2) {View.flag_2.style.display = "none";}
+    
   }
 }

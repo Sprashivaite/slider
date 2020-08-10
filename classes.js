@@ -4,7 +4,6 @@ import {Presenter} from './Presenter.js';
 
 
 const view = new View();
-view.renderElements();
 
 const model = new Model();
 
