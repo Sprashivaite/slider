@@ -19,16 +19,7 @@ body{
   top: 50px;
   display: inline-block;
 }
-.cofig {
-  position: relative;
-  width: 266px;
-  height: 50px;
-  top: 100px;
-}
-.config input{
-  position: absolute;
-  margin-top: 40px;
-}
+
 .slider__title {
   display: inline-block;
   position: absolute;
@@ -93,6 +84,22 @@ cursor: pointer;
 }
 
 
+.config {
 
+  position: relative;
+  /* display: i; */
+  flex-direction: column;
+  /* justify-content: space-between; */
+  width: 320px;
+  height: 200px;
+  top: 100px;
+  left: 20px;
+  background-color: rgba(170, 170, 170, 0.616);
+  border: #1F2041 solid;
+}
+.config input{
+  /* position: absolute; */
+  /* margin-top: 40px; */
+}
 
 
