@@ -6,7 +6,11 @@ export class Presenter {
     // broadcast(changeOrientation);
     // broadcast(removeTooltip);
     // broadcast(changeType);
+
+
     View.renderElements();
+    View.clickMax.innerHTML = 'Max = '+Model.max;
+    View.clickMin.innerHTML = 'Min = '+ Model.min + ' - ';
 
   }
 
@@ -14,7 +18,9 @@ export class Presenter {
     function move() {
       View.sliderMove(View.button, Model.pxLength(View.field, View.button));
     }
-
+    function progressBarMove(){
+      View.brogressBarMove();
+    }
     function changeFlag() {
       View.flagMove();
       View.flagValue(View.flag, Model.calcValue(View.field, View.button));
@@ -24,8 +30,7 @@ export class Presenter {
       View.sliderMove(
         View.button,
         Model.breakPoint(View.field, View.button),
-        View.flag,
-        Model.calcValue(View.field, View.button)
+
       );
     }
     function makeDistance() {
@@ -35,11 +40,21 @@ export class Presenter {
       Model.makeDistanceButton_2(View.button, View.button_2);
     }
     changeFlag();
+    View.clickMax.addEventListener('click', function(){
+      Presenter.moveToValue(View.button, Model.max)
+      changeFlag()
+    })
+    View.clickMin.addEventListener('click', function(){
+      Presenter.moveToValue(View.button, Model.min)
+      changeFlag()
+    })
     View.button.addEventListener("mousedown", function () {
       document.addEventListener("mousemove", move);
+      
       if (Model.rangeSlider) {
         document.addEventListener("mousemove", makeDistance);
       }
+      document.addEventListener("mousemove", progressBarMove);
       document.addEventListener("mousemove", changeFlag);
       document.onmouseup = function () {
         breaker();
@@ -48,6 +63,7 @@ export class Presenter {
         }
         changeFlag();
         document.removeEventListener("mousemove", move);
+        document.removeEventListener("mousemove", progressBarMove);
         document.removeEventListener("mousemove", changeFlag);
         document.removeEventListener("mousemove", makeDistance);
 
@@ -76,11 +92,13 @@ export class Presenter {
         document.addEventListener("mousemove", move_2);
 
         document.addEventListener("mousemove", makeDistance_2);
+        document.addEventListener("mousemove", progressBarMove);
         document.addEventListener("mousemove", changeFlag_2);
         document.onmouseup = function () {
           breaker_2();
           makeDistance_2();
           changeFlag_2();
+          document.removeEventListener("mousemove", progressBarMove);
           document.removeEventListener("mousemove", changeFlag_2);
           document.removeEventListener("mousemove", move_2);
           document.removeEventListener("mousemove", makeDistance_2);

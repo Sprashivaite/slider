@@ -21,11 +21,13 @@ let max = document.querySelector('#max');
 let min = document.querySelector('#min');
 let step = document.querySelector('#step');
 let radio = document.querySelector('#radio');
+let range = document.querySelector('#range');
 
-View.button.addEventListener('mousemove', function(){
+document.addEventListener('mousemove', function(){
+
     vl.value = View.flag.innerHTML;
 })
-View.button_2.addEventListener('mousemove', function(){
+document.addEventListener('mousemove', function(){
     vl_2.value = View.flag_2.innerHTML;
 })
 
@@ -47,12 +49,14 @@ tooltip.addEventListener('input', function(){
 max.value = Model.max;
 max.addEventListener('input', function(){
     Model.max = +max.value;
+    View.clickMax.innerHTML = 'Max = '+Model.max;
     View.flagValue(View.flag, Model.calcValue(View.field, View.button));
     View.flagValue(View.flag_2, Model.calcValue(View.field, View.button_2));
 })
 min.value = Model.min;
 min.addEventListener('input', function(){
     Model.min = +min.value;
+    View.clickMin.innerHTML = 'Min = '+ Model.min + ' - ';
     View.flagValue(View.flag, Model.calcValue(View.field, View.button));
     View.flagValue(View.flag_2, Model.calcValue(View.field, View.button_2));
 })
@@ -66,4 +70,15 @@ step.addEventListener('input', function(){
 radio.addEventListener('input', function(){
 Presenter.changeOrientation();
 })
+range.addEventListener('input', function(){
+    Model.rangeSlider && View.rangeSlider ? (Model.rangeSlider = false, View.rangeSlider = false):(Model.rangeSlider = true,
+    View.rangeSlider = true);
 
+
+    [View.flag, View.flag_2, View.button, View.button_2, View.field].forEach((item) =>
+      item.remove()
+    );
+
+
+    View.renderElements();
+    })

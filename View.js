@@ -7,6 +7,9 @@ export class View {
   static flag_2;
   static horizontal = true;
   static rangeSlider = true;
+  static clickMin = document.createElement("span");
+  static clickMax = document.createElement("span");
+  static progressBar = document.createElement("div");
 
   static renderElements() {
     View.field.className = "slider__field";
@@ -20,6 +23,11 @@ export class View {
     }
     View.slider.append(View.field);
 
+    View.clickMin.innerHTML = "0 - ";
+    View.clickMax.innerHTML = " 100";
+    View.slider.prepend(View.clickMax);
+    View.slider.prepend(View.clickMin);
+
     View.button.className = "slider__button";
     View.field.append(View.button);
 
@@ -32,19 +40,33 @@ export class View {
       View.button_2.className = "slider__button_2";
       View.button.after(View.button_2);
 
-
-
       View.flag_2 = View.flag.cloneNode(true);
-      
+
       View.button_2.after(View.flag_2);
 
-
-            View.horizontal
-        ? (View.button_2.style.left = View.button.offsetWidth * 2 + "px", View.flag_2.style.left = View.button_2.offsetLeft + "px", View.button_2.style.top = -6+ "px")
+      View.horizontal
+        ? ((View.button_2.style.left = View.button.offsetWidth * 2 + "px"),
+          (View.flag_2.style.left = View.button_2.offsetLeft + "px"),
+          (View.button_2.style.top = -6 + "px"))
         : ((View.button_2.style.top = View.button.offsetWidth * 2 + "px"),
           (View.button_2.style.left = -5 + "px"),
-          (View.button.style.left = -5 + "px"), View.flag_2.style.top = View.button_2.offsetTop - View.button_2.offsetWidth + "px");
+          (View.button.style.left = -5 + "px"),
+          (View.flag_2.style.top =
+            View.button_2.offsetTop - View.button_2.offsetWidth + "px"));
     }
+
+    View.progressBar.className = "progressBar";
+    View.progressBar.style.height = View.field.offsetHeight + "px";
+    View.progressBar.style.width = View.button.offsetLeft + "px";
+    View.progressBar.style.left = View.progressBar.offsetLeft - 1 + "px";
+    View.progressBar.style.top = View.progressBar.offsetTop - 1 + "px";
+    if (View.rangeSlider) {
+      View.progressBar.style.left = View.button.offsetLeft + "px";
+      View.progressBar.style.top = View.button.offsetTop + 5 + "px";
+    }
+
+    View.field.append(View.progressBar);
+    View.brogressBarMove();
   }
 
   static sliderMove(button, px) {
@@ -63,7 +85,31 @@ export class View {
       View.flag_2.style.top = View.button_2.offsetTop - 15 + "px";
     }
   }
-
+  static brogressBarMove() {
+    View.progressBar.style.width =
+      View.button.offsetLeft + View.button.offsetWidth / 2 + "px";
+    if (View.rangeSlider) {
+      View.progressBar.style.left =
+        View.button.offsetLeft + View.button.offsetWidth / 2 + "px";
+      View.progressBar.style.width =
+        View.button_2.offsetLeft -
+        View.button.offsetLeft +
+        View.button.offsetWidth / 2 +
+        "px";
+    }
+    if (View.progressBar.offsetWidth <= View.field.offsetWidth / 4) {
+      View.progressBar.style.backgroundColor = "red";
+    }
+    if (View.progressBar.offsetWidth >= View.field.offsetWidth / 4) {
+      View.progressBar.style.backgroundColor = "yellow";
+    }
+    if (View.progressBar.offsetWidth >= View.field.offsetWidth / 2) {
+      View.progressBar.style.backgroundColor = "orange";
+    }
+    if (View.progressBar.offsetWidth >= View.field.offsetWidth - View.button.offsetWidth) {
+      View.progressBar.style.backgroundColor = "green";
+    }
+  }
   static flagValue(flag, value) {
     flag.innerHTML = value;
   }

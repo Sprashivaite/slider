@@ -17,14 +17,15 @@
   <div class="config">
   <!-- <input class="char" value=""> знак -->
 
-  <input class="vl" value="0"> значение№1
-  <input class="vl_2" value="0"> значение№2
-  <input type="checkbox" name="tooltip" id="tooltip" checked> tooltip 
-  <input type="text" name="max" id="max" value="100"> max
-  <input type="text" name="min" id="min" value="0"> min
-  <input type="text" name="step" id="step" value="0"> step
-  <input type="checkbox" name="radio" id="radio"  checked> horizontal
-  <!-- <input type="radio" name="radio" id="radio" > vertical -->
+  <input type="number" class="vl" value="0"> <span>значение№1</span> 
+  <input type="number" class="vl_2" value="0"> <span>значение№2</span>
+
+  <input type="number" name="max" id="max" value="100"><span> max</span>
+  <input type="number" name="min" id="min" value="0"> <span>min</span>
+  <input type="number" name="step" id="step" value="0"> <span>step</span><br>
+  <span>horizontal</span><input type="checkbox"  id="radio"  checked> <br>
+  <span>tooltip </span><input type="checkbox" name="tooltip" id="tooltip" checked> <br>
+  <span>range </span><input type="checkbox" id="range" checked> 
 </div>
 
     <script type="module" src="classes.js"></script>

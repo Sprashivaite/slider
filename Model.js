@@ -1,7 +1,7 @@
 export class Model {
   static shiftLeft;
-  static max = 99;
-  static min = 11;
+  static max = 100;
+  static min = 1;
   static step = 1;
   static rangeSlider = true;
   static horizontal = true;
@@ -48,8 +48,7 @@ export class Model {
     result =
       Model.min +
       Math.trunc((buttonOffset * (Model.max - Model.min)) / fieldRange);
-
-    let countStep = 0;
+    let countStep = Model.min;
 
 
     while (result > countStep + Model.step / 2) {
