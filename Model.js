@@ -1,7 +1,7 @@
 export class Model {
   static shiftLeft;
   static max = 100;
-  static min = 1;
+  static min = 0;
   static step = 1;
   static rangeSlider = true;
   static horizontal = true;
@@ -99,8 +99,8 @@ export class Model {
           button_2.offsetLeft - button.offsetWidth + "px";
       }
     }
-    if (!Model.horizontal) {
-      if (button.offsetTop >= button_2.offsetTop - button_2.offsetWidth) {
+        if (!Model.horizontal) {
+    if (button.offsetTop >= button_2.offsetTop - button_2.offsetWidth) {
         button.style.top =
           button_2.offsetTop - button.offsetWidth + "px";
       }

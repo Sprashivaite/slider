@@ -2,14 +2,12 @@ import {Model} from './Model.js';
 import {View} from './View.js';
 import {Presenter} from './Presenter.js';
 
-
-const view = new View();
 const model = new Model();
+const view = new View();
 const presenter = new Presenter();
 
-Presenter.makeMove();
-Presenter.subscribe(View);
-Presenter.subscribe(Model);
+// const presenter_2 = new Presenter();
+
 
 
 
@@ -20,7 +18,7 @@ let tooltip = document.querySelector('#tooltip');
 let max = document.querySelector('#max');
 let min = document.querySelector('#min');
 let step = document.querySelector('#step');
-let radio = document.querySelector('#radio');
+let orientation = document.querySelector('#orientation');
 let range = document.querySelector('#range');
 
 document.addEventListener('mousemove', function(){
@@ -32,15 +30,17 @@ document.addEventListener('mousemove', function(){
 })
 
 vl.addEventListener('input', function(){
-    Presenter.moveToValue(View.button, +vl.value)
+    Presenter.moveToValue(View.button, vl.value)
     View.flagMove();
     View.flagValue(View.flag, Model.calcValue(View.field, View.button));
+    View.progressBarMove();
 })
 vl_2.addEventListener('input', function(){
     Presenter.moveToValue(View.button_2, vl_2.value)
     console.log(vl_2.value - Model.min);
     View.flagMove();
     View.flagValue(View.flag_2, Model.calcValue(View.field, View.button_2));
+    View.progressBarMove();
 })
 tooltip.addEventListener('input', function(){
     tooltip.checked ?  View.addFlag():View.removeFlag();
@@ -67,18 +67,18 @@ step.addEventListener('input', function(){
     View.flagValue(View.flag_2, Model.calcValue(View.field, View.button_2));
 })
 
-radio.addEventListener('input', function(){
+orientation.addEventListener('input', function(){
+    View.removeElements();
 Presenter.changeOrientation();
+
+View.renderElements;
 })
 range.addEventListener('input', function(){
+    View.removeElements();
     Model.rangeSlider && View.rangeSlider ? (Model.rangeSlider = false, View.rangeSlider = false):(Model.rangeSlider = true,
     View.rangeSlider = true);
 
-
-    [View.flag, View.flag_2, View.button, View.button_2, View.field].forEach((item) =>
-      item.remove()
-    );
-
-
     View.renderElements();
+    View.flagMove();
+    View.flagValue(View.flag, Model.calcValue(View.field, View.button));
     })
