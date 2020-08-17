@@ -5,14 +5,11 @@ export class View {
   static field = document.createElement("div");
   static flag = document.createElement("div");
   static flag_2;
-  static clickMin = document.createElement("div");
-  static clickMax = document.createElement("div");
   static progressBar = document.createElement("div");
   static horizontal = true;
   static rangeSlider = true;
 
   static renderElements() {
-    // View.renderMinMax();
     View.renderField();
     View.renderButtons();
     View.renderFlag();
@@ -25,7 +22,6 @@ export class View {
       View.button,
       View.button_2,
       View.field,
-      View.clickMin,
       View.clickMax,
       View.progressBar,
     ].forEach((item) => item.remove());
@@ -93,10 +89,7 @@ export class View {
     View.field.append(View.progressBar);
     View.progressBarMove();
   }
-  static renderMinMax() {
-    View.slider.append(View.clickMin);
-    View.slider.append(View.clickMax);
-  }
+
 
 
   static sliderMove(button, px) {

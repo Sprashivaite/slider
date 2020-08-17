@@ -4,14 +4,14 @@ import { View } from "./View.js";
 export class Presenter {
   constructor() {
     View.renderElements();
-    View.clickMax.innerHTML = "Max = " + Model.max;
-    View.clickMin.innerHTML = "Min = " + Model.min + " - ";
     Presenter.changeFlag();
     Presenter.makeMove();
   }
 
   static move() {
-    View.sliderMove(View.button, Model.pxLength(View.field, View.button));
+
+    View.sliderMove(View.button, Model.pxLength(View.field, View.button))
+
   }
   static changeFlag() {
     View.flagMove();
@@ -20,9 +20,10 @@ export class Presenter {
   static breaker() {
     View.sliderMove(View.button, Model.breakPoint(View.field, View.button));
   }
-      static makeDistance() {
-      Model.makeDistanceButton(View.button, View.button_2);
-    }
+  static makeDistance() {
+    Model.makeDistanceButton(View.button, View.button_2);
+  }
+
   static makeMove() {
     View.button.addEventListener("mousedown", function () {
       document.addEventListener("mousemove", Presenter.move);
@@ -66,9 +67,9 @@ export class Presenter {
         );
       }
       changeFlag_2();
-          function makeDistance_2() {
-      Model.makeDistanceButton_2(View.button, View.button_2);
-    }
+      function makeDistance_2() {
+        Model.makeDistanceButton_2(View.button, View.button_2);
+      }
       View.button_2.addEventListener("mousedown", function () {
         document.addEventListener("mousemove", move_2);
 
@@ -92,11 +93,12 @@ export class Presenter {
 
   static moveToValue(button, value) {
     let width = View.field.offsetWidth;
-    if(!Model.horizontal) {width = View.field.offsetHeight;}
+    if (!Model.horizontal) {
+      width = View.field.offsetHeight;
+    }
     console.log(width);
     let result =
-      ((width - View.button.offsetWidth) /
-        (Model.max - Model.min)) *
+      ((width - View.button.offsetWidth) / (Model.max - Model.min)) *
         (value - Model.min) +
       "px";
     Model.horizontal

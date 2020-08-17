@@ -1,5 +1,4 @@
 export class Model {
-  static shiftLeft;
   static max = 100;
   static min = 0;
   static step = 1;
@@ -7,13 +6,14 @@ export class Model {
   static horizontal = true;
   
   static pxLength(field, button) {
+    let shiftLeft;
     let Field;
     Model.horizontal
-      ? (Model.shiftLeft =
+      ? (shiftLeft =
           event.clientX -
           field.getBoundingClientRect().left -
           button.offsetWidth / 2)
-      : (Model.shiftLeft =
+      : (shiftLeft =
           event.clientY -
           field.getBoundingClientRect().top -
           button.offsetWidth / 2);
@@ -22,13 +22,13 @@ export class Model {
       ? (Field = field.offsetWidth)
       : (Field = field.offsetHeight);
 
-    if (Model.shiftLeft >= Field - button.offsetWidth) {
+    if (shiftLeft >= Field - button.offsetWidth) {
       return Field - button.offsetWidth;
     }
-    if (Model.shiftLeft <= 0) {
+    if (shiftLeft <= 0) {
       return 0;
     } else {
-      return Model.shiftLeft;
+      return shiftLeft;
     }
   }
 
