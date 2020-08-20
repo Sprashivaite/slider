@@ -19,30 +19,6 @@ body{
   top: 50px;
   display: inline-block;
 }
-.slider span {
-  position: relative;
-  /* left: 120px; */
-  top: -10px;
-  cursor: pointer;
-  font-size: 14px;
-  /* border: 1px #1F2041 dashed; */
-}
-.slider__title {
-  display: inline-block;
-  position: absolute;
-  font-family: Montserrat;
-font-style: normal;
-font-weight: bold;
-font-size: 12px;
-line-height: 15px;
-text-transform: uppercase;
-color: #1F2041;
-}
-.slider__value{
-  display: inline-block;
-  position: absolute;
-  right: 10px;
-}
 
 .flag{
   position: absolute;
