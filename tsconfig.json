@@ -1,10 +1,11 @@
 {
-  "compilerOptions": {
-    "sourceMap": true,
-    "target": "esnext",
-    "removeComments": false
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"],
-  "typeRoots": ["node_modules/@types"]
-}
+      "compilerOptions": {
+        "esModuleInterop": true,
+        "lib": ["es6", "DOM"],
+        "module": "commonjs",
+        "outDir": "dist",
+        "rootDir": "src",
+        "strict": true,
+        "target": "es6"
+      }
+    }

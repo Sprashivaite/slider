@@ -1,26 +1,44 @@
 {
-  "name": "ts-template",
+  "name": "arkadiy",
   "version": "1.0.0",
-  "description": "Starter project w/ TypeScript, Webpack, Jasmine, Karma",
-  "scripts": {
-    "build:dev": "webpack --config webpack.dev.config.js",
-    "start:dev": "webpack-dev-server --config webpack.dev.config.js",
-    "test": "karma start karma.conf.js"
+  "description": "'karma-webpack-babel-typescript-istanbul'",
+  "private": true,
+  "dependencies": {
+    "tsc-init": "^2.1.0"
   },
-  "author": "Nazmul Idris",
-  "license": "Apache-2.0",
   "devDependencies": {
-    "@types/jasmine": "^3.3.13",
-    "karma": "^4.1.0",
-    "karma-chrome-launcher": "^2.2.0",
-    "karma-cli": "^2.0.0",
-    "karma-jasmine": "^2.0.1",
-    "karma-spec-reporter": "0.0.32",
+    "@babel/core": "^7.11.4",
+    "@babel/preset-typescript": "^7.10.4",
+    "@types/jasmine": "^3.5.13",
+    "@types/node": "^14.6.0",
+    "babel-loader": "^8.1.0",
+    "istanbul-instrumenter-loader": "^3.0.1",
+    "jasmine": "^3.6.1",
+    "jasmine-core": "^3.6.0",
+    "karma": "^5.1.1",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-coverage-istanbul-reporter": "^3.0.3",
+    "karma-jasmine": "^4.0.1",
     "karma-webpack": "^4.0.2",
-    "ts-loader": "^6.0.4",
-    "typescript": "^3.5.2",
-    "webpack": "^4.35.0",
-    "webpack-cli": "^3.3.4",
-    "webpack-dev-server": "^3.7.2"
-  }
+    "ts-loader": "^8.0.2",
+    "typescript": "^4.0.2",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "scripts": {
+    "start": "webpack-dev-server --open tsc && node dist/main.js ",
+    "test": "karma start",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sprashivaite/slider.git"
+  },
+  "author": "Arkadiy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sprashivaite/slider/issues"
+  },
+  "homepage": "https://github.com/Sprashivaite/slider#readme"
 }
