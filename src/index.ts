@@ -17,6 +17,9 @@ let step: HTMLInputElement = document.querySelector("#step");
 let orientation = document.querySelector("#orientation");
 let range = document.querySelector("#range");
 
+view.button.addEventListener('mousemove', ()=>{
+  vl.value = model.calcValue(view.field, view.button) + '';
+})
 
 vl.addEventListener("input", function () {
   model.moveToValue(view.button, view.field, +vl.value);
@@ -24,6 +27,10 @@ vl.addEventListener("input", function () {
   view.flagMove(view.flag, model.calcValue(view.field, view.button));
   view.progressBarMove();
 });
+
+view.button_2.addEventListener('mousemove', ()=>{
+  vl_2.value = model.calcValue(view.field, view.button_2) + '';
+})
 vl_2.addEventListener("input", function () {
   model.moveToValue(view.button_2, view.field, +vl_2.value);
   view.flagMove(view.flag_2, model.calcValue(view.field, view.button_2));

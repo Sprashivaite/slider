@@ -12,12 +12,9 @@ body{
   position: relative;
   max-width: 266px;
   width: auto;
-  height: 47.44px;
-  padding: 0;
-  margin: 10px;
-  /* left: 25px; */
-  top: 50px;
-  /* display: inline-block; */
+  height: 236px;
+  margin: 0 30px;
+  top: 20px;
 }
 
 .flag{
@@ -78,27 +75,44 @@ z-index: 2;
 
 
 .config {
-/* display: none; */
-  position: relative;
-  flex-direction: column;
-  max-width: 320px;
-  width: auto;
-  height: 230px;
-  top: 70px;
-  left: 60px;
-  background-color: rgba(36, 169, 192, 0.5);
-  border: #1F2041 solid;
+
+  position: absolute;
+  display: inline-flex;
+  flex-direction: row;
+  font-family: sans-serif;
+  color: rgb(68, 68, 68);
+  width: 180px;
+  height: 210px;
+  top: 40px;
+  left: 320px;
+  background: #59c5dd;
+  border: 2px solid #6FCF97 ;
+  border-radius: 8px;
 }
 .config input{
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  height: 15.5px;
+  max-width: 50px;
+}
+.config__left div{
+  margin-bottom: 5px;
+}
+ .config__left{
+  margin-left: 10px;
+  margin-top: 10px;
+}
+.config__right{
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  margin-top: 10px;
+  
 }
 .progressBar{
   position: absolute;
   background-color: darkgoldenrod;
   border-radius: 3px;
-  /* border: 1px solid blue; */
   box-sizing: border-box;
-  /* transition-delay: 130ms; */
   transition-property: background-color;
   transition-duration: 0.5s;
   z-index: 1;

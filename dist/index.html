@@ -1,25 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <title>Document</title>
-</head>
-<body>
-  <div class="slider">
-    </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
     <div class="config">
-      <input type="number" class="vl" value="0"> <span>значение№1</span> 
-      <input type="number" class="vl_2" value="0"> <span>значение№2</span>
-    
-      <input type="number" name="max" id="max" value="100"><span> max</span>
-      <input type="number" name="min" id="min" value="0"> <span>min</span>
-      <input type="number" name="step" id="step" value="0" min="1"> <span>step</span><br>
-      <span>isHorizontal</span><input type="checkbox"  id="orientation"  checked> <br>
-      <span>tooltip </span><input type="checkbox" name="tooltip" id="tooltip" checked> <br>
-      <span>range </span><input type="checkbox" id="range" checked> 
+      <div class="config__left">
+        <div>value №1</div>
+        <div>value №2</div>
+
+        <div> max</div>
+        <div>min</div>
+        <div>step</div>
+        <div>isHorizontal</div>
+        <div>tooltip </div>
+        <div>range </div>
+      </div>
+
+      <div class="config__right">
+        <input type="number" class="vl" value="0" />
+        <input type="number" class="vl_2" value="0" />
+        <input type="number" name="max" id="max" value="100" /><input
+          type="number"
+          name="min"
+          id="min"
+          value="0"
+        /><input type="number" name="step" id="step" value="0" min="1" />
+        <input
+          type="checkbox"
+          id="orientation"
+          checked
+        />
+        <input type="checkbox" name="tooltip" id="tooltip" checked />
+        <input type="checkbox" id="range" checked />
+      </div>
     </div>
-  <script src="./index.js"></script>
-</body>
+
+    <div class="slider"></div>
+    <script src="./index.js"></script>
+  </body>
 </html>

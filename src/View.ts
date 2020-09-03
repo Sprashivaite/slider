@@ -52,7 +52,7 @@ class View {
     }
     if (!this.isHorizontal) {
       this.field.style.width = "6px";
-      this.field.style.height = "auto";
+      this.field.style.height = "100%";
     }
   }
   renderButtons(): void {
