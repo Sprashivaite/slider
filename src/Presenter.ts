@@ -1,7 +1,4 @@
-import { Model } from "./Model";
-import { View } from "./View";
-
-export class Presenter {
+class Presenter {
   model: Model;
   view: View;
 
@@ -115,6 +112,7 @@ export class Presenter {
       document.addEventListener("mousemove", progressBarMoveHandler);
 
       document.addEventListener("mouseup", () => {
+        progressBarMoveHandler();
         document.removeEventListener("mousemove", progressBarMoveHandler);
       });
     });
@@ -160,3 +158,4 @@ export class Presenter {
     this.facadeMoveButton();
   }
 }
+export {Presenter}
