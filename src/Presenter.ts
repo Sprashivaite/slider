@@ -21,7 +21,7 @@ export class Presenter {
     let that = this;
 
   function buttonMove(): void{
-    that.view.sliderMove(that.view.button, that.model.pxLength(that.view.field, that.view.button, event));
+    that.view.sliderMove(that.view.button, that.model.calcBtnOffset(that.view.field, that.view.button, event));
   }
   function makeDistanceButton(): void{
     that.model.makeDistanceButton(that.view.button, that.view.button_2)
@@ -30,11 +30,11 @@ export class Presenter {
     that.view.flagMove(that.view.flag, that.model.calcValue(that.view.field, that.view.button))
     }
   function  breake(): void {
-      that.view.sliderMove(that.view.button, that.model.breakPoint(that.view.field, that.view.button));
+      that.view.sliderMove(that.view.button, that.model.makeBreakPoint(that.view.field, that.view.button));
     }
     this.view.button.addEventListener("mousedown", function () {
       document.addEventListener("mousemove", buttonMove );
-      if (that.model.rangeSlider) {
+      if (that.model.isRangeSlider) {
         document.addEventListener("mousemove", makeDistanceButton);
       }
       document.addEventListener("mousemove", ()=> that.view.progressBarMove());
@@ -42,7 +42,7 @@ export class Presenter {
 
       document.onmouseup = function () {
         breake();
-        if (that.model.rangeSlider) {
+        if (that.model.isRangeSlider) {
           makeDistanceButton();
         }
         flagMove();
@@ -61,7 +61,7 @@ export class Presenter {
     let that = this;
 
   function buttonMove(){
-    that.view.sliderMove(that.view.button_2, that.model.pxLength(that.view.field, that.view.button_2, event));
+    that.view.sliderMove(that.view.button_2, that.model.calcBtnOffset(that.view.field, that.view.button_2, event));
   }
   function makeDistanceButton(){
     that.model.makeDistanceButton_2(that.view.button, that.view.button_2)
@@ -70,11 +70,11 @@ export class Presenter {
     that.view.flagMove(that.view.flag_2, that.model.calcValue(that.view.field, that.view.button_2))
     }
   function  breake() {
-      that.view.sliderMove(that.view.button_2, that.model.breakPoint(that.view.field, that.view.button_2));
+      that.view.sliderMove(that.view.button_2, that.model.makeBreakPoint(that.view.field, that.view.button_2));
     }
     this.view.button_2.addEventListener("mousedown", function () {
       document.addEventListener("mousemove", buttonMove );
-      if (that.model.rangeSlider) {
+      if (that.model.isRangeSlider) {
         document.addEventListener("mousemove", makeDistanceButton);
       }
       document.addEventListener("mousemove", ()=> that.view.progressBarMove());
@@ -82,7 +82,7 @@ export class Presenter {
 
       document.onmouseup = function () {
         breake();
-        if (that.model.rangeSlider) {
+        if (that.model.isRangeSlider) {
           makeDistanceButton();
         }
         flagMove();
@@ -100,8 +100,8 @@ export class Presenter {
 
   changeOrientation() {
     this.view.removeElements();
-    this.model.horizontal = !this.model.horizontal;
-    this.view.horizontal = !this.view.horizontal;
+    this.model.isHorizontal = !this.model.isHorizontal;
+    this.view.isHorizontal = !this.view.isHorizontal;
     this.view.renderElements();
 
     this.view.flagMove(this.view.flag_2, this.model.calcValue(this.view.field, this.view.button_2));
@@ -110,8 +110,8 @@ export class Presenter {
   }
   changeTypeButton(){
     this.view.removeElements();
-    this.model.rangeSlider = !this.model.rangeSlider;
-    this.view.rangeSlider = !this.view.rangeSlider;
+    this.model.isRangeSlider = !this.model.isRangeSlider;
+    this.view.isRangeSlider = !this.view.isRangeSlider;
     this.view.renderElements();
     this.move_button_2();
   }

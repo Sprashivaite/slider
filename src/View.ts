@@ -1,4 +1,4 @@
-export class View {
+class View {
   slider: any;
   button: HTMLElement;
   button_2: any;
@@ -6,8 +6,8 @@ export class View {
   flag: HTMLElement;
   flag_2: any;
   progressBar: HTMLElement;
-  horizontal: boolean;
-  rangeSlider: boolean;
+  isHorizontal: boolean;
+  isRangeSlider: boolean;
 
   constructor() {
     this.slider = document.querySelector(".slider");
@@ -17,8 +17,8 @@ export class View {
     this.flag = document.createElement("div");
     this.flag_2;
     this.progressBar = document.createElement("div");
-    this.horizontal = true;
-    this.rangeSlider = true;
+    this.isHorizontal = true;
+    this.isRangeSlider = true;
   }
   renderElements(): void {
     this.renderField();
@@ -35,7 +35,7 @@ export class View {
       this.field,
       this.progressBar,
     ].forEach((item) => item.remove());
-    if(this.rangeSlider){
+    if(this.isRangeSlider){
     [
       this.flag_2,
       this.button_2,
@@ -46,13 +46,13 @@ export class View {
     this.field.className = "slider__field";
     this.slider.append(this.field);
 
-    if (this.horizontal) {
-      this.field.style.width = "266px";
+    if (this.isHorizontal) {
+      this.field.style.width = "auto";
       this.field.style.height = "6px";
     }
-    if (!this.horizontal) {
+    if (!this.isHorizontal) {
       this.field.style.width = "6px";
-      this.field.style.height = "266px";
+      this.field.style.height = "auto";
     }
   }
   renderButtons(): void {
@@ -63,18 +63,18 @@ export class View {
 
     this.field.append(this.button);
 
-    if (!this.horizontal) {
+    if (!this.isHorizontal) {
       this.button.style.left = "-5px";
       this.button.style.top = "0px";
     }
 
-    if (this.rangeSlider) {
+    if (this.isRangeSlider) {
       this.button_2 = this.button.cloneNode(true);
       this.button_2.style.left = this.button.offsetWidth * 2 + "px";
 
       this.button.after(this.button_2);
 
-      if (!this.horizontal) {
+      if (!this.isHorizontal) {
         this.button_2.style.top = this.button.offsetWidth * 2 + "px";
         this.button_2.style.left = "-5px";
       }
@@ -87,7 +87,7 @@ export class View {
     this.flag.style.top =  "-17px";
     this.button.append(this.flag);
 
-    if (this.rangeSlider) {
+    if (this.isRangeSlider) {
       this.flag_2 = this.flag.cloneNode(true);
       this.button_2.append(this.flag_2);
     }
@@ -97,20 +97,21 @@ export class View {
     this.progressBar.style.height = this.field.offsetHeight + "px";
     this.progressBar.style.top = this.progressBar.offsetTop - 1 + "px";
     this.progressBar.style.left = '0';
-    if (!this.horizontal) {
+    if (!this.isHorizontal) {
       this.progressBar.style.left = '1px';
         this.progressBar.style.height =
         this.button.offsetTop + this.button.offsetWidth + "px";
         this.progressBar.style.width = this.field.offsetWidth + "px";
       }
-    if (this.rangeSlider) {
+    if (this.isRangeSlider) {
       this.progressBar.style.left = this.button.offsetLeft + 6 + "px";
       this.progressBar.style.width =
       this.button_2.offsetLeft -
       this.button.offsetLeft +
           this.button.offsetWidth / 2 +
           "px";
-          if (!this.horizontal) {
+          if (!this.isHorizontal) {
+            this.progressBar.style.width = this.field.offsetWidth + "px";
             this.progressBar.style.top =
               this.button.offsetTop + this.button.offsetWidth / 2 + "px";
             this.progressBar.style.height =
@@ -128,17 +129,17 @@ export class View {
   sliderMove(button:any, px:any): void {
     this.slider.onmousedown = () => false;
     this.slider.oncontextmenu = () => false;
-    this.horizontal
+    this.isHorizontal
       ? (button.style.left = px + "px")
       : (button.style.top = px + "px");
   }
   flagMove(flag:HTMLElement, value:number): void {
     // this.flag.style.top = this.button.offsetTop - 15 + "px";
     flag.innerHTML = value + '';
-    if (this.rangeSlider) {
+    if (this.isRangeSlider) {
       // this.flag_2.style.left = this.button_2.offsetLeft + "px";
       // this.flag_2.style.top = this.button_2.offsetTop - 15 + "px";
-      if (!this.horizontal) {
+      if (!this.isHorizontal) {
         // this.flag_2.style.top =
         //   this.button_2.offsetTop + 5 + this.button_2.offsetWidth + "px";
       }
@@ -146,20 +147,21 @@ export class View {
   }
   progressBarMove(): void {
     this.progressBar.style.width = this.button.offsetLeft + this.button.offsetWidth / 2 + "px";
-    if (!this.horizontal) {
+    if (!this.isHorizontal) {
       this.progressBar.style.height =
       this.button.offsetTop + this.button.offsetWidth + "px";
       this.progressBar.style.width = this.field.offsetWidth + "px";
       this.progressBar.style.left = '0px';
     }
-    if (this.rangeSlider) {
+    if (this.isRangeSlider) {
       this.progressBar.style.left = this.button.offsetLeft + 6 + "px";
       this.progressBar.style.width =
       this.button_2.offsetLeft -
       this.button.offsetLeft +
           this.button.offsetWidth / 2 +
           "px";
-          if (!this.horizontal) {
+          if (!this.isHorizontal) {
+            this.progressBar.style.width = this.field.offsetWidth + "px";
             this.progressBar.style.top =
               this.button.offsetTop + this.button.offsetWidth / 2 + "px";
             this.progressBar.style.height =
@@ -167,6 +169,7 @@ export class View {
               this.button.offsetTop +
               this.button.offsetWidth / 2 +
               "px";
+              this.progressBar.style.left = this.progressBar.offsetLeft - 1 + "px";
           }
     }
 
@@ -185,7 +188,7 @@ export class View {
     ) {
       this.progressBar.style.backgroundColor = "#6FCF97";
     }
-    if (!this.horizontal) {
+    if (!this.isHorizontal) {
       if (this.progressBar.offsetHeight <= this.field.offsetHeight / 4) {
         this.progressBar.style.backgroundColor = "grey";
       }
@@ -217,3 +220,4 @@ export class View {
     }
   }
 }
+export {View}

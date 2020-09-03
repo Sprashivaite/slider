@@ -2,76 +2,78 @@ export class Model {
   max: number;
   min: number;
   step: number;
-  rangeSlider: boolean;
-  horizontal: boolean;
-  constructor() {
+  isRangeSlider: boolean;
+  isHorizontal: boolean;
+  constructor(step?: number) {
     this.max = 100;
     this.min = 0;
-    this.step = 5;
-    this.rangeSlider = true;
-    this.horizontal = true;
+    this.step = Math.abs(step) || 1;
+    if(this.step === 0) {this.step = 1}
+    this.isRangeSlider = true;
+    this.isHorizontal = true;
   }
 
-  pxLength(field: HTMLElement, button: HTMLElement, event: MouseEventInit ): number {
-    let shiftLeft: number;
-    let Field: number;
+  calcBtnOffset(
+    field: HTMLElement,
+    button: HTMLElement,
+    event: MouseEventInit
+  ): number {
+    let fieldWidth: number = field.offsetWidth;
+    let buttonWidth: number = button.offsetWidth;
 
-    shiftLeft =
-    event.clientX  -
-      field.getBoundingClientRect().left -
-      button.offsetWidth / 2;
+    let shiftLeft: number =
+      event.clientX - field.getBoundingClientRect().left - buttonWidth / 2;
 
-    if (!this.horizontal) {
+    if (!this.isHorizontal) {
       shiftLeft =
-        event.clientY -
-        field.getBoundingClientRect().top -
-        button.offsetWidth / 2;
+        event.clientY - field.getBoundingClientRect().top - buttonWidth / 2;
+      fieldWidth = field.offsetHeight;
     }
 
-    this.horizontal
-      ? (Field = field.offsetWidth)
-      : (Field = field.offsetHeight);
-
-    if (shiftLeft >= Field - button.offsetWidth) {
-      return Field - button.offsetWidth;
+    if (shiftLeft >= fieldWidth - buttonWidth) {
+      return fieldWidth - buttonWidth;
     }
     if (shiftLeft <= 0) {
       return 0;
-    } else {
-      return shiftLeft;
     }
+    return shiftLeft;
   }
   moveToValue(button: HTMLElement, field: HTMLElement, value: number): void {
-    let width: number = field.offsetWidth;
-    if (!this.horizontal) {
-      width = field.offsetHeight;
+    let fieldWidth: number = field.offsetWidth;
+    let buttonWidth: number = button.offsetWidth;
+
+    if (!this.isHorizontal) {
+      fieldWidth = field.offsetHeight;
     }
     let result: string =
-      ((width - button.offsetWidth) / (this.max - this.min)) *
+      ((fieldWidth - buttonWidth) / (this.max - this.min)) *
         (value - this.min) +
       "px";
-    this.horizontal
+
+    this.isHorizontal
       ? (button.style.left = result)
       : (button.style.top = result);
   }
   calcValue(field: HTMLElement, button: HTMLElement) {
-    let result: number;
-    let buttonOffset: number;
-    let Field: number;
-    this.horizontal
-    ? (Field = field.offsetWidth)
-    : (Field = field.offsetHeight);
-    let fieldRange = Field - button.offsetWidth;
+    let buttonOffset: number = button.offsetLeft;
+    let buttonWidth: number = button.offsetWidth;
+    let fieldWidth: number = field.offsetWidth;
+    
 
-    this.horizontal
-      ? (buttonOffset = button.offsetLeft)
-      : (buttonOffset = button.offsetTop);
+    if (!this.isHorizontal) {
+      fieldWidth = field.offsetHeight;
+      buttonOffset = button.offsetTop;
+    }
+
+    let fieldRange: number = fieldWidth - buttonWidth;
+
+let result: number;
 
     result =
       this.min +
       Math.trunc((buttonOffset * (this.max - this.min)) / fieldRange);
-    let countStep = this.min;
 
+    let countStep: number = this.min;
 
     while (result > countStep + this.step / 2) {
       countStep += this.step;
@@ -80,35 +82,34 @@ export class Model {
       }
     }
 
-    return countStep;
+    return +countStep.toFixed(1) ;
   }
 
-  breakPoint(field: HTMLElement, button: HTMLElement) {
+  makeBreakPoint(field: HTMLElement, button: HTMLElement): number {
     let that = this;
-    let Field: number;
-    this.horizontal
-    ? (Field = field.offsetWidth)
-    : (Field = field.offsetHeight);
+    let fieldWidth: number;
+    this.isHorizontal
+      ? (fieldWidth = field.offsetWidth)
+      : (fieldWidth = field.offsetHeight);
 
     let stepPX: number =
-      ((Field - button.offsetWidth) * this.step) /
-      (this.max - this.min);
+      ((fieldWidth - button.offsetWidth) * this.step) / (this.max - this.min);
 
     let arr: Array<number> = [];
-    for (let i = 0; i <= Field - button.offsetWidth; i += stepPX) {
+    for (let i = 0; i <= fieldWidth - button.offsetWidth; i += stepPX) {
       arr.push(i);
     }
 
     let val: number;
     arr.forEach(function (item, index, array) {
       if (
-        that.pxLength(field, button, event) >= item &&
-        that.pxLength(field, button, event) <= array[index + 1] - stepPX / 2
+        that.calcBtnOffset(field, button, event) >= item &&
+        that.calcBtnOffset(field, button, event) <= array[index + 1] - stepPX / 2
       ) {
         val = item;
       } else if (
-        that.pxLength(field, button, event) >= item + stepPX / 2 &&
-        that.pxLength(field, button, event) <= array[index + 1]
+        that.calcBtnOffset(field, button, event) >= item + stepPX / 2 &&
+        that.calcBtnOffset(field, button, event) <= array[index + 1]
       ) {
         val = array[index + 1];
       }
@@ -117,30 +118,26 @@ export class Model {
   }
 
   makeDistanceButton(button: HTMLElement, button_2: HTMLElement) {
-    if (this.horizontal) {
+    if (this.isHorizontal) {
       if (button.offsetLeft >= button_2.offsetLeft - button_2.offsetWidth) {
-        button.style.left =
-          button_2.offsetLeft - button.offsetWidth + "px";
+        button.style.left = button_2.offsetLeft - button.offsetWidth + "px";
       }
     }
-        if (!this.horizontal) {
-    if (button.offsetTop >= button_2.offsetTop - button_2.offsetWidth) {
-        button.style.top =
-          button_2.offsetTop - button.offsetWidth + "px";
+    if (!this.isHorizontal) {
+      if (button.offsetTop >= button_2.offsetTop - button_2.offsetWidth) {
+        button.style.top = button_2.offsetTop - button.offsetWidth + "px";
       }
     }
   }
   makeDistanceButton_2(button: HTMLElement, button_2: HTMLElement) {
-    if (this.horizontal) {
+    if (this.isHorizontal) {
       if (button.offsetLeft >= button_2.offsetLeft - button_2.offsetWidth) {
-        button_2.style.left =
-          button.offsetLeft + button.offsetWidth + "px";
+        button_2.style.left = button.offsetLeft + button.offsetWidth + "px";
       }
     }
-    if (!this.horizontal) {
+    if (!this.isHorizontal) {
       if (button.offsetTop >= button_2.offsetTop - button_2.offsetWidth) {
-        button_2.style.top =
-          button.offsetTop + button.offsetWidth + "px";
+        button_2.style.top = button.offsetTop + button.offsetWidth + "px";
       }
     }
   }

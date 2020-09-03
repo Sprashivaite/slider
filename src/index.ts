@@ -44,7 +44,9 @@ min.addEventListener("input", function () {
 });
 step.value = model.step + '';
 step.addEventListener("input", function () {
-  model.step = +step.value;
+  let value: number = Math.abs(+step.value) ;
+  if(value === 0){value = 1}
+  model.step = value;
   view.flagMove(view.flag, model.calcValue(view.field, view.button));
   view.flagMove(view.flag_2, model.calcValue(view.field, view.button_2));
 });
