@@ -7,7 +7,7 @@ export class Model {
   constructor(step?: number) {
     this.max = 100;
     this.min = 0;
-    this.step = Math.abs(step) || 1;
+    this.step = Math.abs(step) || 10;
     if(this.step === 0) {this.step = 1}
     this.isRangeSlider = true;
     this.isHorizontal = true;

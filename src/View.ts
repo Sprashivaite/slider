@@ -126,7 +126,7 @@ class View {
     this.field.append(this.progressBar);
   }
 
-  sliderMove(button:any, px:any): void {
+  buttonMove(button:any, px:any): void {
     this.slider.onmousedown = () => false;
     this.slider.oncontextmenu = () => false;
     this.isHorizontal
