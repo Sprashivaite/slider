@@ -5,22 +5,26 @@ class Presenter {
   constructor(model?: Model, view?: View) {
     this.model = model;
     this.view = view;
-    this.view.renderElements();
-    this.view.flagMove(view.flag, model.calcValue(view.field, view.button));
-    this.view.flagMove(view.flag_2, model.calcValue(view.field, view.button_2));
+    
+
 
     
-    this.facadeMoveButton();
+    
   }
 
   moveButton(button) {
     let that = this;
-    function handlerButtonMove(): void {
+    function handlerButtonMove(event): void {
       that.view.buttonMove(
         button,
-        that.model.calcBtnOffset(that.view.field, button, event)
+        that.model.calcBtnOffset(that.view.field, button, event.clientX)
       );
-      
+      if(!that.model.isHorizontal){
+        that.view.buttonMove(
+          button,
+          that.model.calcBtnOffset(that.view.field, button, event.clientY)
+        );
+      }
     }
     button.addEventListener("mousedown", () => {
       document.addEventListener("mousemove", handlerButtonMove);
@@ -75,6 +79,7 @@ class Presenter {
       document.addEventListener("mousemove", moveFlagHandler);
 
       document.addEventListener("mouseup", () => {
+        moveFlagHandler();
         document.removeEventListener("mousemove", moveFlagHandler);
       });
     });
@@ -83,12 +88,17 @@ class Presenter {
   makeBreakpointButton(button) {
     let that = this;
 
-    function breakpointButtonHeandle() {
+    function breakpointButtonHeandle(event) {
       that.view.buttonMove(
         button,
-        that.model.makeBreakPoint(that.view.field, button)
+        that.model.makeBreakPoint(that.view.field, button, event.clientX)
       );
-
+if(!that.model.isHorizontal){
+  that.view.buttonMove(
+    button,
+    that.model.makeBreakPoint(that.view.field, button, event.clientY)
+  );
+}
       document.removeEventListener("mouseup", breakpointButtonHeandle);
       
     }

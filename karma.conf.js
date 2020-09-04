@@ -6,7 +6,7 @@ const jasmineConfig = require('./jasmine.json');
 
 module.exports = function (config) {
   config.set({
-    autoWatch: false,
+    autoWatch: true,
     basePath: '',
     browsers: ['Chrome'],
     colors: true,
@@ -17,14 +17,14 @@ module.exports = function (config) {
           },
     exclude: [],
     files: [
-      {pattern: testCode, watched: false}
+      {pattern: testCode, watched: true}
     ],
     frameworks: ['jasmine'],
     logLevel: config.LOG_INFO,
     port: 9876,
     preprocessors: {[testCode]: ['webpack']},
     reporters: ['progress', 'coverage-istanbul'],
-    singleRun: true,
+    singleRun: false,
     webpack: webpackConfig
   });
 };

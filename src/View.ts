@@ -134,20 +134,15 @@ class View {
       : (button.style.top = px + "px");
   }
   flagMove(flag:HTMLElement, value:number): void {
-    // this.flag.style.top = this.button.offsetTop - 15 + "px";
     flag.innerHTML = value + '';
-    if (this.isRangeSlider) {
-      // this.flag_2.style.left = this.button_2.offsetLeft + "px";
-      // this.flag_2.style.top = this.button_2.offsetTop - 15 + "px";
-      if (!this.isHorizontal) {
-        // this.flag_2.style.top =
-        //   this.button_2.offsetTop + 5 + this.button_2.offsetWidth + "px";
-      }
-    }
   }
   progressBarMove(): void {
+    let fieldWidth = this.field.offsetWidth;
+    let progressBarWidth = this.progressBar.offsetWidth;
     this.progressBar.style.width = this.button.offsetLeft + this.button.offsetWidth / 2 + "px";
     if (!this.isHorizontal) {
+      fieldWidth = this.field.offsetHeight;
+      progressBarWidth = this.progressBar.offsetHeight;
       this.progressBar.style.height =
       this.button.offsetTop + this.button.offsetWidth + "px";
       this.progressBar.style.width = this.field.offsetWidth + "px";
@@ -173,37 +168,20 @@ class View {
           }
     }
 
-    if (this.progressBar.offsetWidth <= this.field.offsetWidth / 4) {
+    if (progressBarWidth <= fieldWidth / 4) {
       this.progressBar.style.backgroundColor = "grey";
     }
-    if (this.progressBar.offsetWidth >= this.field.offsetWidth / 4) {
+    if (progressBarWidth >= fieldWidth / 4) {
       this.progressBar.style.backgroundColor = "darkgoldenrod";
     }
-    if (this.progressBar.offsetWidth >= this.field.offsetWidth / 2) {
+    if (progressBarWidth >= fieldWidth / 2) {
       this.progressBar.style.backgroundColor = "green";
     }
     if (
-      this.progressBar.offsetWidth >=
-      this.field.offsetWidth - this.button.offsetWidth
+      progressBarWidth >=
+      fieldWidth - this.button.offsetWidth
     ) {
       this.progressBar.style.backgroundColor = "#6FCF97";
-    }
-    if (!this.isHorizontal) {
-      if (this.progressBar.offsetHeight <= this.field.offsetHeight / 4) {
-        this.progressBar.style.backgroundColor = "grey";
-      }
-      if (this.progressBar.offsetHeight >= this.field.offsetHeight / 4) {
-        this.progressBar.style.backgroundColor = "darkgoldenrod";
-      }
-      if (this.progressBar.offsetHeight >= this.field.offsetHeight / 2) {
-        this.progressBar.style.backgroundColor = "green";
-      }
-      if (
-        this.progressBar.offsetHeight >=
-        this.field.offsetHeight - this.button.offsetHeight
-      ) {
-        this.progressBar.style.backgroundColor = "#6FCF97";
-      }
     }
   }
 
@@ -219,5 +197,6 @@ class View {
       this.flag_2.style.display = "block";
     }
   }
+
 }
 export {View}

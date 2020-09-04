@@ -1,4 +1,4 @@
-export class Model {
+class Model {
   max: number;
   min: number;
   step: number;
@@ -16,17 +16,17 @@ export class Model {
   calcBtnOffset(
     field: HTMLElement,
     button: HTMLElement,
-    event: MouseEventInit
+    mouseCoords: number
   ): number {
     let fieldWidth: number = field.offsetWidth;
     let buttonWidth: number = button.offsetWidth;
 
     let shiftLeft: number =
-      event.clientX - field.getBoundingClientRect().left - buttonWidth / 2;
+      mouseCoords - field.getBoundingClientRect().left - buttonWidth / 2;
 
     if (!this.isHorizontal) {
       shiftLeft =
-        event.clientY - field.getBoundingClientRect().top - buttonWidth / 2;
+        mouseCoords - field.getBoundingClientRect().top - buttonWidth / 2;
       fieldWidth = field.offsetHeight;
     }
 
@@ -85,7 +85,7 @@ let result: number;
     return +countStep.toFixed(1) ;
   }
 
-  makeBreakPoint(field: HTMLElement, button: HTMLElement): number {
+  makeBreakPoint(field: HTMLElement, button: HTMLElement,mouseCoords: number): number {
     let that = this;
     let fieldWidth: number;
     this.isHorizontal
@@ -103,13 +103,13 @@ let result: number;
     let val: number;
     arr.forEach(function (item, index, array) {
       if (
-        that.calcBtnOffset(field, button, event) >= item &&
-        that.calcBtnOffset(field, button, event) <= array[index + 1] - stepPX / 2
+        that.calcBtnOffset(field, button, mouseCoords) >= item &&
+        that.calcBtnOffset(field, button, mouseCoords) <= array[index + 1] - stepPX / 2
       ) {
         val = item;
       } else if (
-        that.calcBtnOffset(field, button, event) >= item + stepPX / 2 &&
-        that.calcBtnOffset(field, button, event) <= array[index + 1]
+        that.calcBtnOffset(field, button, mouseCoords) >= item + stepPX / 2 &&
+        that.calcBtnOffset(field, button, mouseCoords) <= array[index + 1]
       ) {
         val = array[index + 1];
       }
@@ -142,3 +142,4 @@ let result: number;
     }
   }
 }
+export {Model}
