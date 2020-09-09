@@ -6,8 +6,8 @@ class View {
   flag: HTMLElement;
   flag_2: any;
   progressBar: HTMLElement;
-  isHorizontal: boolean;
-  isRangeSlider: boolean;
+  _isHorizontal: boolean;
+  _isRangeSlider: boolean;
 
   constructor() {
     this.slider = document.querySelector(".slider");
@@ -17,9 +17,22 @@ class View {
     this.flag = document.createElement("div");
     this.flag_2;
     this.progressBar = document.createElement("div");
-    this.isHorizontal = true;
-    this.isRangeSlider = true;
+    this._isHorizontal = true;
+    this._isRangeSlider = true;
   }
+  get isHorizontal(){
+    return this._isHorizontal
+  }
+  set isHorizontal(boolian){
+    this._isHorizontal = boolian;
+  }
+  get isRangeSlider(){
+    return this._isRangeSlider
+  }
+  set isRangeSlider(boolian){
+    this._isRangeSlider = boolian;
+  }
+
   renderElements(): void {
     this.renderField();
     this.renderButtons();
@@ -127,8 +140,7 @@ class View {
   }
 
   buttonMove(button:any, px:any): void {
-    this.slider.onmousedown = () => false;
-    this.slider.oncontextmenu = () => false;
+
     this.isHorizontal
       ? (button.style.left = px + "px")
       : (button.style.top = px + "px");
@@ -139,14 +151,16 @@ class View {
   progressBarMove(): void {
     let fieldWidth = this.field.offsetWidth;
     let progressBarWidth = this.progressBar.offsetWidth;
+
     this.progressBar.style.width = this.button.offsetLeft + this.button.offsetWidth / 2 + "px";
+    
     if (!this.isHorizontal) {
       fieldWidth = this.field.offsetHeight;
       progressBarWidth = this.progressBar.offsetHeight;
       this.progressBar.style.height =
       this.button.offsetTop + this.button.offsetWidth + "px";
       this.progressBar.style.width = this.field.offsetWidth + "px";
-      this.progressBar.style.left = '0px';
+      this.progressBar.style.left = '-1px';
     }
     if (this.isRangeSlider) {
       this.progressBar.style.left = this.button.offsetLeft + 6 + "px";
@@ -164,24 +178,24 @@ class View {
               this.button.offsetTop +
               this.button.offsetWidth / 2 +
               "px";
-              this.progressBar.style.left = this.progressBar.offsetLeft - 1 + "px";
+              this.progressBar.style.left = '-1px';
           }
     }
 
     if (progressBarWidth <= fieldWidth / 4) {
-      this.progressBar.style.backgroundColor = "grey";
+      this.progressBar.style.backgroundColor = "rgb(181, 184, 177)";
     }
     if (progressBarWidth >= fieldWidth / 4) {
-      this.progressBar.style.backgroundColor = "darkgoldenrod";
+      this.progressBar.style.backgroundColor = "rgb(184, 134, 11)";
     }
     if (progressBarWidth >= fieldWidth / 2) {
-      this.progressBar.style.backgroundColor = "green";
+      this.progressBar.style.backgroundColor = "rgb(0, 154, 99)";
     }
     if (
       progressBarWidth >=
       fieldWidth - this.button.offsetWidth
     ) {
-      this.progressBar.style.backgroundColor = "#6FCF97";
+      this.progressBar.style.backgroundColor = "rgb(111, 207, 151)";
     }
   }
 

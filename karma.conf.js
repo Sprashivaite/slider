@@ -17,7 +17,8 @@ module.exports = function (config) {
           },
     exclude: [],
     files: [
-      {pattern: testCode, watched: true}
+      {pattern: testCode, watched: true},
+      'dist/style.css'
     ],
     frameworks: ['jasmine'],
     logLevel: config.LOG_INFO,

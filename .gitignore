@@ -1,2 +1,5 @@
 node_modules
-coverage
+coverage/
+coverage/index.html
+coverage/Model.ts.html
+coverage/View.ts.html

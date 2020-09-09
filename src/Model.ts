@@ -2,17 +2,20 @@ class Model {
   max: number;
   min: number;
   step: number;
-  isRangeSlider: boolean;
-  isHorizontal: boolean;
+  _isHorizontal: boolean;
   constructor(step?: number) {
     this.max = 100;
     this.min = 0;
     this.step = Math.abs(step) || 10;
     if(this.step === 0) {this.step = 1}
-    this.isRangeSlider = true;
-    this.isHorizontal = true;
+    this._isHorizontal = true;
   }
-
+  get isHorizontal(){
+    return this._isHorizontal
+  }
+  set isHorizontal(boolian){
+    this._isHorizontal = boolian;
+  }
   calcBtnOffset(
     field: HTMLElement,
     button: HTMLElement,
@@ -38,7 +41,7 @@ class Model {
     }
     return shiftLeft;
   }
-  moveToValue(button: HTMLElement, field: HTMLElement, value: number): void {
+  moveToValue(field: HTMLElement,button: HTMLElement , value: number): void {
     let fieldWidth: number = field.offsetWidth;
     let buttonWidth: number = button.offsetWidth;
 

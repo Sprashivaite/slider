@@ -5,12 +5,7 @@ class Presenter {
   constructor(model?: Model, view?: View) {
     this.model = model;
     this.view = view;
-    
-
-
-    
-    
-  }
+      }
 
   moveButton(button) {
     let that = this;
@@ -40,7 +35,7 @@ class Presenter {
     function handlerMakeDistanceButton(): void {
       that.model.makeDistanceButton(that.view.button, that.view.button_2);
     }
-    if (this.model.isRangeSlider) {
+    if (this.view.isRangeSlider) {
       that.view.button.addEventListener("mousedown", () => {
         document.addEventListener("mousemove", handlerMakeDistanceButton);
 
@@ -56,7 +51,7 @@ class Presenter {
     function handlerMakeDistanceButton_2(): void {
       that.model.makeDistanceButton_2(that.view.button, that.view.button_2);
     }
-    if (this.model.isRangeSlider) {
+    if (this.view.isRangeSlider) {
       that.view.button_2.addEventListener("mousedown", () => {
         document.addEventListener("mousemove", handlerMakeDistanceButton_2);
 
@@ -129,15 +124,16 @@ if(!that.model.isHorizontal){
   }
 
   facadeMoveButton(){
-    
+    this.view.slider.onmousedown = () => false;
+    this.view.slider.oncontextmenu = () => false;
     this.moveButton(this.view.button);
         this.makeBreakpointButton(this.view.button);  
-    if(this.model.isRangeSlider){this.makeDistanceButton();}
+    if(this.view.isRangeSlider){this.makeDistanceButton();}
   
     this.moveProgressBar(this.view.button);
     this.moveflag(this.view.button, this.view.flag);
 
-    if(this.model.isRangeSlider){
+    if(this.view.isRangeSlider){
       this.moveButton(this.view.button_2);
       this.makeBreakpointButton(this.view.button_2);
       this.makeDistanceButton_2();
@@ -162,10 +158,10 @@ if(!that.model.isHorizontal){
   }
   changeTypeButton() {
     this.view.removeElements();
-    this.model.isRangeSlider = !this.model.isRangeSlider;
     this.view.isRangeSlider = !this.view.isRangeSlider;
     this.view.renderElements();
     this.facadeMoveButton();
+    this.view.progressBarMove();
   }
 }
 export {Presenter}
