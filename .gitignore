@@ -1,5 +1,5 @@
 node_modules
 coverage/
-coverage/index.html
-coverage/Model.ts.html
-coverage/View.ts.html
+/coverage/index.html
+/coverage/Model.ts.html
+/coverage/View.ts.html

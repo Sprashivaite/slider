@@ -1,21 +1,19 @@
 class View {
-  slider: any;
-  button: HTMLElement;
+  readonly slider: any;
+  readonly button: HTMLElement;
   button_2: any;
-  field: HTMLDivElement;
-  flag: HTMLElement;
+  readonly field: HTMLDivElement;
+  readonly flag: HTMLElement;
   flag_2: any;
-  progressBar: HTMLElement;
-  _isHorizontal: boolean;
-  _isRangeSlider: boolean;
+  readonly progressBar: HTMLElement;
+  private _isHorizontal: boolean;
+  private _isRangeSlider: boolean;
 
   constructor() {
     this.slider = document.querySelector(".slider");
     this.button = document.createElement("div");
-    this.button_2;
     this.field = document.createElement("div");
     this.flag = document.createElement("div");
-    this.flag_2;
     this.progressBar = document.createElement("div");
     this._isHorizontal = true;
     this._isRangeSlider = true;
@@ -23,14 +21,14 @@ class View {
   get isHorizontal(){
     return this._isHorizontal
   }
-  set isHorizontal(boolian){
-    this._isHorizontal = boolian;
+  set isHorizontal(boolean){
+    this._isHorizontal = boolean;
   }
   get isRangeSlider(){
     return this._isRangeSlider
   }
-  set isRangeSlider(boolian){
-    this._isRangeSlider = boolian;
+  set isRangeSlider(boolean){
+    this._isRangeSlider = boolean;
   }
 
   renderElements(): void {

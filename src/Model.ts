@@ -1,20 +1,26 @@
 class Model {
   max: number;
   min: number;
-  step: number;
-  _isHorizontal: boolean;
-  constructor(step?: number) {
+  private _step: number;
+  private _isHorizontal: boolean;
+  constructor() {
     this.max = 100;
     this.min = 0;
-    this.step = Math.abs(step) || 10;
-    if(this.step === 0) {this.step = 1}
+    this._step = 10;
     this._isHorizontal = true;
   }
   get isHorizontal(){
     return this._isHorizontal
   }
-  set isHorizontal(boolian){
-    this._isHorizontal = boolian;
+  set isHorizontal(boolean){
+    this._isHorizontal = boolean;
+  }
+  get step(){
+    return this._step
+  }
+  set step(value){
+    if(value === 0) {value = 1}
+    this._step = Math.abs(value)
   }
   calcBtnOffset(
     field: HTMLElement,
@@ -98,12 +104,12 @@ let result: number;
     let stepPX: number =
       ((fieldWidth - button.offsetWidth) * this.step) / (this.max - this.min);
 
-    let arr: Array<number> = [];
+    let arr: number[] = [];
     for (let i = 0; i <= fieldWidth - button.offsetWidth; i += stepPX) {
       arr.push(i);
     }
 
-    let val: number;
+    let val: number = 0;
     arr.forEach(function (item, index, array) {
       if (
         that.calcBtnOffset(field, button, mouseCoords) >= item &&

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90.48% </span>
+                <span class="strong">87.88% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>57/63</span>
+                <span class='fraction'>58/66</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">72.73% </span>
+                <span class="strong">69.05% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>32/44</span>
+                <span class='fraction'>29/42</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">91.67% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>10/10</span>
+                <span class='fraction'>11/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.94% </span>
+                <span class="strong">89.23% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>57/62</span>
+                <span class='fraction'>58/65</span>
             </div>
         
             
@@ -204,23 +204,35 @@
 <a name='L145'></a><a href='#L145'>145</a>
 <a name='L146'></a><a href='#L146'>146</a>
 <a name='L147'></a><a href='#L147'>147</a>
-<a name='L148'></a><a href='#L148'>148</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">32x</span>
-<span class="cline-any cline-yes">32x</span>
-<span class="cline-any cline-yes">32x</span>
-<span class="cline-any cline-yes">32x</span>
-<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-yes">33x</span>
+<span class="cline-any cline-yes">33x</span>
+<span class="cline-any cline-yes">33x</span>
+<span class="cline-any cline-yes">33x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">38x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -309,7 +321,7 @@
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -354,20 +366,26 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">class Model {
   max: number;
   min: number;
-  step: number;
-  _isHorizontal: boolean;
-  constructor(step?: number) {
+  private _step: number;
+  private _isHorizontal: boolean;
+  constructor() {
     this.max = 100;
     this.min = 0;
-    this.step = Math.abs(step) || 10;
-    <span class="missing-if-branch" title="if path not taken" >I</span>if(this.step === 0) {<span class="cstat-no" title="statement not covered" >this.s</span>tep = 1}
+    this._step = 10;
     this._isHorizontal = true;
   }
   get isHorizontal(){
     return this._isHorizontal
   }
-  set isHorizontal(boolian){
-    this._isHorizontal = boolian;
+  set isHorizontal(boolean){
+    this._isHorizontal = boolean;
+  }
+  get step(){
+    return this._step
+  }
+<span class="fstat-no" title="function not covered" >  set s</span>tep(value){
+<span class="cstat-no" title="statement not covered" >    if(value === 0) {<span class="cstat-no" title="statement not covered" >value </span>= 1}</span>
+<span class="cstat-no" title="statement not covered" >    this._</span>step = Math.abs(value)
   }
   calcBtnOffset(
     field: HTMLElement,
@@ -451,12 +469,12 @@ let result: number;
     let stepPX: number =
       ((fieldWidth - button.offsetWidth) * this.step) / (this.max - this.min);
 &nbsp;
-    let arr: Array&lt;number&gt; = [];
+    let arr: number[] = [];
     for (let i = 0; i &lt;= fieldWidth - button.offsetWidth; i += stepPX) {
       arr.push(i);
     }
 &nbsp;
-    let val: number;
+    let val: number = 0;
     arr.forEach(function (item, index, array) {
       if (
         that.calcBtnOffset(field, button, mouseCoords) &gt;= item &amp;&amp;
@@ -505,7 +523,7 @@ export {Model}</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu Sep 10 2020 02:15:50 GMT+0700 (GMT+07:00)
+                at Tue Oct 13 2020 05:38:54 GMT+0700 (GMT+07:00)
             </div>
         </div>
         <script src="prettify.js"></script>

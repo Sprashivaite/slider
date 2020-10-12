@@ -65,8 +65,10 @@ describe("работа фасада View", () => {
 
   it("view.renderElements", () => {
     spyOn(view, "renderElements");
+    spyOn(view, "renderField");
     view.renderElements();
     expect(view.renderElements).toHaveBeenCalled();
+    // expect(view.renderField ).toBeDefined();
     expect(view.field).toBeDefined();
     expect(view.button).toBeDefined();
     expect(view.flag).toBeDefined();
