@@ -33,38 +33,6 @@ class Presenter {
     });
   }
 
-  makeDistanceButton() {
-    let that = this;
-    function handlerMakeDistanceButton(): void {
-      that.model.makeDistanceButton(that.view.button, that.view.button_2);
-    }
-    if (this.view.isRangeSlider) {
-      that.view.button.addEventListener("mousedown", () => {
-        document.addEventListener("mousemove", handlerMakeDistanceButton);
-
-        document.addEventListener("mouseup", () => {
-          handlerMakeDistanceButton();
-          document.removeEventListener("mousemove", handlerMakeDistanceButton);
-        });
-      });
-    }
-  }
-  makeDistanceButton_2() {
-    let that = this;
-    function handlerMakeDistanceButton_2(): void {
-      that.model.makeDistanceButton_2(that.view.button, that.view.button_2);
-    }
-    if (this.view.isRangeSlider) {
-      that.view.button_2.addEventListener("mousedown", () => {
-        document.addEventListener("mousemove", handlerMakeDistanceButton_2);
-
-        document.addEventListener("mouseup", () => {
-          handlerMakeDistanceButton_2()
-          document.removeEventListener("mousemove", handlerMakeDistanceButton_2);
-        });
-      });
-    }
-  }
   moveflag(button, flag) {
     let that = this;
     function moveFlagHandler(): void {
@@ -131,7 +99,6 @@ if(!that.model.isHorizontal){
     this.view.slider.oncontextmenu = () => false;
     this.moveButton(this.view.button);
         this.makeBreakpointButton(this.view.button);  
-    if(this.view.isRangeSlider){this.makeDistanceButton();}
   
     this.moveProgressBar(this.view.button);
     this.moveflag(this.view.button, this.view.flag);
@@ -139,7 +106,6 @@ if(!that.model.isHorizontal){
     if(this.view.isRangeSlider){
       this.moveButton(this.view.button_2);
       this.makeBreakpointButton(this.view.button_2);
-      this.makeDistanceButton_2();
       
       this.moveProgressBar(this.view.button_2);
       this.moveflag(this.view.button_2, this.view.flag_2);

@@ -11,7 +11,6 @@ view.flagMove(view.flag, model.calcValue(view.field, view.button));
 view.flagMove(view.flag_2, model.calcValue(view.field, view.button_2));
 presenter.facadeMoveButton();
 
-console.log(view.button.offsetLeft);
 let vl: HTMLInputElement = document.querySelector(".vl");
 let vl_2: HTMLInputElement = document.querySelector(".vl_2");
 let tooltip: HTMLInputElement = document.querySelector("#tooltip");
