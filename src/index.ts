@@ -7,8 +7,8 @@ const view: View = new View();
 const presenter: Presenter = new Presenter(model, view);
 
 view.renderElements();
-view.flagMove(view.flag, model.calcValue(view.field, view.button));
-view.flagMove(view.flag_2, model.calcValue(view.field, view.button_2));
+// view.flagMove(view.flag, model.calcValue(view.field, view.button));
+// view.flagMove(view.flag_2, model.calcValue(view.field, view.button_2));
 presenter.facadeMoveButton();
 
 let vl: HTMLInputElement = document.querySelector(".vl");
@@ -66,7 +66,9 @@ orientation.addEventListener("input", function () {
     presenter.changeOrientation();
   });
 tooltip.addEventListener("input", function () {
-    tooltip.checked ? view.addFlag() : view.removeFlag();
+    tooltip.checked ? view.flag.addFlag() : view.flag.removeFlag();
+    if(view.flag_2){
+    tooltip.checked ? view.flag_2.addFlag() : view.flag_2.removeFlag();}
   });
   range.addEventListener("input", function () {
     presenter.changeTypeButton();

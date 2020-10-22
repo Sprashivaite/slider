@@ -3,7 +3,7 @@ class Model {
   min: number;
   private _step: number;
   private _isHorizontal: boolean;
-  constructor() {  this.max = 95;
+  constructor() {  this.max = 100;
     this.min = 0;
     this._step = 10;
     this._isHorizontal = true;
@@ -128,7 +128,7 @@ class Model {
     for (let i = 0; i <= fieldWidth - button.offsetWidth; i += stepPX) {
       arr.push(i);
     }
-    console.log(arr);
+    
     let val: number = 0;
     arr.forEach(function (item, index, array) {
       if (

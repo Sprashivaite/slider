@@ -8,7 +8,7 @@ class Presenter {
   constructor(model: Model, view: View) {
     this.model = model;
     this.view = view;
-      }
+  }
 
   moveButton(button) {
     let that = this;
@@ -17,7 +17,7 @@ class Presenter {
         button,
         that.model.calcBtnOffset(that.view.field, button, event.clientX)
       );
-      if(!that.model.isHorizontal){
+      if (!that.model.isHorizontal) {
         that.view.buttonMove(
           button,
           that.model.calcBtnOffset(that.view.field, button, event.clientY)
@@ -33,22 +33,35 @@ class Presenter {
     });
   }
 
-  moveflag(button, flag) {
+  moveflag() {
     let that = this;
-    function moveFlagHandler(): void {
-      that.view.flagMove(
-        flag,
-        that.model.calcValue(that.view.field, button)
-      );
-    }
-    button.addEventListener("mousedown", () => {
-      document.addEventListener("mousemove", moveFlagHandler);
+    that.view.button.addEventListener("mousemove", () => {
+    that.view.flag.changeFlagValue(that.model.calcValue(that.view.field, that.view.button));
+    })
+    // 
+    // function moveFlagHandler(): void {
+    //   that.view.flag.changeFlagValue(that.model.calcValue(that.view.field, that.view.button));
+    //   if(that.view.isRangeSlider){
+    //     that.view.flag_2.changeFlagValue(that.model.calcValue(that.view.field, that.view.button_2));
+    //   }
+    // }
+    // that.view.button.addEventListener("mousedown", () => {
+    //   document.addEventListener("mousemove", moveFlagHandler);
 
-      document.addEventListener("mouseup", () => {
-        moveFlagHandler();
-        document.removeEventListener("mousemove", moveFlagHandler);
-      });
-    });
+    //   document.addEventListener("mouseup", () => {
+    //     moveFlagHandler();
+    //     document.removeEventListener("mousemove", moveFlagHandler);
+    //   });
+    // });
+    // if(that.view.isRangeSlider){
+    // that.view.button_2.addEventListener("mousedown", () => {
+    //   document.addEventListener("mousemove", moveFlagHandler);
+
+    //   document.addEventListener("mouseup", () => {
+    //     moveFlagHandler();
+    //     document.removeEventListener("mousemove", moveFlagHandler);
+    //   });
+    // });}
   }
 
   makeBreakpointButton(button) {
@@ -59,28 +72,24 @@ class Presenter {
         button,
         that.model.makeBreakPoint(that.view.field, button, event.clientX)
       );
-if(!that.model.isHorizontal){
-  that.view.buttonMove(
-    button,
-    that.model.makeBreakPoint(that.view.field, button, event.clientY)
-  );
-}
+      if (!that.model.isHorizontal) {
+        that.view.buttonMove(
+          button,
+          that.model.makeBreakPoint(that.view.field, button, event.clientY)
+        );
+      }
       document.removeEventListener("mouseup", breakpointButtonHeandle);
-      
     }
 
     button.addEventListener("mousedown", () => {
       document.addEventListener("mouseup", breakpointButtonHeandle);
-
-
-
     });
   }
 
   moveProgressBar(button) {
     let that = this;
 
-    function progressBarMoveHandler(){
+    function progressBarMoveHandler() {
       that.view.progressBarMove();
     }
 
@@ -94,24 +103,23 @@ if(!that.model.isHorizontal){
     });
   }
 
-  facadeMoveButton(){
+  facadeMoveButton() {
     this.view.slider.onmousedown = () => false;
     this.view.slider.oncontextmenu = () => false;
     this.moveButton(this.view.button);
-        this.makeBreakpointButton(this.view.button);  
-  
-    this.moveProgressBar(this.view.button);
-    this.moveflag(this.view.button, this.view.flag);
+    this.makeBreakpointButton(this.view.button);
 
-    if(this.view.isRangeSlider){
+    this.moveProgressBar(this.view.button);
+    this.moveflag();
+
+    if (this.view.isRangeSlider) {
       this.moveButton(this.view.button_2);
       this.makeBreakpointButton(this.view.button_2);
-      
+
       this.moveProgressBar(this.view.button_2);
-      this.moveflag(this.view.button_2, this.view.flag_2);
+      // this.moveflag(this.view.button_2, this.view.flag_2);
     }
   }
-
 
   changeOrientation() {
     this.view.removeElements();
@@ -125,6 +133,7 @@ if(!that.model.isHorizontal){
     );
     this.facadeMoveButton();
   }
+
   changeTypeButton() {
     this.view.removeElements();
     this.view.isRangeSlider = !this.view.isRangeSlider;
@@ -133,4 +142,4 @@ if(!that.model.isHorizontal){
     this.view.progressBarMove();
   }
 }
-export {Presenter}
+export { Presenter };
