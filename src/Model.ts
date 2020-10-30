@@ -5,7 +5,7 @@ class Model {
   private _isHorizontal: boolean;
   constructor() {  this.max = 100;
     this.min = 0;
-    this._step = 1;
+    this._step = 10;
     this._isHorizontal = true;
   }
 

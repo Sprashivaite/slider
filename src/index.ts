@@ -9,7 +9,7 @@ const presenter: Presenter = new Presenter(model, view);
 view.renderElements();
 // view.flagMove(view.flag, model.calcValue(view.field, view.button));
 // view.flagMove(view.flag_2, model.calcValue(view.field, view.button_2));
-presenter.facadeMoveButton();
+// presenter.facadeMoveButton();
 
 let vl: HTMLInputElement = document.querySelector(".vl");
 let vl_2: HTMLInputElement = document.querySelector(".vl_2");

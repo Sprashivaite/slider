@@ -11,76 +11,54 @@ class Presenter {
     this.view.register(this);
   }
 
-  moveButton(event) {
-    this.view.buttonMove(
-      this.view.button,
-          this.model.calcBtnOffset(this.view.field, this.view.button, event.clientX)
-        );
-  }
-
-  moveflag() {
-    this.view.flag.changeFlagValue(this.model.calcValue(this.view.field, this.view.button));
-  }
-  mouseEvent(){
-    this.moveflag();
-    this.moveButton(event);
-  }
-  makeBreakpointButton(button) {
-    let that = this;
-
-    function breakpointButtonHeandle(event) {
-      that.view.buttonMove(
+  moveButton(button: HTMLElement ,event: MouseEvent) {
+      this.view.buttonMove(
         button,
-        that.model.makeBreakPoint(that.view.field, button, event.clientX)
-      );
-      if (!that.model.isHorizontal) {
-        that.view.buttonMove(
+        this.model.calcBtnOffset(
+          this.view.field,
           button,
-          that.model.makeBreakPoint(that.view.field, button, event.clientY)
+          event.clientX
+        )
+      );
+  }
+
+  moveflag(button: HTMLElement, flag: { changeFlagValue: (arg0: number) => void; } ) {
+    flag.changeFlagValue(
+      this.model.calcValue(this.view.field, button)
+    );
+
+  }
+    makeBreakpointButton(button: HTMLElement, event: MouseEvent) {
+      this.view.buttonMove(
+        button,
+        this.model.makeBreakPoint(this.view.field, button, event.clientX)
+      );
+      if (!this.model.isHorizontal) {
+        this.view.buttonMove(
+          button,
+          this.model.makeBreakPoint(this.view.field, button, event.clientY)
         );
       }
-      document.removeEventListener("mouseup", breakpointButtonHeandle);
-    }
-
-    button.addEventListener("mousedown", () => {
-      document.addEventListener("mouseup", breakpointButtonHeandle);
-    });
+  }
+  mouseEventButton() {
+    this.moveButton(this.view.button, event);
+    this.moveflag(this.view.button, this.view.flag);
+    this.view.progressBar.progressBarMove();
+  }
+  mouseEventButton_2() {
+    this.moveButton(this.view.button_2, event);
+    this.moveflag(this.view.button_2, this.view.flag_2);
+    this.view.progressBar.progressBarMove();
+  }
+  mouseUp(){
+    this.makeBreakpointButton(this.view.button, event) 
+    this.view.progressBar.progressBarMove();
+  }
+  mouseUp_2(){
+    this.makeBreakpointButton(this.view.button_2, event) 
+    this.view.progressBar.progressBarMove();
   }
 
-  moveProgressBar(button) {
-    let that = this;
-
-    function progressBarMoveHandler() {
-      that.view.progressBarMove();
-    }
-
-    button.addEventListener("mousedown", () => {
-      document.addEventListener("mousemove", progressBarMoveHandler);
-
-      document.addEventListener("mouseup", () => {
-        progressBarMoveHandler();
-        document.removeEventListener("mousemove", progressBarMoveHandler);
-      });
-    });
-  }
-
-  facadeMoveButton() {
-    this.view.slider.onmousedown = () => false;
-    this.view.slider.oncontextmenu = () => false;
-    // this.moveButton(this.view.button);
-    this.makeBreakpointButton(this.view.button);
-
-    this.moveProgressBar(this.view.button);
-    this.moveflag();
-
-    if (this.view.isRangeSlider) {
-      this.moveButton(this.view.button_2);
-      this.makeBreakpointButton(this.view.button_2);
-
-      this.moveProgressBar(this.view.button_2);
-      // this.moveflag(this.view.button_2, this.view.flag_2);
-    }
-  }
 
   changeOrientation() {
     this.view.removeElements();
@@ -88,18 +66,17 @@ class Presenter {
     this.view.isHorizontal = !this.view.isHorizontal;
     this.view.renderElements();
 
-    this.view.flagMove(
+    this.view.flag.flagMove(
       this.view.flag_2,
       this.model.calcValue(this.view.field, this.view.button_2)
     );
-    this.facadeMoveButton();
+
   }
 
   changeTypeButton() {
     this.view.removeElements();
     this.view.isRangeSlider = !this.view.isRangeSlider;
     this.view.renderElements();
-    this.facadeMoveButton();
     this.view.progressBarMove();
   }
 }

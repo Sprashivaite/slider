@@ -1,5 +1,3 @@
-import {View} from './View';
-
 class Flag {
   flag: HTMLDivElement;
   button: HTMLDivElement;
