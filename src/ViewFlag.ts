@@ -1,3 +1,5 @@
+import {View} from './View';
+
 class Flag {
   flag: HTMLDivElement;
   button: HTMLDivElement;
@@ -11,18 +13,7 @@ class Flag {
     this.button.append(this.flag);
   }
   changeFlagValue(value: number): void {
-    let that = this;
-    function moveFlagHandler(): void {
-      that.flag.innerHTML = value + "";
-    }
-    this.button.addEventListener("mousedown", () => {
-      document.addEventListener("mousemove", moveFlagHandler);
-
-      document.addEventListener("mouseup", () => {
-        moveFlagHandler();
-        document.removeEventListener("mousemove", moveFlagHandler);
-      });
-    });
+    this.flag.innerHTML = value + "";
   }
   removeFlag(): void {
     this.flag.style.display = "none";

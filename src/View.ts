@@ -1,5 +1,5 @@
-import ViewButton from './ViewButton'
-import ViewFlag from './ViewFlag'
+import ViewButton from "./ViewButton";
+import ViewFlag from "./ViewFlag";
 
 class View {
   readonly slider: any;
@@ -11,25 +11,16 @@ class View {
   readonly progressBar: HTMLElement;
   private _isHorizontal: boolean;
   private _isRangeSlider: boolean;
+  subscriber: any;
 
   constructor() {
     this.slider = document.querySelector(".slider");
     this.field = document.createElement("div");
     this.progressBar = document.createElement("div");
     this._isHorizontal = true;
-    this._isRangeSlider = true;
-  }
-  get isHorizontal() {
-    return this._isHorizontal;
-  }
-  set isHorizontal(boolean) {
-    this._isHorizontal = boolean;
-  }
-  get isRangeSlider() {
-    return this._isRangeSlider;
-  }
-  set isRangeSlider(boolean) {
-    this._isRangeSlider = boolean;
+    this._isRangeSlider = false;
+    this.subscriber = null;
+    
   }
 
   renderElements(): void {
@@ -37,15 +28,13 @@ class View {
     this.renderButtons();
     this.renderFlag();
     this.renderProgressBar();
+    this.eventListener();
   }
   removeElements() {
-    [
-      this.flag,
-      this.button,
-      this.field,
-      this.progressBar,
-    ].forEach((item) => item.remove());
-    
+    [this.flag, this.button, this.field, this.progressBar].forEach((item) =>
+      item.remove()
+    );
+
     if (this.isRangeSlider) {
       [this.flag_2, this.button_2].forEach((item) => item.remove());
     }
@@ -65,19 +54,18 @@ class View {
     }
   }
   renderButtons(): void {
-    this.button = new ViewButton().createButton(this.field, this.isHorizontal);
+    this.button = new ViewButton(this.field, this.isHorizontal).createButton();
     if (this.isRangeSlider) {
-      this.button_2 = new ViewButton().createButton(
+      this.button_2 = new ViewButton(
         this.field,
-        this.isHorizontal
+        this.isHorizontal).createButton(
       );
     }
-
   }
   renderFlag(): void {
     this.flag = new ViewFlag(this.button);
     this.flag.createFlag();
-    if(this.isRangeSlider){
+    if (this.isRangeSlider) {
       this.flag_2 = new ViewFlag(this.button_2);
       this.flag_2.createFlag();
     }
@@ -171,6 +159,36 @@ class View {
     }
   }
 
-
+  register(sub) {
+    this.subscriber = sub;
+  }
+  notify() {
+    this.subscriber.mouseEvent();
+  }
+  eventListener() {
+    let that = this;
+    function notify() {
+      that.notify();
+    }
+    this.button.addEventListener("mousedown", () => {
+      document.addEventListener("mousemove", notify);
+      document.onmouseup = () => {
+        notify();
+        document.removeEventListener("mousemove", notify);
+      };
+    });
+  }
+  get isHorizontal() {
+    return this._isHorizontal;
+  }
+  set isHorizontal(boolean) {
+    this._isHorizontal = boolean;
+  }
+  get isRangeSlider() {
+    return this._isRangeSlider;
+  }
+  set isRangeSlider(boolean) {
+    this._isRangeSlider = boolean;
+  }
 }
-export {View}
+export { View };

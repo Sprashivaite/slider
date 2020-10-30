@@ -8,62 +8,23 @@ class Presenter {
   constructor(model: Model, view: View) {
     this.model = model;
     this.view = view;
+    this.view.register(this);
   }
 
-  moveButton(button) {
-    let that = this;
-    function handlerButtonMove(event): void {
-      that.view.buttonMove(
-        button,
-        that.model.calcBtnOffset(that.view.field, button, event.clientX)
-      );
-      if (!that.model.isHorizontal) {
-        that.view.buttonMove(
-          button,
-          that.model.calcBtnOffset(that.view.field, button, event.clientY)
+  moveButton(event) {
+    this.view.buttonMove(
+      this.view.button,
+          this.model.calcBtnOffset(this.view.field, this.view.button, event.clientX)
         );
-      }
-    }
-    button.addEventListener("mousedown", () => {
-      document.addEventListener("mousemove", handlerButtonMove);
-
-      document.addEventListener("mouseup", () => {
-        document.removeEventListener("mousemove", handlerButtonMove);
-      });
-    });
   }
 
   moveflag() {
-    let that = this;
-    that.view.button.addEventListener("mousemove", () => {
-    that.view.flag.changeFlagValue(that.model.calcValue(that.view.field, that.view.button));
-    })
-    // 
-    // function moveFlagHandler(): void {
-    //   that.view.flag.changeFlagValue(that.model.calcValue(that.view.field, that.view.button));
-    //   if(that.view.isRangeSlider){
-    //     that.view.flag_2.changeFlagValue(that.model.calcValue(that.view.field, that.view.button_2));
-    //   }
-    // }
-    // that.view.button.addEventListener("mousedown", () => {
-    //   document.addEventListener("mousemove", moveFlagHandler);
-
-    //   document.addEventListener("mouseup", () => {
-    //     moveFlagHandler();
-    //     document.removeEventListener("mousemove", moveFlagHandler);
-    //   });
-    // });
-    // if(that.view.isRangeSlider){
-    // that.view.button_2.addEventListener("mousedown", () => {
-    //   document.addEventListener("mousemove", moveFlagHandler);
-
-    //   document.addEventListener("mouseup", () => {
-    //     moveFlagHandler();
-    //     document.removeEventListener("mousemove", moveFlagHandler);
-    //   });
-    // });}
+    this.view.flag.changeFlagValue(this.model.calcValue(this.view.field, this.view.button));
   }
-
+  mouseEvent(){
+    this.moveflag();
+    this.moveButton(event);
+  }
   makeBreakpointButton(button) {
     let that = this;
 
@@ -106,7 +67,7 @@ class Presenter {
   facadeMoveButton() {
     this.view.slider.onmousedown = () => false;
     this.view.slider.oncontextmenu = () => false;
-    this.moveButton(this.view.button);
+    // this.moveButton(this.view.button);
     this.makeBreakpointButton(this.view.button);
 
     this.moveProgressBar(this.view.button);

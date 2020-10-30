@@ -1,30 +1,42 @@
 class ViewButton {
-  createButton(field: HTMLDivElement, isHorizontal: boolean) {
-    let button: HTMLElement = document.createElement("div");
-    button.className = "slider__button";
+  button: HTMLDivElement;
+  field: HTMLDivElement;
+  isHorizontal: boolean;
+  constructor(field: HTMLDivElement, isHorizontal: boolean){
+    this.button = document.createElement("div");
+    this.field = field;
+    this.isHorizontal = isHorizontal;
+  }
+  createButton(): HTMLDivElement{
+    this.button.className = "slider__button";
 
-    button.style.top = "-6px";
-    button.style.left = "0px";
+    this.button.style.top = "-6px";
+    this.button.style.left = "0px";
 
-    field.append(button);
-    if (button.previousElementSibling) {
-      button.style.left =
-        button.previousElementSibling.offsetLeft +
-        button.previousElementSibling.offsetWidth +
+    this.field.append(this.button);
+    if (this.button.previousElementSibling) {
+      this.button.style.left =
+      this.button.previousElementSibling.offsetLeft +
+      this.button.previousElementSibling.offsetWidth +
         "px";
     }
 
-    if (!isHorizontal) {
-      button.style.left = "-5px";
-      button.style.top = "0px";
-      if (button.previousElementSibling) {
-        button.style.top =
-          button.previousElementSibling.offsetTop +
-          button.previousElementSibling.offsetHeight +
+    if (!this.isHorizontal) {
+      this.button.style.left = "-5px";
+      this.button.style.top = "0px";
+      if (this.button.previousElementSibling) {
+        this.button.style.top =
+        this.button.previousElementSibling.offsetTop +
+        this.button.previousElementSibling.offsetHeight +
           "px";
       }
     }
-    return button;
+    return this.button;
+  }
+  buttonMove(px: any): void {
+    this.isHorizontal
+      ? (this.button.style.left = px + "px")
+      : (this.button.style.top = px + "px");
   }
 }
 
