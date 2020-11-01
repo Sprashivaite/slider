@@ -28,35 +28,37 @@ class Presenter {
     );
 
   }
-    makeBreakpointButton(button: HTMLElement, event: MouseEvent) {
+    makeBreakpointButton(button: HTMLElement) {
       this.view.buttonMove(
         button,
-        this.model.makeBreakPoint(this.view.field, button, event.clientX)
+        this.model.makeBreakPoint(this.view.field, button)
       );
       if (!this.model.isHorizontal) {
         this.view.buttonMove(
           button,
-          this.model.makeBreakPoint(this.view.field, button, event.clientY)
+          this.model.makeBreakPoint(this.view.field, button)
         );
       }
   }
   mouseEventButton() {
     this.moveButton(this.view.button, event);
     this.moveflag(this.view.button, this.view.flag);
+    // this.makeBreakpointButton(this.view.button, event) 
     this.view.progressBar.progressBarMove();
   }
   mouseEventButton_2() {
     this.moveButton(this.view.button_2, event);
     this.moveflag(this.view.button_2, this.view.flag_2);
+    // this.makeBreakpointButton(this.view.button_2, event) 
     this.view.progressBar.progressBarMove();
   }
   mouseUp(){
-    this.makeBreakpointButton(this.view.button, event) 
+    this.makeBreakpointButton(this.view.button) 
     this.view.progressBar.progressBarMove();
   }
   mouseUp_2(){
-    this.makeBreakpointButton(this.view.button_2, event) 
-    this.view.progressBar.progressBarMove();
+  //   this.makeBreakpointButton(this.view.button_2, event) 
+  //   this.view.progressBar.progressBarMove();
   }
 
 

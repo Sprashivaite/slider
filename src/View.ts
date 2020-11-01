@@ -19,7 +19,7 @@ class View {
     this.slider = document.querySelector(".slider");
 
     this._isHorizontal = true;
-    this._isRangeSlider = true;
+    this._isRangeSlider = false;
     this.subscriber = null;
   }
 
@@ -93,7 +93,7 @@ class View {
     this.button.addEventListener("mousedown", () => {
       document.addEventListener("mousemove", notify);
       document.onmouseup = () => {
-        notify();
+        // notify();
         document.removeEventListener("mousemove", notify);
         that.subscriber.mouseUp();
       };
