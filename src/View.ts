@@ -5,22 +5,23 @@ import ViewProgressBar from "./ViewProgressBar";
 
 class View {
   readonly slider: any;
-  button: any;
-  button_2: any;
-  field: any;
-  flag: any;
-  flag_2: any;
-  progressBar: any;
+  button: ViewButton;
+  button_2: ViewButton;
   private _isHorizontal: boolean;
   private _isRangeSlider: boolean;
+  field: Viewfield;
+  flag: ViewFlag;
+  flag_2: ViewFlag;
+  progressBar: ViewProgressBar;
   subscriber: any;
 
   constructor() {
     this.slider = document.querySelector(".slider");
-
     this._isHorizontal = true;
-    this._isRangeSlider = false;
+    this._isRangeSlider = true;
     this.subscriber = null;
+    this.renderElements();
+    
   }
 
   renderElements(): void {
@@ -31,81 +32,88 @@ class View {
     this.mouseEvent();
   }
   removeElements() {
-    [this.flag, this.button, this.field, this.progressBar].forEach((item) =>
+    [this.flag.div, this.button.div, this.field.div, this.progressBar.div].forEach((item) =>
       item.remove()
     );
 
     if (this.isRangeSlider) {
-      [this.flag_2, this.button_2].forEach((item) => item.remove());
+      [this.flag_2.div, this.button_2.div].forEach((item) => item.remove());
     }
   }
 
-  renderField(): void {
-    this.field = new Viewfield(this.slider, this.isHorizontal).field;
+  private renderField(): void {
+    this.field = new Viewfield(this.slider, this.isHorizontal);
   }
-  renderButtons(): void {
-    this.button = new ViewButton(this.field, this.isHorizontal).createButton();
+  private renderButtons(): void {
+    this.button = new ViewButton(this.field.div, this.isHorizontal)
+    this.button.createButton();
     if (this.isRangeSlider) {
       this.button_2 = new ViewButton(
-        this.field,
+        this.field.div,
         this.isHorizontal
-      ).createButton();
+      )
+      this.button_2.createButton();
     }
   }
-  renderFlag(): void {
-    this.flag = new ViewFlag(this.button);
+  private renderFlag(): void {
+    this.flag = new ViewFlag(this.button.div);
     this.flag.createFlag();
     if (this.isRangeSlider) {
-      this.flag_2 = new ViewFlag(this.button_2);
+      this.flag_2 = new ViewFlag(this.button_2.div);
       this.flag_2.createFlag();
     }
   }
-  renderProgressBar() {
+  private renderProgressBar() {
+    if(this.isRangeSlider){
     this.progressBar = new ViewProgressBar(
-      this.field,
-      this.button,
-      this.button_2,
+      this.field.div,
+      this.button.div,
       this.isHorizontal,
-      this.isRangeSlider
+      this.isRangeSlider,
+      this.button_2.div
     );
+    }
+    if(!this.isRangeSlider){
+      this.progressBar = new ViewProgressBar(
+        this.field.div,
+        this.button.div,
+        this.isHorizontal,
+        this.isRangeSlider
+      );
+      }
     this.progressBar.createProgressBar();
   }
 
-  buttonMove(button: any, px: any): void {
-    this.isHorizontal
-      ? (button.style.left = px + "px")
-      : (button.style.top = px + "px");
-  }
 
   register(sub: this) {
     this.subscriber = sub;
   }
-  mouseEvent() {
+  private mouseEvent() {
     this.slider.onmousedown = () => false;
     this.slider.oncontextmenu = () => false;
     let that = this;
     function notify() {
-      that.subscriber.mouseEventButton();
+      that.subscriber.mouseMoveButton();
     }
     function notify_2() {
-      that.subscriber.mouseEventButton_2();
+      that.subscriber.mouseMoveButton_2();
     }
-    this.button.addEventListener("mousedown", () => {
+    this.button.div.addEventListener("mousedown", () => {
       document.addEventListener("mousemove", notify);
       document.onmouseup = () => {
-        // notify();
         document.removeEventListener("mousemove", notify);
         that.subscriber.mouseUp();
       };
     });
-    this.button_2.addEventListener("mousedown", () => {
+    if(this.isRangeSlider){
+    this.button_2.div.addEventListener("mousedown", () => {
       document.addEventListener("mousemove", notify_2);
       document.onmouseup = () => {
-        notify_2();
         document.removeEventListener("mousemove", notify_2);
         that.subscriber.mouseUp_2();
       };
     });
+  }
   }
 
   get isHorizontal() {

@@ -1,21 +1,21 @@
 class Viewfield{
-    field: HTMLDivElement;
+    div: HTMLDivElement;
     isHorizontal: boolean;
     slider: HTMLDivElement;
     constructor(slider: HTMLDivElement, isHorizontal: boolean){
         this.isHorizontal = isHorizontal;
         this.slider = slider;
-        this.field = document.createElement("div");
-        this.field.className = "slider__field";
-        this.slider.append(this.field);
+        this.div = document.createElement("div");
+        this.div.className = "slider__field";
+        this.slider.append(this.div);
     
         if (this.isHorizontal) {
-          this.field.style.width = "auto";
-          this.field.style.height = "6px";
+          this.div.style.width = "auto";
+          this.div.style.height = "6px";
         }
         if (!this.isHorizontal) {
-          this.field.style.width = "6px";
-          this.field.style.height = "100%";
+          this.div.style.width = "6px";
+          this.div.style.height = "100%";
         }
     }
 }

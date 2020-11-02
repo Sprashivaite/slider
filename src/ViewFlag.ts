@@ -1,23 +1,24 @@
 class Flag {
-  flag: HTMLDivElement;
+  div: HTMLDivElement;
   button: HTMLDivElement;
   constructor(button: HTMLDivElement) {
-    this.flag = document.createElement("div");
+    this.div = document.createElement("div");
     this.button = button;
   }
   createFlag(): void {
-    this.flag.className = "flag";
-    this.flag.style.top = "-17px";
-    this.button.append(this.flag);
+    this.div.className = "flag";
+    this.div.style.top = "-17px";
+    this.div.innerHTML = '0';
+    this.button.append(this.div);
   }
   changeFlagValue(value: number): void {
-    this.flag.innerHTML = value + "";
+    this.div.innerHTML = value + "";
   }
   removeFlag(): void {
-    this.flag.style.display = "none";
+    this.div.style.display = "none";
   }
   addFlag(): void {
-    this.flag.style.display = "block";
+    this.div.style.display = "block";
   }
 }
 export default Flag

@@ -33,19 +33,28 @@ class Model {
   ): number {
     let fieldWidth: number = field.offsetWidth;
     let buttonWidth: number = button.offsetWidth;
-
+    let nextButtonOffset: number = button.nextElementSibling.offsetLeft - buttonWidth;
+    let prevButtonOffset: number;
+    if (button.previousElementSibling) {
+    prevButtonOffset = button.previousElementSibling.offsetLeft + buttonWidth;
+    }
     let shiftLeft: number =
       mouseCoords - field.getBoundingClientRect().left - buttonWidth / 2;
 
     if (!this.isHorizontal) {
+      buttonWidth = button.offsetHeight;
       shiftLeft =
         mouseCoords - field.getBoundingClientRect().top - buttonWidth / 2;
       fieldWidth = field.offsetHeight;
+      nextButtonOffset = button.nextElementSibling.offsetTop - buttonWidth;
+      if (button.previousElementSibling) {
+      prevButtonOffset = button.previousElementSibling.offsetTop + buttonWidth;
+      }
     }
 
     if (button.nextElementSibling.getAttribute("class") === "slider__button") {
-      if (shiftLeft >= button.nextElementSibling.offsetLeft - buttonWidth) {
-        return button.nextElementSibling.offsetLeft - buttonWidth;
+      if (shiftLeft >= nextButtonOffset) {
+        return nextButtonOffset;
       }
     } else if (shiftLeft >= fieldWidth - buttonWidth) {
       return fieldWidth - buttonWidth;
@@ -55,9 +64,9 @@ class Model {
       if (
         button.previousElementSibling.getAttribute("class") ===
           "slider__button" &&
-        shiftLeft <= button.previousElementSibling.offsetLeft + buttonWidth
+        shiftLeft <= prevButtonOffset
       ) {
-        return button.previousElementSibling.offsetLeft + buttonWidth;
+        return prevButtonOffset;
       }
     } else if (shiftLeft <= 0) {
       return 0;
