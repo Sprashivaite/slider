@@ -16,10 +16,10 @@ class View {
   subscriber: any;
   mouseCoords: number;
 
-  constructor() {
-    this.slider = document.querySelector(".slider");
-    this._isHorizontal = true;
-    this._isRangeSlider = true;
+  constructor(options: any = {}) {
+    this.slider = options.target || document.querySelector(".slider");
+    this._isHorizontal = typeof options.isHorisontal == 'boolean'? options.isHorisontal: true;
+    this._isRangeSlider = typeof options.isRangeSlider == 'boolean'? options.isRangeSlider: true;
     this.subscriber = null;
     this.renderElements();
     this.mouseCoords = 0;
@@ -174,4 +174,4 @@ class View {
     this._isRangeSlider = boolean;
   }
 }
-export { View };
+export default View;

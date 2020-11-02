@@ -1,4 +1,4 @@
-import { Model } from "./Model";
+import  Model  from "./Model";
 import { View } from "./View";
 
 class Presenter {
@@ -66,4 +66,4 @@ class Presenter {
     this.mouseUp_2();
   }
 }
-export { Presenter };
+export default Presenter;

@@ -16,6 +16,14 @@ body{
   margin: 0 30px;
   top: 20px;
 }
+.slider2{
+  position: relative;
+  max-width: 266px;
+  width: auto;
+  height: 236px;
+  margin: 0 30px;
+  top: 20px;
+}
 
 .flag{
   position: absolute;

@@ -1,10 +1,23 @@
-import { Model } from "./Model";
-import { View } from "./View";
-import { Presenter } from "./Presenter";
+import Model from "./Model";
+import View from "./View";
+import Presenter from "./Presenter";
 
-const model: Model = new Model();
-const view: View = new View();
-const presenter: Presenter = new Presenter(model, view);
+let divTarget = document.querySelector(".slider");
+let divTarget2 = document.querySelector(".slider2");
+
+class App {
+  constructor(options = {}) {
+    const model: Model = new Model(options);
+    const view: View = new View(options);
+    const presenter: Presenter = new Presenter(model, view);
+  }
+}
+
+$(".slider").css("width", "120px")
+let slider_1 = new App({ target: divTarget});
+
+
+// let slider_2 = new App({ target: divTarget2 });
 
 let vl: HTMLInputElement = document.querySelector(".vl");
 let vl_2: HTMLInputElement = document.querySelector(".vl_2");
