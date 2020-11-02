@@ -4,6 +4,7 @@ import { View } from "./View";
 class Presenter {
   model: Model;
   view: View;
+  mouseCoords: number;
 
   constructor(model: Model, view: View) {
     this.model = model;
@@ -12,17 +13,10 @@ class Presenter {
     this.mouseUp_2();
   }
 
-  moveButton(btn: any, event: MouseEvent) {
-    if (this.model.isHorizontal) {
+  moveButton(btn: any) {
       btn.buttonMove(
-        this.model.calcBtnOffset(this.view.field.div, btn.div, event.clientX)
+        this.model.calcBtnOffset(this.view.field.div, btn.div, this.view.mouseCoords)
       );
-    }
-    if (!this.model.isHorizontal) {
-      btn.buttonMove(
-        this.model.calcBtnOffset(this.view.field.div, btn.div, event.clientY)
-      );
-    }
   }
   changeFlagValue(
     button: HTMLElement,
@@ -37,12 +31,12 @@ class Presenter {
     }
   }
   mouseMoveButton() {
-    this.moveButton(this.view.button, event);
+    this.moveButton(this.view.button);
     this.changeFlagValue(this.view.button.div, this.view.flag);
     this.view.progressBar.progressBarMove();
   }
   mouseMoveButton_2() {
-    this.moveButton(this.view.button_2, event);
+    this.moveButton(this.view.button_2);
     this.changeFlagValue(this.view.button_2.div, this.view.flag_2);
     this.view.progressBar.progressBarMove();
   }
