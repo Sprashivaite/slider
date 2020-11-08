@@ -6,8 +6,8 @@ class Model {
   constructor(options: any = {}) {
     this.max = typeof options.max === 'number'? options.max: 100;
     this.min = typeof options.min === 'number'? options.min :0;
-    this._step = typeof options.step === 'number' && options.step > 0? options.step :10;
-    this._isHorizontal = typeof options.isHorisontal == 'boolean'? options.isHorisontal: true;;
+    this._step = typeof options.step === 'number' && options.step > 0? options.step :1;
+    this._isHorizontal = typeof options.isHorizontal == 'boolean'? options.isHorizontal: true;
   }
 
   get isHorizontal(): boolean {

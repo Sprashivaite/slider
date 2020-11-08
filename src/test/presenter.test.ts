@@ -6,11 +6,11 @@ let model: Model;
 let view: View;
 let presenter: Presenter;
 
-beforeEach(function () {
-  model = new Model();
-  view = new View();
-  presenter = new Presenter(model, view);
-});
+// beforeEach(function () {
+//   model = new Model();
+//   view = new View();
+//   presenter = new Presenter(model, view);
+// });
 
 
 // describe("наличие инстансa класса Presenter", () => {

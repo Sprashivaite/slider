@@ -4,7 +4,7 @@ import Presenter from "../Presenter";
 
 document.body.insertAdjacentHTML(
   "afterbegin",
-  "<div class='slider' style='width:100px;'></div>"
+  "<div class='slider' style='width:300px;'></div>"
 );
 
 // let view: View;

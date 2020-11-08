@@ -1,165 +1,206 @@
 import Model from "../Model";
 import View from "../View";
 
-let model: Model
+let model: Model;
 let view: View;
 
-beforeEach(function () {
-  view = new View();
-  model = new Model();
-});
-afterEach(()=>{
-  view.removeElements();
+beforeEach(()=>{
+model = new Model();
+
 })
 
-describe("наличие инстансa класса", () => {
+describe("конструктор класса", () => {
+
   it("Model", () => { 
     expect(model).toBeDefined();
   });
+  it("Model max", () => {
+    model = new Model({max: 200}); 
+    expect(model.max).toBe(200);
+  });
+  it("Model min", () => {
+    model = new Model({min: -5}); 
+    expect(model.min).toBe(-5);
+  });
+  it("Model step", () => {
+    model = new Model({step: -5}); 
+    expect(model.step).toBe(1);
+  });
+  it("Model step", () => {
+    model = new Model({step: 10}); 
+    expect(model.step).toBe(10);
+  });
+  it("Model step", () => {
+    model = new Model({step: 'erfv'}); 
+    expect(model.step).toBe(1);
+  });
+  it("Model step", () => {
+    model.step = 0; 
+    expect(model.step).toBe(1);
+  });
+  it("Model step", () => {
+    model = new Model({isHorizontal: false}); 
+    expect(model.isHorizontal).toBe(false);
+  });
+
+
+
 });
 
-// describe("передвинуть кнопку к точке шага ", () => {
-//   it("model.makeBreakPoint", () => {
-//     view.renderElements();
-//     view.buttonMove(view.button, 10);
-//     view.buttonMove(
-//       view.button,
-//       model.makeBreakPoint(view.field, view.button, 10)
-//     );
-//     expect(view.button.offsetLeft).toBe(0);
+
+describe("высчитывание отступа для кнопки", () => {
+  it("model.calcBtnOffset default", () => {
+    view = new View({isRangeSlider: false});
+    expect(
+      model.calcBtnOffset(
+        view.field.div,
+        view.button.div,
+        42 +
+          view.field.div.getBoundingClientRect().left +
+          view.button.div.offsetWidth / 2
+      )
+    ).toBe(42);
+    view.removeElements();
+  });
+  it("model.calcBtnOffset min", () => {
+    view = new View({isRangeSlider: false});
+    expect(
+      model.calcBtnOffset(
+        view.field.div,
+        view.button.div,
+        -5 +
+          view.field.div.getBoundingClientRect().left +
+          view.button.div.offsetWidth / 2
+      )
+    ).toBe(0);
+    view.removeElements();
+  });
+  it("model.calcBtnOffset max", () => {
+    view = new View({isRangeSlider: false});
+    expect(
+      model.calcBtnOffset(
+        view.field.div,
+        view.button.div,
+        view.field.div.offsetWidth +
+          50 +
+          view.field.div.getBoundingClientRect().left +
+          view.button.div.offsetWidth / 2
+      )
+    ).toBe(view.field.div.offsetWidth - view.button.div.offsetWidth);
+    view.removeElements();
+  });
+  it("model.calcBtnOffset vertical", () => {
     
-//   });
-// });
+    view = new View({isHorizontal: false, isRangeSlider: false});
+    model.isHorizontal = false;
+    expect(
+      model.calcBtnOffset(
+        view.field.div,
+        view.button.div,
+        22 +
+          view.field.div.getBoundingClientRect().top +
+          view.button.div.offsetWidth / 2
+      )
+    ).toBe(22);
+    model.isHorizontal = true;
+    view.removeElements();
+  });
+  it("model.calcBtnOffset buttons", () => {
+    view = new View();
+    view.button.buttonMove(
+      model.calcBtnOffset(
+        view.field.div,
+        view.button.div,
+        42 +
+          view.field.div.getBoundingClientRect().left +
+          view.button.div.offsetWidth / 2
+      )
+    );
+    expect(view.button.div.offsetLeft).toBeLessThan(view.button_2.div.offsetLeft);
+    view.removeElements();
+  });
+  it("model.calcBtnOffset buttons", () => {
+    view = new View();
+    view.button_2.buttonMove(50)
+    view.button.buttonMove(40)
+    view.button_2.buttonMove(
+      model.calcBtnOffset(
+        view.field.div,
+        view.button_2.div,
+        12 +
+          view.field.div.getBoundingClientRect().left +
+          view.button_2.div.offsetWidth / 2
+      )
+    );
+    expect(view.button_2.div.offsetLeft).toBeGreaterThan(view.button.div.offsetLeft);
+    view.removeElements();
+  });
+});
 
-// describe("высчитывание отступа для кнопки", () => {
-//   beforeEach(function () {
-//     view.isRangeSlider = false;
-//     view.renderElements();
-//   });
-//   afterEach(function () {
-//     view.isHorizontal = true;
-//     view.removeElements();
-//   });
-//   it("model.calcBtnOffset", () => {
-    
-//     expect(
-//       model.calcBtnOffset(
-//         view.field,
-//         view.button,
-//         22 +
-//           view.field.getBoundingClientRect().left +
-//           view.button.offsetWidth / 2
-//       )
-//     ).toBe(22);
-//   });
-//   it("model.calcBtnOffset min", () => {
-//     expect(
-//       model.calcBtnOffset(
-//         view.field,
-//         view.button,
-//         -5 +
-//           view.field.getBoundingClientRect().left +
-//           view.button.offsetWidth / 2
-//       )
-//     ).toBe(0);
-//   });
-//   it("model.calcBtnOffset max", () => {
-//     expect(
-//       model.calcBtnOffset(
-//         view.field,
-//         view.button,
-//         view.field.offsetWidth +
-//           50 +
-//           view.field.getBoundingClientRect().left +
-//           view.button.offsetWidth / 2
-//       )
-//     ).toBe(view.field.offsetWidth - view.button.offsetWidth);
-//   });
-//   it("model.calcBtnOffset vertical", () => {
-//     view.removeElements();
-//     view.isHorizontal = false;
-//     model.isHorizontal = false;
-//     view.renderElements();
-//     expect(
-//       model.calcBtnOffset(
-//         view.field,
-//         view.button,
-//         22 +
-//           view.field.getBoundingClientRect().top +
-//           view.button.offsetWidth / 2
-//       )
-//     ).toBe(22);
-//   });
-// });
+describe("передвинуть кнопку к точке шага ", () => {
+  it("model.makeBreakPoint horizontal", () => {
+    model.step = 10;
+    view = new View({isRangeSlider: false});
+    view.button.buttonMove(10);
+    view.button.buttonMove(
+      model.makeBreakPoint(view.field.div, view.button.div)
+    );
+    expect(view.button.div.offsetLeft).toBe(0);
+    model.step = 1;
+    view.removeElements();
+  });
+  it("model.makeBreakPoint vertical", () => {
+    model.step = 10;
+    view = new View({isRangeSlider: false, isHorizontal: false});
+    model.isHorizontal = false;
+    view.button.buttonMove(10);
+    view.button.buttonMove(
+      model.makeBreakPoint(view.field.div, view.button.div)
+    );
+    expect(view.button.div.offsetTop).toBe(0);
+    model.step = 1;
+    view.removeElements();
+  });
+});
 
-// describe("передвинуть кнопку к значению ", () => {
+describe("передвинуть кнопку к значению ", () => {
 
-//   it("model.moveToValue", () => {
-//     view.renderElements();
-//     model.moveToValue(view.field,view.button , 50);
+  it("model.moveToValue horisontal", () => {
+    view = new View({isRangeSlider: false});
+    model.max = 100;
+    model.moveToValue(view.field.div,view.button.div , 100);
 
-//     expect(view.button.offsetLeft + view.button.offsetWidth / 2).toBe(50);
-//     view.removeElements();
-//   });
-// });
+    expect(view.button.div.offsetLeft + view.button.div.offsetWidth).toBe(view.field.div.offsetWidth);
+    view.removeElements();
+  });
+  it("model.moveToValue vertical", () => {
+    view = new View({isRangeSlider: false, isHorizontal: false});
+    model.max = 100;
+    model.isHorizontal = false;
+    model.moveToValue(view.field.div,view.button.div , 100);
 
-// describe("вычислить значение флага", () => {
+    expect(view.button.div.offsetTop + view.button.div.offsetHeight).toBe(view.field.div.offsetHeight);
+    view.removeElements();
+  });
+});
 
-//   it("model.calcValue", () => {
-//     view.renderElements();
-//     model.moveToValue(view.field,view.button , 50);
-//     let value = model.calcValue(view.field, view.button);
+describe("вычислить значение флага", () => {
 
-//     expect(value).toBe(50);
-//     view.removeElements();
-//   });
-// });
+  it("model.calcValue", () => {
+    view = new View({isRangeSlider: false});
+    model.moveToValue(view.field.div,view.button.div , 50);
+    let value = model.calcValue(view.field.div, view.button.div);
 
-// describe("дистанция между кнопками", () => {
-//   it("model.makeDistanceButton", () => {
-//     view.renderElements();
-//     view.buttonMove(view.button, 80);
-//     model.makeDistanceButton(
-//       view.button,
-//       view.button_2
-//     );
-//     expect(view.button.offsetLeft).toBeLessThan(view.button_2.offsetLeft);
-//     view.removeElements();
-//   });
-//   it("model.makeDistanceButton", () => {
-//     view.renderElements();
-//     view.buttonMove(view.button, 50);
-//     view.buttonMove(view.button_2, 30);
-//     model.makeDistanceButton_2(
-//       view.button,
-//       view.button_2
-//     );
-//     expect(view.button.offsetLeft).toBeLessThan(view.button_2.offsetLeft);
-//     view.removeElements();
-//   });
-//   it("model.makeDistanceButton", () => {
-//     model.isHorizontal = false;
-//     view.isHorizontal = false;
-//     view.renderElements();
-//     view.buttonMove(view.button, 50);
-//     view.buttonMove(view.button_2, 30);
-//     model.makeDistanceButton_2(
-//       view.button,
-//       view.button_2
-//     );
-//     expect(view.button.offsetTop).toBeLessThan(view.button_2.offsetTop);
-//     view.removeElements();
-//   });
-//   it("model.makeDistanceButton", () => {
-//     model.isHorizontal = false;
-//     view.isHorizontal = false;
-//     view.renderElements();
-//     view.buttonMove(view.button, 80);
-//     model.makeDistanceButton(
-//       view.button,
-//       view.button_2
-//     );
-//     expect(view.button.offsetTop).toBeLessThan(view.button_2.offsetTop);
-//     view.removeElements();
-//   });
-// });
+    expect(value).toBe(50);
+    view.removeElements();
+  });
+  it("model.calcValue vertical", () => {
+    view = new View({isRangeSlider: false, isHorizontal: false});
+    model.isHorizontal = false;
+    model.moveToValue(view.field.div,view.button.div , 50);
+    let value = model.calcValue(view.field.div, view.button.div);
+
+    expect(value).toBe(50);
+    view.removeElements();
+  });
+});

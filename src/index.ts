@@ -2,21 +2,36 @@ import Model from "./Model";
 import View from "./View";
 import Presenter from "./Presenter";
 
-(function ($) {
-  'use strict'
-  $.fn.Slider = function (options) {
-    options = $.extend({target: this}, options);
+// (function ($) {
 
-    const model: Model = new Model(options);
-    const view: View = new View(options);
-    const presenter: Presenter = new Presenter(model, view);
-  };
-})(jQuery);
+      
+  // 'use strict'
+  // $.fn.Slider = function (options) {
+  //   options = $.extend({target: this}, options);
 
-$(".slider").Slider({isHorisontal: false});
-$(".slider2").Slider({isRangeSlider: false});
 
-// console.log($.fn.Slider.view.button);
+  //   return this.each(function() {
+  //     var $this = $(this);
+    // const model: Model = new Model(options);
+    // const view: View = new View(options);
+    // const presenter: Presenter = new Presenter(model, view);
+  //   $this.data('Slider', new pluginMethods($this))
+
+  //   })
+
+    
+  // };
+
+
+
+// })(jQuery);
+
+// $(".slider").Slider();
+
+const model: Model = new Model();
+const view: View = new View({target: document.querySelector('.slider')});
+const presenter: Presenter = new Presenter(model, view);
+
 
 let vl: HTMLInputElement = document.querySelector(".vl");
 let vl_2: HTMLInputElement = document.querySelector(".vl_2");

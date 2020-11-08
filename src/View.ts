@@ -17,8 +17,8 @@ class View {
   mouseCoords: number;
 
   constructor(options: any = {}) {
-    this.slider = options.target || document.querySelector(".slider");
-    this._isHorizontal = typeof options.isHorisontal == 'boolean'? options.isHorisontal: true;
+    this.slider = options.target || document.querySelector('[data-slider]') || document.querySelector(".slider");
+    this._isHorizontal = typeof options.isHorizontal == 'boolean'? options.isHorizontal: true;
     this._isRangeSlider = typeof options.isRangeSlider == 'boolean'? options.isRangeSlider: true;
     this.subscriber = null;
     this.renderElements();
