@@ -2,22 +2,21 @@ import Model from "./Model";
 import View from "./View";
 import Presenter from "./Presenter";
 
-let divTarget = document.querySelector(".slider");
-let divTarget2 = document.querySelector(".slider2");
+(function ($) {
+  'use strict'
+  $.fn.Slider = function (options) {
+    options = $.extend({target: this}, options);
 
-class App {
-  constructor(options = {}) {
     const model: Model = new Model(options);
     const view: View = new View(options);
     const presenter: Presenter = new Presenter(model, view);
-  }
-}
+  };
+})(jQuery);
 
-$(".slider").css("width", "120px")
-let slider_1 = new App({ target: divTarget});
+$(".slider").Slider({isHorisontal: false});
+$(".slider2").Slider({isRangeSlider: false});
 
-
-// let slider_2 = new App({ target: divTarget2 });
+// console.log($.fn.Slider.view.button);
 
 let vl: HTMLInputElement = document.querySelector(".vl");
 let vl_2: HTMLInputElement = document.querySelector(".vl_2");
