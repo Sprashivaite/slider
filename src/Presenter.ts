@@ -1,27 +1,33 @@
-import  Model  from "./Model";
+import Model from "./Model";
 import { View } from "./View";
 
 class Presenter {
   model: Model;
   view: View;
-  mouseCoords: number;
+  // mouseCoords: number;
 
   constructor(model: Model, view: View) {
     this.model = model;
     this.view = view;
     this.view.register(this);
-    this.mouseUp_2();
+    this.view.calcMouseCoords();
+    this.view.mouseEvent();
+
+    if (this.view.isRangeSlider) {
+      this.view.mouseEvent_2();
+    this.mouseUp_2();}
   }
 
   moveButton(btn: any) {
-      btn.buttonMove(
-        this.model.calcBtnOffset(this.view.field.div, btn.div, this.view.mouseCoords)
-      );
+    btn.buttonMove(
+      this.model.calcBtnOffset(
+        this.view.field.div,
+        btn.div,
+        this.view.mouseCoords
+      )
+    );
   }
-  changeFlagValue(
-    button: HTMLElement,
-    flag: { changeFlagValue: (arg0: number) => void }
-  ) {
+  changeFlagValue(button: HTMLElement, flag: object) {
     flag.changeFlagValue(this.model.calcValue(this.view.field.div, button));
   }
   makeBreakpointButton(btn: any) {
@@ -59,11 +65,11 @@ class Presenter {
     this.mouseUp_2();
   }
 
-  changeTypeButton() {
+  changeTypeSlider() {
     this.view.removeElements();
     this.view.isRangeSlider = !this.view.isRangeSlider;
     this.view.renderElements();
-    this.mouseUp_2();
+    if (this.view.isRangeSlider) this.mouseUp_2();
   }
 }
 export default Presenter;

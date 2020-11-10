@@ -139,14 +139,13 @@ describe("высчитывание отступа для кнопки", () => {
 
 describe("передвинуть кнопку к точке шага ", () => {
   it("model.makeBreakPoint horizontal", () => {
-    model.step = 10;
+    model = new Model({step: 10});
     view = new View({isRangeSlider: false});
-    view.button.buttonMove(10);
+    view.button.buttonMove(4);
     view.button.buttonMove(
       model.makeBreakPoint(view.field.div, view.button.div)
     );
     expect(view.button.div.offsetLeft).toBe(0);
-    model.step = 1;
     view.removeElements();
   });
   it("model.makeBreakPoint vertical", () => {

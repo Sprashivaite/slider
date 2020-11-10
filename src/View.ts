@@ -17,9 +17,11 @@ class View {
   mouseCoords: number;
 
   constructor(options: any = {}) {
-    this.slider = options.target || document.querySelector('[data-slider]') || document.querySelector(".slider");
-    this._isHorizontal = typeof options.isHorizontal == 'boolean'? options.isHorizontal: true;
-    this._isRangeSlider = typeof options.isRangeSlider == 'boolean'? options.isRangeSlider: true;
+    this.slider = options.target || document.querySelector(".slider");
+    this._isHorizontal =
+      typeof options.isHorizontal == "boolean" ? options.isHorizontal : true;
+    this._isRangeSlider =
+      typeof options.isRangeSlider == "boolean" ? options.isRangeSlider : true;
     this.subscriber = null;
     this.renderElements();
     this.mouseCoords = 0;
@@ -30,7 +32,6 @@ class View {
     this.renderButtons();
     this.renderFlag();
     this.renderProgressBar();
-    this.mouseEvent();
   }
   removeElements() {
     [
@@ -84,23 +85,9 @@ class View {
     }
     this.progressBar.createProgressBar();
   }
-
-  register(sub: this) {
-    this.subscriber = sub;
-  }
-  private mouseEvent() {
-    this.slider.onmousedown = () => false;
-    this.slider.oncontextmenu = () => false;
+  calcMouseCoords(): void {
     let that = this;
-
-    function notify() {
-      that.subscriber.mouseMoveButton();
-    }
-    function notify_2() {
-      that.subscriber.mouseMoveButton_2();
-    }
-
-    function mouseCoords(event: MouseEvent) {
+    function Coords(event: MouseEvent) {
       if (that.isHorizontal) {
         that.mouseCoords = event.clientX;
       }
@@ -108,8 +95,21 @@ class View {
         that.mouseCoords = event.clientY;
       }
     }
+    document.addEventListener("mousemove", Coords);
+  }
 
-    document.addEventListener("mousemove", mouseCoords);
+  register(sub: any) {
+    this.subscriber = sub;
+  }
+  mouseEvent() {
+    this.slider.onmousedown = () => false;
+    this.slider.oncontextmenu = () => false;
+
+    let that = this;
+
+    function notify() {
+      that.subscriber.mouseMoveButton();
+    }
 
     if (!this.isRangeSlider) {
       this.field.div.addEventListener("mousedown", () => {
@@ -121,40 +121,42 @@ class View {
         };
       });
     }
+  }
 
+  private mouseEvent_2() {
+    let that = this;
+    function notify() {
+      that.subscriber.mouseMoveButton();
+    }
+    function notify_2() {
+      that.subscriber.mouseMoveButton_2();
+    }
     if (this.isRangeSlider) {
       this.field.div.addEventListener("mousedown", () => {
-
         let buttonOffset = this.button.div.getBoundingClientRect().left;
         let buttonOffset_2 = this.button_2.div.getBoundingClientRect().left;
-        if(!this.isHorizontal){
+        if (!this.isHorizontal) {
           buttonOffset = this.button.div.getBoundingClientRect().top;
           buttonOffset_2 = this.button_2.div.getBoundingClientRect().top;
         }
 
         if (this.mouseCoords > (buttonOffset_2 + buttonOffset) / 2) {
-
           that.subscriber.mouseMoveButton_2();
 
           document.addEventListener("mousemove", notify_2);
 
           document.onmouseup = () => {
-
             document.removeEventListener("mousemove", notify_2);
             that.subscriber.mouseUp_2();
-
           };
         } else {
-
           that.subscriber.mouseMoveButton();
 
           document.addEventListener("mousemove", notify);
 
           document.onmouseup = () => {
-
             document.removeEventListener("mousemove", notify);
             that.subscriber.mouseUp();
-
           };
         }
       });
