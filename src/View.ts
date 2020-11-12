@@ -87,7 +87,7 @@ class View {
   }
   calcMouseCoords(): void {
     let that = this;
-    function Coords(event: MouseEvent) {
+    function Coords(event: mouseEventSlider) {
       if (that.isHorizontal) {
         that.mouseCoords = event.clientX;
       }
@@ -101,66 +101,75 @@ class View {
   register(sub: any) {
     this.subscriber = sub;
   }
-  mouseEvent() {
+
+  private notifyMouseMove() {
+    this.subscriber.mouseMoveButton();
+  }
+  private notifyMouseUp() {
+    this.subscriber.mouseUp();
+  }
+  private notifyMouseMove_2() {
+    this.subscriber.mouseMoveButton_2();
+  }
+  private notifyMouseUp_2() {
+    this.subscriber.mouseUp_2();
+  }
+
+  mouseEventSlider(
+    MouseMove = this.notifyMouseMove,
+    MouseUp = this.notifyMouseUp
+  ) {
     this.slider.onmousedown = () => false;
     this.slider.oncontextmenu = () => false;
-
-    let that = this;
-
-    function notify() {
-      that.subscriber.mouseMoveButton();
-    }
+    let Handler = MouseMove.bind(this);
 
     if (!this.isRangeSlider) {
       this.field.div.addEventListener("mousedown", () => {
-        that.subscriber.mouseMoveButton();
-        document.addEventListener("mousemove", notify);
+        Handler();
+        document.addEventListener("mousemove", Handler);
         document.onmouseup = () => {
-          document.removeEventListener("mousemove", notify);
-          that.subscriber.mouseUp();
+          document.removeEventListener("mousemove", Handler);
+          MouseUp.call(this);
         };
       });
     }
   }
 
-  private mouseEvent_2() {
+  mouseEventRange(
+    MouseMove = this.notifyMouseMove,
+    MouseMove_2 = this.notifyMouseMove_2,
+    MouseUp = this.notifyMouseUp,
+    MouseUp_2 = this.notifyMouseUp_2
+  ) {
     let that = this;
-    function notify() {
-      that.subscriber.mouseMoveButton();
-    }
-    function notify_2() {
-      that.subscriber.mouseMoveButton_2();
-    }
-    if (this.isRangeSlider) {
-      this.field.div.addEventListener("mousedown", () => {
-        let buttonOffset = this.button.div.getBoundingClientRect().left;
-        let buttonOffset_2 = this.button_2.div.getBoundingClientRect().left;
-        if (!this.isHorizontal) {
-          buttonOffset = this.button.div.getBoundingClientRect().top;
-          buttonOffset_2 = this.button_2.div.getBoundingClientRect().top;
-        }
+    let Handler = MouseMove.bind(this);
+    let Handler_2 = MouseMove_2.bind(this);
 
-        if (this.mouseCoords > (buttonOffset_2 + buttonOffset) / 2) {
-          that.subscriber.mouseMoveButton_2();
+    this.field.div.addEventListener("mousedown", () => {
+      let buttonOffset = this.button.div.getBoundingClientRect().left;
+      let buttonOffset_2 = this.button_2.div.getBoundingClientRect().left;
 
-          document.addEventListener("mousemove", notify_2);
+      if (!this.isHorizontal) {
+        buttonOffset = this.button.div.getBoundingClientRect().top;
+        buttonOffset_2 = this.button_2.div.getBoundingClientRect().top;
+      }
 
-          document.onmouseup = () => {
-            document.removeEventListener("mousemove", notify_2);
-            that.subscriber.mouseUp_2();
-          };
-        } else {
-          that.subscriber.mouseMoveButton();
-
-          document.addEventListener("mousemove", notify);
-
-          document.onmouseup = () => {
-            document.removeEventListener("mousemove", notify);
-            that.subscriber.mouseUp();
-          };
-        }
-      });
-    }
+      if (this.mouseCoords > (buttonOffset_2 + buttonOffset) / 2) {
+        Handler_2();
+        document.addEventListener("mousemove", Handler_2);
+        document.onmouseup = () => {
+          document.removeEventListener("mousemove", Handler_2);
+          MouseUp_2.call(this);
+        };
+      } else {
+        Handler();
+        document.addEventListener("mousemove", Handler);
+        document.onmouseup = () => {
+          document.removeEventListener("mousemove", Handler);
+          MouseUp.call(this);
+        };
+      }
+    });
   }
 
   get isHorizontal() {

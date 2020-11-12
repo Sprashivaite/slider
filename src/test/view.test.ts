@@ -9,7 +9,6 @@ document.body.insertAdjacentHTML(
 
 let view: View;
 
-
 describe("наличие инстансa класса", () => {
   view = new View();
   it("View", () => {
@@ -18,17 +17,14 @@ describe("наличие инстансa класса", () => {
   view.removeElements();
 });
 
-describe("установка параметров", () => {
-  
+describe("установка параметров View", () => {
   it("rangeSlider", () => {
-view = new View();
-view.isRangeSlider = true;
-expect(view.isRangeSlider).toBe(true);
-view.removeElements();
-  });
-  
-});
+    view = new View({ isRangeSlider: true });
 
+    expect(view.isRangeSlider).toBe(true);
+    view.removeElements();
+  });
+});
 
 describe("работа фасада View", () => {
   it("view.renderElements", () => {
@@ -94,7 +90,7 @@ describe("удаление элементов View", () => {
 
 describe("движение View progressBar", () => {
   it("view.progressBar range", () => {
-    view = new View();
+    view = new View({ isRangeSlider: true });
 
     view.button_2.buttonMove(95);
     view.progressBar.progressBarMove();
@@ -128,7 +124,7 @@ describe("движение View progressBar", () => {
     view.removeElements();
   });
   it("view.progressBar range Vertical", () => {
-    view = new View({ isHorizontal: false });
+    view = new View({ isHorizontal: false, isRangeSlider: true });
 
     view.button_2.buttonMove(6);
     view.progressBar.progressBarMove();
@@ -143,7 +139,7 @@ describe("движение View progressBar", () => {
   });
 });
 
-describe("подписка наблюдатели", () => {
+describe("подписка наблюдателя", () => {
   let something: object;
   it("view.register", () => {
     view.register(something);
@@ -151,37 +147,210 @@ describe("подписка наблюдатели", () => {
   });
 });
 
-describe('координаты мыши', ()=>{
-it('view.calcMouseCoords horisontal', () =>{
-  view = new View();
-  let mousemove = new MouseEvent("mousemove", {clientX: 50});
- 
-  view.calcMouseCoords();
+describe("оповещение наблюдателя", () => {
+  it("view.notifyMouseMove", () => {
+    let something: object = { mouseMoveButton: () => {} };
+    view.register(something);
 
-  document.dispatchEvent(mousemove);
-  expect(view.mouseCoords).toBe(50);
-})
-it('view.calcMouseCoords vertical', () =>{
-  view = new View({isHorizontal: false});
-  let mousemove = new MouseEvent("mousemove", {clientY: 50});
- 
-  view.calcMouseCoords();
+    spyOn(view.subscriber, "mouseMoveButton");
+    view.notifyMouseMove();
+    expect(view.subscriber.mouseMoveButton).toHaveBeenCalled();
+  });
 
-  document.dispatchEvent(mousemove);
-  expect(view.mouseCoords).toBe(50);
-})
+  it("view.notifyMouseMove_2", () => {
+    let something: object = { mouseMoveButton_2: () => {} };
+    view.register(something);
+
+    spyOn(view.subscriber, "mouseMoveButton_2");
+    view.notifyMouseMove_2();
+    expect(view.subscriber.mouseMoveButton_2).toHaveBeenCalled();
+  });
+
+  it("view.notifyMouseUp", () => {
+    let something: object = { mouseUp: () => {} };
+    view.register(something);
+
+    spyOn(view.subscriber, "mouseUp");
+    view.notifyMouseUp();
+    expect(view.subscriber.mouseUp).toHaveBeenCalled();
+  });
+  it("view.notifyMouseUp_2", () => {
+    let something: object = { mouseUp_2: () => {} };
+    view.register(something);
+
+    spyOn(view.subscriber, "mouseUp_2");
+    view.notifyMouseUp_2();
+    expect(view.subscriber.mouseUp_2).toHaveBeenCalled();
+  });
+});
+
+describe("координаты мыши", () => {
+  afterEach(() => {
+    view.removeElements();
+  });
+  it("view.calcMouseCoords horisontal", () => {
+    view = new View();
+    let mousemove = new MouseEvent("mousemove", { clientX: 50 });
+
+    view.calcMouseCoords();
+
+    document.dispatchEvent(mousemove);
+    expect(view.mouseCoords).toBe(50);
+  });
+  it("view.calcMouseCoords vertical", () => {
+    view = new View({ isHorizontal: false });
+    let mousemove = new MouseEvent("mousemove", { clientY: 50 });
+
+    view.calcMouseCoords();
+
+    document.dispatchEvent(mousemove);
+    expect(view.mouseCoords).toBe(50);
+  });
+});
+
+describe("события мыши", () => {
+  let mousedown: any, mousemove: any, mouseup: any;
+
+  beforeEach(() => {
+    view = new View({ isRangeSlider: false });
+    let something: object = { mouseMoveButton: () => {}, mouseUp: () => {} };
+    view.register(something);
+    mousedown = new MouseEvent("mousedown");
+    mousemove = new MouseEvent("mousemove", { clientX: 10 });
+    mouseup = new MouseEvent("mouseup");
+  });
+
+  afterEach(() => {
+    view.removeElements();
+  });
+
+  it("view.mouseEventSlider defaultPrevented", () => {
+    let contextmenu = new MouseEvent("contextmenu", { cancelable: true });
+    let mousedown = new MouseEvent("mousedown", { cancelable: true });
+
+    let notify = jasmine.createSpy("notify");
+    view.mouseEventSlider(notify, notify);
+
+    let contextmenuCalled = true;
+    let mousedownCalled = true;
+
+    view.slider.addEventListener("contextmenu", (event) => {
+      if (event.defaultPrevented) {
+        contextmenuCalled = false;
+      }
+    });
+
+    view.slider.addEventListener("mousedown", (event) => {
+      if (event.defaultPrevented) {
+        mousedownCalled = false;
+      }
+    });
+
+    view.slider.dispatchEvent(mousedown);
+    view.slider.dispatchEvent(contextmenu);
+
+    expect(contextmenuCalled).toBeFalsy();
+    expect(mousedownCalled).toBeFalsy();
+  });
+
+  it("view.mouseEventSlider mouse down", () => {
+    let notify = jasmine.createSpy("notify");
+
+    view.mouseEventSlider(notify, notify);
+
+    view.field.div.dispatchEvent(mousedown);
+
+    expect(notify).toHaveBeenCalled();
+    expect(notify.calls.count()).toEqual(1);
+  });
+
+  it("view.mouseEventSlider mouse move", () => {
+    let notify = jasmine.createSpy("notify");
+    view.mouseEventSlider(notify, notify);
+    view.field.div.dispatchEvent(mousedown);
+    document.dispatchEvent(mousemove);
+    expect(notify).toHaveBeenCalled();
+    expect(notify.calls.count()).toEqual(2);
+  });
+  it("view.mouseEventSlider mouseup", () => {
+    let notify = jasmine.createSpy("notify");
+    view.mouseEventSlider(notify, notify);
+    view.field.div.dispatchEvent(mousedown);
+    document.dispatchEvent(mousemove);
+    document.dispatchEvent(mouseup);
+    expect(notify).toHaveBeenCalled();
+    expect(notify.calls.count()).toEqual(3);
+  });
+});
+
+describe("события мыши range", () => {
+  let mousedown: any, mousemove: any, mouseup: any;
+
+  beforeEach(() => {
+    view = new View({ isRangeSlider: true });
+    let something: object = {
+      mouseMoveButton: () => {},
+      mouseUp: () => {},
+      mouseMoveButton_2: () => {},
+      mouseUp_2: () => {},
+    };
+    view.register(something);
+    mousedown = new MouseEvent("mousedown");
+    mousemove = new MouseEvent("mousemove", { clientX: 50 });
+    mouseup = new MouseEvent("mouseup");
+  });
+
+  afterEach(() => {
+    view.removeElements();
+  });
+
+  it("view.mouseEventRange mouse event button_1", () => {
+    let notify = jasmine.createSpy("notify");
+    let notify2 = jasmine.createSpy("notify");
+    view.mouseEventRange(notify, notify2, notify, notify2);
+    view.field.div.dispatchEvent(mousedown);
+    document.dispatchEvent(mousemove);
+    document.dispatchEvent(mouseup);
+    expect(notify).toHaveBeenCalled();
+    expect(notify.calls.count()).toEqual(3);
+  });
+
+  it("view.mouseEventRange mouse event button_1 vertical", () => {
+    view = new View({ isRangeSlider: true, isHorizontal: false });
+    mousemove = new MouseEvent("mousemove", { clientX: 60 });
+    let notify = jasmine.createSpy("notify");
+    let notify2 = jasmine.createSpy("notify");
+    view.mouseEventRange(notify, notify2, notify, notify2);
+
+    view.field.div.dispatchEvent(mousedown);
+    document.dispatchEvent(mousemove);
+    document.dispatchEvent(mouseup);
+    expect(notify).toHaveBeenCalled();
+    expect(notify.calls.count()).toEqual(3);
+  });
+  it("view.mouseEventRange mouse event button_2", () => {
+    let notify = jasmine.createSpy("notify");
+    let notify2 = jasmine.createSpy("notify");
+    view.mouseCoords = 60;
+    view.mouseEventRange(notify, notify2, notify, notify2);
+
+    view.field.div.dispatchEvent(mousedown);
+    document.dispatchEvent(mousemove);
+    document.dispatchEvent(mouseup);
+
+    expect(notify2).toHaveBeenCalled();
+    expect(notify2.calls.count()).toEqual(3);
+  });
 });
 
 xdescribe("наличие отрисованных элементов у View", () => {
   beforeEach(function () {
-
     view.renderField();
     view.renderButtons();
     view.renderFlag();
     view.renderProgressBar();
   });
   afterEach(function () {
-
     view.removeElements();
   });
   it("view.field Vertical", () => {

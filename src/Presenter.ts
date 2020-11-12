@@ -4,17 +4,18 @@ import { View } from "./View";
 class Presenter {
   model: Model;
   view: View;
-  // mouseCoords: number;
 
   constructor(model: Model, view: View) {
     this.model = model;
     this.view = view;
     this.view.register(this);
     this.view.calcMouseCoords();
-    this.view.mouseEvent();
 
+    // if (!this.view.isRangeSlider) {
+    this.view.mouseEventSlider();
+    // }
     if (this.view.isRangeSlider) {
-      this.view.mouseEvent_2();
+      this.view.mouseEventRange();
     this.mouseUp_2();}
   }
 
@@ -69,6 +70,7 @@ class Presenter {
     this.view.removeElements();
     this.view.isRangeSlider = !this.view.isRangeSlider;
     this.view.renderElements();
+    
     if (this.view.isRangeSlider) this.mouseUp_2();
   }
 }

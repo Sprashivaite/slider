@@ -32,18 +32,6 @@ const model: Model = new Model();
 const view: View = new View({target: document.querySelector('.slider')});
 const presenter: Presenter = new Presenter(model, view);
 
-// console.log(typeof view.flag);
-
-// let click = new MouseEvent("click");
-// let observer = new MutationObserver(mutationRecords => {
-//   console.log(mutationRecords); 
-// });
-// observer.observe(view.button.div, {
-//   attributes: true
-// })
-// view.button.div.dispatchEvent(click);
-// view.button.div.dispatchEvent(click);
-
 
 let vl: HTMLInputElement = document.querySelector(".vl");
 let vl_2: HTMLInputElement = document.querySelector(".vl_2");

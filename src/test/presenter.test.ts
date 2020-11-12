@@ -36,7 +36,7 @@ describe("изменить тип слайдера", () => {
 describe("изменить ориентацию слайдера", () => {
   it("presenter.changeOrientation", () => {
     
-    view = new View();
+    view = new View({isRangeSlider: true});
     model = new Model();
     presenter = new Presenter(model, view);
     presenter.changeOrientation();
@@ -94,7 +94,7 @@ describe("реакция на mouse Move", () => {
 describe("реакция на mouse Move", () => {
   it("presenter.mouseMoveButton_2", () => {
     
-    view = new View();
+    view = new View({isRangeSlider: true});
     model = new Model();
     presenter = new Presenter(model, view);
     view.mouseCoords = 80;
@@ -127,7 +127,7 @@ describe("реакция на mouse Up", () => {
 describe("реакция на mouse Up 2", () => {
   it("presenter.mouseUp_2", () => {
     
-    view = new View();
+    view = new View({isRangeSlider: true});
     model = new Model({step: 20});
     presenter = new Presenter(model, view);
 

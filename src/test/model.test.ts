@@ -106,7 +106,7 @@ describe("высчитывание отступа для кнопки", () => {
     view.removeElements();
   });
   it("model.calcBtnOffset buttons", () => {
-    view = new View();
+    view = new View({isRangeSlider: true});
     view.button.buttonMove(
       model.calcBtnOffset(
         view.field.div,
@@ -120,7 +120,7 @@ describe("высчитывание отступа для кнопки", () => {
     view.removeElements();
   });
   it("model.calcBtnOffset buttons", () => {
-    view = new View();
+    view = new View({isRangeSlider: true});
     view.button_2.buttonMove(50)
     view.button.buttonMove(40)
     view.button_2.buttonMove(
