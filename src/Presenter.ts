@@ -4,19 +4,23 @@ import { View } from "./View";
 class Presenter {
   model: Model;
   view: View;
+  buttonValue: number;
+  buttonValue_2: number;
 
   constructor(model: Model, view: View) {
     this.model = model;
     this.view = view;
+    this.buttonValue = 0;
+    this.buttonValue_2 = 0;
     this.view.register(this);
     this.view.calcMouseCoords();
-
-    // if (!this.view.isRangeSlider) {
+    
     this.view.mouseEventSlider();
-    // }
+this.updateScaleValues();
     if (this.view.isRangeSlider) {
       this.view.mouseEventRange();
     this.mouseUp_2();}
+    this.model.calcScaleValue();
   }
 
   moveButton(btn: any) {
@@ -29,7 +33,11 @@ class Presenter {
     );
   }
   changeFlagValue(button: HTMLElement, flag: object) {
-    flag.changeFlagValue(this.model.calcValue(this.view.field.div, button));
+    flag.changeFlagValue(this.model.calcFlagValue(this.view.field.div, button));
+    
+  }
+  updateScaleValues(){
+    this.view.scale.updateValues(this.model.calcScaleValue())
   }
   makeBreakpointButton(btn: any) {
     btn.buttonMove(this.model.makeBreakPoint(this.view.field.div, btn.div));
@@ -41,11 +49,13 @@ class Presenter {
     this.moveButton(this.view.button);
     this.changeFlagValue(this.view.button.div, this.view.flag);
     this.view.progressBar.progressBarMove();
+    this.buttonValue = this.view.flag.div.innerHTML;
   }
   mouseMoveButton_2() {
     this.moveButton(this.view.button_2);
     this.changeFlagValue(this.view.button_2.div, this.view.flag_2);
     this.view.progressBar.progressBarMove();
+    this.buttonValue_2 = this.view.flag_2.div.innerHTML;
   }
   mouseUp() {
     this.makeBreakpointButton(this.view.button);
@@ -63,15 +73,22 @@ class Presenter {
     this.model.isHorizontal = !this.model.isHorizontal;
     this.view.isHorizontal = !this.view.isHorizontal;
     this.view.renderElements();
-    this.mouseUp_2();
+    this.view.mouseEventSlider();
+
+    if (this.view.isRangeSlider) {
+      this.view.mouseEventRange();
+    this.mouseUp_2();}
   }
 
   changeTypeSlider() {
     this.view.removeElements();
     this.view.isRangeSlider = !this.view.isRangeSlider;
     this.view.renderElements();
-    
-    if (this.view.isRangeSlider) this.mouseUp_2();
+    this.view.mouseEventSlider();
+
+    if (this.view.isRangeSlider) {
+      this.view.mouseEventRange();
+    this.mouseUp_2();}
   }
 }
 export default Presenter;

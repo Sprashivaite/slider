@@ -2,6 +2,7 @@ import Viewfield from "./Viewfield";
 import ViewButton from "./ViewButton";
 import ViewFlag from "./ViewFlag";
 import ViewProgressBar from "./ViewProgressBar";
+import ViewScale from "./ViewScale";
 
 class View {
   readonly slider: any;
@@ -15,6 +16,7 @@ class View {
   progressBar: ViewProgressBar;
   subscriber: any;
   mouseCoords: number;
+  scale: ViewScale;
 
   constructor(options: any = {}) {
     this.slider = options.target || document.querySelector(".slider");
@@ -32,6 +34,7 @@ class View {
     this.renderButtons();
     this.renderFlag();
     this.renderProgressBar();
+    this.renderScale()
   }
   removeElements() {
     [
@@ -57,13 +60,9 @@ class View {
       this.button_2.createButton();
     }
   }
-  private renderFlag(): void {
-    this.flag = new ViewFlag(this.button.div);
-    this.flag.createFlag();
-    if (this.isRangeSlider) {
-      this.flag_2 = new ViewFlag(this.button_2.div);
-      this.flag_2.createFlag();
-    }
+  private renderScale(): void {
+    this.scale = new ViewScale(this.field.div, this.isHorizontal);
+    this.scale.createScale();
   }
   private renderProgressBar() {
     if (this.isRangeSlider) {
@@ -85,6 +84,15 @@ class View {
     }
     this.progressBar.createProgressBar();
   }
+  private renderFlag(): void {
+    this.flag = new ViewFlag(this.button.div);
+    this.flag.createFlag();
+    if (this.isRangeSlider) {
+      this.flag_2 = new ViewFlag(this.button_2.div);
+      this.flag_2.createFlag();
+    }
+  }
+
   calcMouseCoords(): void {
     let that = this;
     function Coords(event: mouseEventSlider) {

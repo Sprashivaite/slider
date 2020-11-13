@@ -4,10 +4,12 @@ class Model {
   private _step: number;
   private _isHorizontal: boolean;
   constructor(options: any = {}) {
-    this.max = typeof options.max === 'number'? options.max: 100;
-    this.min = typeof options.min === 'number'? options.min :0;
-    this._step = typeof options.step === 'number' && options.step > 0? options.step :1;
-    this._isHorizontal = typeof options.isHorizontal == 'boolean'? options.isHorizontal: true;
+    this.max = typeof options.max === "number" ? options.max : 100;
+    this.min = typeof options.min === "number" ? options.min : 0;
+    this._step =
+      typeof options.step === "number" && options.step > 0 ? options.step : 1;
+    this._isHorizontal =
+      typeof options.isHorizontal == "boolean" ? options.isHorizontal : true;
   }
 
   get isHorizontal(): boolean {
@@ -33,10 +35,13 @@ class Model {
   ): number {
     let fieldWidth: number = field.offsetWidth;
     let buttonWidth: number = button.offsetWidth;
-    let nextButtonOffset: number = button.nextElementSibling.offsetLeft - buttonWidth;
+    let nextButtonOffset: number =
+      button.nextElementSibling.offsetLeft - buttonWidth;
     let prevButtonOffset: number;
+    let stepPX: number =
+      ((fieldWidth - button.offsetWidth) * this.step) / (this.max - this.min);
     if (button.previousElementSibling) {
-    prevButtonOffset = button.previousElementSibling.offsetLeft + buttonWidth;
+      prevButtonOffset = button.previousElementSibling.offsetLeft + buttonWidth;
     }
     let shiftLeft: number =
       mouseCoords - field.getBoundingClientRect().left - buttonWidth / 2;
@@ -48,12 +53,14 @@ class Model {
       fieldWidth = field.offsetHeight;
       nextButtonOffset = button.nextElementSibling.offsetTop - buttonWidth;
       if (button.previousElementSibling) {
-      prevButtonOffset = button.previousElementSibling.offsetTop + buttonWidth;
+        prevButtonOffset =
+          button.previousElementSibling.offsetTop + buttonWidth;
       }
     }
 
     if (button.nextElementSibling.getAttribute("class") === "slider__button") {
-      if (shiftLeft >= nextButtonOffset) {
+      if (shiftLeft >= nextButtonOffset- stepPX) {
+        if(stepPX > buttonWidth){return nextButtonOffset+ buttonWidth - stepPX}
         return nextButtonOffset;
       }
     } else if (shiftLeft >= fieldWidth - buttonWidth) {
@@ -64,9 +71,10 @@ class Model {
       if (
         button.previousElementSibling.getAttribute("class") ===
           "slider__button" &&
-        shiftLeft <= prevButtonOffset
+        shiftLeft <= prevButtonOffset + stepPX
       ) {
-        return prevButtonOffset;
+        if(stepPX > buttonWidth){return prevButtonOffset- buttonWidth + stepPX}
+        return prevButtonOffset + stepPX;
       }
     } else if (shiftLeft <= 0) {
       return 0;
@@ -93,7 +101,7 @@ class Model {
       : (button.style.top = result);
   }
 
-  calcValue(field: HTMLElement, button: HTMLElement): number {
+  calcFlagValue(field: HTMLElement, button: HTMLElement): number {
     let buttonOffset: number = button.offsetLeft;
     let buttonWidth: number = button.offsetWidth;
     let fieldWidth: number = field.offsetWidth;
@@ -119,6 +127,17 @@ class Model {
     }
 
     return +countStep.toFixed(1);
+  }
+  calcScaleValue(): Array<number> {
+    let arrValues: Array<number> = [];
+    let value = this.min;
+    for (let i = 0; i < 4; i++) {
+      arrValues.push(+value.toFixed(1));
+      value += this.max / 4;
+    }
+    arrValues.push(this.max);
+    console.log(arrValues);
+    return arrValues;
   }
 
   makeBreakPoint(field: HTMLElement, button: HTMLElement): number {
@@ -153,4 +172,4 @@ class Model {
     return val;
   }
 }
-export default Model ;
+export default Model;

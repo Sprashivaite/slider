@@ -32,6 +32,9 @@ const model: Model = new Model();
 const view: View = new View({target: document.querySelector('.slider')});
 const presenter: Presenter = new Presenter(model, view);
 
+// const model2: Model = new Model();
+// const view2: View = new View({target: document.querySelector('.slider2')});
+// const presenter2: Presenter = new Presenter(model2, view2);
 
 let vl: HTMLInputElement = document.querySelector(".vl");
 let vl_2: HTMLInputElement = document.querySelector(".vl_2");
@@ -43,7 +46,7 @@ let orientation = document.querySelector("#orientation");
 let range = document.querySelector("#range");
 
 view.button.div.addEventListener("mousemove", () => {
-  vl.value = model.calcValue(view.field.div, view.button.div) + "";
+  vl.value = model.calcFlagValue(view.field.div, view.button.div) + "";
 });
 vl.addEventListener("input", function () {
   model.moveToValue(view.field.div, view.button.div, +vl.value);
@@ -51,7 +54,7 @@ vl.addEventListener("input", function () {
 });
 if (view.isRangeSlider) {
   view.button_2.div.addEventListener("mousemove", () => {
-    vl_2.value = model.calcValue(view.field.div, view.button_2.div) + "";
+    vl_2.value = model.calcFlagValue(view.field.div, view.button_2.div) + "";
   });
   vl_2.addEventListener("input", function () {
     model.moveToValue(view.field.div, view.button_2.div, +vl_2.value);

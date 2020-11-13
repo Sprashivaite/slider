@@ -185,19 +185,19 @@ describe("передвинуть кнопку к значению ", () => {
 
 describe("вычислить значение флага", () => {
 
-  it("model.calcValue", () => {
+  it("model.calcFlagValue", () => {
     view = new View({isRangeSlider: false});
     model.moveToValue(view.field.div,view.button.div , 50);
-    let value = model.calcValue(view.field.div, view.button.div);
+    let value = model.calcFlagValue(view.field.div, view.button.div);
 
     expect(value).toBe(50);
     view.removeElements();
   });
-  it("model.calcValue vertical", () => {
+  it("model.calcFlagValue vertical", () => {
     view = new View({isRangeSlider: false, isHorizontal: false});
     model.isHorizontal = false;
     model.moveToValue(view.field.div,view.button.div , 50);
-    let value = model.calcValue(view.field.div, view.button.div);
+    let value = model.calcFlagValue(view.field.div, view.button.div);
 
     expect(value).toBe(50);
     view.removeElements();

@@ -79,6 +79,16 @@ border-radius: 10px;
 cursor: pointer;
 z-index: 2;
 }
+.slider__scale{
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin: 8px 0px 0px 4px;
+  font-stretch: expanded;
+}
+.slider__scale span{
+  width: 15px;
+}
 
 
 
