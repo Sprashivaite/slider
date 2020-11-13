@@ -3,25 +3,26 @@ import ViewButton from "./ViewButton";
 import ViewFlag from "./ViewFlag";
 import ViewProgressBar from "./ViewProgressBar";
 import ViewScale from "./ViewScale";
+import IViewConfig from "./IViewConfig";
 
 class View {
-  readonly slider: any;
-  button: ViewButton;
-  button_2: ViewButton;
+  readonly slider!: any;
+  button!: ViewButton;
+  button_2!: ViewButton;
   private _isHorizontal: boolean;
   private _isRangeSlider: boolean;
-  field: Viewfield;
-  flag: ViewFlag;
-  flag_2: ViewFlag;
-  progressBar: ViewProgressBar;
+  field!: Viewfield;
+  flag!: ViewFlag;
+  flag_2!: ViewFlag;
+  progressBar!: ViewProgressBar;
   subscriber: any;
   mouseCoords: number;
-  scale: ViewScale;
+  scale!: ViewScale;
 
-  constructor(options: any = {}) {
-    this.slider = options.target || document.querySelector(".slider");
-    this._isHorizontal =
-      typeof options.isHorizontal == "boolean" ? options.isHorizontal : true;
+  constructor(options: IViewConfig = {}) {
+this.slider = document.querySelector('.slider');
+if(options.target){this.slider = options.target}
+    this._isHorizontal =  typeof  options.isHorizontal == "boolean" ? options.isHorizontal: false;
     this._isRangeSlider =
       typeof options.isRangeSlider == "boolean" ? options.isRangeSlider : true;
     this.subscriber = null;
@@ -34,7 +35,7 @@ class View {
     this.renderButtons();
     this.renderFlag();
     this.renderProgressBar();
-    this.renderScale()
+    this.renderScale();
   }
   removeElements() {
     [
@@ -95,7 +96,7 @@ class View {
 
   calcMouseCoords(): void {
     let that = this;
-    function Coords(event: mouseEventSlider) {
+    function Coords(event: MouseEvent) {
       if (that.isHorizontal) {
         that.mouseCoords = event.clientX;
       }
@@ -127,8 +128,10 @@ class View {
     MouseMove = this.notifyMouseMove,
     MouseUp = this.notifyMouseUp
   ) {
+
     this.slider.onmousedown = () => false;
     this.slider.oncontextmenu = () => false;
+
     let Handler = MouseMove.bind(this);
 
     if (!this.isRangeSlider) {

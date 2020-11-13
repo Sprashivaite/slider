@@ -1,5 +1,7 @@
 import Model from "./Model";
-import { View } from "./View";
+import View from "./View";
+import ViewButton from "./ViewButton";
+import ViewFlag from "./ViewFlag";
 
 class Presenter {
   model: Model;
@@ -23,7 +25,7 @@ this.updateScaleValues();
     this.model.calcScaleValue();
   }
 
-  moveButton(btn: any) {
+  moveButton(btn: ViewButton) {
     btn.buttonMove(
       this.model.calcBtnOffset(
         this.view.field.div,
@@ -32,14 +34,14 @@ this.updateScaleValues();
       )
     );
   }
-  changeFlagValue(button: HTMLElement, flag: object) {
+  changeFlagValue(button: HTMLElement, flag: ViewFlag) {
     flag.changeFlagValue(this.model.calcFlagValue(this.view.field.div, button));
     
   }
   updateScaleValues(){
     this.view.scale.updateValues(this.model.calcScaleValue())
   }
-  makeBreakpointButton(btn: any) {
+  makeBreakpointButton(btn: ViewButton) {
     btn.buttonMove(this.model.makeBreakPoint(this.view.field.div, btn.div));
     if (!this.model.isHorizontal) {
       btn.buttonMove(this.model.makeBreakPoint(this.view.field.div, btn.div));
@@ -49,13 +51,13 @@ this.updateScaleValues();
     this.moveButton(this.view.button);
     this.changeFlagValue(this.view.button.div, this.view.flag);
     this.view.progressBar.progressBarMove();
-    this.buttonValue = this.view.flag.div.innerHTML;
+    this.buttonValue = +this.view.flag.div.innerHTML;
   }
   mouseMoveButton_2() {
     this.moveButton(this.view.button_2);
     this.changeFlagValue(this.view.button_2.div, this.view.flag_2);
     this.view.progressBar.progressBarMove();
-    this.buttonValue_2 = this.view.flag_2.div.innerHTML;
+    this.buttonValue_2 = +this.view.flag_2.div.innerHTML;
   }
   mouseUp() {
     this.makeBreakpointButton(this.view.button);

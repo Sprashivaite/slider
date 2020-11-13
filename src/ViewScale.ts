@@ -13,10 +13,14 @@ class ViewScale {
       this.div.style.top = "12px";
       this.div.style.left = "0px";
         if (!this.isHorizontal) {
-        this.div.style.left = "12px";
+        this.div.style.marginLeft = "12px";
         this.div.style.top = "0px";
+        // this.div.style.position = "ab";
+        this.div.style.height = this.field.offsetHeight + 'px';
+        this.div.style.flexDirection = "column";
+        this.div.style.justifyContent = "space-between";
       }
-      this.field.append(this.div);
+      this.field.prepend(this.div);
 
 
 for(let i = 0; i < 5; i++){

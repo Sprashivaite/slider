@@ -1,15 +1,17 @@
+import IModelConfig from "./IModelConfig";
+
 class Model {
   max: number;
   min: number;
   private _step: number;
   private _isHorizontal: boolean;
-  constructor(options: any = {}) {
+  constructor(options: IModelConfig = {}) {
     this.max = typeof options.max === "number" ? options.max : 100;
     this.min = typeof options.min === "number" ? options.min : 0;
     this._step =
       typeof options.step === "number" && options.step > 0 ? options.step : 1;
     this._isHorizontal =
-      typeof options.isHorizontal == "boolean" ? options.isHorizontal : true;
+      typeof options.isHorizontal == "boolean" ? options.isHorizontal : false;
   }
 
   get isHorizontal(): boolean {
@@ -35,45 +37,52 @@ class Model {
   ): number {
     let fieldWidth: number = field.offsetWidth;
     let buttonWidth: number = button.offsetWidth;
-    let nextButtonOffset: number =
-      button.nextElementSibling.offsetLeft - buttonWidth;
-    let prevButtonOffset: number;
     let stepPX: number =
       ((fieldWidth - button.offsetWidth) * this.step) / (this.max - this.min);
+    let shiftLeft: number =
+      mouseCoords - field.getBoundingClientRect().left - buttonWidth / 2;
+
+    let nextButtonOffset: number;
+    let prevButtonOffset: number;
+    
     if (button.previousElementSibling) {
       prevButtonOffset = button.previousElementSibling.offsetLeft + buttonWidth;
     }
-    let shiftLeft: number =
-      mouseCoords - field.getBoundingClientRect().left - buttonWidth / 2;
 
     if (!this.isHorizontal) {
       buttonWidth = button.offsetHeight;
       shiftLeft =
         mouseCoords - field.getBoundingClientRect().top - buttonWidth / 2;
       fieldWidth = field.offsetHeight;
-      nextButtonOffset = button.nextElementSibling.offsetTop - buttonWidth;
       if (button.previousElementSibling) {
         prevButtonOffset =
           button.previousElementSibling.offsetTop + buttonWidth;
       }
     }
-
-    if (button.nextElementSibling.getAttribute("class") === "slider__button") {
-      if (shiftLeft >= nextButtonOffset- stepPX) {
-        if(stepPX > buttonWidth){return nextButtonOffset+ buttonWidth - stepPX}
+    if (button.nextElementSibling && button.nextElementSibling.getAttribute("class") === "slider__button") {
+      nextButtonOffset = button.nextElementSibling.offsetLeft - buttonWidth;
+      if (!this.isHorizontal) {nextButtonOffset = button.nextElementSibling.offsetTop - buttonWidth;}
+      if (shiftLeft >= nextButtonOffset - stepPX) {
+        if (stepPX > buttonWidth) {
+          return nextButtonOffset + buttonWidth - stepPX;
+        }
         return nextButtonOffset;
       }
+    
     } else if (shiftLeft >= fieldWidth - buttonWidth) {
       return fieldWidth - buttonWidth;
     }
 
-    if (button.previousElementSibling) {
+    if (button.previousElementSibling && button.previousElementSibling.getAttribute("class") ===
+    "slider__button") {
+      prevButtonOffset = button.previousElementSibling.offsetLeft - buttonWidth;
+      if (!this.isHorizontal) {prevButtonOffset = button.previousElementSibling.offsetTop - buttonWidth;}
       if (
-        button.previousElementSibling.getAttribute("class") ===
-          "slider__button" &&
         shiftLeft <= prevButtonOffset + stepPX
       ) {
-        if(stepPX > buttonWidth){return prevButtonOffset- buttonWidth + stepPX}
+        if (stepPX > buttonWidth) {
+          return prevButtonOffset - buttonWidth + stepPX;
+        }
         return prevButtonOffset + stepPX;
       }
     } else if (shiftLeft <= 0) {
@@ -136,7 +145,6 @@ class Model {
       value += this.max / 4;
     }
     arrValues.push(this.max);
-    console.log(arrValues);
     return arrValues;
   }
 

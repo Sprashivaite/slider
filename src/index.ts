@@ -27,9 +27,9 @@ import Presenter from "./Presenter";
 // })(jQuery);
 
 // $(".slider").Slider();
-
+let container: HTMLDivElement = document.querySelector('.slider2');
 const model: Model = new Model();
-const view: View = new View({target: document.querySelector('.slider')});
+const view: View = new View();
 const presenter: Presenter = new Presenter(model, view);
 
 // const model2: Model = new Model();

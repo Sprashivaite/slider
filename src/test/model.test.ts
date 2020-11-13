@@ -31,10 +31,6 @@ describe("конструктор класса", () => {
     expect(model.step).toBe(10);
   });
   it("Model step", () => {
-    model = new Model({step: 'erfv'}); 
-    expect(model.step).toBe(1);
-  });
-  it("Model step", () => {
     model.step = 0; 
     expect(model.step).toBe(1);
   });
@@ -122,7 +118,7 @@ describe("высчитывание отступа для кнопки", () => {
   it("model.calcBtnOffset buttons", () => {
     view = new View({isRangeSlider: true});
     view.button_2.buttonMove(50)
-    view.button.buttonMove(40)
+    view.button.buttonMove(10)
     view.button_2.buttonMove(
       model.calcBtnOffset(
         view.field.div,

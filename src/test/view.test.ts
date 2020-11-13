@@ -156,7 +156,7 @@ describe("оповещение наблюдателя", () => {
     view.notifyMouseMove();
     expect(view.subscriber.mouseMoveButton).toHaveBeenCalled();
   });
-
+ 
   it("view.notifyMouseMove_2", () => {
     let something: object = { mouseMoveButton_2: () => {} };
     view.register(something);
