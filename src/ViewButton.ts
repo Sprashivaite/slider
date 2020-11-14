@@ -1,4 +1,4 @@
-class ViewButton {
+class ViewButton{
   div: HTMLDivElement;
   field: HTMLDivElement;
   isHorizontal: boolean;
@@ -39,5 +39,4 @@ class ViewButton {
       : (this.div.style.top = px + "px");
   }
 }
-
 export default ViewButton;

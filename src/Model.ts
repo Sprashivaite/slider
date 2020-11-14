@@ -11,7 +11,7 @@ class Model {
     this._step =
       typeof options.step === "number" && options.step > 0 ? options.step : 1;
     this._isHorizontal =
-      typeof options.isHorizontal == "boolean" ? options.isHorizontal : false;
+      typeof options.isHorizontal == "boolean" ? options.isHorizontal : true;
   }
 
   get isHorizontal(): boolean {

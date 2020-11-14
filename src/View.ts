@@ -3,10 +3,12 @@ import ViewButton from "./ViewButton";
 import ViewFlag from "./ViewFlag";
 import ViewProgressBar from "./ViewProgressBar";
 import ViewScale from "./ViewScale";
+import ViewContainer from "./ViewContainer";
 import IViewConfig from "./IViewConfig";
+import ISubscriber from "./ISubscriber";
 
 class View {
-  readonly slider!: any;
+  readonly slider!: HTMLDivElement;
   button!: ViewButton;
   button_2!: ViewButton;
   private _isHorizontal: boolean;
@@ -15,17 +17,15 @@ class View {
   flag!: ViewFlag;
   flag_2!: ViewFlag;
   progressBar!: ViewProgressBar;
-  subscriber: any;
+  subscriber!: any;
   mouseCoords: number;
   scale!: ViewScale;
 
   constructor(options: IViewConfig = {}) {
-this.slider = document.querySelector('.slider');
-if(options.target){this.slider = options.target}
-    this._isHorizontal =  typeof  options.isHorizontal == "boolean" ? options.isHorizontal: false;
+    this.slider = new ViewContainer(options.target).slider;
+    this._isHorizontal =  typeof  options.isHorizontal == "boolean" ? options.isHorizontal: true;
     this._isRangeSlider =
       typeof options.isRangeSlider == "boolean" ? options.isRangeSlider : true;
-    this.subscriber = null;
     this.renderElements();
     this.mouseCoords = 0;
   }
@@ -94,7 +94,7 @@ if(options.target){this.slider = options.target}
     }
   }
 
-  calcMouseCoords(): void {
+  getMouseCoords(): void {
     let that = this;
     function Coords(event: MouseEvent) {
       if (that.isHorizontal) {
@@ -107,7 +107,7 @@ if(options.target){this.slider = options.target}
     document.addEventListener("mousemove", Coords);
   }
 
-  register(sub: any) {
+  register(sub: ISubscriber) {
     this.subscriber = sub;
   }
 
@@ -129,8 +129,7 @@ if(options.target){this.slider = options.target}
     MouseUp = this.notifyMouseUp
   ) {
 
-    this.slider.onmousedown = () => false;
-    this.slider.oncontextmenu = () => false;
+
 
     let Handler = MouseMove.bind(this);
 
@@ -196,4 +195,5 @@ if(options.target){this.slider = options.target}
     this._isRangeSlider = boolean;
   }
 }
+
 export default View;

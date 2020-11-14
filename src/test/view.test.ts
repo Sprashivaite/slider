@@ -188,20 +188,20 @@ describe("координаты мыши", () => {
   afterEach(() => {
     view.removeElements();
   });
-  it("view.calcMouseCoords horisontal", () => {
+  it("view.getMouseCoords horisontal", () => {
     view = new View();
     let mousemove = new MouseEvent("mousemove", { clientX: 50 });
 
-    view.calcMouseCoords();
+    view.getMouseCoords();
 
     document.dispatchEvent(mousemove);
     expect(view.mouseCoords).toBe(50);
   });
-  it("view.calcMouseCoords vertical", () => {
+  it("view.getMouseCoords vertical", () => {
     view = new View({ isHorizontal: false });
     let mousemove = new MouseEvent("mousemove", { clientY: 50 });
 
-    view.calcMouseCoords();
+    view.getMouseCoords();
 
     document.dispatchEvent(mousemove);
     expect(view.mouseCoords).toBe(50);

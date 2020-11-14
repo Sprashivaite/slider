@@ -6,3 +6,4 @@ interface ISubscriber{
     mouseUp_2?(): void;
       
 }
+export default ISubscriber

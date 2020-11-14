@@ -1,3 +1,5 @@
+import View from "./View";
+
 class Flag {
   div: HTMLDivElement;
   button: HTMLDivElement;
@@ -21,4 +23,6 @@ class Flag {
     this.div.style.display = "block";
   }
 }
+// class Test extends View{}
+
 export default Flag

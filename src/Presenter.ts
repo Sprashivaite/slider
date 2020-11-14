@@ -15,7 +15,7 @@ class Presenter {
     this.buttonValue = 0;
     this.buttonValue_2 = 0;
     this.view.register(this);
-    this.view.calcMouseCoords();
+    this.view.getMouseCoords();
     
     this.view.mouseEventSlider();
 this.updateScaleValues();
