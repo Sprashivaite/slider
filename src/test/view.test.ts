@@ -1,6 +1,8 @@
 import Model from "../Model";
 import View from "../View";
+import ViewContainer from "../ViewContainer";
 import Presenter from "../Presenter";
+
 
 document.body.insertAdjacentHTML(
   "afterbegin",
@@ -22,6 +24,45 @@ describe("установка параметров View", () => {
     view = new View({ isRangeSlider: true });
 
     expect(view.isRangeSlider).toBe(true);
+    view.removeElements();
+  });
+});
+
+describe("Создание/поиск контайнера View", () => {
+  it("Установка контейнера", () => {
+    let container = document.querySelector('.slider')
+    let view = new View({target: container}  );
+
+    expect(view.slider).toBeDefined();
+    view.removeElements();
+  });
+  it("Поиск контейнера по селектору класса", () => {
+    view = new View();
+
+    expect(view.slider).toBeDefined();
+    view.removeElements();
+  });
+  it("Поиск контейнера по дата селектору", () => {
+    document.body.insertAdjacentHTML(
+      "afterbegin",
+      "<div data-slider style='width:100px;'></div>"
+    );
+    let div = document.querySelector('.slider');
+    div.className = '';
+    view = new View();
+
+    expect(view.slider).toBeDefined();
+    div.className = 'slider';
+    view.removeElements();
+  });
+  it("Создание контейнера", () => {
+    let div = document.querySelector('.slider');
+    div.className = '';
+    let viewContainer = new ViewContainer();
+    spyOn(viewContainer, 'createContainer')
+    viewContainer.createContainer();
+    expect(viewContainer.slider).toBeDefined();
+    div.className = 'slider';
     view.removeElements();
   });
 });
@@ -287,7 +328,7 @@ describe("события мыши range", () => {
   let mousedown: any, mousemove: any, mouseup: any;
 
   beforeEach(() => {
-    view = new View({ isRangeSlider: true });
+    
     let something: object = {
       mouseMoveButton: () => {},
       mouseUp: () => {},
@@ -305,6 +346,7 @@ describe("события мыши range", () => {
   });
 
   it("view.mouseEventRange mouse event button_1", () => {
+    view = new View({ isRangeSlider: true });
     let notify = jasmine.createSpy("notify");
     let notify2 = jasmine.createSpy("notify");
     view.mouseEventRange(notify, notify2, notify, notify2);
@@ -327,8 +369,10 @@ describe("события мыши range", () => {
     document.dispatchEvent(mouseup);
     expect(notify).toHaveBeenCalled();
     expect(notify.calls.count()).toEqual(3);
+    view.removeElements();
   });
   it("view.mouseEventRange mouse event button_2", () => {
+    view = new View({ isRangeSlider: true });
     let notify = jasmine.createSpy("notify");
     let notify2 = jasmine.createSpy("notify");
     view.mouseCoords = 60;

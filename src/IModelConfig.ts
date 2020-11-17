@@ -1,7 +1,7 @@
 interface IModelConfig{
     max?: number;
     min?: number;
-     step?: number;
+    step?: number;
     isHorizontal?: boolean;
     isRangeSlider?: boolean;
 }

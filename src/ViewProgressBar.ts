@@ -4,11 +4,11 @@ class ViewProgressBar {
     isHorizontal: boolean;
     isRangeSlider: boolean;
     button: HTMLDivElement;
-    button_2: HTMLDivElement;
+    button_2!: HTMLDivElement;
     constructor(field: HTMLDivElement,button: HTMLDivElement,  isHorizontal: boolean, isRangeSlider: boolean,button_2?: HTMLDivElement){
         this.field = field;
         this.button = button;
-        if(isRangeSlider){this.button_2= button_2};
+        if(isRangeSlider){this.button_2 = button_2};
             this.div = document.createElement("div");
             this.isHorizontal = isHorizontal;
             this.isRangeSlider = isRangeSlider

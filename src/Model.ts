@@ -134,14 +134,16 @@ class Model {
         return (countStep -= this.step);
       }
     }
-
+if(this.step < 1){return +countStep.toFixed(2)}
     return +countStep.toFixed(1);
   }
   calcScaleValue(): Array<number> {
     let arrValues: Array<number> = [];
     let value = this.min;
     for (let i = 0; i < 4; i++) {
-      arrValues.push(+value.toFixed(1));
+      if(this.step < 1){arrValues.push(+value.toFixed(1))}
+      else{arrValues.push(+value.toFixed(0));}
+      
       value += this.max / 4;
     }
     arrValues.push(this.max);

@@ -6,22 +6,22 @@ import ViewFlag from "./ViewFlag";
 class Presenter {
   model: Model;
   view: View;
-  buttonValue: number;
-  buttonValue_2: number;
+  _buttonValue: number;
+  _buttonValue_2: number;
 
   constructor(model: Model, view: View) {
     this.model = model;
     this.view = view;
-    this.buttonValue = 0;
-    this.buttonValue_2 = 0;
+    this._buttonValue = 0;
+    this._buttonValue_2 = 0;
     this.view.register(this);
-    this.view.getMouseCoords();
-    
+
     this.view.mouseEventSlider();
-this.updateScaleValues();
+    this.updateScaleValues();
     if (this.view.isRangeSlider) {
       this.view.mouseEventRange();
-    this.mouseUp_2();}
+      this.mouseUp_2();
+    }
     this.model.calcScaleValue();
   }
 
@@ -36,10 +36,9 @@ this.updateScaleValues();
   }
   changeFlagValue(button: HTMLElement, flag: ViewFlag) {
     flag.changeFlagValue(this.model.calcFlagValue(this.view.field.div, button));
-    
   }
-  updateScaleValues(){
-    this.view.scale.updateValues(this.model.calcScaleValue())
+  updateScaleValues() {
+    this.view.scale.updateValues(this.model.calcScaleValue());
   }
   makeBreakpointButton(btn: ViewButton) {
     btn.buttonMove(this.model.makeBreakPoint(this.view.field.div, btn.div));
@@ -51,13 +50,13 @@ this.updateScaleValues();
     this.moveButton(this.view.button);
     this.changeFlagValue(this.view.button.div, this.view.flag);
     this.view.progressBar.progressBarMove();
-    this.buttonValue = +this.view.flag.div.innerHTML;
+    this._buttonValue = +this.view.flag.div.innerHTML;
   }
   mouseMoveButton_2() {
     this.moveButton(this.view.button_2);
     this.changeFlagValue(this.view.button_2.div, this.view.flag_2);
     this.view.progressBar.progressBarMove();
-    this.buttonValue_2 = +this.view.flag_2.div.innerHTML;
+    this._buttonValue_2 = +this.view.flag_2.div.innerHTML;
   }
   mouseUp() {
     this.makeBreakpointButton(this.view.button);
@@ -76,10 +75,11 @@ this.updateScaleValues();
     this.view.isHorizontal = !this.view.isHorizontal;
     this.view.renderElements();
     this.view.mouseEventSlider();
-
+    this.updateScaleValues();
     if (this.view.isRangeSlider) {
       this.view.mouseEventRange();
-    this.mouseUp_2();}
+      this.mouseUp_2();
+    }
   }
 
   changeTypeSlider() {
@@ -87,10 +87,25 @@ this.updateScaleValues();
     this.view.isRangeSlider = !this.view.isRangeSlider;
     this.view.renderElements();
     this.view.mouseEventSlider();
-
+    this.updateScaleValues();
     if (this.view.isRangeSlider) {
       this.view.mouseEventRange();
-    this.mouseUp_2();}
+      this.mouseUp_2();
+    }
+  }
+  get buttonValue(){
+    return this._buttonValue
+  }
+  set buttonValue(value){
+    this.model.moveToValue(this.view.field.div, this.view.button.div, value);
+    this.mouseUp();
+  }
+  get buttonValue_2(){
+    return this._buttonValue_2
+  }
+  set buttonValue_2(value){
+    this.model.moveToValue(this.view.field.div, this.view.button_2.div, value);
+    this.mouseUp_2();
   }
 }
 export default Presenter;

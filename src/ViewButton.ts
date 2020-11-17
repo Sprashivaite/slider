@@ -9,11 +9,10 @@ class ViewButton{
   }
   createButton(): HTMLDivElement{
     this.div.className = "slider__button";
-
     this.div.style.top = "-6px";
     this.div.style.left = "0px";
-
     this.field.append(this.div);
+
     if (this.div.previousElementSibling) {
       this.div.style.left =
       this.div.previousElementSibling.offsetLeft +
@@ -24,6 +23,7 @@ class ViewButton{
     if (!this.isHorizontal) {
       this.div.style.left = "-5px";
       this.div.style.top = "0px";
+
       if (this.div.previousElementSibling) {
         this.div.style.top =
         this.div.previousElementSibling.offsetTop +
@@ -33,6 +33,7 @@ class ViewButton{
     }
     return this.div;
   }
+  
   buttonMove(px: any): void {
     this.isHorizontal
       ? (this.div.style.left = px + "px")

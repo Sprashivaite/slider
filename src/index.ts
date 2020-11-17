@@ -1,40 +1,5 @@
-import Model from "./Model";
-import View from "./View";
-import Presenter from "./Presenter";
+let slider = $(".slider").sliderPlugin().data("sliderPlugin");
 
-// (function ($) {
-
-      
-  // 'use strict'
-  // $.fn.Slider = function (options) {
-  //   options = $.extend({target: this}, options);
-
-
-  //   return this.each(function() {
-  //     var $this = $(this);
-    // const model: Model = new Model(options);
-    // const view: View = new View(options);
-    // const presenter: Presenter = new Presenter(model, view);
-  //   $this.data('Slider', new pluginMethods($this))
-
-  //   })
-
-    
-  // };
-
-
-
-// })(jQuery);
-
-// $(".slider").Slider();
-let container: HTMLDivElement = document.querySelector('.slider2');
-const model: Model = new Model();
-const view: View = new View();
-const presenter: Presenter = new Presenter(model, view);
-
-// const model2: Model = new Model();
-// const view2: View = new View({target: document.querySelector('.slider2')});
-// const presenter2: Presenter = new Presenter(model2, view2);
 
 let vl: HTMLInputElement = document.querySelector(".vl");
 let vl_2: HTMLInputElement = document.querySelector(".vl_2");
@@ -45,54 +10,58 @@ let step: HTMLInputElement = document.querySelector("#step");
 let orientation = document.querySelector("#orientation");
 let range = document.querySelector("#range");
 
-view.button.div.addEventListener("mousemove", () => {
-  vl.value = model.calcFlagValue(view.field.div, view.button.div) + "";
+slider.view.button.div.addEventListener("mousemove", () => {
+  vl.value = slider.presenter.buttonValue + "";
 });
+
 vl.addEventListener("input", function () {
-  model.moveToValue(view.field.div, view.button.div, +vl.value);
-  presenter.mouseUp();
+  slider.presenter.buttonValue = +vl.value
 });
-if (view.isRangeSlider) {
-  view.button_2.div.addEventListener("mousemove", () => {
-    vl_2.value = model.calcFlagValue(view.field.div, view.button_2.div) + "";
+if (slider.view.isRangeSlider) {
+  slider.view.button_2.div.addEventListener("mousemove", () => {
+    vl_2.value = slider.presenter.buttonValue_2 + "";
   });
   vl_2.addEventListener("input", function () {
-    model.moveToValue(view.field.div, view.button_2.div, +vl_2.value);
-    presenter.mouseUp_2();
+    slider.presenter.buttonValue_2 = +vl_2.value
   });
 }
-max.value = model.max + "";
+
+max.value = slider.model.max + "";
 max.addEventListener("input", function () {
-  model.max = +max.value;
-  presenter.mouseUp();
-  presenter.mouseUp_2();
+  slider.model.max = +max.value;
+  slider.presenter.updateScaleValues()
+  slider.presenter.mouseUp();
+  slider.presenter.mouseUp_2();
 });
-min.value = model.min + "";
+min.value = slider.model.min + "";
 min.addEventListener("input", function () {
-  model.min = +min.value;
-  presenter.mouseUp();
-  presenter.mouseUp_2();
+  slider.model.min = +min.value;
+  slider.presenter.updateScaleValues()
+  slider.presenter.mouseUp();
+  slider.presenter.mouseUp_2();
 });
-step.value = model.step + "";
+step.value = slider.model.step + "";
 step.addEventListener("input", function () {
   let value: number = Math.abs(+step.value);
   if (value === 0) {
     value = 1;
   }
-  model.step = value;
-  presenter.mouseUp();
-  presenter.mouseUp_2();
+  slider.model.step = value;
+  slider.presenter.mouseUp();
+  slider.presenter.mouseUp_2();
 });
 
+orientation.checked = slider.view.isHorizontal;
 orientation.addEventListener("input", function () {
-  presenter.changeOrientation();
+  slider.presenter.changeOrientation();
 });
 tooltip.addEventListener("input", function () {
-  tooltip.checked ? view.flag.addFlag() : view.flag.removeFlag();
-  if (view.flag_2) {
-    tooltip.checked ? view.flag_2.addFlag() : view.flag_2.removeFlag();
+  tooltip.checked ? slider.view.flag.addFlag() : slider.view.flag.removeFlag();
+  if (slider.view.flag_2) {
+    tooltip.checked ? slider.view.flag_2.addFlag() : slider.view.flag_2.removeFlag();
   }
 });
+range.checked = slider.view.isRangeSlider;
 range.addEventListener("input", function () {
-  presenter.changeTypeSlider();
+  slider.presenter.changeTypeSlider();
 });

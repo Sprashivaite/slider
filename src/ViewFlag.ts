@@ -8,7 +8,7 @@ class Flag {
     this.button = button;
   }
   createFlag(): void {
-    this.div.className = "flag";
+    this.div.className = "slider__flag";
     this.div.style.top = "-17px";
     this.div.innerHTML = '0';
     this.button.append(this.div);
@@ -23,6 +23,4 @@ class Flag {
     this.div.style.display = "block";
   }
 }
-// class Test extends View{}
-
 export default Flag

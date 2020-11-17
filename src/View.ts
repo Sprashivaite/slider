@@ -17,17 +17,20 @@ class View {
   flag!: ViewFlag;
   flag_2!: ViewFlag;
   progressBar!: ViewProgressBar;
-  subscriber!: any;
+  subscriber!: ISubscriber;
   mouseCoords: number;
   scale!: ViewScale;
 
   constructor(options: IViewConfig = {}) {
     this.slider = new ViewContainer(options.target).slider;
-    this._isHorizontal =  typeof  options.isHorizontal == "boolean" ? options.isHorizontal: true;
+    this._isHorizontal =
+      typeof options.isHorizontal == "boolean" ? options.isHorizontal : true;
     this._isRangeSlider =
       typeof options.isRangeSlider == "boolean" ? options.isRangeSlider : true;
-    this.renderElements();
     this.mouseCoords = 0;
+
+    this.renderElements();
+    this.getMouseCoords();
   }
 
   renderElements(): void {
@@ -43,6 +46,7 @@ class View {
       this.button.div,
       this.field.div,
       this.progressBar.div,
+      this.scale.div,
     ].forEach((item) => item.remove());
 
     if (this.isRangeSlider) {
@@ -94,7 +98,7 @@ class View {
     }
   }
 
-  getMouseCoords(): void {
+  private getMouseCoords(): void {
     let that = this;
     function Coords(event: MouseEvent) {
       if (that.isHorizontal) {
@@ -128,9 +132,6 @@ class View {
     MouseMove = this.notifyMouseMove,
     MouseUp = this.notifyMouseUp
   ) {
-
-
-
     let Handler = MouseMove.bind(this);
 
     if (!this.isRangeSlider) {
@@ -151,7 +152,6 @@ class View {
     MouseUp = this.notifyMouseUp,
     MouseUp_2 = this.notifyMouseUp_2
   ) {
-    let that = this;
     let Handler = MouseMove.bind(this);
     let Handler_2 = MouseMove_2.bind(this);
 

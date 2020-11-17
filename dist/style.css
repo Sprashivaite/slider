@@ -25,7 +25,7 @@ body{
   top: 20px;
 }
 
-.flag{
+.slider__flag{
   position: absolute;
   width: 16px;
   height: 12px;
@@ -34,7 +34,7 @@ body{
   text-align: center;
   z-index: 2;
 }
-.flag:after{
+.slider__flag:after{
   content: '';
   position: absolute;
   left: 2px;
@@ -44,7 +44,7 @@ body{
   
   z-index: 0;
 }
-.flag:before{
+.slider__flag:before{
   content: '';
   display: none;
   position: absolute;
