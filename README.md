@@ -6,7 +6,9 @@ Get started by downloading the archive which contains the plugin files. Extract 
 
 ## HTML
 Include style.css in the head tag your HTML document.
-```<link rel="stylesheet" href="/path/to/slider/dist/style.css" />```
+```javascript
+<link rel="stylesheet" href="/path/to/slider/dist/style.css" />
+```
 
 ## CSS
 For  the element should have a width (or max-width) value set.
@@ -46,11 +48,17 @@ $(selector).sliderPlugin({
 # Plugin methods
 Ways to execute various plugin actions programmatically from within your script(s).
 Usage 
-```javascript let slider = $(selector).sliderPlugin().data("sliderPlugin");```
+```javascript 
+let slider = $(selector).sliderPlugin().data("sliderPlugin");
+```
 ### change slider type
-```javascript slider.presenter.changeTypeSlider();```
+```javascript 
+slider.presenter.changeTypeSlider();
+```
 ### change orientation slider
-```javascript slider.presenter.changeOrientation();```
+```javascript
+slider.presenter.changeOrientation();
+```
 ### add or remove flag
 ```javascript
 slider.view.flag.addFlag()
@@ -61,10 +69,10 @@ slider.view.flag_2.removeFlag();
 
 ## Returning values
 The script returns a number of values and objects related to slider that you can use in your own functions
-```javascript
+
 * slider.presenter.buttonValue
 * slider.presenter.buttonValue_2
 * slider.model.max
 * slider.model.min
 * slider.model.step
-```
+
