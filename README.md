@@ -17,7 +17,7 @@ After files inclusion, call sliderPlugin  function on the element selector you w
 Add the class sliderPlugin to any element you want to add custom slider with default options. 
 ```<div class="slider" data-slider> </div>```
 # Basic configuration & option parameters
-$(selector).sliderPlugin({
+```$(selector).sliderPlugin({```
     isHorizontal: false // vertical slider
 });
 $(selector).sliderPlugin({
