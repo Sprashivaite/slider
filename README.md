@@ -36,4 +36,13 @@ Usage let slider = $(selector).sliderPlugin().data("sliderPlugin");
 slider.presenter.changeTypeSlider();
 # change orientation slider
 slider.presenter.changeOrientation();
-
+# current value button
+slider.presenter.buttonValue
+slider.presenter.buttonValue_2
+slider.model.max
+slider.model.min
+slider.model.step
+slider.view.flag.addFlag()
+slider.view.flag.removeFlag()
+slider.view.flag_2.addFlag()
+slider.view.flag_2.removeFlag();
