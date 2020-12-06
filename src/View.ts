@@ -26,9 +26,9 @@ class View {
     this._isHorizontal =
       typeof options.isHorizontal == "boolean" ? options.isHorizontal : true;
     this._isRangeSlider =
-      typeof options.isRangeSlider == "boolean" ? options.isRangeSlider : true;
+      typeof options.isRangeSlider == "boolean" ? options.isRangeSlider : false;
     this.mouseCoords = 0;
-
+    this.flag = null || options.isRangeSlider
     this.renderElements();
     this.getMouseCoords();
   }
@@ -38,7 +38,7 @@ class View {
     this.renderButtons();
     this.renderFlag();
     this.renderProgressBar();
-    this.renderScale();
+    // this.renderScale();
   }
   removeElements() {
     [
@@ -132,6 +132,8 @@ class View {
     MouseMove = this.notifyMouseMove,
     MouseUp = this.notifyMouseUp
   ) {
+    this.slider.onmousedown = () => false;
+    this.slider.oncontextmenu = () => false;
     let Handler = MouseMove.bind(this);
 
     if (!this.isRangeSlider) {

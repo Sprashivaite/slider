@@ -75,15 +75,15 @@ class Model {
 
     if (button.previousElementSibling && button.previousElementSibling.getAttribute("class") ===
     "slider__button") {
-      prevButtonOffset = button.previousElementSibling.offsetLeft - buttonWidth;
-      if (!this.isHorizontal) {prevButtonOffset = button.previousElementSibling.offsetTop - buttonWidth;}
+      prevButtonOffset = button.previousElementSibling.offsetLeft + buttonWidth;
+      if (!this.isHorizontal) {prevButtonOffset = button.previousElementSibling.offsetTop + buttonWidth;}
       if (
         shiftLeft <= prevButtonOffset + stepPX
       ) {
         if (stepPX > buttonWidth) {
           return prevButtonOffset - buttonWidth + stepPX;
         }
-        return prevButtonOffset + stepPX;
+        return prevButtonOffset;
       }
     } else if (shiftLeft <= 0) {
       return 0;
@@ -122,9 +122,8 @@ class Model {
 
     let fieldRange: number = fieldWidth - buttonWidth;
 
-    let result: number =
-      this.min +
-      Math.trunc((buttonOffset * (this.max - this.min)) / fieldRange);
+    let result: number = this.min +
+        (buttonOffset * (this.max - this.min)) / fieldRange
 
     let countStep: number = this.min;
 

@@ -21,7 +21,7 @@ class sliderPlugin{
       {
         target: this,
         isHorizontal: true,
-        isRangeSlider: true,
+        isRangeSlider: false,
         max: 100,
         min: 0,
         step: 1,

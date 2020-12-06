@@ -1,6 +1,6 @@
 let slider = $(".slider").sliderPlugin().data("sliderPlugin");
 
-
+/*
 let vl: HTMLInputElement = document.querySelector(".vl");
 let vl_2: HTMLInputElement = document.querySelector(".vl_2");
 let tooltip: HTMLInputElement = document.querySelector("#tooltip");
@@ -65,3 +65,4 @@ range.checked = slider.view.isRangeSlider;
 range.addEventListener("input", function () {
   slider.presenter.changeTypeSlider();
 });
+*/

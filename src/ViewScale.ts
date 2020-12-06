@@ -26,7 +26,9 @@ class ViewScale {
       this.div.insertAdjacentHTML("beforeend", "<span>0</span>");
     }
   }
-  
+  removeScale(): void {
+    this.div.remove()
+  }
   updateValues(arrayVal: Array<number>) {
     let spans = this.div.children;
     for (let i = 0; i < 5; i++) {
