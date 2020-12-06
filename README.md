@@ -13,46 +13,58 @@ For  the element should have a width (or max-width) value set.
 
 # Initialization
 After files inclusion, call sliderPlugin  function on the element selector you want to add the slider
-> ```$(selector).sliderPlugin();```
+```javascript
+$(selector).sliderPlugin();
+```
 ## Initialize via HTML
 Add the class sliderPlugin to any element you want to add custom slider with default options. 
-> ```<div class="slider" data-slider> </div>```
+```javascript
+<div class="slider" data-slider> </div>
+```
 # Basic configuration & option parameters
-> ```$(selector).sliderPlugin({```
->     isHorizontal: false // vertical slider
-> });
-> $(selector).sliderPlugin({
->     max: 1000 // max value
-> });
-> $(selector).sliderPlugin({
->     min: 10 // min value
-> });
-> $(selector).sliderPlugin({
->     step: 10 // step value
-> });
-> $(selector).sliderPlugin({
->     isRangeSlider: false // single slider
-> });
+```javascript
+$(selector).sliderPlugin({
+    isHorizontal: false // vertical slider
+});
+
+$(selector).sliderPlugin({
+    max: 1000 // max value
+});
+
+$(selector).sliderPlugin({
+    min: 10 // min value
+});
+
+$(selector).sliderPlugin({
+  step: 10 // step value
+});
+
+$(selector).sliderPlugin({
+    isRangeSlider: false // single slider
+});
+```
 # Plugin methods
 Ways to execute various plugin actions programmatically from within your script(s).
 Usage 
-> ```let slider = $(selector).sliderPlugin().data("sliderPlugin");```
+```javascript let slider = $(selector).sliderPlugin().data("sliderPlugin");```
 ### change slider type
-> ```slider.presenter.changeTypeSlider();```
+```javascript slider.presenter.changeTypeSlider();```
 ### change orientation slider
-> ```slider.presenter.changeOrientation();```
+```javascript slider.presenter.changeOrientation();```
 ### add or remove flag
-> ```slider.view.flag.addFlag()```
-> ```slider.view.flag.removeFlag()```
-> ```slider.view.flag_2.addFlag()```
-> ```slider.view.flag_2.removeFlag();```
-
+```javascript
+slider.view.flag.addFlag()
+slider.view.flag.removeFlag()
+slider.view.flag_2.addFlag()
+slider.view.flag_2.removeFlag();
+```
 
 ## Returning values
 The script returns a number of values and objects related to slider that you can use in your own functions
+```javascript
 * slider.presenter.buttonValue
 * slider.presenter.buttonValue_2
 * slider.model.max
 * slider.model.min
 * slider.model.step
-
+```
