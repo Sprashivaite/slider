@@ -21,7 +21,9 @@ class sliderPlugin{
       {
         target: this,
         isHorizontal: true,
-        isRangeSlider: false,
+        isRangeSlider: true,
+        isFlag: false,
+        isScale: false,
         max: 100,
         min: 0,
         step: 1,
@@ -35,4 +37,3 @@ class sliderPlugin{
     });
   };
 })(jQuery);
- 
