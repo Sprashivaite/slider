@@ -38,7 +38,8 @@ class Presenter {
     flag.changeFlagValue(this.model.calcFlagValue(this.view.field.div, button));
   }
   updateScaleValues() {
-    this.view.scale.updateValues(this.model.calcScaleValue());
+    let quantity =  this.view.scale.div.children.length;
+    this.view.scale.updateValues(this.model.calcScaleValue(quantity));
   }
   makeBreakpointButton(btn: ViewButton) {
     btn.buttonMove(this.model.makeBreakPoint(this.view.field.div, btn.div));

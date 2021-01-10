@@ -7,7 +7,8 @@ class ViewScale {
     this.field = field;
     this.isHorizontal = isHorizontal;
   }
-  createScale(): void {
+  createScale(quantity = 5): void {
+    
     this.div.className = "slider__scale";
     this.div.style.top = "12px";
     this.div.style.left = "0px";
@@ -22,16 +23,21 @@ class ViewScale {
 
     this.field.prepend(this.div);
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < quantity; i++) {
       this.div.insertAdjacentHTML("beforeend", "<span>0</span>");
     }
+
+    
   }
-  removeScale(): void {
-    this.div.remove()
+  hideScale(): void {
+    this.div.classList.add('-js-slider__flag_hide');
+  }
+  showScale(): void {
+    this.div.classList.remove('-js-slider__flag_hide');
   }
   updateValues(arrayVal: Array<number>) {
     let spans = this.div.children;
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < spans.length; i++) {
       spans[i].innerHTML = arrayVal[i] + "";
     }
   }
