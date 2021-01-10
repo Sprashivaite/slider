@@ -1,4 +1,4 @@
-class Viewfield{
+class ViewField{
     div: HTMLDivElement;
     isHorizontal: boolean;
     slider: HTMLDivElement;
@@ -20,4 +20,4 @@ class Viewfield{
     }
 
 }
-export default Viewfield
+export default ViewField

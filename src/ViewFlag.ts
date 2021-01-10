@@ -16,11 +16,11 @@ class Flag {
   changeFlagValue(value: number): void {
     this.div.innerHTML = value + "";
   }
-  removeFlag(): void {
-    this.div.style.display = "none";
+  hideFlag(): void {
+    this.div.classList.add('-js-slider__flag_hide');
   }
-  addFlag(): void {
-    this.div.style.display = "block";
+  showFlag(): void {
+    this.div.classList.remove('-js-slider__flag_hide');
   }
 }
 export default Flag
