@@ -6,17 +6,9 @@ class ViewField{
         this.isHorizontal = isHorizontal;
         this.slider = slider;
         this.div = document.createElement("div");
-        this.div.className = "slider__field";
+        if (this.isHorizontal) this.div.className = "slider__field_horizontal";
+        if (!this.isHorizontal) this.div.className = "slider__field_vertical";
         this.slider.append(this.div);
-    
-        if (this.isHorizontal) {
-          this.div.style.width = "auto";
-          this.div.style.height = "6px";
-        }
-        if (!this.isHorizontal) {
-          this.div.style.width = "6px";
-          this.div.style.height = "100%";
-        }
     }
 
 }

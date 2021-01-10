@@ -9,7 +9,6 @@ class Flag {
   }
   createFlag(): void {
     this.div.className = "slider__flag";
-    this.div.style.top = "-17px";
     this.div.innerHTML = '0';
     this.button.append(this.div);
   }

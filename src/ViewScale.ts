@@ -8,26 +8,15 @@ class ViewScale {
     this.isHorizontal = isHorizontal;
   }
   createScale(quantity = 5): void {
-    
-    this.div.className = "slider__scale";
-    this.div.style.top = "12px";
-    this.div.style.left = "0px";
+    if(this.isHorizontal) this.div.className = "slider__scale_horizontal";
+    if (!this.isHorizontal) this.div.className = "slider__scale_vertical"; 
 
-    if (!this.isHorizontal) {
-      this.div.style.marginLeft = "12px";
-      this.div.style.top = "0px";
-      this.div.style.height = this.field.offsetHeight + "px";
-      this.div.style.flexDirection = "column";
-      this.div.style.justifyContent = "space-between";
-    }
-
-    this.field.prepend(this.div);
-
+    this.field.append(this.div);
     for (let i = 0; i < quantity; i++) {
       this.div.insertAdjacentHTML("beforeend", "<span>0</span>");
     }
 
-    
+    this.div.onmousedown = () => false;
   }
   hideScale(): void {
     this.div.classList.add('-js-slider__flag_hide');
