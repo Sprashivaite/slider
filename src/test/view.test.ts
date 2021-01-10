@@ -102,12 +102,12 @@ describe("toggle View flag", () => {
   afterEach(function () {
     view.removeElements();
   });
-  it("view.flag.addFlag", () => {
-    view.flag.addFlag();
+  it("view.flag.showFlag", () => {
+    view.flag.showFlag();
     expect(getComputedStyle(view.flag.div).display).toBe("block");
   });
-  it("view.removeFlag", () => {
-    view.flag.removeFlag();
+  it("view.hideFlag", () => {
+    view.flag.hideFlag();
     expect(getComputedStyle(view.flag.div).display).toBe("none");
   });
 });
