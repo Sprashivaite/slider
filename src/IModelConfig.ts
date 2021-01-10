@@ -3,6 +3,5 @@ interface IModelConfig{
     min?: number;
     step?: number;
     isHorizontal?: boolean;
-    isRangeSlider?: boolean;
 }
 export default IModelConfig
