@@ -1,4 +1,4 @@
-import Viewfield from "./Viewfield";
+import ViewField from "./ViewField";
 import ViewButton from "./ViewButton";
 import ViewFlag from "./ViewFlag";
 import ViewProgressBar from "./ViewProgressBar";
@@ -11,26 +11,39 @@ class View {
   readonly slider!: HTMLDivElement;
   button!: ViewButton;
   button_2!: ViewButton;
-  private _isHorizontal: boolean;
-  private _isRangeSlider: boolean;
-  field!: Viewfield;
-  flag!: ViewFlag;
+  isHorizontal: boolean;
+  isRangeSlider: boolean;
+  field!: ViewField;
+  flag!: ViewFlag | boolean;
   flag_2!: ViewFlag;
   progressBar!: ViewProgressBar;
   subscriber!: ISubscriber;
   mouseCoords: number;
   scale!: ViewScale;
+  isFlag: boolean;
+  isScale: boolean;
 
-  constructor(options: IViewConfig = {}) {
-    this.slider = new ViewContainer(options.target).slider;
-    this._isHorizontal =
-      typeof options.isHorizontal == "boolean" ? options.isHorizontal : true;
-    this._isRangeSlider =
-      typeof options.isRangeSlider == "boolean" ? options.isRangeSlider : false;
+  constructor({
+    target = undefined,
+    isHorizontal = true,
+    isRangeSlider = true,
+    isFlag = true,
+    isScale = true,
+  } = {} as IViewConfig) {
+    this.slider = new ViewContainer(target).slider;
+    this.isHorizontal = isHorizontal;
+    this.isRangeSlider = isRangeSlider;
+    this.isFlag = isFlag;
+    this.isScale = isScale;
     this.mouseCoords = 0;
-    this.flag = null || options.isRangeSlider
     this.renderElements();
     this.getMouseCoords();
+  }
+  validate(){ 
+    if(typeof this.isHorizontal !== "boolean") this.isHorizontal = true;
+    if(typeof this.isRangeSlider !== "boolean") this.isRangeSlider = true;
+    if(typeof this.isFlag !== "boolean") this.isFlag = true;
+    if(typeof this.isScale !== "boolean") this.isScale = true;
   }
 
   renderElements(): void {
@@ -38,7 +51,7 @@ class View {
     this.renderButtons();
     this.renderFlag();
     this.renderProgressBar();
-    // this.renderScale();
+    this.renderScale();
   }
   removeElements() {
     [
@@ -55,7 +68,7 @@ class View {
   }
 
   private renderField(): void {
-    this.field = new Viewfield(this.slider, this.isHorizontal);
+    this.field = new ViewField(this.slider, this.isHorizontal);
   }
   private renderButtons(): void {
     this.button = new ViewButton(this.field.div, this.isHorizontal);
@@ -67,7 +80,8 @@ class View {
   }
   private renderScale(): void {
     this.scale = new ViewScale(this.field.div, this.isHorizontal);
-    this.scale.createScale();
+    this.scale.createScale(11);
+    if(!this.isScale) this.scale.hideScale()
   }
   private renderProgressBar() {
     if (this.isRangeSlider) {
@@ -92,9 +106,11 @@ class View {
   private renderFlag(): void {
     this.flag = new ViewFlag(this.button.div);
     this.flag.createFlag();
+    if(!this.isFlag){this.flag.hideFlag()}
     if (this.isRangeSlider) {
       this.flag_2 = new ViewFlag(this.button_2.div);
       this.flag_2.createFlag();
+      if(!this.isFlag){this.flag_2.hideFlag()}
     }
   }
 
@@ -182,19 +198,6 @@ class View {
         };
       }
     });
-  }
-
-  get isHorizontal() {
-    return this._isHorizontal;
-  }
-  set isHorizontal(boolean) {
-    this._isHorizontal = boolean;
-  }
-  get isRangeSlider() {
-    return this._isRangeSlider;
-  }
-  set isRangeSlider(boolean) {
-    this._isRangeSlider = boolean;
   }
 }
 
