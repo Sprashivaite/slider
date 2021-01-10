@@ -3,31 +3,26 @@ import IModelConfig from "./IModelConfig";
 class Model {
   max: number;
   min: number;
-  private _step: number;
-  private _isHorizontal: boolean;
-  constructor(options: IModelConfig = {}) {
-    this.max = typeof options.max === "number" ? options.max : 100;
-    this.min = typeof options.min === "number" ? options.min : 0;
-    this._step =
-      typeof options.step === "number" && options.step > 0 ? options.step : 1;
-    this._isHorizontal =
-      typeof options.isHorizontal == "boolean" ? options.isHorizontal : true;
+  step: number;
+  isHorizontal: boolean;
+  constructor({
+    max = 100,
+    min = 0,
+    step = 1,
+    isHorizontal = true,
+  } = {} as IModelConfig) {
+    this.max = max;
+    this.min = min;
+    this.step = step;
+    this.isHorizontal = isHorizontal;
+    this.validate();
   }
 
-  get isHorizontal(): boolean {
-    return this._isHorizontal;
-  }
-  set isHorizontal(boolean) {
-    if (typeof boolean === "boolean") this._isHorizontal = boolean;
-  }
-  get step(): number {
-    return this._step;
-  }
-  set step(value) {
-    if (value === 0) {
-      value = 1;
-    }
-    this._step = Math.abs(value);
+  validate(){
+    if(typeof this.max !== "number" || this.max <= this.min) this.max = 100;
+    if(typeof this.min !== "number" || this.min >= this.max) this.min = 0;
+    if(typeof this.step !== "number" || this.step <= 0) this.step = 1;
+    if(typeof this.isHorizontal !== "boolean") this.isHorizontal = true;
   }
 
   calcBtnOffset(
@@ -136,14 +131,14 @@ class Model {
 if(this.step < 1){return +countStep.toFixed(2)}
     return +countStep.toFixed(1);
   }
-  calcScaleValue(): Array<number> {
+  calcScaleValue(quantity: number): Array<number> {
     let arrValues: Array<number> = [];
     let value = this.min;
-    for (let i = 0; i < 4; i++) {
-      if(this.step < 1){arrValues.push(+value.toFixed(1))}
+    for (let i = 0; i < quantity-1; i++) {
+      if(this.step < 1 || quantity-1 > this.max){arrValues.push(+value.toFixed(1))}
       else{arrValues.push(+value.toFixed(0));}
       
-      value += this.max / 4;
+      value += this.max / (quantity - 1);
     }
     arrValues.push(this.max);
     return arrValues;
