@@ -1,7 +1,7 @@
 import Model from "./Model";
 import View from "./View";
-import ViewButton from "./ViewButton";
-import ViewFlag from "./ViewFlag";
+import ViewButton from "./subView/ViewButton";
+import ViewFlag from "./subView/ViewFlag";
 
 class Presenter {
   model: Model;
@@ -14,6 +14,8 @@ class Presenter {
     this.view = view;
     this._buttonValue = 0;
     this._buttonValue_2 = 0;
+    this.view.renderElements();
+    this.view.getMouseCoords();
     this.view.register(this);
 
     this.view.mouseEventSlider();
@@ -21,15 +23,14 @@ class Presenter {
     if (this.view.isRangeSlider) {
       this.view.mouseEventRange();
       this.mouseUp_2();
-    }
-    this.model.calcScaleValue();
+    } 
   }
 
-  moveButton(btn: ViewButton) {
-    btn.buttonMove(
+  moveButton(button: ViewButton) {
+    button.moveButton(
       this.model.calcBtnOffset(
         this.view.field.div,
-        btn.div,
+        button.div,
         this.view.mouseCoords
       )
     );
@@ -41,35 +42,38 @@ class Presenter {
     let quantity =  this.view.scale.div.children.length;
     this.view.scale.updateValues(this.model.calcScaleValue(quantity));
   }
-  makeBreakpointButton(btn: ViewButton) {
-    btn.buttonMove(this.model.makeBreakPoint(this.view.field.div, btn.div));
+  makeBreakpointButton(button: ViewButton) {
+    button.moveButton(this.model.calcBreakPoint(this.view.field.div, button.div));
     if (!this.model.isHorizontal) {
-      btn.buttonMove(this.model.makeBreakPoint(this.view.field.div, btn.div));
+      button.moveButton(this.model.calcBreakPoint(this.view.field.div, button.div));
     }
   }
   mouseMoveButton() {
     this.moveButton(this.view.button);
     this.changeFlagValue(this.view.button.div, this.view.flag);
     this.view.progressBar.progressBarMove();
-    this._buttonValue = +this.view.flag.div.innerHTML;
+    this.view.progressBar.changeColorBar();
+    this._buttonValue = Number(this.view.flag.div.innerHTML);
   }
   mouseMoveButton_2() {
     this.moveButton(this.view.button_2);
     this.changeFlagValue(this.view.button_2.div, this.view.flag_2);
     this.view.progressBar.progressBarMove();
-    this._buttonValue_2 = +this.view.flag_2.div.innerHTML;
+    this.view.progressBar.changeColorBar();
+    this._buttonValue_2 = Number(this.view.flag_2.div.innerHTML);
   }
   mouseUp() {
     this.makeBreakpointButton(this.view.button);
     this.view.progressBar.progressBarMove();
+    this.view.progressBar.changeColorBar();
     this.changeFlagValue(this.view.button.div, this.view.flag);
   }
   mouseUp_2() {
     this.makeBreakpointButton(this.view.button_2);
     this.view.progressBar.progressBarMove();
+    this.view.progressBar.changeColorBar();
     this.changeFlagValue(this.view.button_2.div, this.view.flag_2);
   }
-
   changeOrientation() {
     this.view.removeElements();
     this.model.isHorizontal = !this.model.isHorizontal;
@@ -82,7 +86,6 @@ class Presenter {
       this.mouseUp_2();
     }
   }
-
   changeTypeSlider() {
     this.view.removeElements();
     this.view.isRangeSlider = !this.view.isRangeSlider;
