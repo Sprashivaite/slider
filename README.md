@@ -62,10 +62,10 @@ slider.presenter.changeOrientation();
 ```
 ### add or remove flag
 ```javascript
-slider.view.flag.addFlag()
-slider.view.flag.removeFlag()
-slider.view.flag_2.addFlag()
-slider.view.flag_2.removeFlag();
+slider.view.flag.showFlag()
+slider.view.flag.hideFlag()
+slider.view.flag_2.showFlag()
+slider.view.flag_2.hideFlag();
 ```
 
 ## Returning values
