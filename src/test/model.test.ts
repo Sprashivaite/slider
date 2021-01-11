@@ -10,7 +10,6 @@ model = new Model();
 })
 
 describe("конструктор класса", () => {
-
   it("Model", () => { 
     expect(model).toBeDefined();
   });
@@ -31,22 +30,20 @@ describe("конструктор класса", () => {
     expect(model.step).toBe(10);
   });
   it("Model step", () => {
-    model.step = 0; 
+    model = new Model({step: 0}); 
     expect(model.step).toBe(1);
   });
   it("Model step", () => {
     model = new Model({isHorizontal: false}); 
     expect(model.isHorizontal).toBe(false);
   });
-
-
-
 });
 
 
 describe("высчитывание отступа для кнопки", () => {
   it("model.calcBtnOffset default", () => {
     view = new View({isRangeSlider: false});
+    view.renderElements();
     expect(
       model.calcBtnOffset(
         view.field.div,
@@ -60,6 +57,7 @@ describe("высчитывание отступа для кнопки", () => {
   });
   it("model.calcBtnOffset min", () => {
     view = new View({isRangeSlider: false});
+    view.renderElements();
     expect(
       model.calcBtnOffset(
         view.field.div,
@@ -73,6 +71,7 @@ describe("высчитывание отступа для кнопки", () => {
   });
   it("model.calcBtnOffset max", () => {
     view = new View({isRangeSlider: false});
+    view.renderElements();
     expect(
       model.calcBtnOffset(
         view.field.div,
@@ -88,6 +87,7 @@ describe("высчитывание отступа для кнопки", () => {
   it("model.calcBtnOffset vertical", () => {
     
     view = new View({isHorizontal: false, isRangeSlider: false});
+    view.renderElements();
     model.isHorizontal = false;
     expect(
       model.calcBtnOffset(
@@ -95,7 +95,7 @@ describe("высчитывание отступа для кнопки", () => {
         view.button.div,
         22 +
           view.field.div.getBoundingClientRect().top +
-          view.button.div.offsetWidth / 2
+          view.button.div.offsetHeight / 2
       )
     ).toBe(22);
     model.isHorizontal = true;
@@ -103,7 +103,8 @@ describe("высчитывание отступа для кнопки", () => {
   });
   it("model.calcBtnOffset buttons", () => {
     view = new View({isRangeSlider: true});
-    view.button.buttonMove(
+    view.renderElements();
+    view.button.moveButton(
       model.calcBtnOffset(
         view.field.div,
         view.button.div,
@@ -117,9 +118,10 @@ describe("высчитывание отступа для кнопки", () => {
   });
   it("model.calcBtnOffset buttons", () => {
     view = new View({isRangeSlider: true});
-    view.button_2.buttonMove(50)
-    view.button.buttonMove(10)
-    view.button_2.buttonMove(
+    view.renderElements();
+    view.button_2.moveButton(50)
+    view.button.moveButton(10)
+    view.button_2.moveButton(
       model.calcBtnOffset(
         view.field.div,
         view.button_2.div,
@@ -134,27 +136,29 @@ describe("высчитывание отступа для кнопки", () => {
 });
 
 describe("передвинуть кнопку к точке шага ", () => {
-  it("model.makeBreakPoint horizontal", () => {
+  it("model.calcBreakPoint horizontal", () => {
     model = new Model({step: 10});
     view = new View({isRangeSlider: false});
-    view.button.buttonMove(4);
-    view.button.buttonMove(
-      model.makeBreakPoint(view.field.div, view.button.div)
+    view.renderElements();
+    view.button.moveButton(4);
+    view.button.moveButton(
+      model.calcBreakPoint(view.field.div, view.button.div)
     );
     expect(view.button.div.offsetLeft).toBe(0);
     view.removeElements();
   });
-  it("model.makeBreakPoint vertical", () => {
+  xit("model.calcBreakPoint vertical", () => {
     model.step = 10;
     view = new View({isRangeSlider: false, isHorizontal: false});
+    view.renderElements();
     model.isHorizontal = false;
-    view.button.buttonMove(10);
-    view.button.buttonMove(
-      model.makeBreakPoint(view.field.div, view.button.div)
+    view.button.moveButton(10);
+    view.button.moveButton(
+      model.calcBreakPoint(view.field.div, view.button.div)
     );
     expect(view.button.div.offsetTop).toBe(0);
     model.step = 1;
-    view.removeElements();
+    // view.removeElements();
   });
 });
 
@@ -162,6 +166,7 @@ describe("передвинуть кнопку к значению ", () => {
 
   it("model.moveToValue horisontal", () => {
     view = new View({isRangeSlider: false});
+    view.renderElements();
     model.max = 100;
     model.moveToValue(view.field.div,view.button.div , 100);
 
@@ -170,6 +175,7 @@ describe("передвинуть кнопку к значению ", () => {
   });
   it("model.moveToValue vertical", () => {
     view = new View({isRangeSlider: false, isHorizontal: false});
+    view.renderElements();
     model.max = 100;
     model.isHorizontal = false;
     model.moveToValue(view.field.div,view.button.div , 100);
@@ -183,6 +189,7 @@ describe("вычислить значение флага", () => {
 
   it("model.calcFlagValue", () => {
     view = new View({isRangeSlider: false});
+    view.renderElements();
     model.moveToValue(view.field.div,view.button.div , 50);
     let value = model.calcFlagValue(view.field.div, view.button.div);
 
@@ -191,6 +198,7 @@ describe("вычислить значение флага", () => {
   });
   it("model.calcFlagValue vertical", () => {
     view = new View({isRangeSlider: false, isHorizontal: false});
+    view.renderElements();
     model.isHorizontal = false;
     model.moveToValue(view.field.div,view.button.div , 50);
     let value = model.calcFlagValue(view.field.div, view.button.div);

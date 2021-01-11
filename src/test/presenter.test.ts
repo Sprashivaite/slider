@@ -9,7 +9,7 @@ let presenter: Presenter;
 afterEach(()=>{
   model = new Model();
 })
-
+ 
 describe("наличие инстансa класса Presenter", () => {
   it("Presenter", () => {
     model = new Model();
@@ -23,7 +23,7 @@ describe("наличие инстансa класса Presenter", () => {
 describe("изменить тип слайдера", () => {
   it("presenter.changeTypeSlider", () => {
     
-    view = new View({isRangeSlider: false});
+    view = new View({isRangeSlider: false}); 
     model = new Model();
     presenter = new Presenter(model, view);
     presenter.changeTypeSlider();
@@ -36,7 +36,7 @@ describe("изменить тип слайдера", () => {
 describe("изменить ориентацию слайдера", () => {
   it("presenter.changeOrientation", () => {
     
-    view = new View({isRangeSlider: true});
+    view = new View({isRangeSlider: true}); 
     model = new Model();
     presenter = new Presenter(model, view);
     presenter.changeOrientation();
@@ -49,10 +49,10 @@ describe("изменить ориентацию слайдера", () => {
 describe("изменить значение флага", () => {
   it("presenter.changeFlagValue", () => {
     
-    view = new View({isRangeSlider: false});
+    view = new View({isRangeSlider: false}); 
     model = new Model();
     presenter = new Presenter(model, view);
-    view.button.buttonMove(view.field.div.offsetWidth);
+    view.button.moveButton(view.field.div.offsetWidth);
     presenter.changeFlagValue(view.button.div, view.flag);
  
     expect(view.flag.div.innerHTML).toBeCloseTo(100)
@@ -63,7 +63,7 @@ describe("изменить значение флага", () => {
 describe("передвинуть button", () => {
   it("presenter.moveButton", () => {
     
-    view = new View({isRangeSlider: false});
+    view = new View({isRangeSlider: false}); 
     model = new Model();
     presenter = new Presenter(model, view);
     view.mouseCoords = 80;
@@ -77,7 +77,7 @@ describe("передвинуть button", () => {
 describe("реакция на mouse Move", () => {
   it("presenter.mouseMoveButton", () => {
     
-    view = new View({isRangeSlider: false});
+    view = new View({isRangeSlider: false}); 
     model = new Model();
     presenter = new Presenter(model, view);
     view.mouseCoords = 80;
@@ -94,7 +94,7 @@ describe("реакция на mouse Move", () => {
 describe("реакция на mouse Move", () => {
   it("presenter.mouseMoveButton_2", () => {
     
-    view = new View({isRangeSlider: true});
+    view = new View({isRangeSlider: true}); 
     model = new Model();
     presenter = new Presenter(model, view);
     view.mouseCoords = 80;
@@ -110,16 +110,16 @@ describe("реакция на mouse Move", () => {
 describe("реакция на mouse Up", () => {
   it("presenter.mouseUp", () => {
     
-    view = new View({isRangeSlider: false});
+    view = new View({isRangeSlider: false}); 
     model = new Model({step: 20});
     presenter = new Presenter(model, view);
 
-    view.button.buttonMove(view.field.div.offsetWidth - 5 - view.button.div.offsetWidth);
+    view.button.moveButton(view.field.div.offsetWidth - 5 - view.button.div.offsetWidth);
     presenter.mouseUp();
     expect(view.button.div.offsetLeft + view.button.div.offsetWidth).toBe(view.field.div.offsetWidth);
 
     expect(view.flag.div.innerHTML).toBe('100');
-    expect(view.progressBar.div.offsetWidth).toBeGreaterThan(90);
+    expect(view.progressBar.div.offsetWidth).toBeGreaterThan(80);
     view.removeElements();
   });
 });
@@ -127,17 +127,17 @@ describe("реакция на mouse Up", () => {
 describe("реакция на mouse Up 2", () => {
   it("presenter.mouseUp_2", () => {
     
-    view = new View({isRangeSlider: true});
+    view = new View({isRangeSlider: true}); 
     model = new Model({step: 20});
     presenter = new Presenter(model, view);
 
-    view.button_2.buttonMove(view.field.div.offsetWidth - 5 - view.button.div.offsetWidth);
+    view.button_2.moveButton(view.field.div.offsetWidth - 5 - view.button.div.offsetWidth);
     presenter.mouseUp_2();
 
     expect(view.button_2.div.offsetLeft + view.button.div.offsetWidth).toBe(view.field.div.offsetWidth);
 
     expect(view.flag_2.div.innerHTML).toBe('100');
-    expect(view.progressBar.div.offsetWidth).toBeGreaterThan(90);
+    expect(view.progressBar.div.offsetWidth).toBeGreaterThan(80);
     view.removeElements();
   });
 });
