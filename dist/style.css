@@ -3,18 +3,19 @@
   margin: 0;
 }
 
-body{
-  /* width: 500px; */
-  height: 500px;
+body{ 
 }
-
+.slider-container{
+  max-width: 600px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 100px;
+}
 .slider{
   position: relative;
-  max-width: 266px;
-  width: auto;
-  height: 236px;
-  margin: 0 30px;
-  top: 20px;
+  width: 100%;
+  max-width: 266px;  
+  margin: 50px 30px;
 }
 .slider2{
   position: relative;
@@ -25,6 +26,43 @@ body{
   top: 20px;
 }
 
+.slider__field_horizontal {
+  position: relative;
+  background: #FFFFFF;
+border: 1px solid rgba(31, 32, 65, 0.25);
+border-radius: 3px;
+height: 4px; 
+width: 100%;
+cursor: pointer;
+z-index: 0;
+display: flex;
+align-items: center;
+}
+.slider__field_vertical {
+  position: relative;
+  background: #FFFFFF;
+border: 1px solid rgba(31, 32, 65, 0.25);
+border-radius: 3px;
+height: 100%; 
+width: 4px;
+cursor: pointer;
+z-index: 0;
+display: flex;
+align-items: center;
+}
+
+.slider__button, .slider__button_2{
+  display: inline-block;
+  position: absolute;
+  width: 12px;
+height: 12px;
+  background: linear-gradient(180deg, #6FCF97 0%, #66D2EA 100%);
+border: 2px solid #FFFFFF;
+border-radius: 10px;
+cursor: pointer;
+z-index: 2;
+}
+
 .slider__flag{
   position: absolute;
   width: 16px;
@@ -33,6 +71,8 @@ body{
   font-size: 10px;
   text-align: center;
   z-index: 2;
+  opacity: 1;
+  top: -17px;
 }
 .slider__flag:after{
   content: '';
@@ -55,77 +95,8 @@ body{
   transform: rotate(90deg);
   z-index: 0;
 }
-.slider__field {
-  position: relative;
-  background: #FFFFFF;
-border: 1px solid rgba(31, 32, 65, 0.25);
-border-radius: 3px;
-box-sizing: border-box;
-
-display: block;
-height: 6px;
-top: 38px;
-cursor: pointer;
-z-index: 0;
-}
-.slider__button, .slider__button_2{
-  display: inline-block;
-  position: absolute;
-  width: 12px;
-height: 12px;
-  background: linear-gradient(180deg, #6FCF97 0%, #66D2EA 100%);
-border: 2px solid #FFFFFF;
-border-radius: 10px;
-cursor: pointer;
-z-index: 2;
-}
-.slider__scale{
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  margin: 8px 0px 0px 4px;
-  font-stretch: expanded;
- 
-}
-.slider__scale span{
-  width: 15px;
-}
-
-
-
-.config {
-
-  position: absolute;
-  display: inline-flex;
-  flex-direction: row;
-  font-family: sans-serif;
-  color: rgb(68, 68, 68);
-  width: 180px;
-  height: 210px;
-  top: 40px;
-  left: 320px;
-  background: #59c5dd;
-  border: 2px solid #6FCF97 ;
-  border-radius: 8px;
-}
-.config input{
-  margin-bottom: 5px;
-  height: 15.5px;
-  max-width: 50px;
-}
-.config__left div{
-  margin-bottom: 5px;
-}
- .config__left{
-  margin-left: 10px;
-  margin-top: 10px;
-}
-.config__right{
-  display: flex;
-  flex-direction: column;
-  margin-left: 10px;
-  margin-top: 10px;
-  
+.-js-slider__flag_hide{
+  opacity: 0;
 }
 .progressBar{
   position: absolute;
@@ -135,6 +106,75 @@ z-index: 2;
   transition-property: background-color;
   transition-duration: 0.5s;
   z-index: 1;
+}
+.-js-slider__bar_hide{
+  opacity: 0;
+}
+.slider__scale_horizontal{
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin: 30px 0px 0px 4px;
+  font-stretch: expanded;
+  position: absolute;
+  width: 100%;
+}
+.slider__scale_vertical{
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin: 0px 0px 0px 16px;
+  font-stretch: expanded;
+  flex-direction: column;
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+.slider__scale span{
+  width: 15px;
+}
+.-js-slider__scale_hide{
+  opacity: 0;
+}
+
+
+.config {
+ 
+  display: inline-flex;
+  flex-direction: row;
+  font-family: sans-serif; 
+  width: 220px; 
+  top: 40px;
+  left: 320px;
+  background: #95dae9;
+  border: 2px solid #689ba3; 
+}
+.config input{
+  margin-bottom: 5px;
+  height: 15.5px;
+  max-width: 50px;
+}
+.config__left div{
+  margin-bottom: 10px;
+}
+ .config__left{
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.config__right{
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  margin-top: 10px;
+  
+}
+.config__right input{
+  margin-bottom: 10px;
+  background-color: #e8fcff;
+  border: 1px solid #689ba3;
+  height: 17px;
+  padding-left: 3px;
 }
 
 
