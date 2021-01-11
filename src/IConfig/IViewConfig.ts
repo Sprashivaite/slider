@@ -4,5 +4,7 @@ interface IViewConfig{
     isRangeSlider?: boolean;
     isFlag?: boolean;
     isScale?: boolean;
+    scaleQuantity?: number;
+    isProgressBar?: boolean;
 }
 export default IViewConfig
