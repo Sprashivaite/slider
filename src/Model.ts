@@ -1,16 +1,13 @@
-import IModelConfig from "./IModelConfig";
+import IModelConfig from "./IConfig/IModelConfig";
 
 class Model {
   max: number;
   min: number;
   step: number;
   isHorizontal: boolean;
-  constructor({
-    max = 100,
-    min = 0,
-    step = 1,
-    isHorizontal = true,
-  } = {} as IModelConfig) {
+  constructor(
+    { max = 100, min = 0, step = 1, isHorizontal = true } = {} as IModelConfig
+  ) {
     this.max = max;
     this.min = min;
     this.step = step;
@@ -18,11 +15,11 @@ class Model {
     this.validate();
   }
 
-  validate(){
-    if(typeof this.max !== "number" || this.max <= this.min) this.max = 100;
-    if(typeof this.min !== "number" || this.min >= this.max) this.min = 0;
-    if(typeof this.step !== "number" || this.step <= 0) this.step = 1;
-    if(typeof this.isHorizontal !== "boolean") this.isHorizontal = true;
+  validate() {
+    if (typeof this.max !== "number" || this.max <= this.min) this.max = 100;
+    if (typeof this.min !== "number" || this.min >= this.max) this.min = 0;
+    if (typeof this.step !== "number" || this.step <= 0) this.step = 1;
+    if (typeof this.isHorizontal !== "boolean") this.isHorizontal = true;
   }
 
   calcBtnOffset(
@@ -39,7 +36,7 @@ class Model {
 
     let nextButtonOffset: number;
     let prevButtonOffset: number;
-    
+
     if (button.previousElementSibling) {
       prevButtonOffset = button.previousElementSibling.offsetLeft + buttonWidth;
     }
@@ -49,32 +46,45 @@ class Model {
       shiftLeft =
         mouseCoords - field.getBoundingClientRect().top - buttonWidth / 2;
       fieldWidth = field.offsetHeight;
+
       if (button.previousElementSibling) {
         prevButtonOffset =
           button.previousElementSibling.offsetTop + buttonWidth;
       }
     }
-    if (button.nextElementSibling && button.nextElementSibling.getAttribute("class") === "slider__button") {
+
+    let isButtonNext =
+      button.nextElementSibling &&
+      button.nextElementSibling.getAttribute("class") === "slider__button";
+
+    if (isButtonNext) {
       nextButtonOffset = button.nextElementSibling.offsetLeft - buttonWidth;
-      if (!this.isHorizontal) {nextButtonOffset = button.nextElementSibling.offsetTop - buttonWidth;}
+
+      if (!this.isHorizontal) {
+        nextButtonOffset = button.nextElementSibling.offsetTop - buttonWidth;
+      }
+
       if (shiftLeft >= nextButtonOffset - stepPX) {
         if (stepPX > buttonWidth) {
           return nextButtonOffset + buttonWidth - stepPX;
         }
         return nextButtonOffset;
       }
-    
     } else if (shiftLeft >= fieldWidth - buttonWidth) {
       return fieldWidth - buttonWidth;
     }
 
-    if (button.previousElementSibling && button.previousElementSibling.getAttribute("class") ===
-    "slider__button") {
+    let isButtonPrev =
+      button.previousElementSibling &&
+      button.previousElementSibling.getAttribute("class") === "slider__button";
+
+    if (isButtonPrev) {
       prevButtonOffset = button.previousElementSibling.offsetLeft + buttonWidth;
-      if (!this.isHorizontal) {prevButtonOffset = button.previousElementSibling.offsetTop + buttonWidth;}
-      if (
-        shiftLeft <= prevButtonOffset + stepPX
-      ) {
+      if (!this.isHorizontal) {
+        prevButtonOffset =
+          button.previousElementSibling.offsetTop + buttonWidth;
+      }
+      if (shiftLeft <= prevButtonOffset + stepPX) {
         if (stepPX > buttonWidth) {
           return prevButtonOffset - buttonWidth + stepPX;
         }
@@ -117,8 +127,8 @@ class Model {
 
     let fieldRange: number = fieldWidth - buttonWidth;
 
-    let result: number = this.min +
-        (buttonOffset * (this.max - this.min)) / fieldRange
+    let result: number =
+      this.min + (buttonOffset * (this.max - this.min)) / fieldRange;
 
     let countStep: number = this.min;
 
@@ -128,23 +138,30 @@ class Model {
         return (countStep -= this.step);
       }
     }
-if(this.step < 1){return +countStep.toFixed(2)}
-    return +countStep.toFixed(1);
+    if (this.step < 1) {
+      return Number(countStep.toFixed(2));
+    }
+    return Number(countStep.toFixed(1));
   }
+
   calcScaleValue(quantity: number): Array<number> {
     let arrValues: Array<number> = [];
     let value = this.min;
-    for (let i = 0; i < quantity-1; i++) {
-      if(this.step < 1 || quantity-1 > this.max){arrValues.push(+value.toFixed(1))}
-      else{arrValues.push(+value.toFixed(0));}
-      
+    for (let i = 0; i < quantity - 1; i++) {
+      let isFractionalStep = this.step < 1 || quantity - 1 > this.max;
+      if (isFractionalStep) {
+        arrValues.push(Number(value.toFixed(1)));
+      } else {
+        arrValues.push(Number(value.toFixed(0)));
+      }
+
       value += this.max / (quantity - 1);
     }
     arrValues.push(this.max);
     return arrValues;
   }
 
-  makeBreakPoint(field: HTMLElement, button: HTMLElement): number {
+  calcBreakPoint(field: HTMLElement, button: HTMLElement): number {
     let fieldWidth: number;
     let buttonOffset: number;
     this.isHorizontal
@@ -154,26 +171,24 @@ if(this.step < 1){return +countStep.toFixed(2)}
     let stepPX: number =
       ((fieldWidth - button.offsetWidth) * this.step) / (this.max - this.min);
 
-    let arr: number[] = [];
+    let arrPoints: number[] = [];
     for (let i = 0; i <= fieldWidth - button.offsetWidth; i += stepPX) {
       arr.push(i);
     }
 
-    let val: number = fieldWidth - button.offsetWidth;
-    arr.forEach(function (item, index, array) {
-      if (
-        buttonOffset >= item &&
-        buttonOffset <= array[index + 1] - stepPX / 2
-      ) {
-        val = item;
-      } else if (
-        buttonOffset >= item + stepPX / 2 &&
-        buttonOffset <= array[index + 1]
-      ) {
-        val = array[index + 1];
+    let breakPoint: number = fieldWidth - button.offsetWidth;
+    arrPoints.forEach(function (item, index, array) {
+      let isButtonBeforePoint =
+        buttonOffset >= item && buttonOffset <= array[index + 1] - stepPX / 2;
+      let isButtonAfterPoint =
+        buttonOffset >= item + stepPX / 2 && buttonOffset <= array[index + 1];
+      if (isButtonBeforePoint) {
+        breakPoint = item;
+      } else if (isButtonAfterPoint) {
+        breakPoint = array[index + 1];
       }
     });
-    return val;
+    return breakPoint;
   }
 }
 export default Model;
