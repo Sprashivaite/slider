@@ -1,8 +1,8 @@
 import Model from "./Model";
 import View from "./View";
 import Presenter from "./Presenter";
-import IViewConfig from "./IViewConfig";
-import IModelConfig from "./IModelConfig";
+import IViewConfig from "./IConfig/IViewConfig";
+import IModelConfig from "./IConfig/IModelConfig";
 
 (function ($) {
 class sliderPlugin{
@@ -22,11 +22,14 @@ class sliderPlugin{
         target: this,
         isHorizontal: true,
         isRangeSlider: true,
-        isFlag: false,
-        isScale: false,
+        isProgressBar: true,
         max: 100,
         min: 0,
         step: 1,
+        isFlag: true,
+        isScale: true,
+        scaleQuantity: 6,
+
       },
       options
     );
