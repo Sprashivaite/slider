@@ -37,16 +37,11 @@ class Model {
         mouseCoords - field.getBoundingClientRect().top - buttonSize / 2;
       fieldSize = field.offsetHeight;
     }
-    if (shiftLeft >= fieldSize - buttonSize) {
-      return fieldSize - buttonSize;
-    }
-    if (shiftLeft <= 0) {
-      return 0;
-    }
+
 
     let stepPX: number =
       ((fieldSize - buttonSize) * this.step) / (this.max - this.min);
-    let isButtonNext: boolean =
+    let isButtonNext: boolean | null =
       button.nextElementSibling &&
       button.nextElementSibling.getAttribute("class") === "slider__button";
 
@@ -63,8 +58,10 @@ class Model {
         return nextButtonOffset;
       }
     }
-
-    let isButtonPrev =
+    if (shiftLeft >= fieldSize - buttonSize) {
+      return fieldSize - buttonSize;
+    }
+    let isButtonPrev: boolean | null =
       button.previousElementSibling &&
       button.previousElementSibling.getAttribute("class") === "slider__button";
 
@@ -80,6 +77,9 @@ class Model {
         }
         return prevButtonOffset;
       }
+    }
+    if (shiftLeft <= 0) {
+      return 0;
     }
     return shiftLeft;
   }
@@ -120,50 +120,53 @@ class Model {
     return arrValues;
   }
   calcStopPoint(field: HTMLElement, button: HTMLElement): number {
-    let fieldWidth: number;
-    let buttonOffset: number;
-    this.isHorizontal
-      ? ((fieldWidth = field.offsetWidth), (buttonOffset = button.offsetLeft))
-      : ((fieldWidth = field.offsetHeight), (buttonOffset = button.offsetTop));
+    let fieldSize: number = field.offsetWidth;
+    let buttonSize: number = button.offsetWidth;
+    let buttonOffset: number = button.offsetLeft;
 
-    let stepPX: number =
-      ((fieldWidth - button.offsetWidth) * this.step) / (this.max - this.min);
-
-    let arrPoints: number[] = [];
-    for (let i = 0; i <= fieldWidth - button.offsetWidth; i += stepPX) {
-      arrPoints.push(i);
+    if (!this.isHorizontal) {
+      fieldSize = field.offsetHeight;
+      buttonSize = button.offsetHeight;
+      buttonOffset = button.offsetTop;
     }
 
-    let breakPoint: number = fieldWidth - button.offsetWidth;
-    arrPoints.forEach(function (item, index, array) {
+    let stepPX: number =
+      ((fieldSize - buttonSize) * this.step) / (this.max - this.min);
+
+    let arrStopPoints: number[] = [];
+    for (let i = 0; i <= fieldSize - buttonSize; i += stepPX) {
+      arrStopPoints.push(i);
+    }
+
+    let stopPoint: number = fieldSize - buttonSize;
+
+    arrStopPoints.forEach(function (item, index, array) {
       let isButtonBeforePoint =
         buttonOffset >= item && buttonOffset <= array[index + 1] - stepPX / 2;
       let isButtonAfterPoint =
         buttonOffset >= item + stepPX / 2 && buttonOffset <= array[index + 1];
       if (isButtonBeforePoint) {
-        breakPoint = item;
+        stopPoint = item;
       } else if (isButtonAfterPoint) {
-        breakPoint = array[index + 1];
+        stopPoint = array[index + 1];
       }
     });
-    return breakPoint;
+    return stopPoint;
   }
-  moveToValue(field: HTMLElement, button: HTMLElement, value: number): void {
-    let fieldWidth: number = field.offsetWidth;
-    let buttonWidth: number = button.offsetWidth;
+  moveToValue(field: HTMLElement, button: HTMLElement, value: number): number {
+    let fieldSize: number = field.offsetWidth;
+    let buttonSize: number = button.offsetWidth;
 
     if (!this.isHorizontal) {
-      fieldWidth = field.offsetHeight;
+      fieldSize = field.offsetHeight;
+      buttonSize = button.offsetHeight;
     }
 
-    let result: string =
-      ((fieldWidth - buttonWidth) / (this.max - this.min)) *
-        (value - this.min) +
-      "px";
+    let result: number =
+      ((fieldSize - buttonSize) / (this.max - this.min)) *
+        (value - this.min) 
 
-    this.isHorizontal
-      ? (button.style.left = result)
-      : (button.style.top = result);
+    return result;
   }
 }
 export default Model;
