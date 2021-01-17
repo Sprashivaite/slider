@@ -1,4 +1,4 @@
-import IModelConfig from "./IConfig/IModelConfig";
+import IModelConfig from "./IModelConfig";
 
 class Model {
   max: number;

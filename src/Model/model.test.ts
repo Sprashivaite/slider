@@ -1,5 +1,5 @@
-import Model from "../Model";
-import View from "../View";
+import Model from "./Model";
+import View from "../View/View";
 
 let model: Model;
 let view: View;
@@ -136,25 +136,25 @@ describe("высчитывание отступа для кнопки", () => {
 });
 
 describe("передвинуть кнопку к точке шага ", () => {
-  it("model.calcBreakPoint horizontal", () => {
+  it("model.calcStopPoint horizontal", () => {
     model = new Model({step: 10});
     view = new View({isRangeSlider: false});
     view.renderElements();
     view.button.moveButton(4);
     view.button.moveButton(
-      model.calcBreakPoint(view.field.div, view.button.div)
+      model.calcStopPoint(view.field.div, view.button.div)
     );
     expect(view.button.div.offsetLeft).toBe(0);
     view.removeElements();
   });
-  xit("model.calcBreakPoint vertical", () => {
+  xit("model.calcStopPoint vertical", () => {
     model.step = 10;
     view = new View({isRangeSlider: false, isHorizontal: false});
     view.renderElements();
     model.isHorizontal = false;
     view.button.moveButton(10);
     view.button.moveButton(
-      model.calcBreakPoint(view.field.div, view.button.div)
+      model.calcStopPoint(view.field.div, view.button.div)
     );
     expect(view.button.div.offsetTop).toBe(0);
     model.step = 1;

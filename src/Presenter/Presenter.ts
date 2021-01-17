@@ -1,7 +1,7 @@
-import Model from "./Model";
-import View from "./View";
-import ViewButton from "./subView/ViewButton";
-import ViewFlag from "./subView/ViewFlag";
+import Model from "../Model/Model";
+import View from "../View/View";
+import ViewButton from "../View/subView/ViewButton";
+import ViewFlag from "../View/subView/ViewFlag";
 
 class Presenter {
   model: Model;
@@ -43,9 +43,9 @@ class Presenter {
     this.view.scale.updateValues(this.model.calcScaleValue(quantity));
   }
   makeBreakpointButton(button: ViewButton) {
-    button.moveButton(this.model.calcBreakPoint(this.view.field.div, button.div));
+    button.moveButton(this.model.calcStopPoint(this.view.field.div, button.div));
     if (!this.model.isHorizontal) {
-      button.moveButton(this.model.calcBreakPoint(this.view.field.div, button.div));
+      button.moveButton(this.model.calcStopPoint(this.view.field.div, button.div));
     }
   }
   mouseMoveButton() {
@@ -101,14 +101,16 @@ class Presenter {
     return this._buttonValue
   }
   set buttonValue(value){
-    this.model.moveToValue(this.view.field.div, this.view.button.div, value);
+    this.view.button.moveButton(this.model.moveToValue(this.view.field.div, this.view.button.div, value)
+    ); 
     this.mouseUp();
   }
   get buttonValue_2(){
     return this._buttonValue_2
   }
   set buttonValue_2(value){
-    this.model.moveToValue(this.view.field.div, this.view.button_2.div, value);
+    this.view.button_2.moveButton(this.model.moveToValue(this.view.field.div, this.view.button_2.div, value)
+    ); 
     this.mouseUp_2();
   }
 }

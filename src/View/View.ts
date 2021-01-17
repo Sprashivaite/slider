@@ -4,12 +4,12 @@ import ViewFlag from "./subView/ViewFlag";
 import ViewProgressBar from "./subView/ViewProgressBar";
 import ViewScale from "./subView/ViewScale";
 import ViewContainer from "./subView/ViewContainer";
-import IViewConfig from "./IConfig/IViewConfig";
+import IViewConfig from "./IViewConfig";
 import ISubscriber from "./ISubscriber";
 
 class View {
   readonly slider!: HTMLDivElement;
-  button!: ViewButton;
+  readonly button!: ViewButton;
   button_2!: ViewButton;
   isHorizontal: boolean;
   isRangeSlider: boolean;
@@ -44,8 +44,10 @@ class View {
     this.isScale = isScale;
     this.scaleQuantity = scaleQuantity;
     this.mouseCoords = 0;
+    this.validate()
   }
-  validate() {
+
+  private validate() {
     if (typeof this.isHorizontal !== "boolean") this.isHorizontal = true;
     if (typeof this.isRangeSlider !== "boolean") this.isRangeSlider = true;
     if (typeof this.isFlag !== "boolean") this.isFlag = true;
@@ -54,28 +56,6 @@ class View {
     if (typeof this.scaleQuantity !== "number" || this.scaleQuantity < 1)
       this.scaleQuantity = 2;
   }
-
-  renderElements(): void {
-    this.renderField();
-    this.renderButtons();
-    this.renderFlag();
-    this.renderProgressBar();
-    this.renderScale();
-  }
-  removeElements() {
-    [
-      this.flag.div,
-      this.button.div,
-      this.field.div,
-      this.progressBar.div,
-      this.scale.div,
-    ].forEach((item) => item.remove());
-
-    if (this.isRangeSlider) {
-      [this.flag_2.div, this.button_2.div].forEach((item) => item.remove());
-    }
-  }
-
   private renderField(): void {
     this.field = new ViewField(this.slider, this.isHorizontal);
     this.field.createField();
@@ -130,24 +110,6 @@ class View {
       }
     }
   }
-
-  getMouseCoords(): void {
-    let that = this;
-    function Coords(event: MouseEvent) {
-      if (that.isHorizontal) {
-        that.mouseCoords = event.clientX;
-      }
-      if (!that.isHorizontal) {
-        that.mouseCoords = event.clientY;
-      }
-    }
-    document.addEventListener("mousemove", Coords);
-  }
-
-  register(sub: ISubscriber) {
-    this.subscriber = sub;
-  }
-
   private notifyMouseMove() {
     this.subscriber.mouseMoveButton();
   }
@@ -160,7 +122,41 @@ class View {
   private notifyMouseUp_2() {
     this.subscriber.mouseUp_2();
   }
+  renderElements(): void {
+    this.renderField();
+    this.renderButtons();
+    this.renderFlag();
+    this.renderProgressBar();
+    this.renderScale();
+  }
+  removeElements() {
+    [
+      this.flag.div,
+      this.button.div,
+      this.field.div,
+      this.progressBar.div,
+      this.scale.div,
+    ].forEach((item) => item.remove());
 
+    if (this.isRangeSlider) {
+      [this.flag_2.div, this.button_2.div].forEach((item) => item.remove());
+    }
+  }
+  getMouseCoords(): void {
+    let that = this;
+    function Coords(event: MouseEvent) {
+      if (that.isHorizontal) {
+        that.mouseCoords = event.clientX;
+      }
+      if (!that.isHorizontal) {
+        that.mouseCoords = event.clientY;
+      }
+    }
+    document.addEventListener("mousemove", Coords);
+  }
+  register(sub: ISubscriber) {
+    this.subscriber = sub;
+  }
   mouseEventSlider(
     MouseMove = this.notifyMouseMove,
     MouseUp = this.notifyMouseUp
@@ -180,7 +176,6 @@ class View {
       });
     }
   }
-
   mouseEventRange(
     MouseMove = this.notifyMouseMove,
     MouseMove_2 = this.notifyMouseMove_2,

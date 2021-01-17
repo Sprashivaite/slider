@@ -1,5 +1,5 @@
-import View from "../View";
-import ViewContainer from "../subView/ViewContainer";
+import View from "./View";
+import ViewContainer from "./subView/ViewContainer";
 
 
 document.body.insertAdjacentHTML(
