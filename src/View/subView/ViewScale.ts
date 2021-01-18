@@ -19,10 +19,8 @@ class ViewScale {
     this.div.onmousedown = () => false;
   }
   updateValues(arrayVal: Array<number>) {
-    let spans = this.div.children;
-    for (let i = 0; i < spans.length; i++) {
-      spans[i].innerHTML = arrayVal[i] + "";
-    }
+    let scaleValues = this.div.children;
+    arrayVal.forEach((item, index) => scaleValues[index].innerHTML = item + "")
   }
   hideScale(): void {
     this.div.classList.add("-js-slider__flag_hide");
