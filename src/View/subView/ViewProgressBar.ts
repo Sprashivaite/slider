@@ -1,3 +1,5 @@
+import IProgressBarConfig from "./IProgressBarConfig";
+
 class ViewProgressBar {
   div: HTMLDivElement;
   field: HTMLDivElement;
@@ -5,7 +7,7 @@ class ViewProgressBar {
   isRangeSlider: boolean;
   button: HTMLDivElement;
   button_2!: HTMLDivElement;
-  constructor(options = {}) {
+  constructor(options = {} as IProgressBarConfig) {
     this.field = options.field;
     this.button = options.button;
     if (options.isRangeSlider) {
@@ -44,24 +46,24 @@ class ViewProgressBar {
         this.div.style.height = buttonOffsetTop_2 - buttonOffsetTop + "px";
       }
     }
-
   }
   changeColorBar(){
-    let fieldWidth = this.field.offsetWidth;
-    let fieldHeight = this.field.offsetHeight;
-    let progressBarWidth = this.div.offsetWidth;
-    let lengthBar;
-    this.isHorizontal ? (lengthBar = fieldWidth) : (lengthBar = fieldHeight);
-    if (progressBarWidth <= fieldWidth / 4) {
+    let fieldSize = this.field.offsetWidth; 
+    let progressBarSize = this.div.offsetWidth;
+    if (!this.isHorizontal){
+      fieldSize = this.field.offsetHeight;
+      progressBarSize = this.div.offsetHeight;
+    }
+    if (progressBarSize <= fieldSize / 4) {
       this.div.style.backgroundColor = "#915E4E";
     }
-    if (progressBarWidth >= fieldWidth / 4) {
+    if (progressBarSize >= fieldSize / 4) {
       this.div.style.backgroundColor = "#CF866F";
     }
-    if (progressBarWidth >= fieldWidth / 2) {
+    if (progressBarSize >= fieldSize / 2) {
       this.div.style.backgroundColor = "#4E9179";
     }
-    if (progressBarWidth >= fieldWidth - this.button.offsetWidth) {
+    if (progressBarSize >= fieldSize - this.button.offsetWidth) {
       this.div.style.backgroundColor = "#6fcf97";
     }
   }
