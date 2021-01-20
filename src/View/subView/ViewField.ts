@@ -1,10 +1,12 @@
+import IView from '../IView'
+
 class ViewField{
     div: HTMLDivElement;
     isHorizontal: boolean;
     slider: HTMLDivElement;
-    constructor(slider: HTMLDivElement, isHorizontal: boolean){
-        this.isHorizontal = isHorizontal;
-        this.slider = slider;
+    constructor(View: IView){
+        this.isHorizontal = View.isHorizontal;
+        this.slider = View.slider.div;
         this.div = document.createElement("div");
 
     }

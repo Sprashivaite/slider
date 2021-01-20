@@ -1,11 +1,13 @@
+import IView from '../IView'
+
 class ViewScale {
   div: HTMLDivElement;
   field: HTMLDivElement;
   isHorizontal: boolean;
-  constructor(field: HTMLDivElement, isHorizontal: boolean) {
+  constructor(View: IView) {
     this.div = document.createElement("div");
-    this.field = field;
-    this.isHorizontal = isHorizontal;
+    this.field = View.field.div;
+    this.isHorizontal = View.isHorizontal;
   }
   createScale(quantity = 5): void {
     if (this.isHorizontal) this.div.className = "slider__scale_horizontal";

@@ -1,4 +1,4 @@
-import IProgressBarConfig from "./IProgressBarConfig";
+import IView from '../IView'
 
 class ViewProgressBar {
   div: HTMLDivElement;
@@ -7,14 +7,14 @@ class ViewProgressBar {
   isRangeSlider: boolean;
   button: HTMLDivElement;
   button_2!: HTMLDivElement;
-  constructor(options = {} as IProgressBarConfig) {
-    this.field = options.field;
-    this.button = options.button;
-    if (options.isRangeSlider) {
-      this.button_2 = options.button_2;
+  constructor(View: IView) {
+    this.field = View.field.div;
+    this.button = View.button.div;
+    if (View.isRangeSlider) {
+      this.button_2 = View.button_2.div;
     }    
-    this.isHorizontal = options.isHorizontal;
-    this.isRangeSlider = options.isRangeSlider;
+    this.isHorizontal = View.isHorizontal;
+    this.isRangeSlider = View.isRangeSlider;
     this.div = document.createElement("div");
   }
   createProgressBar() {
