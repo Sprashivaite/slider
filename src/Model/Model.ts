@@ -1,6 +1,6 @@
 import IModelConfig from "./IModelConfig";
 
-class Model {
+class Model implements IModelConfig{
   max: number;
   min: number;
   step: number;
@@ -15,7 +15,7 @@ class Model {
     this.validate();
   }
 
-  validate() {
+  validate(): void {
     if (typeof this.max !== "number" || this.max <= this.min) this.max = 100;
     if (typeof this.min !== "number" || this.min >= this.max) this.min = 0;
     if (typeof this.step !== "number" || this.step <= 0) this.step = 1;
@@ -39,9 +39,9 @@ class Model {
     }
 
 
-    let stepPX: number =
+    const stepPX: number =
       ((fieldSize - buttonSize) * this.step) / (this.max - this.min);
-    let isButtonNext: boolean | null =
+      const isButtonNext: boolean | null =
       button.nextElementSibling &&
       button.nextElementSibling.getAttribute("class") === "slider__button";
 
@@ -61,7 +61,7 @@ class Model {
     if (shiftLeft >= fieldSize - buttonSize) {
       return fieldSize - buttonSize;
     }
-    let isButtonPrev: boolean | null =
+    const isButtonPrev: boolean | null =
       button.previousElementSibling &&
       button.previousElementSibling.getAttribute("class") === "slider__button";
 
@@ -104,10 +104,10 @@ class Model {
     return Number(result.toFixed(numbersAfterPoint(this.step)));
   }
   calcScaleValue(quantity: number): Array<number> {
-    let arrValues: Array<number> = [];
+    const arrValues: Array<number> = [];
     let value = this.min;
     for (let i = 0; i < quantity - 1; i++) {
-      let isFractionalStep = this.step < 1 || quantity - 1 > this.max;
+      const isFractionalStep = this.step < 1 || quantity - 1 > this.max;
       if (isFractionalStep) {
         arrValues.push(Number(value.toFixed(1)));
       } else {
@@ -130,10 +130,10 @@ class Model {
       buttonOffset = button.offsetTop;
     }
 
-    let stepPX: number =
+    const stepPX: number =
       ((fieldSize - buttonSize) * this.step) / (this.max - this.min);
 
-    let arrStopPoints: number[] = [];
+      const arrStopPoints: number[] = [];
     for (let i = 0; i <= fieldSize - buttonSize; i += stepPX) {
       arrStopPoints.push(i);
     }
@@ -141,9 +141,9 @@ class Model {
     let stopPoint: number = fieldSize - buttonSize;
 
     arrStopPoints.forEach(function (item, index, array) {
-      let isButtonBeforePoint =
+      const isButtonBeforePoint =
         buttonOffset >= item && buttonOffset <= array[index + 1] - stepPX / 2;
-      let isButtonAfterPoint =
+        const isButtonAfterPoint =
         buttonOffset >= item + stepPX / 2 && buttonOffset <= array[index + 1];
       if (isButtonBeforePoint) {
         stopPoint = item;
@@ -162,7 +162,7 @@ class Model {
       buttonSize = button.offsetHeight;
     }
 
-    let result: number =
+    const result: number =
       ((fieldSize - buttonSize) / (this.max - this.min)) *
         (value - this.min) 
 
