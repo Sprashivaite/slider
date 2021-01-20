@@ -1,8 +1,8 @@
-import Model from "./Model";
-import View from "./View";
-import Presenter from "./Presenter";
-import IViewConfig from "./IConfig/IViewConfig";
-import IModelConfig from "./IConfig/IModelConfig";
+import Model from "./Model/Model";
+import View from "./View/View";
+import Presenter from "./Presenter/Presenter";
+import IViewConfig from "./View/IViewConfig";
+import IModelConfig from "./Model/IModelConfig";
 
 (function ($) {
 class sliderPlugin{
