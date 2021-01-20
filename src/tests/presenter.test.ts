@@ -1,6 +1,6 @@
 import Model from "../Model/Model";
 import View from "../View/View";
-import Presenter from "./Presenter";
+import Presenter from "../Presenter/Presenter";
 
 let model: Model;
 let view: View;

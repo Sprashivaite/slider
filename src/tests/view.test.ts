@@ -1,4 +1,4 @@
-import View from "./View"; 
+import View from "../View/View"; 
  
 let container  = document.querySelector('.slider');
 let view: View;
