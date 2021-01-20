@@ -4,12 +4,12 @@ import ViewFlag from "./subView/ViewFlag";
 import ViewProgressBar from "./subView/ViewProgressBar";
 import ViewScale from "./subView/ViewScale";
 import ViewContainer from "./subView/ViewContainer";
-import IViewConfig from "./IViewConfig";
-import viewConfig from "./viewConfig";
+import IViewConfig from "./IViewConfig"; 
+import IView from "./IView"; 
 import ISubscriber from "./ISubscriber";
 import ViewHandler from "./subView/ViewHandler";
 
-class View {
+class View implements IView {
   slider: ViewContainer;
   button!: ViewButton;
   button_2!: ViewButton;
