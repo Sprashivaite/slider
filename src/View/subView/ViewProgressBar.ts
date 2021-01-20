@@ -17,28 +17,28 @@ class ViewProgressBar {
     this.isRangeSlider = View.isRangeSlider;
     this.div = document.createElement("div");
   }
-  createProgressBar() {
+  createProgressBar(): void {
     this.div.className = "progressBar";
     this.div.style.height = this.field.offsetHeight + "px";
     if (!this.isHorizontal) this.div.style.top = "0px";
     this.field.append(this.div);
   }
   progressBarMove(): void {
-    let fieldWidth = this.field.offsetWidth; 
-    let buttonOffsetLeft = this.button.offsetLeft;
-    let buttonOffsetTop = this.button.offsetTop + this.button.offsetHeight / 2;
+    const fieldWidth = this.field.offsetWidth; 
+    const buttonOffsetLeft = this.button.offsetLeft;
+    const buttonOffsetTop = this.button.offsetTop + this.button.offsetHeight / 2;
     this.div.style.width = buttonOffsetLeft + "px";
     if (!this.isHorizontal) {
       this.div.style.height = buttonOffsetTop + "px";
       this.div.style.width = fieldWidth + "px";
     }
     if (this.isRangeSlider) {
-      let buttonOffsetLeft_2 =
+      const buttonOffsetLeft_2 =
         this.button_2.offsetLeft + this.button_2.offsetWidth;
       this.div.style.left = buttonOffsetLeft + "px";
       this.div.style.width = buttonOffsetLeft_2 - buttonOffsetLeft + "px";
       if (!this.isHorizontal) {
-        let buttonOffsetTop_2 =
+        const buttonOffsetTop_2 =
           this.button_2.offsetTop + this.button_2.offsetHeight;
         this.div.style.top = buttonOffsetTop + "px";
         this.div.style.width = fieldWidth + "px";
@@ -47,7 +47,7 @@ class ViewProgressBar {
       }
     }
   }
-  changeColorBar(){
+  changeColorBar(): void{
     let fieldSize = this.field.offsetWidth; 
     let progressBarSize = this.div.offsetWidth;
     if (!this.isHorizontal){

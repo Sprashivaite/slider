@@ -20,8 +20,8 @@ class ViewScale {
 
     this.div.onmousedown = () => false;
   }
-  updateValues(arrayVal: Array<number>) {
-    let scaleValues = this.div.children;
+  updateValues(arrayVal: Array<number>): void {
+    const scaleValues = this.div.children;
     arrayVal.forEach((item, index) => scaleValues[index].innerHTML = item + "")
   }
   hideScale(): void {

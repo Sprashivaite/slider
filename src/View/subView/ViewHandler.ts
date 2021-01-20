@@ -1,4 +1,4 @@
-import ISubscriber from "../ISubscriber"; 
+import ISubscriber from "./ISubscriber";
 import IView from "../IView";
 
 class ViewHandler {
@@ -14,56 +14,55 @@ class ViewHandler {
     this.isHorizontal = View.isHorizontal;
     this.isRangeSlider = View.isRangeSlider;
     this.slider = View.slider.div;
-    this.field = View.field.div
-    this.button = View.button.div
-    if (View.button_2) this.button_2 = View.button_2.div
+    this.field = View.field.div;
+    this.button = View.button.div;
+    if (View.button_2) this.button_2 = View.button_2.div;
     this.subscriber = subscriber;
     this.mouseCoords = 0;
   }
 
   getMouseCoords(): void {
-    let that = this;
-    function Coords(event: MouseEvent) {
-      if (that.isHorizontal) {
-        that.mouseCoords = event.clientX;
+    const Coords = (event: MouseEvent) => {
+      if (this.isHorizontal) {
+        this.mouseCoords = event.clientX;
       }
-      if (!that.isHorizontal) {
-        that.mouseCoords = event.clientY;
+      if (!this.isHorizontal) {
+        this.mouseCoords = event.clientY;
       }
-    }
+    };
     document.addEventListener("mousemove", Coords);
   }
   mouseEventSlider(
     MouseMove = this.notifyMouseMove,
     MouseUp = this.notifyMouseUp
-  ) {
+  ): void {
     this.slider.onmousedown = () => false;
     this.slider.oncontextmenu = () => false;
-    let Handler = MouseMove.bind(this);
+    const handler = MouseMove.bind(this);
+
+    const useHandler = () => {
+      handler();
+      document.addEventListener("mousemove", handler);
+      document.onmouseup = () => {
+        document.removeEventListener("mousemove", handler);
+        MouseUp()
+      };
+    };
 
     if (!this.isRangeSlider) {
-      this.field.addEventListener("mousedown", () => {
-        Handler();
-        
-        document.addEventListener("mousemove", Handler);
-        document.onmouseup = () => {
-          document.removeEventListener("mousemove", Handler);
-          MouseUp.call(this);
-        };
-      });
+      this.field.addEventListener("mousedown", useHandler);
     }
-    
   }
   mouseEventRange(
     MouseMove = this.notifyMouseMove,
     MouseMove_2 = this.notifyMouseMove_2,
     MouseUp = this.notifyMouseUp,
     MouseUp_2 = this.notifyMouseUp_2
-  ) {
-    let Handler = MouseMove.bind(this);
-    let Handler_2 = MouseMove_2.bind(this);
+  ): void {
+    const handler = MouseMove.bind(this);
+    const handler_2 = MouseMove_2.bind(this);
 
-    this.field.addEventListener("mousedown", () => {
+    const useHandlers = () => {
       let buttonOffset = this.button.getBoundingClientRect().left;
       let buttonOffset_2 = this.button_2.getBoundingClientRect().left;
 
@@ -73,33 +72,34 @@ class ViewHandler {
       }
 
       if (this.mouseCoords > (buttonOffset_2 + buttonOffset) / 2) {
-        Handler_2();
-        document.addEventListener("mousemove", Handler_2);
+        handler_2();
+        document.addEventListener("mousemove", handler_2);
         document.onmouseup = () => {
-          document.removeEventListener("mousemove", Handler_2);
+          document.removeEventListener("mousemove", handler_2);
           MouseUp_2.call(this);
         };
       } else {
-        Handler();
-        document.addEventListener("mousemove", Handler);
+        handler();
+        document.addEventListener("mousemove", handler);
         document.onmouseup = () => {
-          document.removeEventListener("mousemove", Handler);
+          document.removeEventListener("mousemove", handler);
           MouseUp.call(this);
         };
       }
-    });
+    }
+
+    this.field.addEventListener("mousedown", useHandlers );
   }
-  private notifyMouseMove() {
-    this.subscriber.mouseMoveButton(); 
-    
+  private notifyMouseMove(): void {
+    this.subscriber.mouseMoveButton();
   }
-  private notifyMouseUp() {
+  private notifyMouseUp(): void {
     this.subscriber.mouseUp();
   }
-  private notifyMouseMove_2() {
+  private notifyMouseMove_2(): void {
     this.subscriber.mouseMoveButton_2();
   }
-  private notifyMouseUp_2() {
+  private notifyMouseUp_2(): void {
     this.subscriber.mouseUp_2();
   }
 }

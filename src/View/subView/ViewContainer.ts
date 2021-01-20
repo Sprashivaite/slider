@@ -5,7 +5,7 @@ class ViewContainer {
     slider ? (this.div = slider) : this.searchContainer();
     if(!this.div) this.createContainer();    
   }
-  searchContainer() {
+  searchContainer(): void {
     if (document.querySelector(".slider")) {
       this.div = document.querySelector(".slider");
     };
@@ -13,8 +13,8 @@ class ViewContainer {
       this.div = document.querySelector("[data-slider]");
     };
   }
-  createContainer() {
-    let sliderDiv = document.createElement("div");
+  createContainer(): void {
+    const sliderDiv = document.createElement("div");
     sliderDiv.classList.add("slider");
     document.body.append(sliderDiv);
     this.div = sliderDiv;
