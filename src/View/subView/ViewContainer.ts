@@ -1,23 +1,23 @@
 class ViewContainer {
-  slider!: HTMLDivElement;
+  div!: HTMLDivElement;
 
   constructor(slider?: HTMLDivElement) {
-    this.slider = slider;
-    if (!slider) {
-      this.createContainer();
-    }
+    slider ? (this.div = slider) : this.searchContainer();
+    if(!this.div) this.createContainer();    
+  }
+  searchContainer() {
+    if (document.querySelector(".slider")) {
+      this.div = document.querySelector(".slider");
+    };
+    if (document.querySelector("[data-slider]")) {
+      this.div = document.querySelector("[data-slider]");
+    };
   }
   createContainer() {
-    if (document.querySelector(".slider")) {
-      return (this.slider = document.querySelector(".slider"));
-    }
-    if (document.querySelector("[data-slider]")) {
-      return (this.slider = document.querySelector("[data-slider]"));
-    }
     let sliderDiv = document.createElement("div");
     sliderDiv.classList.add("slider");
     document.body.append(sliderDiv);
-    this.slider = sliderDiv;
+    this.div = sliderDiv;
   }
 }
 export default ViewContainer;
