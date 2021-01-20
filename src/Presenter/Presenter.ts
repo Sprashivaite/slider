@@ -6,22 +6,21 @@ import ViewFlag from "../View/subView/ViewFlag";
 class Presenter {
   model: Model;
   view: View;
-  _buttonValue: number;
-  _buttonValue_2: number;
+  buttonValue: number;
+  buttonValue_2: number;
 
   constructor(model: Model, view: View) {
     this.model = model;
     this.view = view;
-    this._buttonValue = 0;
-    this._buttonValue_2 = 0;
+    this.buttonValue = 0;
+    this.buttonValue_2 = 0;
     this.view.renderElements();
-    this.view.getMouseCoords();
     this.view.register(this);
-
-    this.view.mouseEventSlider();
+    this.view.handler.getMouseCoords();    
+    this.view.handler.mouseEventSlider();
     this.updateScaleValues();
     if (this.view.isRangeSlider) {
-      this.view.mouseEventRange();
+      this.view.handler.mouseEventRange();
       this.mouseUp_2();
     } 
   }
@@ -31,8 +30,8 @@ class Presenter {
       this.model.calcBtnOffset(
         this.view.field.div,
         button.div,
-        this.view.mouseCoords
-      )
+        this.view.handler.mouseCoords
+      )      
     );
   }
   changeFlagValue(button: HTMLElement, flag: ViewFlag) {
@@ -53,14 +52,14 @@ class Presenter {
     this.changeFlagValue(this.view.button.div, this.view.flag);
     this.view.progressBar.progressBarMove();
     this.view.progressBar.changeColorBar();
-    this._buttonValue = Number(this.view.flag.div.innerHTML);
+    this.buttonValue = Number(this.view.flag.div.innerHTML);
   }
   mouseMoveButton_2() {
     this.moveButton(this.view.button_2);
     this.changeFlagValue(this.view.button_2.div, this.view.flag_2);
     this.view.progressBar.progressBarMove();
     this.view.progressBar.changeColorBar();
-    this._buttonValue_2 = Number(this.view.flag_2.div.innerHTML);
+    this.buttonValue_2 = Number(this.view.flag_2.div.innerHTML);
   }
   mouseUp() {
     this.makeBreakpointButton(this.view.button);
@@ -79,10 +78,12 @@ class Presenter {
     this.model.isHorizontal = !this.model.isHorizontal;
     this.view.isHorizontal = !this.view.isHorizontal;
     this.view.renderElements();
-    this.view.mouseEventSlider();
+    this.view.register(this);
+    this.view.handler.getMouseCoords();    
+    this.view.handler.mouseEventSlider();
     this.updateScaleValues();
-    if (this.view.isRangeSlider) {
-      this.view.mouseEventRange();
+    if (this.view.isRangeSlider) { 
+      this.view.handler.mouseEventRange();
       this.mouseUp_2();
     }
   }
@@ -90,25 +91,23 @@ class Presenter {
     this.view.removeElements();
     this.view.isRangeSlider = !this.view.isRangeSlider;
     this.view.renderElements();
-    this.view.mouseEventSlider();
+    this.view.register(this);
+    this.view.handler.getMouseCoords();    
+    this.view.handler.mouseEventSlider();
     this.updateScaleValues();
-    if (this.view.isRangeSlider) {
-      this.view.mouseEventRange();
+    if (this.view.isRangeSlider) { 
+      this.view.handler.mouseEventRange();
       this.mouseUp_2();
     }
   }
-  get buttonValue(){
-    return this._buttonValue
-  }
-  set buttonValue(value){
+
+  setButtonValue(value){
     this.view.button.moveButton(this.model.moveToValue(this.view.field.div, this.view.button.div, value)
     ); 
     this.mouseUp();
   }
-  get buttonValue_2(){
-    return this._buttonValue_2
-  }
-  set buttonValue_2(value){
+
+  setButtonValue_2(value){
     this.view.button_2.moveButton(this.model.moveToValue(this.view.field.div, this.view.button_2.div, value)
     ); 
     this.mouseUp_2();
