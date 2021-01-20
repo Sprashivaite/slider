@@ -25,7 +25,7 @@ class Presenter {
     } 
   }
 
-  moveButton(button: ViewButton) {
+  moveButton(button: ViewButton): void {
     button.moveButton(
       this.model.calcBtnOffset(
         this.view.field.div,
@@ -34,46 +34,46 @@ class Presenter {
       )      
     );
   }
-  changeFlagValue(button: HTMLElement, flag: ViewFlag) {
+  changeFlagValue(button: HTMLElement, flag: ViewFlag): void {
     flag.changeFlagValue(this.model.calcFlagValue(this.view.field.div, button));
   }
   updateScaleValues() {
-    let quantity =  this.view.scale.div.children.length;
+    const quantity =  this.view.scale.div.children.length;
     this.view.scale.updateValues(this.model.calcScaleValue(quantity));
   }
-  makeBreakpointButton(button: ViewButton) {
+  makeBreakpointButton(button: ViewButton): void {
     button.moveButton(this.model.calcStopPoint(this.view.field.div, button.div));
     if (!this.model.isHorizontal) {
       button.moveButton(this.model.calcStopPoint(this.view.field.div, button.div));
     }
   }
-  mouseMoveButton() {
+  mouseMoveButton(): void {
     this.moveButton(this.view.button);
     this.changeFlagValue(this.view.button.div, this.view.flag);
     this.view.progressBar.progressBarMove();
     this.view.progressBar.changeColorBar();
     this.buttonValue = Number(this.view.flag.div.innerHTML);
   }
-  mouseMoveButton_2() {
+  mouseMoveButton_2(): void {
     this.moveButton(this.view.button_2);
     this.changeFlagValue(this.view.button_2.div, this.view.flag_2);
     this.view.progressBar.progressBarMove();
     this.view.progressBar.changeColorBar();
     this.buttonValue_2 = Number(this.view.flag_2.div.innerHTML);
   }
-  mouseUp() {
+  mouseUp(): void {
     this.makeBreakpointButton(this.view.button);
     this.view.progressBar.progressBarMove();
     this.view.progressBar.changeColorBar();
     this.changeFlagValue(this.view.button.div, this.view.flag);
   }
-  mouseUp_2() {
+  mouseUp_2(): void {
     this.makeBreakpointButton(this.view.button_2);
     this.view.progressBar.progressBarMove();
     this.view.progressBar.changeColorBar();
     this.changeFlagValue(this.view.button_2.div, this.view.flag_2);
   }
-  changeOrientation() {
+  changeOrientation(): void {
     this.view.removeElements();
     this.model.isHorizontal = !this.model.isHorizontal;
     this.view.isHorizontal = !this.view.isHorizontal;
@@ -87,7 +87,7 @@ class Presenter {
       this.mouseUp_2();
     }
   }
-  changeTypeSlider() {
+  changeTypeSlider(): void {
     this.view.removeElements();
     this.view.isRangeSlider = !this.view.isRangeSlider;
     this.view.renderElements();
@@ -101,13 +101,13 @@ class Presenter {
     }
   }
 
-  setButtonValue(value){
+  setButtonValue(value: number): void{
     this.view.button.moveButton(this.model.moveToValue(this.view.field.div, this.view.button.div, value)
     ); 
     this.mouseUp();
   }
 
-  setButtonValue_2(value){
+  setButtonValue_2(value: number): void{
     this.view.button_2.moveButton(this.model.moveToValue(this.view.field.div, this.view.button_2.div, value)
     ); 
     this.mouseUp_2();

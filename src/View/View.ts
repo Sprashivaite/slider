@@ -6,7 +6,7 @@ import ViewScale from "./subView/ViewScale";
 import ViewContainer from "./subView/ViewContainer";
 import IViewConfig from "./IViewConfig"; 
 import IView from "./IView"; 
-import ISubscriber from "./ISubscriber";
+import ISubscriber from "./subView/ISubscriber";
 import ViewHandler from "./subView/ViewHandler";
 
 class View implements IView {
@@ -53,7 +53,7 @@ class View implements IView {
     this.renderProgressBar();
     this.renderScale();
   }
-  removeElements() {
+  removeElements(): void {
     [
       this.flag.div,
       this.button.div,
@@ -67,10 +67,10 @@ class View implements IView {
     }
     
   }
-  register(subscriber: ISubscriber) {
+  register(subscriber: ISubscriber): void {
     this.handler = new ViewHandler(this, subscriber);
   }
-  private validate() {
+  private validate(): void {
     if (typeof this.isHorizontal !== "boolean") this.isHorizontal = true;
     if (typeof this.isRangeSlider !== "boolean") this.isRangeSlider = true;
     if (typeof this.isFlag !== "boolean") this.isFlag = true;
@@ -111,7 +111,7 @@ class View implements IView {
     this.scale.createScale(this.scaleQuantity);
     if (!this.isScale) this.scale.hideScale();
   }
-  private renderProgressBar() {
+  private renderProgressBar(): void {
     this.progressBar = new ViewProgressBar(this);
     this.progressBar.createProgressBar();
     if (!this.isProgressBar) {
