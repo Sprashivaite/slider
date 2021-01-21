@@ -9,21 +9,23 @@ TypeScript-jQuery-Jasmine-Karma
 npm install
 ```
 
+#### Start dev server
+```commandline
+npm run dev
+```
+
+http://localhost:8080/ адресс локального сервера.
+
 #### Start test
 ```commandline
 npm run test
 ```
 
-http://localhost:8080/ адресс локального сервера.
+#### On the production server create the bundle files
+```commandline
+npm run build
+```
 
-#### On the production server create the bundle files
-```commandline
-npm run build
-```
-#### On the production server create the bundle files
-```commandline
-npm run build
-```
 
 ## HTML
 Используемые файлы находятся в папке dist. Подключить к странице index.js и style.css.
