@@ -7,9 +7,10 @@ TypeScript-jQuery-Jasmine-Karma
 Используемые файлы находятся в папке dist. Подключить к странице index.js и style.css.
 
 ## HTML
-Подключение стилей.
+
 ```javascript
-<link rel="stylesheet" href="/path/to/slider/dist/style.css" />
+<link rel="stylesheet" href="/dist/style.css" />
+<script src="./dist/index.js"></script>
 ```
 
 ## CSS
@@ -27,15 +28,20 @@ const slider = new AppSlider({target: container})
 ## Initialize via HTML
 По умолчанию контейнер для слайдера определяется путём поиска атрибута data-slider.
 ```javascript
-<divdata-slider> </div>
+<div data-slider></div>
 ```
 Или элементу с классом ".slider".
 ```javascript
-<div class="slider"> </div>
+<div class="slider"></div>
 ```
 # Basic configuration & option parameters
 Дефолтные параметры указаны первым свойством обьекта.
 ```javascript
+$(selector).sliderPlugin({
+    target: null // поиск дата селектора
+    target: $(".container") // подключение к данному элементу
+});
+
 $(selector).sliderPlugin({
     isHorizontal: true // горизонтальный
     isHorizontal: false // вертикальный
@@ -83,7 +89,7 @@ $(selector).sliderPlugin({
 });
 ```
 # Plugin methods
-Также с помощью публичных методов можно управлять элементами слайдера. Чтобы получить доступ, нужно обратиться к .data("sliderPlugin"), далее вызывать методы как обычно.
+Также с помощью публичных методов можно управлять элементами слайдера. Чтобы получить доступ, нужно обратиться к .data("sliderPlugin"), далее вызывать методы.
 ```javascript 
 let slider = $(selector).sliderPlugin().data("sliderPlugin");
 ```
