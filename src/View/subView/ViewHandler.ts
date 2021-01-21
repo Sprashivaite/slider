@@ -33,19 +33,21 @@ class ViewHandler {
     document.addEventListener("mousemove", Coords);
   }
   mouseEventSlider(
-    MouseMove = this.notifyMouseMove,
-    MouseUp = this.notifyMouseUp
+    mouseMove = this.notifyMouseMove,
+    mouseUp = this.notifyMouseUp
   ): void {
     this.slider.onmousedown = () => false;
     this.slider.oncontextmenu = () => false;
-    const handler = MouseMove.bind(this);
+    this.field.onmousedown = () => false;
+    this.field.oncontextmenu = () => false;
+    const handler = mouseMove.bind(this);
 
     const useHandler = () => {
       handler();
       document.addEventListener("mousemove", handler);
       document.onmouseup = () => {
         document.removeEventListener("mousemove", handler);
-        MouseUp()
+        mouseUp.call(this)
       };
     };
 
