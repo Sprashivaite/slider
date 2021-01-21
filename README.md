@@ -4,10 +4,29 @@ TypeScript-jQuery-Jasmine-Karma
 <img src="./slider_gif.gif" width="75%">
 # How to use it
 
-Используемые файлы находятся в папке dist. Подключить к странице index.js и style.css.
+#### Install dependencies
+```commandline
+npm install
+```
+
+#### Start test
+```commandline
+npm run test
+```
+
+http://localhost:8080/ адресс локального сервера.
+
+#### On the production server create the bundle files
+```commandline
+npm run build
+```
+#### On the production server create the bundle files
+```commandline
+npm run build
+```
 
 ## HTML
-
+Используемые файлы находятся в папке dist. Подключить к странице index.js и style.css.
 ```javascript
 <link rel="stylesheet" href="/dist/style.css" />
 <script src="./dist/index.js"></script>
@@ -122,8 +141,11 @@ Presenter зависит от Model и View, использует их мето�
 
 ## File structure
 #### `coverage`
+
 `coverage` содержить визуальное отображение тестов.
+
 `dist` итоговые файлы.
+
 `src` файлы разработки.
 ```
 slider
