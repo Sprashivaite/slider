@@ -6,9 +6,6 @@ class ViewContainer {
     if(!this.div) this.createContainer();    
   }
   searchContainer(): void {
-    if (document.querySelector(".slider")) {
-      this.div = document.querySelector(".slider");
-    };
     if (document.querySelector("[data-slider]")) {
       this.div = document.querySelector("[data-slider]");
     };
