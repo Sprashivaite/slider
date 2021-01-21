@@ -1,82 +1,24 @@
-let slider = $(".slider").sliderPlugin().data("sliderPlugin");
+import $ from "./jQueryAPI"
+import Config from "./Config"
 
 
-let vl: HTMLInputElement = document.querySelector(".vl");
-let vl_2: HTMLInputElement = document.querySelector(".vl_2");
-let max: HTMLInputElement = document.querySelector("#max");
-let min: HTMLInputElement = document.querySelector("#min");
-let step: HTMLInputElement = document.querySelector("#step");
-let tooltip: HTMLInputElement = document.querySelector("#tooltip");
-let scale: HTMLInputElement = document.querySelector("#scale");
+let slider_1 = $('.slider-container_1 > .slider').sliderPlugin({}).data("sliderPlugin");
+let slider_2 = $('.slider-container_2 > .slider').sliderPlugin({isRangeSlider: false, scaleQuantity: 2, max: 5}).data("sliderPlugin");
+let slider_3 = $('.slider-container_3 > .slider').sliderPlugin({isFlag: false, isScale: false}).data("sliderPlugin");
+let slider_4 = $('.slider-container_4 > .slider').sliderPlugin({min: -1, max: 1, step: 0.1, isRangeSlider: false}).data("sliderPlugin");
+let slider_5 = $('.slider-container_5 > .slider').sliderPlugin({isHorizontal: false, step: 250, max: 1500}).data("sliderPlugin");
+let slider_6 = $('.slider-container_6 > .slider').sliderPlugin({isHorizontal: false,isRangeSlider: false, step: 1, max: 1000, min: -1000}).data("sliderPlugin"); 
 
-let orientation = document.querySelector("#orientation");
-let range = document.querySelector("#range");
+let configContainer_1 = document.querySelector('.slider-container_1 > .config')
+let configContainer_2 = document.querySelector('.slider-container_2 > .config')
+let configContainer_3 = document.querySelector('.slider-container_3 > .config')
+let configContainer_4 = document.querySelector('.slider-container_4 > .config')
+let configContainer_5 = document.querySelector('.slider-container_5 > .config')
+let configContainer_6 = document.querySelector('.slider-container_6 > .config')
 
-slider.view.button.div.addEventListener("mousemove", () => {
-  vl.value = slider.presenter.buttonValue + "";
-});
-
-vl.addEventListener("input", function () {
-  slider.presenter.buttonValue = Number(vl.value)
-});
-if (slider.view.isRangeSlider) {
-  slider.view.button_2.div.addEventListener("mousemove", () => {
-    vl_2.value = slider.presenter.buttonValue_2 + "";
-  });
-  vl_2.addEventListener("input", function () {
-    slider.presenter.buttonValue_2 = Number(vl_2.value)
-  });
-}
-
-max.value = slider.model.max + "";
-max.addEventListener("input", function () {
-  slider.model.max = Number(max.value);
-  slider.presenter.updateScaleValues()
-  slider.presenter.mouseUp();
-  slider.presenter.mouseUp_2();
-});
-min.value = slider.model.min + "";
-min.addEventListener("input", function () {
-  slider.model.min = Number(min.value);
-  slider.presenter.updateScaleValues()
-  slider.presenter.mouseUp();
-  slider.presenter.mouseUp_2();
-});
-step.value = slider.model.step + "";
-step.addEventListener("input", function () {
-  let value: number = Math.abs(Number(step.value));
-  if (value === 0) {
-    value = 1;
-  }
-  slider.model.step = value;
-  slider.presenter.mouseUp();
-  slider.presenter.mouseUp_2();
-});
-
-tooltip.checked = slider.view.isFlag;
-tooltip.addEventListener("input", function () {
-  tooltip.checked ? slider.view.flag.showFlag() : slider.view.flag.hideFlag();
-  if (slider.view.flag_2) {
-    tooltip.checked ? slider.view.flag_2.showFlag() : slider.view.flag_2.hideFlag();
-  }
-});
-
-scale.checked = slider.view.isScale;
-scale.addEventListener("input", function () {
-  scale.checked ? slider.view.scale.showScale() : slider.view.scale.hideScale();
- 
-});
-
-orientation.checked = slider.view.isHorizontal;
-orientation.addEventListener("input", function () {
- 
-  slider.presenter.changeOrientation();
-  scale.checked = slider.view.isScale;
-  tooltip.checked = slider.view.isFlag; 
-});
-range.checked = slider.view.isRangeSlider;
-range.addEventListener("input", function () { 
-  slider.presenter.changeTypeSlider(); 
-  scale.checked = slider.view.isScale;
-  tooltip.checked = slider.view.isFlag; 
-});
+let config_1 = new Config(slider_1, configContainer_1);
+let config_2 = new Config(slider_2, configContainer_2);
+let config_3 = new Config(slider_3, configContainer_3);
+let config_4 = new Config(slider_4, configContainer_4);
+let config_5 = new Config(slider_5, configContainer_5);
+let config_6 = new Config(slider_6, configContainer_6);
