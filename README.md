@@ -3,52 +3,87 @@ TypeScript-jQuery-Jasmine-Karma
 [slider-demo-page](https://sprashivaite.github.io/slider-demo-page/)
 <img src="./slider_gif.gif" width="100%">
 # How to use it
-Get started by downloading the archive which contains the plugin files. Extract and upload index.js and style.css.
+
+Используемые файлы находятся в папке dist. Подключить к странице index.js и style.css.
 
 ## HTML
-Include style.css in the head tag your HTML document.
+Подключение стилей.
 ```javascript
 <link rel="stylesheet" href="/path/to/slider/dist/style.css" />
 ```
 
 ## CSS
-For  the element should have a width (or max-width) value set.
+В папке style.css можно изменить стили плагина. Элементы слайдер будут подстраиваться под ширину контейнера.
 
 # Initialization
-After files inclusion, call sliderPlugin  function on the element selector you want to add the slider
+После подключения файлов, плагин иницилизируется на элементе при помощи  JQuery.
 ```javascript
 $(selector).sliderPlugin();
 ```
-## Initialize via HTML
-Add the class sliderPlugin to any element you want to add custom slider with default options. 
+Также подключение возможно без использования JQuery, путём создания экземпляра класса AppSlider.
 ```javascript
-<div class="slider" data-slider> </div>
+const slider = new AppSlider({target: container})
+```
+## Initialize via HTML
+По умолчанию контейнер для слайдера определяется путём поиска атрибута data-slider.
+```javascript
+<divdata-slider> </div>
+```
+Или элементу с классом ".slider".
+```javascript
+<div class="slider"> </div>
 ```
 # Basic configuration & option parameters
+Дефолтные параметры указаны первым свойством обьекта.
 ```javascript
 $(selector).sliderPlugin({
-    isHorizontal: false // vertical slider
+    isHorizontal: true // горизонтальный
+    isHorizontal: false // вертикальный
 });
 
 $(selector).sliderPlugin({
-    max: 1000 // max value
+    max: 100 // максимальное значение
+    max: 0.9 // дробное число
 });
 
 $(selector).sliderPlugin({
-    min: 10 // min value
+    min: 0 // минимальное значение
+    min: -10 // также отрицательные числа
 });
 
 $(selector).sliderPlugin({
-  step: 10 // step value
+  step: 1 // шаг
+  step: 0,1 // дробные значения шага
 });
 
 $(selector).sliderPlugin({
+    isRangeSlider: true // range slider
     isRangeSlider: false // single slider
+});
+
+$(selector).sliderPlugin({
+    isRangeSlider: true // range slider
+    isRangeSlider: false // single slider
+});
+
+$(selector).sliderPlugin({
+    isFlag: true // показать флажок 
+    isFlag: false // скрыть флажок
+});
+
+
+$(selector).sliderPlugin({
+    isScale: true // показать шкалу 
+    isScale: false // скрыть шкалу
+});
+
+$(selector).sliderPlugin({
+    scaleQuantity: 6 // количество числе шкалы
+    scaleQuantity: 2 // количество числе шкалы
 });
 ```
 # Plugin methods
-Ways to execute various plugin actions programmatically from within your script(s).
-Usage 
+Также с помощью публичных методов можно управлять элементами слайдера. Чтобы получить доступ, нужно обратиться к .data("sliderPlugin"), далее вызывать методы как обычно.
 ```javascript 
 let slider = $(selector).sliderPlugin().data("sliderPlugin");
 ```
@@ -60,20 +95,14 @@ slider.presenter.changeTypeSlider();
 ```javascript
 slider.presenter.changeOrientation();
 ```
-### add or remove flag
+### show or hide flag
 ```javascript
 slider.view.flag.showFlag()
 slider.view.flag.hideFlag()
-slider.view.flag_2.showFlag()
-slider.view.flag_2.hideFlag();
 ```
-
-## Returning values
-The script returns a number of values and objects related to slider that you can use in your own functions
-
-* slider.presenter.buttonValue
-* slider.presenter.buttonValue_2
-* slider.model.max
-* slider.model.min
-* slider.model.step
+### set value
+```javascript
+slider.presenter.setButtonValue(number)
+slider.presenter.setButtonValue_2(number)
+```
 
