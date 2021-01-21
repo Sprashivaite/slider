@@ -14,15 +14,6 @@ class Presenter {
     this.view = view;
     this.buttonValue = 0;
     this.buttonValue_2 = 0;
-    this.view.renderElements();
-    this.view.register(this);
-    this.view.handler.getMouseCoords();    
-    this.view.handler.mouseEventSlider();
-    this.updateScaleValues();
-    if (this.view.isRangeSlider) {
-      this.view.handler.mouseEventRange();
-      this.mouseUp_2();
-    } 
   }
 
   moveButton(button: ViewButton): void {
