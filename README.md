@@ -1,6 +1,6 @@
 # slider
 TypeScript-jQuery-Jasmine-Karma
-demo [GitHub](http://github.com)
+[slider-demo-page](https://sprashivaite.github.io/slider-demo-page/)
 <img src="./slider_gif.gif" width="100%">
 # How to use it
 Get started by downloading the archive which contains the plugin files. Extract and upload index.js and style.css.
