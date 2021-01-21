@@ -5,26 +5,26 @@
 
 body{ 
 }
-.slider-container{
-  max-width: 600px;
+.sliders{
   display: flex;
   flex-wrap: wrap;
+}
+.slider-container_1, .slider-container_2,.slider-container_3,.slider-container_4,.slider-container_5,.slider-container_6{
+  width: 600px;
+  display: flex; 
   margin-top: 100px;
+  /* flex-direction: row-reverse; */
 }
 .slider{
   position: relative;
   width: 100%;
   max-width: 266px;  
   margin: 50px 30px;
+  display: flex;
+  justify-content: center;
 }
-.slider2{
-  position: relative;
-  max-width: 266px;
-  width: auto;
-  height: 236px;
-  margin: 0 30px;
-  top: 20px;
-}
+
+
 
 .slider__field_horizontal {
   position: relative;
@@ -65,7 +65,7 @@ z-index: 2;
 
 .slider__flag{
   position: absolute;
-  width: 16px;
+  min-width: 16px;
   height: 12px;
   background: linear-gradient(180deg, #6FCF97 0%, #66D2EA 100%);
   font-size: 10px;
@@ -101,7 +101,6 @@ z-index: 2;
 .progressBar{
   position: absolute; 
   border-radius: 3px;
-  box-sizing: border-box;
   transition-property: background-color;
   transition-duration: 0.5s;
   z-index: 1;
@@ -138,15 +137,15 @@ z-index: 2;
 
 
 .config {
- 
   display: inline-flex;
   flex-direction: row;
   font-family: sans-serif; 
   width: 220px; 
   top: 40px;
   left: 320px;
-  background: #95dae9;
-  border: 2px solid #689ba3; 
+  background:#689ba3;
+  border: 2px solid#3a5a5f ; 
+  border-radius: 13px;
 }
 .config input{
   margin-bottom: 5px;
@@ -158,19 +157,22 @@ z-index: 2;
 }
  .config__left{
   margin-left: 10px;
-  margin-top: 10px;
+  margin-top: 15px;
   margin-bottom: 10px;
+  color: #e6e6e6;
+  font-family: "Times New Roman", serif;
+  font-size: 18px;
 }
 .config__right{
   display: flex;
   flex-direction: column;
   margin-left: 20px;
-  margin-top: 10px;
+  margin-top: 15px;
   
 }
 .config__right input{
-  margin-bottom: 10px;
-  background-color: #e8fcff;
+  margin-bottom: 13px;
+  background-color: white;
   border: 1px solid #689ba3;
   height: 17px;
   padding-left: 3px;
