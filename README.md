@@ -1,7 +1,7 @@
-# slider
+# Slider
 TypeScript-jQuery-Jasmine-Karma
 [slider-demo-page](https://sprashivaite.github.io/slider-demo-page/)
-<img src="./slider_gif.gif" width="100%">
+<img src="./slider_gif.gif" width="75%">
 # How to use it
 
 Используемые файлы находятся в папке dist. Подключить к странице index.js и style.css.
