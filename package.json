@@ -17,6 +17,7 @@
     "@typescript-eslint/parser": "^4.14.0",
     "babel-loader": "^8.1.0",
     "eslint": "^7.18.0",
+    "eslint-config-airbnb": "^18.2.1",
     "eslint-plugin-fsd": "^1.0.1",
     "istanbul-instrumenter-loader": "^3.0.1",
     "jasmine": "^3.6.3",

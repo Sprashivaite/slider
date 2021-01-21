@@ -6,7 +6,8 @@ module.exports = {
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:fsd/all"
+        "plugin:fsd/all",
+        "airbnb"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -15,7 +16,7 @@ module.exports = {
     },
     "plugins": [
         "@typescript-eslint",
-        "fsd"
+        "fsd",
     ],
     "rules": {
     }
