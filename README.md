@@ -14,7 +14,7 @@ npm install
 npm run dev
 ```
 
-http://localhost:8080/ адресс локального сервера.
+http://localhost:8080/ адрес локального сервера.
 
 #### Start test
 ```commandline
@@ -27,6 +27,9 @@ npm run build
 ```
 
 
+
+# Initialization
+
 ## HTML
 Используемые файлы находятся в папке dist. Подключить к странице index.js и style.css.
 ```javascript
@@ -37,7 +40,7 @@ npm run build
 ## CSS
 В папке style.css можно изменить стили плагина. Элементы слайдер будут подстраиваться под ширину контейнера.
 
-# Initialization
+## JavaScript
 После подключения файлов, плагин иницилизируется на элементе при помощи  JQuery.
 ```javascript
 $(selector).sliderPlugin();
@@ -50,10 +53,6 @@ const slider = new AppSlider({target: container})
 По умолчанию контейнер для слайдера определяется путём поиска атрибута data-slider.
 ```javascript
 <div data-slider></div>
-```
-Или элементу с классом ".slider".
-```javascript
-<div class="slider"></div>
 ```
 # Basic configuration & option parameters
 Дефолтные параметры указаны первым свойством обьекта.
