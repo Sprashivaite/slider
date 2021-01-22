@@ -1,12 +1,17 @@
-import IModelConfig from "./IModelConfig";
+import IModelConfig from './IModelConfig';
 
-class Model implements IModelConfig{
+class Model implements IModelConfig {
   max: number;
+
   min: number;
+
   step: number;
+
   isHorizontal: boolean;
+
   constructor(
-    { max = 100, min = 0, step = 1, isHorizontal = true } = {} as IModelConfig
+    {
+      max = 100, min = 0, step = 1, isHorizontal = true } = {} as IModelConfig
   ) {
     this.max = max;
     this.min = min;
@@ -16,38 +21,33 @@ class Model implements IModelConfig{
   }
 
   validate(): void {
-    if (typeof this.max !== "number" || this.max <= this.min) this.max = 100;
-    if (typeof this.min !== "number" || this.min >= this.max) this.min = 0;
-    if (typeof this.step !== "number" || this.step <= 0) this.step = 1;
-    if (typeof this.isHorizontal !== "boolean") this.isHorizontal = true;
+    if (typeof this.max !== 'number' || this.max <= this.min) this.max = 100;
+    if (typeof this.min !== 'number' || this.min >= this.max) this.min = 0;
+    if (typeof this.step !== 'number' || this.step <= 0) this.step = 1;
+    if (typeof this.isHorizontal !== 'boolean') this.isHorizontal = true;
   }
+
   calcBtnOffset(
     field: HTMLElement,
     button: HTMLElement,
-    mouseCoords: number
+    mouseCoords: number,
   ): number {
     let fieldSize: number = field.offsetWidth;
     let buttonSize: number = button.offsetWidth;
-    let shiftLeft: number =
-      mouseCoords - field.getBoundingClientRect().left - buttonSize / 2;
+    let shiftLeft: number = mouseCoords - field.getBoundingClientRect().left - buttonSize / 2;
 
     if (!this.isHorizontal) {
       buttonSize = button.offsetHeight;
-      shiftLeft =
-        mouseCoords - field.getBoundingClientRect().top - buttonSize / 2;
+      shiftLeft = mouseCoords - field.getBoundingClientRect().top - buttonSize / 2;
       fieldSize = field.offsetHeight;
     }
 
-
-    const stepPX: number =
-      ((fieldSize - buttonSize) * this.step) / (this.max - this.min);
-      const isButtonNext: boolean | null =
-      button.nextElementSibling &&
-      button.nextElementSibling.getAttribute("class") === "slider__button";
+    const stepPX: number = ((fieldSize - buttonSize) * this.step) / (this.max - this.min);
+    const isButtonNext: boolean | null = button.nextElementSibling
+      && button.nextElementSibling.getAttribute('class') === 'slider__button';
 
     if (isButtonNext) {
-      let nextButtonOffset: number =
-        button.nextElementSibling.offsetLeft - buttonSize;
+      let nextButtonOffset: number = button.nextElementSibling.offsetLeft - buttonSize;
       if (!this.isHorizontal) {
         nextButtonOffset = button.nextElementSibling.offsetTop - buttonSize;
       }
@@ -61,13 +61,11 @@ class Model implements IModelConfig{
     if (shiftLeft >= fieldSize - buttonSize) {
       return fieldSize - buttonSize;
     }
-    const isButtonPrev: boolean | null =
-      button.previousElementSibling &&
-      button.previousElementSibling.getAttribute("class") === "slider__button";
+    const isButtonPrev: boolean | null = button.previousElementSibling
+      && button.previousElementSibling.getAttribute('class') === 'slider__button';
 
     if (isButtonPrev) {
-      let prevButtonOffset: number =
-        button.previousElementSibling.offsetLeft + buttonSize;
+      let prevButtonOffset: number = button.previousElementSibling.offsetLeft + buttonSize;
       if (!this.isHorizontal) {
         prevButtonOffset = button.previousElementSibling.offsetTop + buttonSize;
       }
@@ -83,6 +81,7 @@ class Model implements IModelConfig{
     }
     return shiftLeft;
   }
+
   calcFlagValue(field: HTMLElement, button: HTMLElement): number {
     let fieldSize: number = field.offsetWidth;
     let buttonSize: number = button.offsetWidth;
@@ -94,19 +93,18 @@ class Model implements IModelConfig{
       buttonOffset = button.offsetTop;
     }
 
-    const result: number =
-      this.min +
-      (buttonOffset * (this.max - this.min)) / (fieldSize - buttonSize);
+    const result: number = this.min
+      + (buttonOffset * (this.max - this.min)) / (fieldSize - buttonSize);
 
-    const numbersAfterPoint = (x: number) =>
-      x.toString().includes(".") ? x.toString().split(".").pop().length : 0;
+    const numbersAfterPoint = (x: number) => (x.toString().includes('.') ? x.toString().split('.').pop().length : 0);
 
     return Number(result.toFixed(numbersAfterPoint(this.step)));
   }
+
   calcScaleValue(quantity: number): Array<number> {
     const arrValues: Array<number> = [];
     let value = this.min;
-    for (let i = 0; i < quantity - 1; i++) {
+    for (let i = 0; i < quantity - 1; i += 1) {
       const isFractionalStep = this.step < 1 || quantity - 1 > this.max;
       if (isFractionalStep) {
         arrValues.push(Number(value.toFixed(1)));
@@ -119,6 +117,7 @@ class Model implements IModelConfig{
     arrValues.push(this.max);
     return arrValues;
   }
+
   calcStopPoint(field: HTMLElement, button: HTMLElement): number {
     let fieldSize: number = field.offsetWidth;
     let buttonSize: number = button.offsetWidth;
@@ -130,21 +129,20 @@ class Model implements IModelConfig{
       buttonOffset = button.offsetTop;
     }
 
-    const stepPX: number =
-      ((fieldSize - buttonSize) * this.step) / (this.max - this.min);
+    const stepPX: number = ((fieldSize - buttonSize) * this.step) / (this.max - this.min);
 
-      const arrStopPoints: number[] = [];
+    const arrStopPoints: number[] = [];
     for (let i = 0; i <= fieldSize - buttonSize; i += stepPX) {
       arrStopPoints.push(i);
     }
 
     let stopPoint: number = fieldSize - buttonSize;
 
-    arrStopPoints.forEach(function (item, index, array) {
-      const isButtonBeforePoint =
-        buttonOffset >= item && buttonOffset <= array[index + 1] - stepPX / 2;
-        const isButtonAfterPoint =
-        buttonOffset >= item + stepPX / 2 && buttonOffset <= array[index + 1];
+    arrStopPoints.forEach((item, index, array) => {
+      const isButtonBeforePoint = buttonOffset >= item
+      && buttonOffset <= array[index + 1] - stepPX / 2;
+      const isButtonAfterPoint = buttonOffset >= item + stepPX / 2 
+      && buttonOffset <= array[index + 1];
       if (isButtonBeforePoint) {
         stopPoint = item;
       } else if (isButtonAfterPoint) {
@@ -153,6 +151,7 @@ class Model implements IModelConfig{
     });
     return stopPoint;
   }
+
   moveToValue(field: HTMLElement, button: HTMLElement, value: number): number {
     let fieldSize: number = field.offsetWidth;
     let buttonSize: number = button.offsetWidth;
@@ -162,9 +161,8 @@ class Model implements IModelConfig{
       buttonSize = button.offsetHeight;
     }
 
-    const result: number =
-      ((fieldSize - buttonSize) / (this.max - this.min)) *
-        (value - this.min) 
+    const result: number = ((fieldSize - buttonSize) / (this.max - this.min))
+        * (value - this.min);
 
     return result;
   }
