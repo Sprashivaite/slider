@@ -7,15 +7,19 @@ import IModelConfig from "./Model/IModelConfig";
 
 class AppSlider {
   model: Model;
+
   view: View;
+
   presenter: Presenter;
+
   constructor(options = {} as IViewConfig | IModelConfig){
     this.model = new Model(options);
     this.view = new View(options);
     this.presenter = new Presenter(this.model, this.view);
     this.initApp();
   }
-  initApp(){
+
+  initApp(): void{
     this.view.renderElements();
     this.view.register(this.presenter);
     this.view.handler.getMouseCoords();    

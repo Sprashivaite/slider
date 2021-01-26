@@ -4,4 +4,4 @@ interface IModelConfig{
     step?: number;
     isHorizontal?: boolean;
 }
-export default IModelConfig
+export default IModelConfig;
