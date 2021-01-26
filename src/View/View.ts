@@ -11,19 +11,33 @@ import ViewHandler from "./subView/ViewHandler";
 
 class View implements IView {
   slider: ViewContainer;
+
   button!: ViewButton;
+
   button_2!: ViewButton;
+
   isHorizontal: boolean;
+
   isRangeSlider: boolean;
+
   field!: ViewField;
+
   flag!: ViewFlag;
+
   flag_2!: ViewFlag;
+
   progressBar!: ViewProgressBar;
+
   scale!: ViewScale;
+
   handler!: ViewHandler;
+
   isFlag: boolean;
+
   isScale: boolean;
+
   scaleQuantity: number;
+
   isProgressBar: boolean;
 
   constructor(
@@ -46,6 +60,7 @@ class View implements IView {
     this.scaleQuantity = scaleQuantity;
     this.validate();
   }
+
   renderElements(): void {
     this.renderField();
     this.renderButtons();
@@ -53,6 +68,7 @@ class View implements IView {
     this.renderProgressBar();
     this.renderScale();
   }
+
   removeElements(): void {
     [
       this.flag.div,
@@ -67,9 +83,11 @@ class View implements IView {
     }
     
   }
+
   register(subscriber: ISubscriber): void {
     this.handler = new ViewHandler(this, subscriber);
   }
+
   private validate(): void {
     if (typeof this.isHorizontal !== "boolean") this.isHorizontal = true;
     if (typeof this.isRangeSlider !== "boolean") this.isRangeSlider = true;
@@ -80,10 +98,12 @@ class View implements IView {
       this.scaleQuantity = 2;
     this.scaleQuantity = Number(this.scaleQuantity.toFixed(0));
   }
+
   private renderField(): void {
     this.field = new ViewField(this);
     this.field.createField();
   }
+
   private renderButtons(): void {
     this.button = new ViewButton(this);
     this.button.createButton();
@@ -92,6 +112,7 @@ class View implements IView {
       this.button_2.createButton();
     }
   }
+
   private renderFlag(): void {
     this.flag = new ViewFlag(this.button.div);
     this.flag.createFlag();
@@ -106,11 +127,13 @@ class View implements IView {
       }
     }
   }
+
   private renderScale(): void {
     this.scale = new ViewScale(this);
     this.scale.createScale(this.scaleQuantity);
     if (!this.isScale) this.scale.hideScale();
   }
+
   private renderProgressBar(): void {
     this.progressBar = new ViewProgressBar(this);
     this.progressBar.createProgressBar();

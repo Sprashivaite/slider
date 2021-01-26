@@ -1,15 +1,24 @@
+/* eslint-disable no-undef */
 import ISubscriber from "./ISubscriber";
 import IView from "../IView";
 
 class ViewHandler {
   subscriber: ISubscriber;
+
   mouseCoords: number;
+
   isHorizontal: boolean;
+
   slider: HTMLDivElement;
+
   isRangeSlider: boolean;
+
   field: HTMLDivElement;
+
   button: HTMLDivElement;
+
   button_2: HTMLDivElement | undefined;
+
   constructor(View: IView, subscriber: ISubscriber) {
     this.isHorizontal = View.isHorizontal;
     this.isRangeSlider = View.isRangeSlider;
@@ -32,8 +41,9 @@ class ViewHandler {
     };
     document.addEventListener("mousemove", Coords);
   }
+
   mouseEventSlider(
-    mouseMove = this.notifyMouseMove,
+    mouseMove = this.notifyMouseMove, 
     mouseUp = this.notifyMouseUp
   ): void {
     this.slider.onmousedown = () => false;
@@ -55,6 +65,7 @@ class ViewHandler {
       this.field.addEventListener("mousedown", useHandler);
     }
   }
+
   mouseEventRange(
     MouseMove = this.notifyMouseMove,
     MouseMove_2 = this.notifyMouseMove_2,
@@ -66,11 +77,11 @@ class ViewHandler {
 
     const useHandlers = () => {
       let buttonOffset = this.button.getBoundingClientRect().left;
-      let buttonOffset_2 = this.button_2.getBoundingClientRect().left;
+      let buttonOffset_2 = this.button_2!.getBoundingClientRect().left;
 
       if (!this.isHorizontal) {
         buttonOffset = this.button.getBoundingClientRect().top;
-        buttonOffset_2 = this.button_2.getBoundingClientRect().top;
+        buttonOffset_2 = this.button_2!.getBoundingClientRect().top;
       }
 
       if (this.mouseCoords > (buttonOffset_2 + buttonOffset) / 2) {
@@ -92,15 +103,19 @@ class ViewHandler {
 
     this.field.addEventListener("mousedown", useHandlers );
   }
+
   private notifyMouseMove(): void {
     this.subscriber.mouseMoveButton();
   }
+
   private notifyMouseUp(): void {
     this.subscriber.mouseUp();
   }
+
   private notifyMouseMove_2(): void {
     this.subscriber.mouseMoveButton_2();
   }
+
   private notifyMouseUp_2(): void {
     this.subscriber.mouseUp_2();
   }
