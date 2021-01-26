@@ -129,7 +129,7 @@ slider.view.flag.hideFlag()
 ### set value
 ```javascript
 slider.presenter.setButtonValue(number)
-slider.presenter.setButtonValue_2(number)
+slider.presenter.setButtonValue2(number)
 ```
 # Architecture
 Всё приложение разделено на три слоя: Model, View, Presenter.
