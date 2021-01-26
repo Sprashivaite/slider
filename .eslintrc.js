@@ -20,7 +20,6 @@ module.exports = {
     'import/extensions': "off",
     "import/no-unresolved": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
-    "camelcase": "off"
   },
   "settings": {
     "import/resolver": {
