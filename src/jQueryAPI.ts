@@ -1,9 +1,9 @@
 import IViewConfig from "./View/IViewConfig";
 import IModelConfig from "./Model/IModelConfig";
 import AppSlider from "./AppSlider";
- 
+
 (function ($) {
-  class sliderPlugin {
+  class SliderPlugin {
     appSlider: AppSlider;
     constructor(options: IViewConfig | IModelConfig) {
       this.appSlider = new AppSlider(options);
@@ -28,7 +28,7 @@ import AppSlider from "./AppSlider";
     );
     return this.each(function () {
       if (!$.data(this, "sliderPlugin")) {
-        $.data(this, "sliderPlugin", new sliderPlugin(options));
+        $.data(this, "sliderPlugin", new SliderPlugin(options));
       }
     });
   };
