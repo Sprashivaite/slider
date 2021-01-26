@@ -13,7 +13,6 @@ body{
   width: 600px;
   display: flex; 
   margin-top: 100px;
-  /* flex-direction: row-reverse; */
 }
 .slider{
   position: relative;
