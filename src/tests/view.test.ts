@@ -35,10 +35,7 @@ describe("Создание/поиск контайнера View", () => {
     let container = document.querySelector('.slider')
     let view = new View({target: container}  ); 
     expect(view.slider.div).toEqual(container); 
-  });
-  it("Поиск контейнера по селектору класса", () => { 
-    expect(view.slider.div).toEqual(container); 
-  });
+  }); 
   it("Поиск контейнера по дата селектору", () => {
     document.body.insertAdjacentHTML(
       "afterbegin",

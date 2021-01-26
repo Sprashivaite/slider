@@ -9,7 +9,7 @@ document.body.insertAdjacentHTML(
   "afterbegin",
   "<div class='slider' style='width:100px; height: 100px;'></div>"
 );
-let container  = document.querySelector('.slider');
+let container  = document.querySelector('.slider')!;
 container.insertAdjacentHTML(
   "afterbegin",
   "<div class='slider__field_horizontal'></div>"
@@ -18,7 +18,7 @@ container.insertAdjacentHTML(
   "beforeend",
   "<div class='slider__field_vertical'></div>"
 );
-let field_horizontal  = document.querySelector('.slider__field_horizontal');
+let field_horizontal  = document.querySelector('.slider__field_horizontal')!;
 field_horizontal.insertAdjacentHTML(
   "afterbegin",
   "<div class='slider__button'></div>"
@@ -27,7 +27,7 @@ field_horizontal.insertAdjacentHTML(
   "beforeend",
   "<div class='slider__button' style='left: 66px'></div>"
 );
-let field_vertical  = document.querySelector('.slider__field_vertical');
+let field_vertical  = document.querySelector('.slider__field_vertical')!;
 field_vertical.insertAdjacentHTML(
   "afterbegin",
   "<div class='slider__button' style='top: 20px'></div>"
@@ -143,7 +143,7 @@ describe("передвинуть кнопку к точке шага ", () => {
     model = new Model({step: 50});   
     expect(
       model.calcStopPoint(field_horizontal, button_horizontal_2) 
-    ).toBeGreaterThan(80)
+    ).toBeGreaterThan(70)
   });
   it("model.calcStopPoint vertical", () => {
     model = new Model({isHorizontal: false ,step: 50});   

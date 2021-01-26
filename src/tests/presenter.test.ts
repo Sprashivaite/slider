@@ -10,6 +10,7 @@ beforeEach(()=>{
   view = new View({isRangeSlider: false});  
   model = new Model();
   presenter = new Presenter(model, view);
+  view.renderElements();
 })
 afterEach(() => view.removeElements())
  
@@ -46,7 +47,9 @@ describe("изменить значение флага", () => {
 });
 
 describe("передвинуть button", () => {
-  it("presenter.moveButton", () => {     
+  it("presenter.moveButton", () => {   
+    view.register(presenter);
+    view.handler.getMouseCoords();    
     view.handler.mouseCoords = 80;
     presenter.moveButton(view.button); 
     expect(view.button.div.offsetLeft).toBeGreaterThan(0) 
@@ -54,7 +57,10 @@ describe("передвинуть button", () => {
 });
 
 describe("реакция на mouse Move", () => {
-  it("presenter.mouseMoveButton", () => {     
+  it("presenter.mouseMoveButton", () => {   
+    view.register(presenter);
+    view.handler.getMouseCoords();    
+    view.handler.mouseCoords = 80;  
     view.handler.mouseCoords = 80;
     presenter.mouseMoveButton(); 
     expect(view.button.div.offsetLeft).toBeGreaterThan(0);
@@ -80,6 +86,7 @@ describe("реакция на mouse Up", () => {
     view = new View({isRangeSlider: false}); 
     model = new Model({step: 20});
     presenter = new Presenter(model, view);
+    view.renderElements();
     view.button.moveButton(view.field.div.offsetWidth - 5 - view.button.div.offsetWidth);
     presenter.mouseUp();
     expect(view.button.div.offsetLeft + view.button.div.offsetWidth).toBe(view.field.div.offsetWidth);
@@ -95,7 +102,7 @@ describe("реакция на mouse Up 2", () => {
     view = new View({isRangeSlider: true}); 
     model = new Model({step: 20});
     presenter = new Presenter(model, view);
-
+    view.renderElements();
     view.button_2.moveButton(view.field.div.offsetWidth - 5 - view.button.div.offsetWidth);
     presenter.mouseUp_2();
 
@@ -114,7 +121,8 @@ describe("установить новое значение button", () => {
   it("presenter.setValue_2", () => {
     view.removeElements();
     view = new View({isRangeSlider: true});  
-    presenter = new Presenter(model, view);    
+    presenter = new Presenter(model, view);  
+    view.renderElements();  
     presenter.setButtonValue_2(55)
     expect(view.flag_2.div.innerHTML).toBe('55')
   });
