@@ -12,9 +12,9 @@ import ViewHandler from "./subView/ViewHandler";
 class View implements IView {
   slider: ViewContainer;
 
-  button!: ViewButton;
+  button1!: ViewButton;
 
-  button_2!: ViewButton;
+  button2!: ViewButton;
 
   isHorizontal: boolean;
 
@@ -22,9 +22,9 @@ class View implements IView {
 
   field!: ViewField;
 
-  flag!: ViewFlag;
+  flag1!: ViewFlag;
 
-  flag_2!: ViewFlag;
+  flag2!: ViewFlag;
 
   progressBar!: ViewProgressBar;
 
@@ -71,15 +71,15 @@ class View implements IView {
 
   removeElements(): void {
     [
-      this.flag.div,
-      this.button.div,
+      this.flag1.div,
+      this.button1.div,
       this.field.div,
       this.progressBar.div,
       this.scale.div,
     ].forEach((item) => item.remove());
 
     if (this.isRangeSlider) {
-      [this.flag_2.div, this.button_2.div].forEach((item) => item.remove());
+      [this.flag2.div, this.button2.div].forEach((item) => item.remove());
     }
     
   }
@@ -105,25 +105,25 @@ class View implements IView {
   }
 
   private renderButtons(): void {
-    this.button = new ViewButton(this);
-    this.button.createButton();
+    this.button1 = new ViewButton(this);
+    this.button1.createButton();
     if (this.isRangeSlider) {
-      this.button_2 = new ViewButton(this);
-      this.button_2.createButton();
+      this.button2 = new ViewButton(this);
+      this.button2.createButton();
     }
   }
 
   private renderFlag(): void {
-    this.flag = new ViewFlag(this.button.div);
-    this.flag.createFlag();
+    this.flag1 = new ViewFlag(this.button1.div);
+    this.flag1.createFlag();
     if (!this.isFlag) {
-      this.flag.hideFlag();
+      this.flag1.hideFlag();
     }
     if (this.isRangeSlider) {
-      this.flag_2 = new ViewFlag(this.button_2.div);
-      this.flag_2.createFlag();
+      this.flag2 = new ViewFlag(this.button2.div);
+      this.flag2.createFlag();
       if (!this.isFlag) {
-        this.flag_2.hideFlag();
+        this.flag2.hideFlag();
       }
     }
   }

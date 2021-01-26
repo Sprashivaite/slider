@@ -9,15 +9,15 @@ class ViewProgressBar {
 
   isRangeSlider: boolean;
 
-  button: HTMLDivElement;
+  button1: HTMLDivElement;
 
-  button_2!: HTMLDivElement;
+  button2!: HTMLDivElement;
 
   constructor(View: IView) {
     this.field = View.field.div;
-    this.button = View.button.div;
+    this.button1 = View.button1.div;
     if (View.isRangeSlider) {
-      this.button_2 = View.button_2.div;
+      this.button2 = View.button2.div;
     }    
     this.isHorizontal = View.isHorizontal;
     this.isRangeSlider = View.isRangeSlider;
@@ -33,8 +33,8 @@ class ViewProgressBar {
 
   progressBarMove(): void {
     const fieldWidth = this.field.offsetWidth; 
-    const buttonOffsetLeft = this.button.offsetLeft;
-    const buttonOffsetTop = this.button.offsetTop + this.button.offsetHeight / 2;
+    const buttonOffsetLeft = this.button1.offsetLeft;
+    const buttonOffsetTop = this.button1.offsetTop + this.button1.offsetHeight / 2;
     this.div.style.width = `${buttonOffsetLeft}px`;
     this.div.style.left = `${-1}px`;
     if (!this.isHorizontal) {
@@ -44,12 +44,12 @@ class ViewProgressBar {
     }
     if (this.isRangeSlider) {
       const buttonOffsetLeft_2 =
-        this.button_2.offsetLeft + this.button_2.offsetWidth;
+        this.button2.offsetLeft + this.button2.offsetWidth;
       this.div.style.left = `${buttonOffsetLeft}px`;
       this.div.style.width = `${buttonOffsetLeft_2 - buttonOffsetLeft}px`;
       if (!this.isHorizontal) {
         const buttonOffsetTop_2 =
-          this.button_2.offsetTop + this.button_2.offsetHeight;
+          this.button2.offsetTop + this.button2.offsetHeight;
         this.div.style.top = `${buttonOffsetTop}px`;
         this.div.style.left = `${-1}px`;
         this.div.style.width = `${fieldWidth}px`; 
@@ -74,7 +74,7 @@ class ViewProgressBar {
     if (progressBarSize >= fieldSize / 2) {
       this.div.style.backgroundColor = "#4E9179";
     }
-    if (progressBarSize >= fieldSize - this.button.offsetWidth) {
+    if (progressBarSize >= fieldSize - this.button1.offsetWidth) {
       this.div.style.backgroundColor = "#6fcf97";
     }
   }

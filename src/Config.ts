@@ -34,19 +34,19 @@ class Config {
   }
 
   initInputs(): void{
-    this.vl.value = `${this.slider.presenter.firstButtonValue  }`;
+    this.vl.value = `${this.slider.presenter.buttonValue1  }`;
     this.slider.view.field.div.addEventListener("mousemove", () => {
-      this.vl.value = `${this.slider.presenter.firstButtonValue  }`;
+      this.vl.value = `${this.slider.presenter.buttonValue1  }`;
     });
     this.slider.view.field.div.addEventListener("mouseup", () => {
-      this.vl.value = `${this.slider.presenter.firstButtonValue  }`;
+      this.vl.value = `${this.slider.presenter.buttonValue1  }`;
     });
 
     this.vl.addEventListener("input", () => {
       this.slider.presenter.setButtonValue( Number(this.vl.value) );
     });
     if (this.slider.view.isRangeSlider) {
-      this.vl_2.value = this.slider.view.flag_2.div.innerHTML;
+      this.vl_2.value = this.slider.view.flag2.div.innerHTML;
       this.slider.view.field.div.addEventListener("mousemove", () => {
         this.vl_2.value = `${this.slider.presenter.secondButtonValue  }`;
       });
@@ -54,7 +54,7 @@ class Config {
         this.vl_2.value = `${this.slider.presenter.secondButtonValue  }`;
       });
       this.vl_2.addEventListener("input", () => {
-        this.slider.presenter.setButtonValue_2( Number(this.vl_2.value) );
+        this.slider.presenter.setButtonValue2( Number(this.vl_2.value) );
       });
     }
 
@@ -63,14 +63,14 @@ class Config {
       this.slider.model.max = Number(this.max.value);
       this.slider.presenter.updateScaleValues();
       this.slider.presenter.mouseUp();
-      this.slider.presenter.mouseUp_2();
+      this.slider.presenter.mouseUp2();
     });
     this.min.value = `${this.slider.model.min  }`;
     this.min.addEventListener("input", () => {
       this.slider.model.min = Number(this.min.value);
       this.slider.presenter.updateScaleValues();
       this.slider.presenter.mouseUp();
-      this.slider.presenter.mouseUp_2();
+      this.slider.presenter.mouseUp2();
     });
     this.step.value = `${this.slider.model.step  }`;
     this.step.addEventListener("input", () => {
@@ -80,18 +80,18 @@ class Config {
       }
       this.slider.model.step = value;
       this.slider.presenter.mouseUp();
-      this.slider.presenter.mouseUp_2();
+      this.slider.presenter.mouseUp2();
     });
 
     this.tooltip.checked = this.slider.view.isFlag;
     this.tooltip.addEventListener("input", () => {
       this.tooltip.checked
-        ? this.slider.view.flag.showFlag()
-        : this.slider.view.flag.hideFlag();
-      if (this.slider.view.flag_2) {
+        ? this.slider.view.flag1.showFlag()
+        : this.slider.view.flag1.hideFlag();
+      if (this.slider.view.flag2) {
         this.tooltip.checked
-          ? this.slider.view.flag_2.showFlag()
-          : this.slider.view.flag_2.hideFlag();
+          ? this.slider.view.flag2.showFlag()
+          : this.slider.view.flag2.hideFlag();
       }
     });
 

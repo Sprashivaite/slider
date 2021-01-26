@@ -61,8 +61,8 @@ describe("работа фасада renderElements", () => {
   it("view.renderElements", () => {
     view.renderElements();
     expect(view.field).toBeDefined();
-    expect(view.button.div).toBeDefined();
-    expect(view.flag).toBeDefined();
+    expect(view.button1.div).toBeDefined();
+    expect(view.flag1).toBeDefined();
     expect(view.progressBar.div).toBeDefined();
     view.removeElements();
   });
@@ -83,14 +83,14 @@ describe("движение View button", () => {
   it("view.button.moveButton Horisontal", () => {
     view = new View();
     view.renderElements();
-    view.button.moveButton(50);
-    expect(getComputedStyle(view.button.div).left).toBe("50px");
+    view.button1.moveButton(50);
+    expect(getComputedStyle(view.button1.div).left).toBe("50px");
   });
   it("view.button.moveButton Vertical", () => {
     view = new View({isHorizontal: false});
     view.renderElements();
-    view.button.moveButton(50);
-    expect(getComputedStyle(view.button.div).top).toBe("50px");
+    view.button1.moveButton(50);
+    expect(getComputedStyle(view.button1.div).top).toBe("50px");
   });
 });
 
@@ -102,20 +102,20 @@ describe("toggle View flag", () => {
     view.removeElements();
   });
   it("view.flag.showFlag", () => {
-    view.flag.showFlag();
-    expect(getComputedStyle(view.flag.div).opacity).toBe("1");
+    view.flag1.showFlag();
+    expect(getComputedStyle(view.flag1.div).opacity).toBe("1");
   });
   it("view.hideFlag", () => {
-    view.flag.hideFlag();
-    expect(getComputedStyle(view.flag.div).opacity).toBe("0");
+    view.flag1.hideFlag();
+    expect(getComputedStyle(view.flag1.div).opacity).toBe("0");
   });
 });
 
 describe("значение View flag", () => {
   it("view.changeFlagValue", () => {
     view.renderElements();
-    view.flag.changeFlagValue(50);
-    expect(view.flag.div.innerHTML).toBe("50");
+    view.flag1.changeFlagValue(50);
+    expect(view.flag1.div.innerHTML).toBe("50");
     view.removeElements();
   });
 });
@@ -124,7 +124,7 @@ describe("движение View progressBar", () => {
   it("view.progressBar range", () => {
     view = new View({ isRangeSlider: true });
     view.renderElements();
-    view.button_2.moveButton(95);
+    view.button2.moveButton(95);
     view.progressBar.progressBarMove();
     expect(view.progressBar.div.offsetWidth).toBeGreaterThan(60);
     view.removeElements()
@@ -132,7 +132,7 @@ describe("движение View progressBar", () => {
   it("view.progressBar solo", () => {
     view = new View({ isRangeSlider: false });
     view.renderElements();
-    view.button.moveButton(100);
+    view.button1.moveButton(100);
     view.progressBar.progressBarMove();
     expect(view.progressBar.div.offsetWidth).toBeGreaterThan(90)
     view.removeElements();
@@ -140,7 +140,7 @@ describe("движение View progressBar", () => {
   it("view.progressBar Vertical", () => {
     view = new View({ isRangeSlider: false, isHorizontal: false });
     view.renderElements();
-    view.button.moveButton(30);
+    view.button1.moveButton(30);
     view.progressBar.progressBarMove();
     expect(view.progressBar.div.offsetHeight).toBeGreaterThan(10)
     view.removeElements();
@@ -148,7 +148,7 @@ describe("движение View progressBar", () => {
   it("view.progressBar range Vertical", () => {
     view = new View({ isHorizontal: false, isRangeSlider: true });
     view.renderElements();
-    view.button_2.moveButton(60);
+    view.button2.moveButton(60);
     view.progressBar.progressBarMove();
     expect(view.progressBar.div.offsetHeight).toBeGreaterThan(30)
     view.removeElements();
@@ -176,13 +176,13 @@ describe("оповещение наблюдателя", () => {
     expect(view.handler.subscriber.mouseMoveButton).toHaveBeenCalled();
   });
  
-  it("view.handler.notifyMouseMove_2", () => {
-    let something: object = { mouseMoveButton_2: () => {} };
+  it("view.handler.notifyMouseMove2", () => {
+    let something: object = { mouseMoveButton2: () => {} };
     view.register(something);
 
-    spyOn(view.handler.subscriber, "mouseMoveButton_2");
-    view.handler.notifyMouseMove_2();
-    expect(view.handler.subscriber.mouseMoveButton_2).toHaveBeenCalled();
+    spyOn(view.handler.subscriber, "mouseMoveButton2");
+    view.handler.notifyMouseMove2();
+    expect(view.handler.subscriber.mouseMoveButton2).toHaveBeenCalled();
   });
 
   it("view.handler.notifyMouseUp", () => {
@@ -193,13 +193,13 @@ describe("оповещение наблюдателя", () => {
     view.handler.notifyMouseUp();
     expect(view.handler.subscriber.mouseUp).toHaveBeenCalled();
   });
-  it("view.handler.notifyMouseUp_2", () => {
-    let something: object = { mouseUp_2: () => {} };
+  it("view.handler.notifyMouseUp2", () => {
+    let something: object = { mouseUp2: () => {} };
     view.register(something);
 
-    spyOn(view.handler.subscriber, "mouseUp_2");
-    view.handler.notifyMouseUp_2();
-    expect(view.handler.subscriber.mouseUp_2).toHaveBeenCalled();
+    spyOn(view.handler.subscriber, "mouseUp2");
+    view.handler.notifyMouseUp2();
+    expect(view.handler.subscriber.mouseUp2).toHaveBeenCalled();
   });
 });
 
@@ -314,8 +314,8 @@ describe("события мыши range", () => {
     something = {
       mouseMoveButton: () => {},
       mouseUp: () => {},
-      mouseMoveButton_2: () => {},
-      mouseUp_2: () => {},
+      mouseMoveButton2: () => {},
+      mouseUp2: () => {},
     };
     view.register(something);
     mousedown = new MouseEvent("mousedown");
@@ -355,7 +355,7 @@ describe("события мыши range", () => {
     expect(notify.calls.count()).toEqual(3);
     view.removeElements();
   });
-  it("view.handler.mouseEventRange mouse event button_2", () => { 
+  it("view.handler.mouseEventRange mouse event button2", () => { 
     let notify = jasmine.createSpy("notify");
     let notify2 = jasmine.createSpy("notify");
     view.handler.mouseCoords = 60;

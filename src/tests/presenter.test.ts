@@ -40,9 +40,9 @@ describe("изменить ориентацию слайдера", () => {
 
 describe("изменить значение флага", () => {
   it("presenter.changeFlagValue", () => {     
-    view.button.moveButton(view.field.div.offsetWidth - view.button.div.offsetWidth);
-    presenter.changeFlagValue(view.button.div, view.flag); 
-    expect(view.flag.div.innerHTML).toBeCloseTo(100)
+    view.button1.moveButton(view.field.div.offsetWidth - view.button1.div.offsetWidth);
+    presenter.changeFlagValue(view.button1.div, view.flag1); 
+    expect(view.flag1.div.innerHTML).toBeCloseTo(100)
   });
 });
 
@@ -51,8 +51,8 @@ describe("передвинуть button", () => {
     view.register(presenter);
     view.handler.getMouseCoords();    
     view.handler.mouseCoords = 80;
-    presenter.moveButton(view.button); 
-    expect(view.button.div.offsetLeft).toBeGreaterThan(0) 
+    presenter.moveButton(view.button1); 
+    expect(view.button1.div.offsetLeft).toBeGreaterThan(0) 
   });
 });
 
@@ -63,19 +63,19 @@ describe("реакция на mouse Move", () => {
     view.handler.mouseCoords = 80;  
     view.handler.mouseCoords = 80;
     presenter.mouseMoveButton(); 
-    expect(view.button.div.offsetLeft).toBeGreaterThan(0);
-    expect(view.flag.div.innerHTML).toBeGreaterThan(0);
+    expect(view.button1.div.offsetLeft).toBeGreaterThan(0);
+    expect(view.flag1.div.innerHTML).toBeGreaterThan(0);
     expect(view.progressBar.div.offsetWidth).toBeGreaterThan(10); 
   });
 });
 
 describe("реакция на mouse Move", () => {
-  it("presenter.mouseMoveButton_2", () => {    
+  it("presenter.mouseMoveButton2", () => {    
     presenter.changeTypeSlider();
     view.handler.mouseCoords = 80;
-    presenter.mouseMoveButton_2(); 
-    expect(view.button_2.div.offsetLeft).toBeGreaterThan(0);
-    expect(view.flag_2.div.innerHTML).toBeGreaterThan(0);
+    presenter.mouseMoveButton2(); 
+    expect(view.button2.div.offsetLeft).toBeGreaterThan(0);
+    expect(view.flag2.div.innerHTML).toBeGreaterThan(0);
     expect(view.progressBar.div.offsetWidth).toBeGreaterThan(10); 
   });
 });
@@ -87,28 +87,28 @@ describe("реакция на mouse Up", () => {
     model = new Model({step: 20});
     presenter = new Presenter(model, view);
     view.renderElements();
-    view.button.moveButton(view.field.div.offsetWidth - 5 - view.button.div.offsetWidth);
+    view.button1.moveButton(view.field.div.offsetWidth - 5 - view.button1.div.offsetWidth);
     presenter.mouseUp();
-    expect(view.button.div.offsetLeft + view.button.div.offsetWidth).toBe(view.field.div.offsetWidth);
-    expect(view.flag.div.innerHTML).toBe('100');
+    expect(view.button1.div.offsetLeft + view.button1.div.offsetWidth).toBe(view.field.div.offsetWidth);
+    expect(view.flag1.div.innerHTML).toBe('100');
     expect(view.progressBar.div.offsetWidth).toBeGreaterThan(80);
     
   });
 });
 
 describe("реакция на mouse Up 2", () => {
-  it("presenter.mouseUp_2", () => {
+  it("presenter.mouseUp2", () => {
     view.removeElements();
     view = new View({isRangeSlider: true}); 
     model = new Model({step: 20});
     presenter = new Presenter(model, view);
     view.renderElements();
-    view.button_2.moveButton(view.field.div.offsetWidth - 5 - view.button.div.offsetWidth);
-    presenter.mouseUp_2();
+    view.button2.moveButton(view.field.div.offsetWidth - 5 - view.button1.div.offsetWidth);
+    presenter.mouseUp2();
 
-    expect(view.button_2.div.offsetLeft + view.button.div.offsetWidth).toBe(view.field.div.offsetWidth);
+    expect(view.button2.div.offsetLeft + view.button1.div.offsetWidth).toBe(view.field.div.offsetWidth);
 
-    expect(view.flag_2.div.innerHTML).toBe('100');
+    expect(view.flag2.div.innerHTML).toBe('100');
     expect(view.progressBar.div.offsetWidth).toBeGreaterThan(80);
     view.removeElements();
   });
@@ -116,14 +116,14 @@ describe("реакция на mouse Up 2", () => {
 describe("установить новое значение button", () => {
   it("presenter.setValue", () => {    
     presenter.setButtonValue(55)
-    expect(view.flag.div.innerHTML).toBe('55')
+    expect(view.flag1.div.innerHTML).toBe('55')
   });
   it("presenter.setValue_2", () => {
     view.removeElements();
     view = new View({isRangeSlider: true});  
     presenter = new Presenter(model, view);  
     view.renderElements();  
-    presenter.setButtonValue_2(55)
-    expect(view.flag_2.div.innerHTML).toBe('55')
+    presenter.setButtonValue2(55)
+    expect(view.flag2.div.innerHTML).toBe('55')
   });
 });

@@ -15,17 +15,17 @@ class ViewHandler {
 
   field: HTMLDivElement;
 
-  button: HTMLDivElement;
+  button1: HTMLDivElement;
 
-  button_2: HTMLDivElement | undefined;
+  button2: HTMLDivElement | undefined;
 
   constructor(View: IView, subscriber: ISubscriber) {
     this.isHorizontal = View.isHorizontal;
     this.isRangeSlider = View.isRangeSlider;
     this.slider = View.slider.div;
     this.field = View.field.div;
-    this.button = View.button.div;
-    if (View.button_2) this.button_2 = View.button_2.div;
+    this.button1 = View.button1.div;
+    if (View.button2) this.button2 = View.button2.div;
     this.subscriber = subscriber;
     this.mouseCoords = 0;
   }
@@ -68,28 +68,28 @@ class ViewHandler {
 
   mouseEventRange(
     MouseMove = this.notifyMouseMove,
-    MouseMove_2 = this.notifyMouseMove_2,
+    MouseMove2 = this.notifyMouseMove2,
     MouseUp = this.notifyMouseUp,
-    MouseUp_2 = this.notifyMouseUp_2
+    MouseUp2 = this.notifyMouseUp2
   ): void {
     const handler = MouseMove.bind(this);
-    const handler_2 = MouseMove_2.bind(this);
+    const handler2 = MouseMove2.bind(this);
 
     const useHandlers = () => {
-      let buttonOffset = this.button.getBoundingClientRect().left;
-      let buttonOffset_2 = this.button_2!.getBoundingClientRect().left;
+      let buttonOffset = this.button1.getBoundingClientRect().left;
+      let buttonOffset2 = this.button2!.getBoundingClientRect().left;
 
       if (!this.isHorizontal) {
-        buttonOffset = this.button.getBoundingClientRect().top;
-        buttonOffset_2 = this.button_2!.getBoundingClientRect().top;
+        buttonOffset = this.button1.getBoundingClientRect().top;
+        buttonOffset2 = this.button2!.getBoundingClientRect().top;
       }
 
-      if (this.mouseCoords > (buttonOffset_2 + buttonOffset) / 2) {
-        handler_2();
-        document.addEventListener("mousemove", handler_2);
+      if (this.mouseCoords > (buttonOffset2 + buttonOffset) / 2) {
+        handler2();
+        document.addEventListener("mousemove", handler2);
         document.onmouseup = () => {
-          document.removeEventListener("mousemove", handler_2);
-          MouseUp_2.call(this);
+          document.removeEventListener("mousemove", handler2);
+          MouseUp2.call(this);
         };
       } else {
         handler();
@@ -112,12 +112,12 @@ class ViewHandler {
     this.subscriber.mouseUp();
   }
 
-  private notifyMouseMove_2(): void {
-    this.subscriber.mouseMoveButton_2();
+  private notifyMouseMove2(): void {
+    this.subscriber.mouseMoveButton2();
   }
 
-  private notifyMouseUp_2(): void {
-    this.subscriber.mouseUp_2();
+  private notifyMouseUp2(): void {
+    this.subscriber.mouseUp2();
   }
 }
 export default ViewHandler;

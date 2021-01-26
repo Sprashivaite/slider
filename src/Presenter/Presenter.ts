@@ -8,14 +8,14 @@ class Presenter {
 
   view: View;
 
-  firstButtonValue: number;
+  buttonValue1: number;
   
   secondButtonValue: number;
 
   constructor(model: Model, view: View) {
     this.model = model;
     this.view = view;
-    this.firstButtonValue = 0;
+    this.buttonValue1 = 0;
     this.secondButtonValue = 0;
   }
 
@@ -46,33 +46,33 @@ class Presenter {
   }
 
   mouseMoveButton(): void {
-    this.moveButton(this.view.button);
-    this.changeFlagValue(this.view.button.div, this.view.flag);
+    this.moveButton(this.view.button1);
+    this.changeFlagValue(this.view.button1.div, this.view.flag1);
     this.view.progressBar.progressBarMove();
     this.view.progressBar.changeColorBar();
-    this.firstButtonValue = Number(this.view.flag.div.innerHTML);
+    this.buttonValue1 = Number(this.view.flag1.div.innerHTML);
   }
 
-  mouseMoveButton_2(): void {
-    this.moveButton(this.view.button_2);
-    this.changeFlagValue(this.view.button_2.div, this.view.flag_2);
+  mouseMoveButton2(): void {
+    this.moveButton(this.view.button2);
+    this.changeFlagValue(this.view.button2.div, this.view.flag2);
     this.view.progressBar.progressBarMove();
     this.view.progressBar.changeColorBar();
-    this.secondButtonValue = Number(this.view.flag_2.div.innerHTML);
+    this.secondButtonValue = Number(this.view.flag2.div.innerHTML);
   }
 
   mouseUp(): void {
-    this.makeBreakpointButton(this.view.button);
+    this.makeBreakpointButton(this.view.button1);
     this.view.progressBar.progressBarMove();
     this.view.progressBar.changeColorBar();
-    this.changeFlagValue(this.view.button.div, this.view.flag);
+    this.changeFlagValue(this.view.button1.div, this.view.flag1);
   }
 
-  mouseUp_2(): void {
-    this.makeBreakpointButton(this.view.button_2);
+  mouseUp2(): void {
+    this.makeBreakpointButton(this.view.button2);
     this.view.progressBar.progressBarMove();
     this.view.progressBar.changeColorBar();
-    this.changeFlagValue(this.view.button_2.div, this.view.flag_2);
+    this.changeFlagValue(this.view.button2.div, this.view.flag2);
   }
 
   changeOrientation(): void {
@@ -86,7 +86,7 @@ class Presenter {
     this.updateScaleValues();
     if (this.view.isRangeSlider) {
       this.view.handler.mouseEventRange();
-      this.mouseUp_2();
+      this.mouseUp2();
     }
   }
 
@@ -100,22 +100,22 @@ class Presenter {
     this.updateScaleValues();
     if (this.view.isRangeSlider) {
       this.view.handler.mouseEventRange();
-      this.mouseUp_2();
+      this.mouseUp2();
     }
   }
 
   setButtonValue(value: number): void {
-    this.view.button.moveButton(
-      this.model.moveToValue(this.view.field.div, this.view.button.div, value),
+    this.view.button1.moveButton(
+      this.model.moveToValue(this.view.field.div, this.view.button1.div, value),
     );
     this.mouseUp();
   }
 
-  setButtonValue_2(value: number): void {
-    this.view.button_2.moveButton(
-      this.model.moveToValue(this.view.field.div, this.view.button_2.div, value),
+  setButtonValue2(value: number): void {
+    this.view.button2.moveButton(
+      this.model.moveToValue(this.view.field.div, this.view.button2.div, value),
     );
-    this.mouseUp_2();
+    this.mouseUp2();
   }
 }
 export default Presenter;

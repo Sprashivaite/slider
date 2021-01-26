@@ -27,7 +27,7 @@ class AppSlider {
     this.presenter.updateScaleValues();
     if (this.view.isRangeSlider) {
       this.view.handler.mouseEventRange();
-      this.presenter.mouseUp_2();
+      this.presenter.mouseUp2();
     }
   }
 }
