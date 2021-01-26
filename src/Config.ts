@@ -1,15 +1,25 @@
 class Config {
   slider: any;
+
   vl: HTMLInputElement;
+
   vl_2: HTMLInputElement;
+
   max: HTMLInputElement;
+
   min: HTMLInputElement;
+
   step: HTMLInputElement;
+
   tooltip: HTMLInputElement;
+
   scale: HTMLInputElement;
+
   orientation: HTMLInputElement;
+
   range: HTMLInputElement;
-  constructor(slider, container: HTMLDivElement) {
+
+  constructor(slider: any, container: any) {
     this.slider = slider.appSlider;
     this.vl = container.querySelector(".vl");
     this.vl_2 = container.querySelector(".vl_2");
@@ -22,13 +32,14 @@ class Config {
     this.range = container.querySelector("#range");
     this.initInputs();
   }
+
   initInputs(): void{
-    this.vl.value = this.slider.presenter.buttonValue + "";
+    this.vl.value = `${this.slider.presenter.firstButtonValue  }`;
     this.slider.view.field.div.addEventListener("mousemove", () => {
-      this.vl.value = this.slider.presenter.buttonValue + "";
+      this.vl.value = `${this.slider.presenter.firstButtonValue  }`;
     });
     this.slider.view.field.div.addEventListener("mouseup", () => {
-      this.vl.value = this.slider.presenter.buttonValue + "";
+      this.vl.value = `${this.slider.presenter.firstButtonValue  }`;
     });
 
     this.vl.addEventListener("input", () => {
@@ -37,31 +48,31 @@ class Config {
     if (this.slider.view.isRangeSlider) {
       this.vl_2.value = this.slider.view.flag_2.div.innerHTML;
       this.slider.view.field.div.addEventListener("mousemove", () => {
-        this.vl_2.value = this.slider.presenter.buttonValue_2 + "";
+        this.vl_2.value = `${this.slider.presenter.secondButtonValue  }`;
       });
       this.slider.view.field.div.addEventListener("mouseup", () => {
-        this.vl_2.value = this.slider.presenter.buttonValue_2 + "";
+        this.vl_2.value = `${this.slider.presenter.secondButtonValue  }`;
       });
       this.vl_2.addEventListener("input", () => {
         this.slider.presenter.setButtonValue_2( Number(this.vl_2.value) );
       });
     }
 
-    this.max.value = this.slider.model.max + "";
+    this.max.value = `${this.slider.model.max  }`;
     this.max.addEventListener("input", () => {
       this.slider.model.max = Number(this.max.value);
       this.slider.presenter.updateScaleValues();
       this.slider.presenter.mouseUp();
       this.slider.presenter.mouseUp_2();
     });
-    this.min.value = this.slider.model.min + "";
+    this.min.value = `${this.slider.model.min  }`;
     this.min.addEventListener("input", () => {
       this.slider.model.min = Number(this.min.value);
       this.slider.presenter.updateScaleValues();
       this.slider.presenter.mouseUp();
       this.slider.presenter.mouseUp_2();
     });
-    this.step.value = this.slider.model.step + "";
+    this.step.value = `${this.slider.model.step  }`;
     this.step.addEventListener("input", () => {
       let value: number = Math.abs(Number(this.step.value));
       if (value === 0) {
