@@ -1,5 +1,5 @@
 # Slider
-TypeScript-jQuery-Jasmine-Karma
+Frontend-education-program with Webpack, Pug and Stylus, TypeScript-jQuery-Jasmine-Karma
 [slider-demo-page](https://sprashivaite.github.io/slider-demo-page/)
 <img src="./slider_gif.gif" width="75%">
 # How to use it
