@@ -47,9 +47,9 @@ class Model implements IModelConfig {
       && button.nextElementSibling.getAttribute('class') === 'slider__button';
 
     if (isButtonNext) {
-      let nextButtonOffset: number = button.nextElementSibling.offsetLeft - buttonSize;
+      let nextButtonOffset: number = button.nextElementSibling!.offsetLeft - buttonSize;
       if (!this.isHorizontal) {
-        nextButtonOffset = button.nextElementSibling.offsetTop - buttonSize;
+        nextButtonOffset = button.nextElementSibling!.offsetTop - buttonSize;
       }
       if (shiftLeft >= nextButtonOffset - stepPX) {
         if (stepPX > buttonSize) {
@@ -65,9 +65,9 @@ class Model implements IModelConfig {
       && button.previousElementSibling.getAttribute('class') === 'slider__button';
 
     if (isButtonPrev) {
-      let prevButtonOffset: number = button.previousElementSibling.offsetLeft + buttonSize;
+      let prevButtonOffset: number = button.previousElementSibling!.offsetLeft + buttonSize;
       if (!this.isHorizontal) {
-        prevButtonOffset = button.previousElementSibling.offsetTop + buttonSize;
+        prevButtonOffset = button.previousElementSibling!.offsetTop + buttonSize;
       }
       if (shiftLeft <= prevButtonOffset + stepPX) {
         if (stepPX > buttonSize) {
@@ -96,8 +96,10 @@ class Model implements IModelConfig {
     const result: number = this.min
       + (buttonOffset * (this.max - this.min)) / (fieldSize - buttonSize);
 
-    const numbersAfterPoint = (x: number) => (x.toString().includes('.') ? x.toString().split('.').pop().length : 0);
-
+    const numbersAfterPoint = (x: number): number => (
+      x.toString().includes('.') ?  
+      x.toString().split('.').pop()!.length : 
+      0)
     return Number(result.toFixed(numbersAfterPoint(this.step)));
   }
 
