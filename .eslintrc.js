@@ -8,7 +8,7 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:fsd/all",
     "airbnb-base",
-    "prettier"
+    "prettier",
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
@@ -16,16 +16,11 @@ module.exports = {
     sourceType: "module",
   },
   plugins: ["@typescript-eslint", "fsd"],
-  rules: {
-    'import/extensions': "off",
+  rules: { 
+    "import/extensions": ["error", "never"],
     "import/no-unresolved": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
   },
-  "settings": {
-    "import/resolver": {
-      "node": {
-        "paths": ["src"]
-      }
-    },
+  settings: { 
   },
 };
