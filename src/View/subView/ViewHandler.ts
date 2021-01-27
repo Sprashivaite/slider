@@ -67,13 +67,13 @@ class ViewHandler {
   }
 
   mouseEventRange(
-    MouseMove = this.notifyMouseMove,
-    MouseMove2 = this.notifyMouseMove2,
-    MouseUp = this.notifyMouseUp,
-    MouseUp2 = this.notifyMouseUp2
+    mouseMove = this.notifyMouseMove,
+    mouseMove2 = this.notifyMouseMove2,
+    mouseUp = this.notifyMouseUp,
+    mouseUp2 = this.notifyMouseUp2
   ): void {
-    const handler = MouseMove.bind(this);
-    const handler2 = MouseMove2.bind(this);
+    const handler = mouseMove.bind(this);
+    const handler2 = mouseMove2.bind(this);
 
     const useHandlers = () => {
       let buttonOffset = this.button1.getBoundingClientRect().left;
@@ -89,14 +89,14 @@ class ViewHandler {
         document.addEventListener("mousemove", handler2);
         document.onmouseup = () => {
           document.removeEventListener("mousemove", handler2);
-          MouseUp2.call(this);
+          mouseUp2.call(this);
         };
       } else {
         handler();
         document.addEventListener("mousemove", handler);
         document.onmouseup = () => {
           document.removeEventListener("mousemove", handler);
-          MouseUp.call(this);
+          mouseUp.call(this);
         };
       }
     }
