@@ -9,7 +9,6 @@ import AppSlider from "./AppSlider";
       this.appSlider = new AppSlider(options);
     }
   }
-
   $.fn.sliderPlugin = function (options: IViewConfig | IModelConfig) {
     options = $.extend(
       {
@@ -33,4 +32,4 @@ import AppSlider from "./AppSlider";
     });
   };
 })(jQuery);
-export default $ 
+export default $
