@@ -43,17 +43,17 @@ class ViewProgressBar {
       
     }
     if (this.isRangeSlider) {
-      const buttonOffsetLeft_2 =
+      const buttonOffsetLeft2 =
         this.button2.offsetLeft + this.button2.offsetWidth;
       this.div.style.left = `${buttonOffsetLeft}px`;
-      this.div.style.width = `${buttonOffsetLeft_2 - buttonOffsetLeft}px`;
+      this.div.style.width = `${buttonOffsetLeft2 - buttonOffsetLeft}px`;
       if (!this.isHorizontal) {
-        const buttonOffsetTop_2 =
+        const buttonOffsetTop2 =
           this.button2.offsetTop + this.button2.offsetHeight;
         this.div.style.top = `${buttonOffsetTop}px`;
         this.div.style.left = `${-1}px`;
         this.div.style.width = `${fieldWidth}px`; 
-        this.div.style.height = `${buttonOffsetTop_2 - buttonOffsetTop}px`;
+        this.div.style.height = `${buttonOffsetTop2 - buttonOffsetTop}px`;
       }
     }
   }
