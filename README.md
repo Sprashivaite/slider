@@ -49,7 +49,6 @@ $(selector).sliderPlugin();
 ```javascript
 const slider = new AppSlider({target: container})
 ```
-## Initialize via HTML
 По умолчанию контейнер для слайдера определяется путём поиска атрибута data-slider.
 ```javascript
 <div data-slider></div>
