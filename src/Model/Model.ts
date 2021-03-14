@@ -42,44 +42,35 @@ class Model implements IModelConfig {
       fieldSize = field.offsetHeight;
     }
 
-    const stepPX: number = ((fieldSize - buttonSize) * this.step) / (this.max - this.min);
+    if (shiftLeft >= fieldSize - buttonSize) return this.demarcateFromSiblingButton(button, fieldSize - buttonSize)
+    if (shiftLeft <= 0) return this.demarcateFromSiblingButton(button, 0);
+    return this.demarcateFromSiblingButton(button, shiftLeft);
+
+  }
+
+  demarcateFromSiblingButton(button: HTMLElement, value: number): number {
+    let buttonSize: number = button.offsetWidth;
+
+    const isButtonPrev: boolean | null = button.previousElementSibling
+    && button.previousElementSibling.getAttribute('class') === 'slider__button';
     const isButtonNext: boolean | null = button.nextElementSibling
-      && button.nextElementSibling.getAttribute('class') === 'slider__button';
+    && button.nextElementSibling.getAttribute('class') === 'slider__button';
 
     if (isButtonNext) {
       let nextButtonOffset: number = button.nextElementSibling!.offsetLeft - buttonSize;
       if (!this.isHorizontal) {
         nextButtonOffset = button.nextElementSibling!.offsetTop - buttonSize;
       }
-      if (shiftLeft >= nextButtonOffset - stepPX) {
-        if (stepPX > buttonSize) {
-          return nextButtonOffset + buttonSize - stepPX;
-        }
-        return nextButtonOffset;
-      }
+      if (value >= nextButtonOffset) return nextButtonOffset;              
     }
-    if (shiftLeft >= fieldSize - buttonSize) {
-      return fieldSize - buttonSize;
-    }
-    const isButtonPrev: boolean | null = button.previousElementSibling
-      && button.previousElementSibling.getAttribute('class') === 'slider__button';
-
     if (isButtonPrev) {
       let prevButtonOffset: number = button.previousElementSibling!.offsetLeft + buttonSize;
       if (!this.isHorizontal) {
         prevButtonOffset = button.previousElementSibling!.offsetTop + buttonSize;
       }
-      if (shiftLeft <= prevButtonOffset + stepPX) {
-        if (stepPX > buttonSize) {
-          return prevButtonOffset - buttonSize + stepPX;
-        }
-        return prevButtonOffset;
-      }
+      if (value <= prevButtonOffset) return prevButtonOffset;      
     }
-    if (shiftLeft <= 0) {
-      return 0;
-    }
-    return shiftLeft;
+    return value
   }
 
   calcFlagValue(field: HTMLElement, button: HTMLElement): number {
@@ -102,6 +93,8 @@ class Model implements IModelConfig {
       0)
     return Number(result.toFixed(numbersAfterPoint(this.step)));
   }
+
+
 
   calcScaleValue(quantity: number): Array<number> {
     const arrValues: Array<number> = [];
@@ -137,21 +130,12 @@ class Model implements IModelConfig {
     for (let i = 0; i <= fieldSize - buttonSize; i += stepPX) {
       arrStopPoints.push(i);
     }
-
-    let stopPoint: number = fieldSize - buttonSize;
-
-    arrStopPoints.forEach((item, index, array) => {
-      const isButtonBeforePoint = buttonOffset >= item
-      && buttonOffset <= array[index + 1] - stepPX / 2;
-      const isButtonAfterPoint = buttonOffset >= item + stepPX / 2 
-      && buttonOffset <= array[index + 1];
-      if (isButtonBeforePoint) {
-        stopPoint = item;
-      } else if (isButtonAfterPoint) {
-        stopPoint = array[index + 1];
-      }
+    
+    const stopPoint: number = arrStopPoints.find((item) => {
+      return buttonOffset <= item + stepPX / 2 
     });
-    return stopPoint;
+
+    return this.demarcateFromSiblingButton(button, stopPoint);
   }
 
   moveToValue(field: HTMLElement, button: HTMLElement, value: number): number {

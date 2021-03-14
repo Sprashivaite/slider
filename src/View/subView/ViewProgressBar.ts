@@ -32,22 +32,22 @@ class ViewProgressBar {
 
   progressBarMove(): void {
     const fieldWidth = this.field.offsetWidth; 
-    const buttonOffsetLeft = this.button1.offsetLeft;
+    const buttonOffsetLeft = this.button1.offsetLeft + this.button1.offsetWidth / 2;
     const buttonOffsetTop = this.button1.offsetTop + this.button1.offsetHeight / 2;
     this.div.style.width = `${buttonOffsetLeft}px`;
-    this.div.style.left = `${-1}px`;
+    this.div.style.left = `${0}px`;
     if (!this.isHorizontal) {
       this.div.style.height = `${buttonOffsetTop}px`;
       this.div.style.width = `${fieldWidth}px`;
     }
     if (this.isRangeSlider) {
       const buttonOffsetLeft2 =
-        this.button2.offsetLeft + this.button2.offsetWidth;
+        this.button2.offsetLeft + this.button2.offsetWidth / 2;
       this.div.style.left = `${buttonOffsetLeft}px`;
       this.div.style.width = `${buttonOffsetLeft2 - buttonOffsetLeft}px`;
       if (!this.isHorizontal) {
         const buttonOffsetTop2 =
-          this.button2.offsetTop + this.button2.offsetHeight;
+          this.button2.offsetTop + this.button2.offsetHeight /2;
         this.div.style.top = `${buttonOffsetTop}px`;
         this.div.style.left = `${-1}px`;
         this.div.style.width = `${fieldWidth}px`; 
