@@ -26,7 +26,6 @@ class ViewProgressBar {
 
   createProgressBar(): void {
     this.div.className = "progressBar";
-    this.div.style.height = `${this.field.offsetHeight}px`;
     if (!this.isHorizontal) this.div.style.top = "0px";
     this.field.append(this.div);
   }
@@ -40,7 +39,6 @@ class ViewProgressBar {
     if (!this.isHorizontal) {
       this.div.style.height = `${buttonOffsetTop}px`;
       this.div.style.width = `${fieldWidth}px`;
-      
     }
     if (this.isRangeSlider) {
       const buttonOffsetLeft2 =

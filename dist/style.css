@@ -1,89 +1,87 @@
-*{
+* {
   padding: 0;
   margin: 0;
 }
 
-body{ 
-}
-.sliders{
+.sliders {
   display: flex;
   flex-wrap: wrap;
 }
-.slider-container_1, .slider-container_2,.slider-container_3,.slider-container_4,.slider-container_5,.slider-container_6{
-  width: 600px;
-  display: flex; 
-  margin-top: 100px;
+
+.slider-container_1, .slider-container_2, .slider-container_3, .slider-container_4, .slider-container_5, .slider-container_6 {
+  width: 85%;
+  display: flex;
+  margin: 100px auto 0;
+
 }
-.slider{
+
+.slider {
   position: relative;
   width: 100%;
-  max-width: 266px;  
   margin: 50px 30px;
   display: flex;
   justify-content: center;
 }
-
-
 
 .slider__field_horizontal {
   position: relative;
   background: #FFFFFF;
   border: 1px solid rgba(31, 32, 65, 0.25);
   border-radius: 3px;
-  height: 4px; 
+  height: 8px;
   width: 100%;
   cursor: pointer;
   z-index: 0;
   display: flex;
   align-items: center;
 }
+
 .slider__field_vertical {
   position: relative;
   background: #FFFFFF;
-border: 1px solid rgba(31, 32, 65, 0.25);
-border-radius: 3px;
-height: 100%; 
-width: 4px;
-cursor: pointer;
-z-index: 0;
-display: flex;
-align-items: center;
+  border: 1px solid rgba(31, 32, 65, 0.25);
+  border-radius: 3px;
+  height: 100%;
+  width: 8px;
+  cursor: pointer;
+  z-index: 0;
+  display: flex;
+  align-items: center;
 }
 
-.slider__button, .slider__button_2{
+.slider__button {
   display: inline-block;
   position: absolute;
-  width: 12px;
-height: 12px;
+  width: 18px;
+  height: 18px;
   background: linear-gradient(180deg, #6FCF97 0%, #66D2EA 100%);
-border: 2px solid #FFFFFF;
-border-radius: 10px;
-cursor: pointer;
-z-index: 2;
+  border: 2px solid #FFFFFF;
+  border-radius: 10px;
+  cursor: pointer;
+  z-index: 2;
 }
 
-.slider__flag{
+.slider__flag {
   position: absolute;
-  min-width: 16px;
-  height: 12px;
+  padding: 1px 5px;
   background: linear-gradient(180deg, #6FCF97 0%, #66D2EA 100%);
-  font-size: 10px;
+  font-size: 13px; 
   text-align: center;
-  z-index: 2;
-  opacity: 1;
-  top: -17px;
+  z-index: 2; 
+  top: -23px;
 }
-.slider__flag:after{
+
+.slider__flag:after {
   content: '';
   position: absolute;
   left: 2px;
   bottom: -8px;
   border: 4px solid transparent;
   border-top: 4px solid #66D2EA;
-  
   z-index: 0;
 }
-.slider__flag:before{
+
+.slider__flag:before {
   content: '';
   display: none;
   position: absolute;
@@ -94,67 +92,77 @@ z-index: 2;
   transform: rotate(90deg);
   z-index: 0;
 }
-.-js-slider__flag_hide{
+
+.-js-slider__flag_hide {
   opacity: 0;
 }
-.progressBar{
-  position: absolute; 
+
+.progressBar {
+  position: absolute;
+  height: 100%;
   border-radius: 3px;
   transition-property: background-color;
   transition-duration: 0.5s;
   z-index: 1;
 }
-.-js-slider__bar_hide{
+
+.-js-slider__bar_hide {
   opacity: 0;
 }
-.slider__scale_horizontal{
+
+.slider__scale_horizontal {
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
-  margin: 30px 0px 0px 4px;
+  font-size: 14px;
+  margin: 40px 0px 0px 4px;
   font-stretch: expanded;
   position: absolute;
   width: 100%;
 }
-.slider__scale_vertical{
+
+.slider__scale_vertical {
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
-  margin: 0px 0px 0px 16px;
+  font-size: 14px;
+  margin: 0px 0px 0px 18px;
   font-stretch: expanded;
   flex-direction: column;
   height: 100%;
   position: absolute;
   top: 0;
 }
-.slider__scale span{
+
+.slider__scale span {
   width: 15px;
 }
-.-js-slider__scale_hide{
+
+.-js-slider__scale_hide {
   opacity: 0;
 }
-
 
 .config {
   display: inline-flex;
   flex-direction: row;
-  font-family: sans-serif; 
-  width: 220px; 
+  font-family: sans-serif;
+  width: 320px;
   top: 40px;
   left: 320px;
-  background:#689ba3;
-  border: 2px solid#3a5a5f ; 
+  background: #689ba3;
+  border: 2px solid#3a5a5f;
   border-radius: 13px;
 }
-.config input{
+
+.config input {
   margin-bottom: 5px;
   height: 15.5px;
   max-width: 50px;
 }
-.config__left div{
+
+.config__left div {
   margin-bottom: 10px;
 }
- .config__left{
+
+.config__left {
   margin-left: 10px;
   margin-top: 15px;
   margin-bottom: 10px;
@@ -162,19 +170,19 @@ z-index: 2;
   font-family: "Times New Roman", serif;
   font-size: 18px;
 }
-.config__right{
+
+.config__right {
   display: flex;
   flex-direction: column;
-  margin-left: 20px;
+  margin-left: 30px;
   margin-top: 15px;
-  
 }
-.config__right input{
+
+.config__right input {
   margin-bottom: 13px;
   background-color: white;
   border: 1px solid #689ba3;
   height: 17px;
   padding-left: 3px;
+  font-size: 14px;
 }
-
-
