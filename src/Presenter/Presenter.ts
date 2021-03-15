@@ -10,13 +10,13 @@ class Presenter {
 
   buttonValue1: number;
   
-  secondButtonValue: number;
+  buttonValue2: number;
 
   constructor(model: Model, view: View) {
     this.model = model;
     this.view = view;
     this.buttonValue1 = 0;
-    this.secondButtonValue = 0;
+    this.buttonValue2 = 0;
   }
 
   moveButton(button: ViewButton): void {
@@ -58,7 +58,7 @@ class Presenter {
     this.changeFlagValue(this.view.button2.div, this.view.flag2);
     this.view.progressBar.progressBarMove();
     this.view.progressBar.changeColorBar();
-    this.secondButtonValue = Number(this.view.flag2.div.innerHTML);
+    this.buttonValue2 = Number(this.view.flag2.div.innerHTML);
   }
 
   mouseUp(): void {
@@ -66,6 +66,7 @@ class Presenter {
     this.view.progressBar.progressBarMove();
     this.view.progressBar.changeColorBar();
     this.changeFlagValue(this.view.button1.div, this.view.flag1);
+    this.buttonValue1 = Number(this.view.flag1.div.innerHTML);
   }
 
   mouseUp2(): void {
@@ -73,6 +74,7 @@ class Presenter {
     this.view.progressBar.progressBarMove();
     this.view.progressBar.changeColorBar();
     this.changeFlagValue(this.view.button2.div, this.view.flag2);
+    this.buttonValue2 = Number(this.view.flag2.div.innerHTML);
   }
 
   changeOrientation(): void {

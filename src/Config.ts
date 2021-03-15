@@ -21,7 +21,7 @@ class Config {
 
   container!: any;
 
-  constructor(slider: any, container: Element ) {
+  constructor(slider: any, container: Element) {
     this.slider = slider.appSlider;
     this.container = container;
     this.initInputs();
@@ -42,25 +42,24 @@ class Config {
     const changeButtonValue = () => {
       this.vl.value = `${this.slider.presenter.buttonValue1}`;
     };
-    this.slider.view.field.div.addEventListener("mousemove", changeButtonValue);
-    this.slider.view.field.div.addEventListener("mouseup", changeButtonValue);
-
     const setButtonValue = () => {
+      if (Number(this.vl.value) > Number(this.max.value)) this.vl.value = this.max.value
       this.slider.presenter.setButtonValue(Number(this.vl.value));
     };
+    document.addEventListener("mousemove", changeButtonValue);
     this.vl.addEventListener("input", setButtonValue);
 
     if (this.slider.view.isRangeSlider) {
-      this.vl2.value = this.slider.view.flag2.div.innerHTML;
+      this.vl2.value = `${this.slider.presenter.buttonValue2}`;
       const setButtonValue2 = () => {
-        this.vl2.value = `${this.slider.presenter.secondButtonValue}`;
-      };
-      this.slider.view.field.div.addEventListener("mousemove", setButtonValue2);
-      this.slider.view.field.div.addEventListener("mouseup", setButtonValue2);
-      const updateButtonValue2 = () => {
+        if (Number(this.vl2.value) > Number(this.max.value)) this.vl2.value = this.max.value
         this.slider.presenter.setButtonValue2(Number(this.vl2.value));
       };
-      this.vl2.addEventListener("input", updateButtonValue2);
+      const changeButtonValue2 = () => {
+        this.vl2.value = `${this.slider.presenter.buttonValue2}`;
+      };
+      document.addEventListener("mousemove", changeButtonValue2);
+      this.vl2.addEventListener("input", setButtonValue2);
     }
 
     this.max.value = `${this.slider.model.max}`;
@@ -69,15 +68,20 @@ class Config {
       this.slider.presenter.updateScaleValues();
       this.slider.presenter.mouseUp();
       this.slider.presenter.mouseUp2();
+      this.vl.value = `${this.slider.presenter.buttonValue1}`;
+      this.vl2.value = `${this.slider.presenter.buttonValue2}`;
     };
     this.max.addEventListener("input", maxChanged);
 
     this.min.value = `${this.slider.model.min}`;
     const minChanged = () => {
+      if (this.min.value > this.slider.model.max) this.min.value = this.slider.model.max
       this.slider.model.min = Number(this.min.value);
       this.slider.presenter.updateScaleValues();
       this.slider.presenter.mouseUp();
       this.slider.presenter.mouseUp2();
+      this.vl.value = `${this.slider.presenter.buttonValue1}`;
+      this.vl2.value = `${this.slider.presenter.buttonValue2}`;
     };
     this.min.addEventListener("input", minChanged);
 
@@ -90,6 +94,8 @@ class Config {
       this.slider.model.step = value;
       this.slider.presenter.mouseUp();
       this.slider.presenter.mouseUp2();
+      this.vl.value = `${this.slider.presenter.buttonValue1}`;
+      this.vl2.value = `${this.slider.presenter.buttonValue2}`;
     };
     this.step.addEventListener("input", stepChanged);
 
