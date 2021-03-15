@@ -92,6 +92,7 @@ class Config {
         value = 1;
       }
       this.slider.model.step = value;
+      this.slider.presenter.updateScaleValues();
       this.slider.presenter.mouseUp();
       this.slider.presenter.mouseUp2();
       this.vl.value = `${this.slider.presenter.buttonValue1}`;

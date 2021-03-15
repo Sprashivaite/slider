@@ -3,21 +3,23 @@ import IView from '../IView'
 class ViewScale {
   div: HTMLDivElement;
 
-  field: HTMLDivElement;
+  slider: HTMLDivElement;
 
   isHorizontal: boolean;
 
   constructor(View: IView) {
     this.div = document.createElement("div");
-    this.field = View.field.div;
+    this.slider = View.slider.div;
     this.isHorizontal = View.isHorizontal;
   }
 
-  createScale(quantity = 5): void {
+  createScale(quantity = 2): void {
     if (this.isHorizontal) this.div.className = "slider__scale_horizontal";
     if (!this.isHorizontal) this.div.className = "slider__scale_vertical";
 
-    this.field.append(this.div);
+    this.slider.append(this.div);
+
+    if(quantity > 11) quantity = 11;
     for (let i = 0; i < quantity; i += 1) {
       this.div.insertAdjacentHTML("beforeend", "<span>0</span>");
     }

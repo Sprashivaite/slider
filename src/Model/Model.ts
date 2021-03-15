@@ -99,6 +99,8 @@ class Model implements IModelConfig {
   calcScaleValue(quantity: number): Array<number> {
     const arrValues: Array<number> = [];
     let value = this.min;
+    let step = this.step;
+    if(quantity > 11) {quantity = 11; step = (this.max - this.min) / 10}
     for (let i = 0; i < quantity - 1; i += 1) {
       const isFractionalStep = this.step < 1 || quantity - 1 > this.max;
       if (isFractionalStep) {
@@ -106,8 +108,7 @@ class Model implements IModelConfig {
       } else {
         arrValues.push(Number(value.toFixed(0)));
       }
-
-      value += this.max / (quantity - 1);
+      value += step
     }
     arrValues.push(this.max);
     return arrValues;
