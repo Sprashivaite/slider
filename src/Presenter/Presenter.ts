@@ -41,6 +41,7 @@ class Presenter {
     }
     this.view.scale.createScale(quantity)
     this.view.scale.updateValues(this.model.calcScaleValue(quantity));
+    this.view.handler.addScaleHandler();
   }
 
   makeBreakpointButton(button: ViewButton): void {
