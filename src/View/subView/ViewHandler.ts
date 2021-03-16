@@ -105,7 +105,7 @@ class ViewHandler {
 
   }
 
-  addScaleHandler() {
+  addScaleHandler(): void {
     let useHandler = () => {
       this.notifyMouseMove()
       this.notifyMouseUp()

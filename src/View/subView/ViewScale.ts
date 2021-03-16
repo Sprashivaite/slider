@@ -14,16 +14,17 @@ class ViewScale {
   }
 
   createScale(quantity = 2): void {
+    
     if (this.isHorizontal) this.div.className = "slider__scale_horizontal";
-    if (!this.isHorizontal) this.div.className = "slider__scale_vertical";
-
+    if (!this.isHorizontal) this.div.className = "slider__scale_vertical";    
     this.slider.append(this.div);
+    
+    let thisQuantity = quantity;
+    if(thisQuantity > 11) thisQuantity = 11;
 
-    if(quantity > 11) quantity = 11;
-    for (let i = 0; i < quantity; i += 1) {
+    for (let i = 0; i < thisQuantity; i += 1) {
       this.div.insertAdjacentHTML("beforeend", "<span>0</span>");
     }
-
     this.div.onmousedown = () => false;
   }
 

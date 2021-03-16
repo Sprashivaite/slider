@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-new */
 import $ from "./jQueryAPI"
 import Config from "./Config"
 
@@ -17,9 +16,9 @@ const configContainer4 = document.querySelector('.js-slider-container_4 > .confi
 const configContainer5 = document.querySelector('.js-slider-container_5 > .config')!
 const configContainer6 = document.querySelector('.js-slider-container_6 > .config')!
 
-const config1 = new Config(slider1, configContainer1);
-const config2 = new Config(slider2, configContainer2);
-const config3 = new Config(slider3, configContainer3);
-const config4 = new Config(slider4, configContainer4);
-const config5 = new Config(slider5, configContainer5);
-const config6 = new Config(slider6, configContainer6);
+new Config(slider1, configContainer1);
+new Config(slider2, configContainer2);
+new Config(slider3, configContainer3);
+new Config(slider4, configContainer4);
+new Config(slider5, configContainer5);
+new Config(slider6, configContainer6);

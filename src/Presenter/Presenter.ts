@@ -35,7 +35,7 @@ class Presenter {
 
   updateScaleValues(): void {
     Array.from(this.view.scale.div.children).map(i => i.remove())
-    let quantity: number = 0;
+    let quantity = 0;
     for(let i = this.model.min; i <= this.model.max; i += this.model.step){
       quantity += 1
     }

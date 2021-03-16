@@ -49,7 +49,7 @@ class Model implements IModelConfig {
   }
 
   demarcateFromSiblingButton(button: HTMLElement, value: number): number {
-    let buttonSize: number = button.offsetWidth;
+    const buttonSize: number = button.offsetWidth;
 
     const isButtonPrev: boolean | null = button.previousElementSibling
       && button.previousElementSibling.getAttribute('class') === 'slider__button';
@@ -98,11 +98,12 @@ class Model implements IModelConfig {
         0)
     result = Number(result.toFixed(numbersAfterPoint(this.step)));
 
-    result = stepsPoints.find((item, index, array) => {
-      let halfStepRes = result + (this.step/2)
+    let nearestValue: number | undefined = stepsPoints.find((item, index, array) => {
+      const halfStepRes = result + (this.step/2)
       return halfStepRes >= item && halfStepRes < array[index + 1]
     });
-    if (result === undefined) result = stepsPoints.pop()
+    if (nearestValue === undefined) nearestValue = stepsPoints.pop()
+    else result = nearestValue;
 
     return Number(result.toFixed(numbersAfterPoint(this.step)));
   }
@@ -110,10 +111,12 @@ class Model implements IModelConfig {
   calcScaleValue(quantity: number): Array<number> {
     const arrValues: Array<number> = [];
     let value = this.min;
-    let step = this.step;
-    if (quantity > 11) { quantity = 11; step = (this.max - this.min) / 10 }
-    for (let i = 0; i < quantity - 1; i += 1) {
-      const isFractionalStep = this.step < 1 || quantity - 1 > this.max;
+    let {step} = this;
+
+    let thisQuantity = quantity;
+    if (thisQuantity > 11) { thisQuantity = 11; step = (this.max - this.min) / 10 }
+    for (let i = 0; i < thisQuantity - 1; i += 1) {
+      const isFractionalStep = this.step < 1 || thisQuantity - 1 > this.max;
       if (isFractionalStep) {
         arrValues.push(Number(value.toFixed(1)));
       } else {
@@ -143,10 +146,9 @@ class Model implements IModelConfig {
       arrStopPoints.push(i);
     }
 
-    const stopPoint: number = arrStopPoints.find((item) => {
-      return buttonOffset <= item + stepPX / 2
-    });
-
+    let stopPoint: number | undefined= arrStopPoints.find((item) => buttonOffset <= item + stepPX / 2);
+    if(stopPoint === undefined) stopPoint = 0;
+    
     return this.demarcateFromSiblingButton(button, stopPoint);
   }
 
