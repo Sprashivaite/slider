@@ -52,23 +52,23 @@ class Model implements IModelConfig {
     let buttonSize: number = button.offsetWidth;
 
     const isButtonPrev: boolean | null = button.previousElementSibling
-    && button.previousElementSibling.getAttribute('class') === 'slider__button';
+      && button.previousElementSibling.getAttribute('class') === 'slider__button';
     const isButtonNext: boolean | null = button.nextElementSibling
-    && button.nextElementSibling.getAttribute('class') === 'slider__button';
+      && button.nextElementSibling.getAttribute('class') === 'slider__button';
 
     if (isButtonNext) {
       let nextButtonOffset: number = button.nextElementSibling!.offsetLeft - buttonSize;
       if (!this.isHorizontal) {
         nextButtonOffset = button.nextElementSibling!.offsetTop - buttonSize;
       }
-      if (value >= nextButtonOffset) return nextButtonOffset;              
+      if (value >= nextButtonOffset) return nextButtonOffset;
     }
     if (isButtonPrev) {
       let prevButtonOffset: number = button.previousElementSibling!.offsetLeft + buttonSize;
       if (!this.isHorizontal) {
         prevButtonOffset = button.previousElementSibling!.offsetTop + buttonSize;
       }
-      if (value <= prevButtonOffset) return prevButtonOffset;      
+      if (value <= prevButtonOffset) return prevButtonOffset;
     }
     return value
   }
@@ -84,23 +84,34 @@ class Model implements IModelConfig {
       buttonOffset = button.offsetTop;
     }
 
-    const result: number = this.min
-      + (buttonOffset * (this.max - this.min)) / (fieldSize - buttonSize);
+    let result: number = this.min
+      + (buttonOffset * (this.max - this.min)) / ((fieldSize - buttonSize));
+
+    const stepsPoints: number[] = [];
+    for (let i = this.min; i <= this.max; i += this.step) {
+      stepsPoints.push(i);
+    }
 
     const numbersAfterPoint = (x: number): number => (
-      x.toString().includes('.') ?  
-      x.toString().split('.').pop()!.length : 
-      0)
+      x.toString().includes('.') ?
+        x.toString().split('.').pop()!.length :
+        0)
+    result = Number(result.toFixed(numbersAfterPoint(this.step)));
+
+    result = stepsPoints.find((item, index, array) => {
+      let halfStepRes = result + (this.step/2)
+      return halfStepRes >= item && halfStepRes < array[index + 1]
+    });
+    if (result === undefined) result = stepsPoints.pop()
+
     return Number(result.toFixed(numbersAfterPoint(this.step)));
   }
-
-
 
   calcScaleValue(quantity: number): Array<number> {
     const arrValues: Array<number> = [];
     let value = this.min;
     let step = this.step;
-    if(quantity > 11) {quantity = 11; step = (this.max - this.min) / 10}
+    if (quantity > 11) { quantity = 11; step = (this.max - this.min) / 10 }
     for (let i = 0; i < quantity - 1; i += 1) {
       const isFractionalStep = this.step < 1 || quantity - 1 > this.max;
       if (isFractionalStep) {
@@ -131,9 +142,9 @@ class Model implements IModelConfig {
     for (let i = 0; i <= fieldSize - buttonSize; i += stepPX) {
       arrStopPoints.push(i);
     }
-    
+
     const stopPoint: number = arrStopPoints.find((item) => {
-      return buttonOffset <= item + stepPX / 2 
+      return buttonOffset <= item + stepPX / 2
     });
 
     return this.demarcateFromSiblingButton(button, stopPoint);
@@ -149,7 +160,7 @@ class Model implements IModelConfig {
     }
 
     const result: number = ((fieldSize - buttonSize) / (this.max - this.min))
-        * (value - this.min);
+      * (value - this.min);
 
     return result;
   }
