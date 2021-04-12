@@ -47,21 +47,25 @@ class Config {
       this.slider.presenter.setButtonValue(Number(this.vl.value));
     };
     document.addEventListener("mousemove", changeButtonValue);
+    document.addEventListener("click", changeButtonValue);
     this.vl.addEventListener("input", setButtonValue);
 
+    const setButtonValue2 = () => {
     if (this.slider.view.isRangeSlider) {
       this.vl2.value = `${this.slider.presenter.buttonValue2}`;
-      const setButtonValue2 = () => {
+      const setValue = () => {
         if (Number(this.vl2.value) > Number(this.max.value)) this.vl2.value = this.max.value
         this.slider.presenter.setButtonValue2(Number(this.vl2.value));
       };
-      const changeButtonValue2 = () => {
+      const changeValue = () => {
         this.vl2.value = `${this.slider.presenter.buttonValue2}`;
       };
-      document.addEventListener("mousemove", changeButtonValue2);
-      this.vl2.addEventListener("input", setButtonValue2);
+      document.addEventListener("mousemove", changeValue);
+      document.addEventListener("click", changeValue);
+      this.vl2.addEventListener("input", setValue);
     }
-
+}
+    setButtonValue2()
     this.max.value = `${this.slider.model.max}`;
     const maxChanged = () => {
       this.slider.model.max = Number(this.max.value);
@@ -131,6 +135,7 @@ class Config {
       this.slider.presenter.changeTypeSlider();
       this.scale.checked = this.slider.view.isScale;
       this.tooltip.checked = this.slider.view.isFlag;
+      setButtonValue2();
     };
     this.range.addEventListener("input", rangeChanged);
   }

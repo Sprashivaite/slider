@@ -78,7 +78,6 @@ class ViewHandler {
     const useHandlers = () => {
       let buttonOffset = this.button1.getBoundingClientRect().left + this.button1.offsetWidth / 2;
       let buttonOffset2 = this.button2!.getBoundingClientRect().left + this.button2!.offsetWidth / 2;
-
       if (!this.isHorizontal) {
         buttonOffset = this.button1.getBoundingClientRect().top;
         buttonOffset2 = this.button2!.getBoundingClientRect().top;
