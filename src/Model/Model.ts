@@ -70,7 +70,7 @@ class Model implements IModelConfig {
     return value
   }
 
-  private numberDigitsAfterDot(): number{
+  private calcDigitsAfterDot(): number{
     return this.step.toString().includes('.') ?
     this.step.toString().split('.').pop()!.length : 0
   }
@@ -88,7 +88,7 @@ class Model implements IModelConfig {
     (buttonOffset * (this.max - this.min)) / 
     ((fieldSize - buttonSize));
 
-    result = Number(result.toFixed(this.numberDigitsAfterDot()));
+    result = Number(result.toFixed(this.calcDigitsAfterDot()));
 
     const stepsPoints: number[] = [];
     for (let i = this.min; i <= this.max; i += this.step) stepsPoints.push(i);         
@@ -100,7 +100,7 @@ class Model implements IModelConfig {
     if (nearestValue === undefined) nearestValue = stepsPoints.pop()
     else result = nearestValue;
 
-    return Number(result.toFixed(this.numberDigitsAfterDot()));
+    return Number(result.toFixed(this.calcDigitsAfterDot()));
   }
 
   calcScaleValue(quantity: number): Array<number> {
