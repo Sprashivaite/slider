@@ -143,13 +143,13 @@ describe("передвинуть кнопку к точке шага ", () => {
     model = new Model({step: 50});   
     expect(
       model.calcStopPoint(field_horizontal, button_horizontal_2) 
-    ).toBeGreaterThan(70)
+    ).toBeGreaterThan(field_horizontal.offsetWidth/2)
   });
   it("model.calcStopPoint vertical", () => {
     model = new Model({isHorizontal: false ,step: 50});   
     expect(
       model.calcStopPoint(field_vertical, button_vertical)
-      ).toBe(0) 
+      ).toBeGreaterThan(field_horizontal.offsetHeight/2) 
   });
 });
 
@@ -182,6 +182,7 @@ describe("вычислить значение флага", () => {
 
 describe("вычислить значения шкалы", () => {
   it("model.calcScaleValue", () => {
+    model = new Model({step: 20}); 
     expect(
     model.calcScaleValue(6)
     ).toEqual([0, 20, 40, 60, 80, 100]);
