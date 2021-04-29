@@ -7,27 +7,20 @@ class ViewHandler {
 
   mouseCoords: number;
 
-  isHorizontal: boolean;
+  isHorizontal!: boolean;
 
-  slider: HTMLDivElement;
+  slider!: HTMLDivElement;
 
-  isRangeSlider: boolean;
+  isRangeSlider!: boolean;
 
-  field: HTMLDivElement;
+  field!: HTMLDivElement;
 
-  button1: HTMLDivElement;
+  button1!: HTMLDivElement;
 
   button2: HTMLDivElement | undefined;
 
   constructor(View: IView, subscriber: ISubscriber) {
-    this.isHorizontal = View.isHorizontal;
-    this.isRangeSlider = View.isRangeSlider;
-    this.slider = View.slider.div;
-    this.field = View.field.div;
-    this.button1 = View.button1.div;
-    if (View.button2) this.button2 = View.button2.div;
-    this.subscriber = subscriber;
-    this.mouseCoords = 0;
+    this.init(View, subscriber);
   }
 
   getMouseCoords(): void {
@@ -130,6 +123,17 @@ class ViewHandler {
     spans.forEach(element => {
       element.addEventListener("click", useHandler);
     });
+  }
+
+  private init(View: IView, subscriber: ISubscriber) {
+    this.subscriber = subscriber;
+    this.mouseCoords = 0;
+    this.isHorizontal = View.isHorizontal;
+    this.isRangeSlider = View.isRangeSlider;
+    this.slider = View.slider.div;
+    this.field = View.field.div;
+    this.button1 = View.button1.div;
+    if (View.button2) this.button2 = View.button2.div;
   }
 
   private notifyMouseMove(): void {

@@ -1,30 +1,24 @@
 import IView from '../IView'
 
 class ViewProgressBar {
-  div: HTMLDivElement;
+  div!: HTMLDivElement;
 
-  field: HTMLDivElement;
+  field!: HTMLDivElement;
 
-  isHorizontal: boolean;
+  isHorizontal!: boolean;
 
-  isRangeSlider: boolean;
+  isRangeSlider!: boolean;
 
-  button1: HTMLDivElement;
+  button1!: HTMLDivElement;
 
   button2!: HTMLDivElement;
 
   constructor(View: IView) {
-    this.field = View.field.div;
-    this.button1 = View.button1.div;
-    if (View.isRangeSlider) {
-      this.button2 = View.button2.div;
-    }    
-    this.isHorizontal = View.isHorizontal;
-    this.isRangeSlider = View.isRangeSlider;
-    this.div = document.createElement("div");
+    this.init(View)    
   }
 
   createProgressBar(): void {
+    this.div = document.createElement("div");
     this.div.className = "progressBar";
     if (!this.isHorizontal) this.div.style.top = "0px";
     this.field.append(this.div);
@@ -83,6 +77,16 @@ class ViewProgressBar {
 
   showBar(): void {
     this.div.classList.remove("-js-slider__bar_hide");
+  }
+
+  private init(View: IView): void {
+    this.field = View.field.div;
+    this.button1 = View.button1.div;
+    if (View.isRangeSlider) {
+      this.button2 = View.button2.div;
+    }    
+    this.isHorizontal = View.isHorizontal;
+    this.isRangeSlider = View.isRangeSlider;
   }
 }
 export default ViewProgressBar;

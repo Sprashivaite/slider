@@ -10,15 +10,15 @@ import ISubscriber from "./subView/ISubscriber";
 import ViewHandler from "./subView/ViewHandler";
 
 class View implements IView {
-  slider: ViewContainer;
+  slider!: ViewContainer;
 
   button1!: ViewButton;
 
   button2!: ViewButton;
 
-  isHorizontal: boolean;
+  isHorizontal!: boolean;
 
-  isRangeSlider: boolean;
+  isRangeSlider!: boolean;
 
   field!: ViewField;
 
@@ -32,13 +32,13 @@ class View implements IView {
 
   handler!: ViewHandler;
 
-  isFlag: boolean;
+  isFlag!: boolean;
 
-  isScale: boolean;
+  isScale!: boolean;
 
-  scaleQuantity: number;
+  scaleQuantity!: number;
 
-  isProgressBar: boolean;
+  isProgressBar!: boolean;
 
   constructor(
     {
@@ -52,13 +52,7 @@ class View implements IView {
     } = {} as IViewConfig
   ) {
     this.slider = new ViewContainer(target);
-    this.isHorizontal = isHorizontal;
-    this.isRangeSlider = isRangeSlider;
-    this.isFlag = isFlag;
-    this.isProgressBar = isProgressBar;
-    this.isScale = isScale;
-    this.scaleQuantity = scaleQuantity;
-    this.validate();
+    this.init(isHorizontal, isRangeSlider, isFlag, isProgressBar, isScale, scaleQuantity)
   }
 
   renderElements(): void {
@@ -80,12 +74,21 @@ class View implements IView {
 
     if (this.isRangeSlider) {
       [this.flag2.div, this.button2.div].forEach((item) => item.remove());
-    }
-    
+    }    
   }
 
   register(subscriber: ISubscriber): void {
     this.handler = new ViewHandler(this, subscriber);
+  }
+
+  private init(isHorizontal: boolean, isRangeSlider: boolean, isFlag: boolean, isProgressBar: boolean, isScale: boolean, scaleQuantity: number): void {
+    this.validate();
+    this.isHorizontal = isHorizontal;
+    this.isRangeSlider = isRangeSlider;
+    this.isFlag = isFlag;
+    this.isProgressBar = isProgressBar;
+    this.isScale = isScale;
+    this.scaleQuantity = scaleQuantity;
   }
 
   private validate(): void {
@@ -94,8 +97,9 @@ class View implements IView {
     if (typeof this.isFlag !== "boolean") this.isFlag = true;
     if (typeof this.isProgressBar !== "boolean") this.isProgressBar = true;
     if (typeof this.isScale !== "boolean") this.isScale = true;
-    if (typeof this.scaleQuantity !== "number" || this.scaleQuantity < 1)
+    if (typeof this.scaleQuantity !== "number" || this.scaleQuantity < 1) {
       this.scaleQuantity = 2;
+    }
     this.scaleQuantity = Number(this.scaleQuantity.toFixed(0));
   }
 
@@ -107,6 +111,7 @@ class View implements IView {
   private renderButtons(): void {
     this.button1 = new ViewButton(this);
     this.button1.createButton();
+
     if (this.isRangeSlider) {
       this.button2 = new ViewButton(this);
       this.button2.createButton();
@@ -116,9 +121,11 @@ class View implements IView {
   private renderFlag(): void {
     this.flag1 = new ViewFlag(this.button1.div);
     this.flag1.createFlag();
+
     if (!this.isFlag) {
       this.flag1.hideFlag();
     }
+
     if (this.isRangeSlider) {
       this.flag2 = new ViewFlag(this.button2.div);
       this.flag2.createFlag();
@@ -131,15 +138,15 @@ class View implements IView {
   private renderScale(): void {
     this.scale = new ViewScale(this);
     this.scale.createScale(this.scaleQuantity);
+
     if (!this.isScale) this.scale.hideScale();
   }
 
   private renderProgressBar(): void {
     this.progressBar = new ViewProgressBar(this);
     this.progressBar.createProgressBar();
-    if (!this.isProgressBar) {
-      this.progressBar.hideBar();
-    }
+
+    if (!this.isProgressBar) this.progressBar.hideBar();
   }
 }
 

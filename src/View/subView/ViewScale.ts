@@ -1,20 +1,18 @@
 import IView from '../IView'
 
 class ViewScale {
-  div: HTMLDivElement;
+  div!: HTMLDivElement;
 
-  slider: HTMLDivElement;
+  slider!: HTMLDivElement;
 
-  isHorizontal: boolean;
+  isHorizontal!: boolean;
 
-  constructor(View: IView) {
-    this.div = document.createElement("div");
-    this.slider = View.slider.div;
-    this.isHorizontal = View.isHorizontal;
+  constructor(View: IView) {    
+    this.init(View)
   }
 
   createScale(quantity = 2): void {
-    
+    this.div = document.createElement("div");
     if (this.isHorizontal) this.div.className = "slider__scale_horizontal";
     if (!this.isHorizontal) this.div.className = "slider__scale_vertical";    
     this.slider.append(this.div);
@@ -39,6 +37,11 @@ class ViewScale {
 
   showScale(): void {
     this.div.classList.remove("-js-slider__flag_hide");
+  }
+
+  private init(View: IView) {
+    this.slider = View.slider.div;
+    this.isHorizontal = View.isHorizontal;
   }
 }
 

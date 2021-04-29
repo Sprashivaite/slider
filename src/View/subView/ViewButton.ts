@@ -1,19 +1,19 @@
 import IView from '../IView'
 
 class ViewButton {
-  div: HTMLDivElement;
+  div!: HTMLDivElement;
 
-  field: HTMLDivElement;
+  field!: HTMLDivElement;
 
-  isHorizontal: boolean;
+  isHorizontal!: boolean;
 
   constructor(View: IView) {
-    this.div = document.createElement('div');
-    this.field = View.field.div;
-    this.isHorizontal = View.isHorizontal;
+    this.init(View)    
   }
 
   createButton(): HTMLDivElement {
+    this.div = document.createElement('div');
+
     this.div.className = 'slider__button';
     this.div.style.top = '-6px';
     this.div.style.left = '0px';
@@ -39,5 +39,10 @@ class ViewButton {
     if(this.isHorizontal) this.div.style.left = `${px  }px`
     if(!this.isHorizontal) this.div.style.top = `${px  }px`
   }
+
+  private init(View: IView): void {
+    this.field = View.field.div;
+    this.isHorizontal = View.isHorizontal;
+  } 
 }
 export default ViewButton;

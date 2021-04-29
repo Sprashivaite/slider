@@ -1,14 +1,14 @@
 class Flag {
-  div: HTMLDivElement;
+  div!: HTMLDivElement;
 
   button: HTMLDivElement;
 
-  constructor(button: HTMLDivElement) {
-    this.div = document.createElement("div");
+  constructor(button: HTMLDivElement) {    
     this.button = button;
   }
 
   createFlag(): void {
+    this.div = document.createElement("div");
     this.div.className = "slider__flag";
     this.div.innerHTML = "0";
     this.button.append(this.div);

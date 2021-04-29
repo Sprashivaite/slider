@@ -1,24 +1,20 @@
 import IModelConfig from './IModelConfig';
 
 class Model implements IModelConfig {
-  max: number;
+  max!: number;
 
-  min: number;
+  min!: number;
 
-  step: number;
+  step!: number;
 
-  isHorizontal: boolean;
+  isHorizontal!: boolean;
 
   constructor(
     {
       max = 100, min = 0, step = 1, isHorizontal = true 
     } = {} as IModelConfig
   ) {
-    this.max = max;
-    this.min = min;
-    this.step = step;
-    this.isHorizontal = isHorizontal;
-    this.validate();
+    this.init(max, min, step, isHorizontal)
   }
 
   calcBtnOffset(
@@ -143,6 +139,14 @@ class Model implements IModelConfig {
     return this.demarcateFromSiblingButton(button, result);
   }
 
+  private init(max: number, min: number, step: number, isHorizontal: boolean): void {    
+    this.validate();
+    this.max = max;
+    this.min = min;
+    this.step = step;
+    this.isHorizontal = isHorizontal;
+  }
+
   private validate(): void {
     if (typeof this.max !== 'number' || this.max <= this.min) this.max = 100;
 
@@ -187,6 +191,6 @@ class Model implements IModelConfig {
     const digitsAfterDot = this.step.toString().split('.').pop()!.length
     return isIncludeDot ? digitsAfterDot: 0
   }
-  
+
 }
 export default Model;
