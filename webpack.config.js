@@ -1,5 +1,13 @@
 const path = require("path");
 const webpack = require('webpack')
+const ghpages = require('gh-pages');
+
+ghpages.publish('dist', (err) => {});
+const PATHS = {
+  src: path.join(__dirname, '../src'),
+  dist: path.join(__dirname, '../dist'),
+  assets: 'assets/',
+};
 
 module.exports = {
   entry: "./index.js",
