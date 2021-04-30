@@ -57,8 +57,7 @@
   border: 2px solid #FFFFFF;
   border-radius: 10px;
   cursor: pointer;
-  z-index: 2;
-  display: flex;
+  z-index: 2; 
   justify-content: center;
 }
 
@@ -68,7 +67,7 @@
   background: linear-gradient(180deg, #6FCF97 0%, #66D2EA 100%);
   font-size: 13px;
   z-index: 2; 
-  top: -23px;
+  bottom: 20px;
   display: flex;
   justify-content: center;
   min-width: 10px;
