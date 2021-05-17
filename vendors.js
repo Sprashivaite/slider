@@ -1,6 +1,6 @@
 (self["webpackChunkarkadiy"] = self["webpackChunkarkadiy"] || []).push([["vendors"],{
 
-/***/ "./node_modules/css-loader/dist/runtime/api.js":
+/***/ 645:
 /*!*****************************************************!*\
   !*** ./node_modules/css-loader/dist/runtime/api.js ***!
   \*****************************************************/
@@ -76,7 +76,7 @@ module.exports = function (cssWithMappingToString) {
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/runtime/cssWithMappingToString.js":
+/***/ 15:
 /*!************************************************************************!*\
   !*** ./node_modules/css-loader/dist/runtime/cssWithMappingToString.js ***!
   \************************************************************************/
@@ -118,7 +118,7 @@ module.exports = function cssWithMappingToString(item) {
 
 /***/ }),
 
-/***/ "./node_modules/jquery/dist/jquery.js":
+/***/ 755:
 /*!********************************************!*\
   !*** ./node_modules/jquery/dist/jquery.js ***!
   \********************************************/
@@ -11010,7 +11010,7 @@ return jQuery;
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js":
+/***/ 379:
 /*!****************************************************************************!*\
   !*** ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js ***!
   \****************************************************************************/
