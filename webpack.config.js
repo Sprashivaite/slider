@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const path = require("path");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ghpages = require('gh-pages');
 
 ghpages.publish('dist', (err) => {});
@@ -11,10 +12,11 @@ const PATHS = {
 };
 
 module.exports = {
-  entry: "./index.js",
+  entry: './src/index.js',
   output: {
     filename: "index.js",
     path: path.resolve(__dirname, "dist"),
+    clean: true,
   },
   mode: "development",
   devtool: "inline-source-map",
@@ -23,6 +25,10 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
       {
         exclude: /(node_modules)/,
         loader: "babel-loader",
@@ -43,10 +49,14 @@ module.exports = {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
+      filename: `index.html`,
+    }),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
       'window.jQuery': 'jquery',
-  }),
+    }),
   ]
 };
