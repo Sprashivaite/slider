@@ -6,9 +6,13 @@
 
 /*! ../node_modules/css-loader/dist/runtime/cssWithMappingToString.js */
 
+/*! ./Config */
+
 /*! ./index.ts */
 
 /*! ./style.css */
+
+/*! expose-loader?exposes=$,jQuery!jquery */
 
 /*!**********************!*\
   !*** ./src/index.js ***!
@@ -17,6 +21,10 @@
 /*!**********************!*\
   !*** ./src/index.ts ***!
   \**********************/
+
+/*!***********************!*\
+  !*** ./src/Config.ts ***!
+  \***********************/
 
 /*!***********************!*\
   !*** ./src/style.css ***!
