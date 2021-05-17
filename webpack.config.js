@@ -14,7 +14,7 @@ const PATHS = {
 module.exports = {
   entry: './src/index.js',
   output: {
-    filename: "index.js",
+    filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
   },
@@ -22,6 +22,20 @@ module.exports = {
   devtool: "inline-source-map",
   devServer: {
     contentBase: "./dist",
+  },
+  optimization: {
+    runtimeChunk: 'single',
+    moduleIds: 'deterministic',
+    minimize: true,
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    },
   },
   module: {
     rules: [
@@ -52,6 +66,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: `index.html`,
+      hash: true,
+      chunks: ['vendors', 'main'],
     }),
     new webpack.ProvidePlugin({
       $: 'jquery',
