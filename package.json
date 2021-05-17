@@ -4,7 +4,6 @@
   "description": "'karma-webpack-babel-typescript-istanbul'",
   "private": true,
   "dependencies": {
-    "jquery": "^3.6.0",
     "tsc-init": "^2.1.0"
   },
   "devDependencies": {
@@ -29,6 +28,7 @@
     "istanbul-instrumenter-loader": "^3.0.1",
     "jasmine": "^3.7.0",
     "jasmine-core": "^3.7.1",
+    "jquery": "^3.6.0",
     "karma": "^6.3.2",
     "karma-chrome-launcher": "^3.1.0",
     "karma-coverage-istanbul-reporter": "^3.0.3",
