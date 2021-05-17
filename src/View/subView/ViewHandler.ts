@@ -3,9 +3,9 @@ import ISubscriber from "./ISubscriber";
 import IView from "../IView";
 
 class ViewHandler {
-  subscriber: ISubscriber;
+  subscriber!: ISubscriber;
 
-  mouseCoords: number;
+  mouseCoords!: number;
 
   isHorizontal!: boolean;
 

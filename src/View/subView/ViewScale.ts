@@ -11,8 +11,7 @@ class ViewScale {
     this.init(View)
   }
 
-  createScale(quantity = 2): void {
-    this.div = document.createElement("div");
+  createScale(quantity = 2): void {    
     if (this.isHorizontal) this.div.className = "slider__scale_horizontal";
     if (!this.isHorizontal) this.div.className = "slider__scale_vertical";    
     this.slider.append(this.div);
@@ -40,6 +39,7 @@ class ViewScale {
   }
 
   private init(View: IView) {
+    this.div = document.createElement("div");
     this.slider = View.slider.div;
     this.isHorizontal = View.isHorizontal;
   }

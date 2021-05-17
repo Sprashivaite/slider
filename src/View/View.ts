@@ -119,7 +119,7 @@ class View implements IView {
   }
 
   private renderFlag(): void {
-    this.flag1 = new ViewFlag(this.button1.div);
+    this.flag1 = new ViewFlag(this);
     this.flag1.createFlag();
 
     if (!this.isFlag) {
@@ -127,7 +127,7 @@ class View implements IView {
     }
 
     if (this.isRangeSlider) {
-      this.flag2 = new ViewFlag(this.button2.div);
+      this.flag2 = new ViewFlag(this);
       this.flag2.createFlag();
       if (!this.isFlag) {
         this.flag2.hideFlag();
