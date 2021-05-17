@@ -29,8 +29,14 @@ class Presenter {
     );
   }
 
+  moveFlag(button: HTMLElement, flag: ViewFlag): void { 
+    if(this.view.isHorizontal) flag.moveFlag(button.offsetLeft )
+    if(!this.view.isHorizontal) flag.moveFlag(button.offsetTop)
+  }
+
   changeFlagValue(button: HTMLElement, flag: ViewFlag): void {
     flag.changeFlagValue(this.model.calcFlagValue(this.view.field.div, button));
+    
   }
 
   updateScaleValues(): void {
@@ -54,6 +60,13 @@ class Presenter {
   mouseMoveButton(): void {
     this.moveButton(this.view.button1);
     this.changeFlagValue(this.view.button1.div, this.view.flag1);
+    this.moveFlag(this.view.button1.div, this.view.flag1)  
+    if (this.view.isRangeSlider) {
+    this.moveFlag(this.view.button2.div, this.view.flag2)   
+    if(this.view.isHorizontal) {
+      this.view.flag1.demarcateFromSiblingFlag(this.view.flag1.div, this.view.flag2.div)
+    }
+    }
     this.view.progressBar.progressBarMove();
     this.view.progressBar.changeColorBar();
     this.buttonValue1 = Number(this.view.flag1.div.innerHTML);
@@ -62,6 +75,10 @@ class Presenter {
   mouseMoveButton2(): void {
     this.moveButton(this.view.button2);
     this.changeFlagValue(this.view.button2.div, this.view.flag2);
+    this.moveFlag(this.view.button2.div, this.view.flag2)    
+    if(this.view.isHorizontal) {
+      this.view.flag1.demarcateFromSiblingFlag(this.view.flag1.div, this.view.flag2.div)
+    }
     this.view.progressBar.progressBarMove();
     this.view.progressBar.changeColorBar();
     this.buttonValue2 = Number(this.view.flag2.div.innerHTML);
@@ -72,6 +89,12 @@ class Presenter {
     this.view.progressBar.progressBarMove();
     this.view.progressBar.changeColorBar();
     this.changeFlagValue(this.view.button1.div, this.view.flag1);
+    this.moveFlag(this.view.button1.div, this.view.flag1)  
+    if (this.view.isRangeSlider) {
+      if(this.view.isHorizontal) {
+        this.view.flag1.demarcateFromSiblingFlag(this.view.flag1.div, this.view.flag2.div)
+      } 
+    }
     this.buttonValue1 = Number(this.view.flag1.div.innerHTML);
   }
 
@@ -80,6 +103,11 @@ class Presenter {
     this.view.progressBar.progressBarMove();
     this.view.progressBar.changeColorBar();
     this.changeFlagValue(this.view.button2.div, this.view.flag2);
+    this.moveFlag(this.view.button1.div, this.view.flag1)  
+    this.moveFlag(this.view.button2.div, this.view.flag2)    
+    if(this.view.isHorizontal) {
+      this.view.flag1.demarcateFromSiblingFlag(this.view.flag1.div, this.view.flag2.div)
+    } 
     this.buttonValue2 = Number(this.view.flag2.div.innerHTML);
   }
 

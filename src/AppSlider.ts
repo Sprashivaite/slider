@@ -25,6 +25,7 @@ class AppSlider {
     this.view.handler.getMouseCoords();    
     this.view.handler.mouseEventSlider();
     this.presenter.updateScaleValues();
+    this.presenter.mouseUp();
     if (this.view.isRangeSlider) {
       this.view.handler.mouseEventRange();
       this.presenter.mouseUp2();
