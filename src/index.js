@@ -1,6 +1,10 @@
 import './style.css'
-import './index.ts'
-import $ from 'jquery'; 
+import "./jQueryAPI"
+// import './index.ts'
 
-global.jQuery = $;
-global.$ = $;
+// console.log(plug)
+// export $
+
+// export function init(){
+//     window.$ = window.jQuery = $
+// }

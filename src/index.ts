@@ -1,5 +1,5 @@
 /* eslint-disable no-new */
-import $ from "./jQueryAPI"
+
 import Config from "./Config"
 
 const slider1 = $('.js-slider-container_1 > .js-slider').sliderPlugin().data("sliderPlugin");

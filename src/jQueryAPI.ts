@@ -32,4 +32,5 @@ import AppSlider from "./AppSlider";
     });
   };
 })(jQuery);
-export default $
+let plug = $.fn.sliderPlugin
+export default plug

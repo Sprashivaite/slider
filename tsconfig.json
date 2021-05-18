@@ -8,5 +8,6 @@
         "strict": true,
         "target": "es5",
         "alwaysStrict": true,
+        "sourceMap": true,
       }
     }

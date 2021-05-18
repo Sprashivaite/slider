@@ -23,26 +23,21 @@ module.exports = {
     //   type: 'umd',
     // },
   },
-  externals: {
-    jquery: 'jQuery',
-  },
-  mode: "development",
-  // devtool: "inline-source-map",
-  devServer: {
-    contentBase: "./dist",
-  },
-  optimization: {
-    minimize: true,
-    splitChunks: {
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all',
-        },
-      },
-    },
-  },
+//   externals: {
+//     jquery: 'jQuery',
+//   },
+//   optimization: {
+//     minimize: true,
+//     splitChunks: {
+//       cacheGroups: {
+//         vendor: {
+//           test: /[\\/]node_modules[\\/]/,
+//           name: 'vendors',
+//           chunks: 'all',
+//         },
+//       },
+//     },
+//   },
   module: {
     rules: [
       {
