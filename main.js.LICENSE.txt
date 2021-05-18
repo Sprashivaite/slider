@@ -36,8 +36,6 @@
 
 /*! ./subView/ViewScale */
 
-/*! expose-loader?exposes=$,jQuery!jquery */
-
 /*! jquery */
 
 /*!**********************!*\
