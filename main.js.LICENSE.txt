@@ -1,39 +1,3 @@
-/*! !!../node_modules/css-loader/dist/cjs.js!./style.css */
-
-/*! !../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */
-
-/*! ../node_modules/css-loader/dist/runtime/api.js */
-
-/*! ../node_modules/css-loader/dist/runtime/cssWithMappingToString.js */
-
-/*! ./AppSlider */
-
-/*! ./Model/Model */
-
-/*! ./Presenter/Presenter */
-
-/*! ./View/View */
-
-/*! ./jQueryAPI */
-
-/*! ./style.css */
-
-/*! ./subView/ViewButton */
-
-/*! ./subView/ViewContainer */
-
-/*! ./subView/ViewField */
-
-/*! ./subView/ViewFlag */
-
-/*! ./subView/ViewHandler */
-
-/*! ./subView/ViewProgressBar */
-
-/*! ./subView/ViewScale */
-
-/*! jquery */
-
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
@@ -94,6 +58,14 @@
   !*** ./src/View/subView/ViewProgressBar.ts ***!
   \*********************************************/
 
+/*!*****************************************************!*\
+  !*** ./node_modules/css-loader/dist/runtime/api.js ***!
+  \*****************************************************/
+
 /*!*************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./src/style.css ***!
   \*************************************************************/
+
+/*!****************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js ***!
+  \****************************************************************************/
