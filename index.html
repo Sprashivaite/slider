@@ -202,16 +202,19 @@
     </div>
     <div class="test"></div>
     <div class="slider-container_7"></div>
-  <script src="vendors.js"></script>
-  <script src="main.js"></script></body>
+  <script src="vendors.js"></script><script src="main.js"></script>
   <script
   src="https://code.jquery.com/jquery-3.6.0.min.js"
   integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
   crossorigin="anonymous"></script>
-    <script>
+    
+    <script type='module'>
+      import $ from '/jQuery'
+      console.log($ );
       // console.log(plug.test);
-      sliderPlugin.init()
-      // $('.slider-container_7').css('width', '100px');
-      $('.slider-container_7').sliderPlugin();
+      // sliderPlugin.init()
+      $('.slider-container_7').css('width', '100px');
+      // $('.slider-container_7').sliderPlugin();
     </script>
+    </body>
 </html>
