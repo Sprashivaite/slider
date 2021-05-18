@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-  <script defer src="runtime.js?ad71bbdd64553cc62bdf"></script><script defer src="vendors.js?ad71bbdd64553cc62bdf"></script><script defer src="main.js?ad71bbdd64553cc62bdf"></script></head>
+  <script defer src="runtime.js?416b68ee9741bfa1cf85"></script><script defer src="vendors.js?416b68ee9741bfa1cf85"></script><script defer src="main.js?416b68ee9741bfa1cf85"></script></head>
   <body>
     <div class="sliders">
       <div class="slider-container_1 js-slider-container_1">
@@ -201,13 +201,13 @@
       </div>
     </div>
     <div class="test"></div>
-    <script>
-      import $ from "jQuery"
+    <div class="slider-container_7"></div>
+    <script type="module">
       let pup = window.sliderPlugin;
       console.log($.fn);
-      $('.test').css('width', '100px');
-      $('.test').sliderPlugin();
-      const slider1 = $('.test').sliderPlugin().data("sliderPlugin");
+      $('.slider-container_7').css('width', '100px');
+      $('.slider-container_7').sliderPlugin();
+      // const slider1 = $('.test').sliderPlugin().data("sliderPlugin");
     </script>
   </body>
 </html>
