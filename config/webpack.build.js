@@ -4,16 +4,5 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = merge(common, {
-  entry: `./src/index.js`,
   mode: 'production',
-  externals: {
-    jquery: 'jQuery',
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './src/index.html',
-      filename: `index.html`,
-      scriptLoading: "blocking"
-    }),
-  ]
 });

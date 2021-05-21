@@ -13,31 +13,24 @@ const PATHS = {
 };
 
 module.exports = {
-  entry: './src/index.js',
+  entry: `${PATHS.src}/demo-page.js`,
   output: {
     filename: "[name].js",
-    path: path.resolve(__dirname, "dist"),
+    path: `${PATHS.dist}`,
     clean: true,
-    // library: {
-    //   name: 'sliderPlugin',
-    //   type: 'umd',
-    // },
   },
-//   externals: {
-//     jquery: 'jQuery',
-//   },
-//   optimization: {
-//     minimize: true,
-//     splitChunks: {
-//       cacheGroups: {
-//         vendor: {
-//           test: /[\\/]node_modules[\\/]/,
-//           name: 'vendors',
-//           chunks: 'all',
-//         },
-//       },
-//     },
-//   },
+  optimization: {
+    minimize: true,
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    },
+  },
   module: {
     rules: [
       {
@@ -69,8 +62,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html',
-      filename: `index.html`,
+      template: './src/demo-page.html',
+      filename: `demo-page.html`,
       scriptLoading: "blocking"
     }),
     new MiniCssExtractPlugin(),
