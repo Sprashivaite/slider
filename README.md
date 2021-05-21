@@ -21,9 +21,9 @@ http://localhost:8080/ адрес локального сервера.
 npm run test
 ```
 
-#### On the production server create the bundle files
+#### Production
 ```commandline
-npm run build
+npm run prod
 ```
 
 
@@ -44,10 +44,6 @@ npm run build
 После подключения файлов, плагин иницилизируется на элементе при помощи  JQuery.
 ```javascript
 $(selector).sliderPlugin();
-```
-Также подключение возможно без использования JQuery, путём создания экземпляра класса AppSlider.
-```javascript
-const slider = new AppSlider({target: container})
 ```
 По умолчанию контейнер для слайдера определяется путём поиска атрибута data-slider.
 ```javascript
