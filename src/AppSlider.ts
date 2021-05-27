@@ -27,7 +27,7 @@ class AppSlider {
     this.view.handler.addButtonHandler1();
     this.presenter.updateScaleValues();
     this.presenter.mouseUp();
-    if (this.view.isRangeSlider) {
+    if (this.view.config.isRangeSlider) {
       this.view.handler.mouseEventRange();
       this.view.handler.addButtonHandler2();
       this.presenter.mouseUp2();

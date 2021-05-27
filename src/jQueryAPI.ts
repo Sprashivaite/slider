@@ -1,6 +1,7 @@
 import IViewConfig from "./View/IViewConfig";
 import IModelConfig from "./Model/IModelConfig";
 import AppSlider from "./AppSlider";
+import {DEFAULT_CONFIG} from './defaults'
 
 (function ($) {
   class SliderPlugin {
@@ -12,16 +13,8 @@ import AppSlider from "./AppSlider";
   $.fn.sliderPlugin = function (options: IViewConfig | IModelConfig) {
     options = $.extend(
       {
-        target: this,
-        isHorizontal: true,
-        isRangeSlider: true,
-        isProgressBar: true,
-        max: 100,
-        min: 0,
-        step: 1,
-        isFlag: true,
-        isScale: true,
-        scaleQuantity: 6,
+        ...DEFAULT_CONFIG,
+        ...{target: this},
       },
       options
     );

@@ -82,11 +82,11 @@ class ViewProgressBar {
   private init(View: IView): void {
     this.field = View.field.div;
     this.button1 = View.button1.div;
-    if (View.isRangeSlider) {
+    if (View.config.isRangeSlider) {
       this.button2 = View.button2.div;
     }    
-    this.isHorizontal = View.isHorizontal;
-    this.isRangeSlider = View.isRangeSlider;
+    this.isHorizontal = View.config.isHorizontal;
+    this.isRangeSlider = View.config.isRangeSlider;
   }
 }
 export default ViewProgressBar;

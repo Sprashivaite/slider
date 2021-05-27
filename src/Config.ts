@@ -51,7 +51,7 @@ class Config {
     this.vl.addEventListener("input", setButtonValue);
 
     const setButtonValue2 = () => {
-    if (this.slider.view.isRangeSlider) {
+    if (this.slider.view.config.isRangeSlider) {
       this.vl2.value = `${this.slider.presenter.buttonValue2}`;
       const setValue = () => {
         if (Number(this.vl2.value) > Number(this.max.value)) this.vl2.value = this.max.value
@@ -104,7 +104,7 @@ class Config {
     };
     this.step.addEventListener("input", stepChanged);
 
-    this.tooltip.checked = this.slider.view.isFlag;
+    this.tooltip.checked = this.slider.view.config.isFlag;
     const tooltipChanged = () => {
       if (this.tooltip.checked) this.slider.view.flag1.showFlag();
       else this.slider.view.flag1.hideFlag();
@@ -115,26 +115,26 @@ class Config {
     };
     this.tooltip.addEventListener("input", tooltipChanged);
 
-    this.scale.checked = this.slider.view.isScale;
+    this.scale.checked = this.slider.view.config.isScale;
     const scaleChanged = () => {
       if (this.scale.checked) this.slider.view.scale.showScale();
       else this.slider.view.scale.hideScale();
     };
     this.scale.addEventListener("input", scaleChanged);
 
-    this.orientation.checked = this.slider.view.isHorizontal;
+    this.orientation.checked = this.slider.view.config.isHorizontal;
     const orientationChanged = () => {
       this.slider.presenter.changeOrientation();
-      this.scale.checked = this.slider.view.isScale;
-      this.tooltip.checked = this.slider.view.isFlag;
+      this.scale.checked = this.slider.view.config.isScale;
+      this.tooltip.checked = this.slider.view.config.isFlag;
     };
     this.orientation.addEventListener("input", orientationChanged);
 
-    this.range.checked = this.slider.view.isRangeSlider;
+    this.range.checked = this.slider.view.config.isRangeSlider;
     const rangeChanged = () => {
       this.slider.presenter.changeTypeSlider();
-      this.scale.checked = this.slider.view.isScale;
-      this.tooltip.checked = this.slider.view.isFlag;
+      this.scale.checked = this.slider.view.config.isScale;
+      this.tooltip.checked = this.slider.view.config.isFlag;
       setButtonValue2();
     };
     this.range.addEventListener("input", rangeChanged);

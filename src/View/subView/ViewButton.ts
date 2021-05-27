@@ -42,7 +42,7 @@ class ViewButton {
 
   private init(View: IView): void {
     this.field = View.field.div;
-    this.isHorizontal = View.isHorizontal;
+    this.isHorizontal = View.config.isHorizontal;
   } 
 }
 export default ViewButton;

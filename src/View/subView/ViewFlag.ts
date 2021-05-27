@@ -57,7 +57,7 @@ class Flag {
   private init(View: IView): void { 
     this.button = View.button1.div;
     this.field = View.field.div;
-    this.isHorizontal = View.isHorizontal
+    this.isHorizontal = View.config.isHorizontal
   } 
 }
 export default Flag;

@@ -9,16 +9,14 @@ import IView from "./IView";
 import ISubscriber from "./subView/ISubscriber";
 import ViewHandler from "./subView/ViewHandler";
 
+import {DEFAULT_VIEW_CONFIG} from "../defaults";
+
 class View implements IView {
   slider!: ViewContainer;
 
   button1!: ViewButton;
 
   button2!: ViewButton;
-
-  isHorizontal!: boolean;
-
-  isRangeSlider!: boolean;
 
   field!: ViewField;
 
@@ -31,28 +29,15 @@ class View implements IView {
   scale!: ViewScale;
 
   handler!: ViewHandler;
-
-  isFlag!: boolean;
-
-  isScale!: boolean;
-
-  scaleQuantity!: number;
-
-  isProgressBar!: boolean;
+  
+  config!: IViewConfig;
 
   constructor(
-    {
-      target = undefined,
-      isHorizontal = true,
-      isRangeSlider = true,
-      isFlag = true,
-      isProgressBar = true,
-      isScale = true,
-      scaleQuantity = 6,
-    } = {} as IViewConfig
+    config = DEFAULT_VIEW_CONFIG as IViewConfig
   ) {
-    this.slider = new ViewContainer(target);
-    this.init(isHorizontal, isRangeSlider, isFlag, isProgressBar, isScale, scaleQuantity)
+    this.slider = new ViewContainer(config.target);
+    
+    this.init(config)
   }
 
   renderElements(): void {
@@ -71,8 +56,8 @@ class View implements IView {
       this.progressBar.div,
       this.scale.div,
     ].forEach((item) => item.remove());
-
-    if (this.isRangeSlider) {
+    const {isRangeSlider} = this.config
+    if (isRangeSlider) {
       [this.flag2.div, this.button2.div].forEach((item) => item.remove());
     }    
   }
@@ -81,26 +66,24 @@ class View implements IView {
     this.handler = new ViewHandler(this, subscriber);
   }
 
-  private init(isHorizontal: boolean, isRangeSlider: boolean, isFlag: boolean, isProgressBar: boolean, isScale: boolean, scaleQuantity: number): void {
+  private init(config: IViewConfig): void {
+    this.config = { ...DEFAULT_VIEW_CONFIG, ...config };
+    
     this.validate();
-    this.isHorizontal = isHorizontal;
-    this.isRangeSlider = isRangeSlider;
-    this.isFlag = isFlag;
-    this.isProgressBar = isProgressBar;
-    this.isScale = isScale;
-    this.scaleQuantity = scaleQuantity;
   }
 
   private validate(): void {
-    if (typeof this.isHorizontal !== "boolean") this.isHorizontal = true;
-    if (typeof this.isRangeSlider !== "boolean") this.isRangeSlider = true;
-    if (typeof this.isFlag !== "boolean") this.isFlag = true;
-    if (typeof this.isProgressBar !== "boolean") this.isProgressBar = true;
-    if (typeof this.isScale !== "boolean") this.isScale = true;
-    if (typeof this.scaleQuantity !== "number" || this.scaleQuantity < 1) {
-      this.scaleQuantity = 2;
+    let {isHorizontal, isRangeSlider, isFlag, isProgressBar, isScale, scaleQuantity} = this.config
+    if (typeof isHorizontal !== "boolean") isHorizontal = true;
+    if (typeof isRangeSlider !== "boolean") isRangeSlider = true;
+    if (typeof isFlag !== "boolean") isFlag = true;
+    if (typeof isProgressBar !== "boolean") isProgressBar = true;
+    if (typeof isScale !== "boolean") isScale = true;
+    if (typeof scaleQuantity !== "number" || scaleQuantity < 1) {
+      scaleQuantity = 2;
     }
-    this.scaleQuantity = Number(this.scaleQuantity.toFixed(0));
+    scaleQuantity = Number(scaleQuantity.toFixed(0));
+    this.config = {isHorizontal, isRangeSlider, isFlag, isProgressBar, isScale, scaleQuantity}
   }
 
   private renderField(): void {
@@ -109,44 +92,48 @@ class View implements IView {
   }
 
   private renderButtons(): void {
+    const {isRangeSlider} = this.config
     this.button1 = new ViewButton(this);
     this.button1.createButton();
 
-    if (this.isRangeSlider) {
+    if (isRangeSlider) {
       this.button2 = new ViewButton(this);
       this.button2.createButton();
     }
   }
 
   private renderFlag(): void {
+    const {isRangeSlider, isFlag} = this.config
     this.flag1 = new ViewFlag(this);
     this.flag1.createFlag();
 
-    if (!this.isFlag) {
+    if (!isFlag) {
       this.flag1.hideFlag();
     }
 
-    if (this.isRangeSlider) {
+    if (isRangeSlider) {
       this.flag2 = new ViewFlag(this);
       this.flag2.createFlag();
-      if (!this.isFlag) {
+      if (!isFlag) {
         this.flag2.hideFlag();
       }
     }
   }
 
   private renderScale(): void {
+    const {isScale, scaleQuantity} = this.config
     this.scale = new ViewScale(this);
-    this.scale.createScale(this.scaleQuantity);
+    this.scale.createScale(scaleQuantity);
 
-    if (!this.isScale) this.scale.hideScale();
+    if (!isScale) this.scale.hideScale();
   }
 
   private renderProgressBar(): void {
+    const {isProgressBar} = this.config
     this.progressBar = new ViewProgressBar(this);
     this.progressBar.createProgressBar();
 
-    if (!this.isProgressBar) this.progressBar.hideBar();
+    if (!isProgressBar) this.progressBar.hideBar();
   }
 }
 

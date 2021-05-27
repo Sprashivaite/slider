@@ -18,4 +18,9 @@ const DEFAULT_VIEW_CONFIG: IViewConfig = {
     scaleQuantity: 6,
 }
 
-export { DEFAULT_MODEL_CONFIG, DEFAULT_VIEW_CONFIG }
+const DEFAULT_CONFIG: IViewConfig | IModelConfig = {
+    ...DEFAULT_MODEL_CONFIG,
+    ...DEFAULT_VIEW_CONFIG
+}
+
+export { DEFAULT_MODEL_CONFIG, DEFAULT_VIEW_CONFIG, DEFAULT_CONFIG }

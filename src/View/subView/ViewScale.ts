@@ -41,7 +41,7 @@ class ViewScale {
   private init(View: IView) {
     this.div = document.createElement("div");
     this.slider = View.slider.div;
-    this.isHorizontal = View.isHorizontal;
+    this.isHorizontal = View.config.isHorizontal;
   }
 }
 

@@ -168,8 +168,8 @@ class ViewHandler {
   private init(View: IView, subscriber: ISubscriber) {
     this.subscriber = subscriber;
     this.mouseCoords = 0;
-    this.isHorizontal = View.isHorizontal;
-    this.isRangeSlider = View.isRangeSlider;
+    this.isHorizontal = View.config.isHorizontal;
+    this.isRangeSlider = View.config.isRangeSlider;
     this.slider = View.slider.div;
     this.field = View.field.div;
     this.button1 = View.button1.div;

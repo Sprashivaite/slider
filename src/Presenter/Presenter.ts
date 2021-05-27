@@ -47,8 +47,8 @@ class Presenter {
   }
 
   moveFlag(button: HTMLElement, flag: ViewFlag): void { 
-    if(this.view.isHorizontal) flag.moveFlag(button.offsetLeft )
-    if(!this.view.isHorizontal) flag.moveFlag(button.offsetTop)
+    if(this.view.config.isHorizontal) flag.moveFlag(button.offsetLeft )
+    if(!this.view.config.isHorizontal) flag.moveFlag(button.offsetTop)
   }
 
   changeFlagValue(button: HTMLElement, flag: ViewFlag): void {
@@ -76,14 +76,14 @@ class Presenter {
 
   mouseDownButton(): void {
     this.shift1 = this.view.handler.mouseCoords - this.view.button1.div.getBoundingClientRect().left - this.view.button1.div.offsetWidth/2
-    if (!this.view.isHorizontal) {
+    if (!this.view.config.isHorizontal) {
       this.shift1 = this.view.handler.mouseCoords - this.view.button1.div.getBoundingClientRect().top - this.view.button1.div.offsetWidth/2
     }
   }
 
   mouseDownButton2(): void {
     this.shift2 = this.view.handler.mouseCoords - this.view.button2.div.getBoundingClientRect().left - this.view.button2.div.offsetWidth/2
-    if (!this.view.isHorizontal) {
+    if (!this.view.config.isHorizontal) {
     this.shift2 = this.view.handler.mouseCoords - this.view.button2.div.getBoundingClientRect().top - this.view.button2.div.offsetWidth/2
   }
   }
@@ -93,9 +93,9 @@ class Presenter {
     this.moveShift(this.view.button1, this.shift1)
     this.changeFlagValue(this.view.button1.div, this.view.flag1);
     this.moveFlag(this.view.button1.div, this.view.flag1)  
-    if (this.view.isRangeSlider) {
+    if (this.view.config.isRangeSlider) {
     this.moveFlag(this.view.button2.div, this.view.flag2)   
-    if(this.view.isHorizontal) {
+    if(this.view.config.isHorizontal) {
       this.view.flag1.demarcateFromSiblingFlag(this.view.flag1.div, this.view.flag2.div)
     }
     }
@@ -109,7 +109,7 @@ class Presenter {
     this.moveShift(this.view.button2, this.shift2)
     this.changeFlagValue(this.view.button2.div, this.view.flag2);
     this.moveFlag(this.view.button2.div, this.view.flag2)    
-    if(this.view.isHorizontal) {
+    if(this.view.config.isHorizontal) {
       this.view.flag1.demarcateFromSiblingFlag(this.view.flag1.div, this.view.flag2.div)
     }
     this.view.progressBar.progressBarMove();
@@ -123,8 +123,8 @@ class Presenter {
     this.view.progressBar.changeColorBar();
     this.changeFlagValue(this.view.button1.div, this.view.flag1);
     this.moveFlag(this.view.button1.div, this.view.flag1)  
-    if (this.view.isRangeSlider) {
-      if(this.view.isHorizontal) {
+    if (this.view.config.isRangeSlider) {
+      if(this.view.config.isHorizontal) {
         this.view.flag1.demarcateFromSiblingFlag(this.view.flag1.div, this.view.flag2.div)
       } 
     }
@@ -146,7 +146,7 @@ class Presenter {
     this.changeFlagValue(this.view.button2.div, this.view.flag2);
     this.moveFlag(this.view.button1.div, this.view.flag1)  
     this.moveFlag(this.view.button2.div, this.view.flag2)    
-    if(this.view.isHorizontal) {
+    if(this.view.config.isHorizontal) {
       this.view.flag1.demarcateFromSiblingFlag(this.view.flag1.div, this.view.flag2.div)
     } 
     this.buttonValue2 = Number(this.view.flag2.div.innerHTML);
@@ -155,13 +155,13 @@ class Presenter {
   changeOrientation(): void {
     this.view.removeElements();
     this.model.config.isHorizontal = !this.model.config.isHorizontal;
-    this.view.isHorizontal = !this.view.isHorizontal;
+    this.view.config.isHorizontal = !this.view.config.isHorizontal;
     this.view.renderElements();
     this.view.register(this);
     this.view.handler.getMouseCoords();
     this.view.handler.mouseEventSlider();
     this.updateScaleValues();
-    if (this.view.isRangeSlider) {
+    if (this.view.config.isRangeSlider) {
       this.view.handler.mouseEventRange();
       this.mouseUp2();
     }
@@ -169,13 +169,13 @@ class Presenter {
 
   changeTypeSlider(): void {
     this.view.removeElements();
-    this.view.isRangeSlider = !this.view.isRangeSlider;
+    this.view.config.isRangeSlider = !this.view.config.isRangeSlider;
     this.view.renderElements();
     this.view.register(this);
     this.view.handler.getMouseCoords();
     this.view.handler.mouseEventSlider();
     this.updateScaleValues();
-    if (this.view.isRangeSlider) {
+    if (this.view.config.isRangeSlider) {
       this.view.handler.mouseEventRange();
       this.mouseUp2();
     }
@@ -189,8 +189,6 @@ class Presenter {
   }
 
   setButtonValue2(value: number): void {
-
-
     
     this.view.button2.moveButton(
       this.model.moveToValue(this.view.field.div, this.view.button2.div, value),

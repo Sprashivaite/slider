@@ -19,7 +19,7 @@ class ViewField {
   }
 
   private init(View: IView): void {
-    this.isHorizontal = View.isHorizontal;
+    this.isHorizontal = View.config.isHorizontal;
     this.slider = View.slider.div;
   }  
 }

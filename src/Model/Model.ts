@@ -1,14 +1,7 @@
 import IModelConfig from './IModelConfig';
 import {DEFAULT_MODEL_CONFIG} from '../defaults'
 
-class Model implements IModelConfig {
-  max!: number;
-
-  min!: number;
-
-  step!: number;
-
-  isHorizontal!: boolean;
+class Model {
 
   config!: IModelConfig;
 
@@ -21,7 +14,7 @@ class Model implements IModelConfig {
     button: HTMLElement,
     mouseCoords: number,
   ): number {
-    const { isHorizontal} = this.config
+    const { isHorizontal } = this.config
     let fieldSize: number = field.offsetWidth;
     let buttonSize: number = button.offsetWidth;
     let shiftLeft: number = mouseCoords - field.getBoundingClientRect().left - buttonSize / 2;
@@ -143,8 +136,8 @@ class Model implements IModelConfig {
     return this.demarcateFromSiblingButton(button, result);
   }
 
-  private init(config): void {  
-    this.config = { ...DEFAULT_MODEL_CONFIG, ...config };;
+  private init(config: IModelConfig): void {  
+    this.config = { ...DEFAULT_MODEL_CONFIG, ...config };
     this.validate();
   }
 
