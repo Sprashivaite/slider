@@ -1,4 +1,5 @@
 import IModelConfig from './IModelConfig';
+import {DEFAULT_MODEL_CONFIG} from '../defaults'
 
 class Model implements IModelConfig {
   max!: number;
@@ -9,12 +10,10 @@ class Model implements IModelConfig {
 
   isHorizontal!: boolean;
 
-  constructor(
-    {
-      max = 100, min = 0, step = 1, isHorizontal = true 
-    } = {} as IModelConfig
-  ) {
-    this.init(max, min, step, isHorizontal)
+  config!: IModelConfig;
+
+  constructor(config = DEFAULT_MODEL_CONFIG as IModelConfig) {
+    this.init(config)
   }
 
   calcBtnOffset(
@@ -22,11 +21,12 @@ class Model implements IModelConfig {
     button: HTMLElement,
     mouseCoords: number,
   ): number {
+    const { isHorizontal} = this.config
     let fieldSize: number = field.offsetWidth;
     let buttonSize: number = button.offsetWidth;
     let shiftLeft: number = mouseCoords - field.getBoundingClientRect().left - buttonSize / 2;
 
-    if (!this.isHorizontal) {
+    if (!isHorizontal) {
       buttonSize = button.offsetHeight;
       shiftLeft = mouseCoords - field.getBoundingClientRect().top - buttonSize / 2;
       fieldSize = field.offsetHeight;
@@ -44,30 +44,31 @@ class Model implements IModelConfig {
   }
 
   calcFlagValue(field: HTMLElement, button: HTMLElement): number {
+    const {max, min, step, isHorizontal} = this.config
     let fieldSize: number = field.offsetWidth;
     let buttonSize: number = button.offsetWidth;
     let buttonOffset: number = button.offsetLeft;
 
-    if (!this.isHorizontal) {
+    if (!isHorizontal) {
       fieldSize = field.offsetHeight;
       buttonSize = button.offsetHeight;
       buttonOffset = button.offsetTop;
     }
 
-    let result: number = this.min + 
-    (buttonOffset * (this.max - this.min)) / 
+    let result: number = min + 
+    (buttonOffset * (max - min)) / 
     ((fieldSize - buttonSize));
 
     result = Number(result.toFixed(this.calcDigitsAfterDot()));
 
     const stepsPoints: number[] = [];
 
-    for (let i = this.min; i <= this.max; i += this.step) {
+    for (let i = min; i <= max; i += step) {
       stepsPoints.push(i);         
     }
 
     let nearestValue: number | undefined = stepsPoints.find((item, index, array) => {
-      const halfStepRes = result + (this.step/2)
+      const halfStepRes = result + (step/2)
       return halfStepRes >= item && halfStepRes < array[index + 1]
     });
 
@@ -78,37 +79,39 @@ class Model implements IModelConfig {
   }
 
   calcScaleValue(quantity: number): Array<number> {
+    const {max, min} = this.config
     const arrValues: Array<number> = [];
-    let value = this.min;
-    let {step} = this;
+    let value = min;
+    let {step} = this.config;
     let thisQuantity = quantity;
 
-    if (thisQuantity > 11) { thisQuantity = 11; step = (this.max - this.min) / 10 }
+    if (thisQuantity > 11) { thisQuantity = 11; step = (max - min) / 10 }
     
     for (let i = 0; i < thisQuantity - 1; i += 1) {
-      const isFractionalStep = this.step < 1 || thisQuantity - 1 > this.max;
+      const isFractionalStep = step < 1 || thisQuantity - 1 > max;
       if (isFractionalStep) arrValues.push(Number(value.toFixed(1)));
       else arrValues.push(Number(value.toFixed(0)));
       value += step
     }
 
-    arrValues.push(this.max);
+    arrValues.push(max);
 
     return arrValues;
   }
 
   calcStopPoint(field: HTMLElement, button: HTMLElement): number {
+    const {max, min, step, isHorizontal} = this.config
     let fieldSize: number = field.offsetWidth;
     let buttonSize: number = button.offsetWidth;
     let buttonOffset: number = button.offsetLeft;
 
-    if (!this.isHorizontal) {
+    if (!isHorizontal) {
       fieldSize = field.offsetHeight;
       buttonSize = button.offsetHeight;
       buttonOffset = button.offsetTop;
     }
 
-    const stepPX: number = ((fieldSize - buttonSize) * this.step) / (this.max - this.min);
+    const stepPX: number = ((fieldSize - buttonSize) * step) / (max - min);
 
     const arrStopPoints: number[] = [];
     for (let i = 0; i <= fieldSize - buttonSize; i += stepPX) {
@@ -125,39 +128,42 @@ class Model implements IModelConfig {
   }
 
   moveToValue(field: HTMLElement, button: HTMLElement, value: number): number {
+    const {max, min, isHorizontal} = this.config
     let fieldSize: number = field.offsetWidth;
     let buttonSize: number = button.offsetWidth;
 
-    if (!this.isHorizontal) {
+    if (!isHorizontal) {
       fieldSize = field.offsetHeight;
       buttonSize = button.offsetHeight;
     }
 
-    const result: number = ((fieldSize - buttonSize) / (this.max - this.min))
-      * (value - this.min);
+    const result: number = ((fieldSize - buttonSize) / (max - min))
+      * (value - min);
 
     return this.demarcateFromSiblingButton(button, result);
   }
 
-  private init(max: number, min: number, step: number, isHorizontal: boolean): void {    
+  private init(config): void {  
+    this.config = { ...DEFAULT_MODEL_CONFIG, ...config };;
     this.validate();
-    this.max = max;
-    this.min = min;
-    this.step = step;
-    this.isHorizontal = isHorizontal;
   }
 
   private validate(): void {
-    if (typeof this.max !== 'number' || this.max <= this.min) this.max = 100;
+    let {max, min, step, isHorizontal} = this.config
 
-    if (typeof this.min !== 'number' || this.min >= this.max) this.min = 0;
+    if (typeof max !== 'number' || max <= min) max = 100;
 
-    if (typeof this.step !== 'number' || this.step <= 0) this.step = 1;
+    if (typeof min !== 'number' || min >= max) min = 0;
 
-    if (typeof this.isHorizontal !== 'boolean') this.isHorizontal = true;
+    if (typeof step !== 'number' || step <= 0) step = 1;
+
+    if (typeof isHorizontal !== 'boolean') isHorizontal = true;
+
+    this.config = {max, min, step, isHorizontal}
   }
 
   private demarcateFromSiblingButton(button: HTMLElement, value: number): number {
+    const { isHorizontal} = this.config
     const buttonSize: number = button.offsetWidth;
     const isButtonPrev: boolean | null = button.previousElementSibling
       && button.previousElementSibling.getAttribute('class') === 'slider__button';
@@ -167,7 +173,7 @@ class Model implements IModelConfig {
 
     if (isButtonNext) {
       let nextButtonOffset: number = button.nextElementSibling!.offsetLeft - buttonSize;
-      if (!this.isHorizontal) {
+      if (!isHorizontal) {
         nextButtonOffset = button.nextElementSibling!.offsetTop - buttonSize;
       }
 
@@ -176,7 +182,7 @@ class Model implements IModelConfig {
 
     if (isButtonPrev) {
       let prevButtonOffset: number = button.previousElementSibling!.offsetLeft + buttonSize;
-      if (!this.isHorizontal) {
+      if (!isHorizontal) {
         prevButtonOffset = button.previousElementSibling!.offsetTop + buttonSize;
       }
 
@@ -187,8 +193,9 @@ class Model implements IModelConfig {
   }
   
   private calcDigitsAfterDot(): number{
-    const isIncludeDot = this.step.toString().includes('.')
-    const digitsAfterDot = this.step.toString().split('.').pop()!.length
+    const { step } = this.config
+    const isIncludeDot = step.toString().includes('.')
+    const digitsAfterDot = step.toString().split('.').pop()!.length
     return isIncludeDot ? digitsAfterDot: 0
   }
 

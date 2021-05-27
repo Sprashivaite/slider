@@ -59,7 +59,7 @@ class Presenter {
   updateScaleValues(): void {
     Array.from(this.view.scale.div.children).map(i => i.remove())
     let quantity = 0;
-    for(let i = this.model.min; i <= this.model.max; i += this.model.step){
+    for(let i = this.model.config.min; i <= this.model.config.max; i += this.model.config.step){
       quantity += 1
     }
     this.view.scale.createScale(quantity)
@@ -69,17 +69,23 @@ class Presenter {
 
   makeBreakpointButton(button: ViewButton): void {
     button.moveButton(this.model.calcStopPoint(this.view.field.div, button.div));
-    if (!this.model.isHorizontal) {
+    if (!this.model.config.isHorizontal) {
       button.moveButton(this.model.calcStopPoint(this.view.field.div, button.div));
     }
   }
 
   mouseDownButton(): void {
     this.shift1 = this.view.handler.mouseCoords - this.view.button1.div.getBoundingClientRect().left - this.view.button1.div.offsetWidth/2
+    if (!this.view.isHorizontal) {
+      this.shift1 = this.view.handler.mouseCoords - this.view.button1.div.getBoundingClientRect().top - this.view.button1.div.offsetWidth/2
+    }
   }
 
   mouseDownButton2(): void {
     this.shift2 = this.view.handler.mouseCoords - this.view.button2.div.getBoundingClientRect().left - this.view.button2.div.offsetWidth/2
+    if (!this.view.isHorizontal) {
+    this.shift2 = this.view.handler.mouseCoords - this.view.button2.div.getBoundingClientRect().top - this.view.button2.div.offsetWidth/2
+  }
   }
 
   mouseMoveButton(): void {
@@ -148,7 +154,7 @@ class Presenter {
 
   changeOrientation(): void {
     this.view.removeElements();
-    this.model.isHorizontal = !this.model.isHorizontal;
+    this.model.config.isHorizontal = !this.model.config.isHorizontal;
     this.view.isHorizontal = !this.view.isHorizontal;
     this.view.renderElements();
     this.view.register(this);
