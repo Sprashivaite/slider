@@ -24,10 +24,12 @@ class AppSlider {
     this.view.register(this.presenter);
     this.view.handler.getMouseCoords();    
     this.view.handler.mouseEventSlider();
+    this.view.handler.addButtonHandler1();
     this.presenter.updateScaleValues();
     this.presenter.mouseUp();
     if (this.view.isRangeSlider) {
       this.view.handler.mouseEventRange();
+      this.view.handler.addButtonHandler2();
       this.presenter.mouseUp2();
     }
   }

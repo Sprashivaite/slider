@@ -12,11 +12,18 @@ class Presenter {
   
   buttonValue2: number;
 
+  shift!: number;
+
+  shift1!: number;
+
+  shift2!: number;
+
   constructor(model: Model, view: View) {
     this.model = model;
     this.view = view;
     this.buttonValue1 = 0;
     this.buttonValue2 = 0;
+
   }
 
   moveButton(button: ViewButton): void {
@@ -24,7 +31,17 @@ class Presenter {
       this.model.calcBtnOffset(
         this.view.field.div,
         button.div,
-        this.view.handler.mouseCoords,
+        this.view.handler.mouseCoords
+      ),
+    );
+  }
+
+  moveShift(button: ViewButton, shift): void {
+    button.moveButton(
+      this.model.calcBtnOffset(
+        this.view.field.div,
+        button.div,
+        this.view.handler.mouseCoords - shift
       ),
     );
   }
@@ -57,8 +74,17 @@ class Presenter {
     }
   }
 
+  mouseDownButton(): void {
+    this.shift1 = this.view.handler.mouseCoords - this.view.button1.div.getBoundingClientRect().left - this.view.button1.div.offsetWidth/2
+  }
+
+  mouseDownButton2(): void {
+    this.shift2 = this.view.handler.mouseCoords - this.view.button2.div.getBoundingClientRect().left - this.view.button2.div.offsetWidth/2
+  }
+
   mouseMoveButton(): void {
     this.moveButton(this.view.button1);
+    this.moveShift(this.view.button1, this.shift1)
     this.changeFlagValue(this.view.button1.div, this.view.flag1);
     this.moveFlag(this.view.button1.div, this.view.flag1)  
     if (this.view.isRangeSlider) {
@@ -74,6 +100,7 @@ class Presenter {
 
   mouseMoveButton2(): void {
     this.moveButton(this.view.button2);
+    this.moveShift(this.view.button2, this.shift2)
     this.changeFlagValue(this.view.button2.div, this.view.flag2);
     this.moveFlag(this.view.button2.div, this.view.flag2)    
     if(this.view.isHorizontal) {
@@ -96,6 +123,14 @@ class Presenter {
       } 
     }
     this.buttonValue1 = Number(this.view.flag1.div.innerHTML);
+  }
+
+  scaleClick(value): void {
+    this.setButtonValue(value)
+  }
+
+  scaleClick2(value): void {
+    this.setButtonValue2(value)
   }
 
   mouseUp2(): void {
@@ -148,6 +183,9 @@ class Presenter {
   }
 
   setButtonValue2(value: number): void {
+
+
+    
     this.view.button2.moveButton(
       this.model.moveToValue(this.view.field.div, this.view.button2.div, value),
     );
