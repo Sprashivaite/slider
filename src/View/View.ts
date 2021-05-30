@@ -6,7 +6,6 @@ import ViewScale from "./subView/ViewScale";
 import ViewContainer from "./subView/ViewContainer";
 import IViewConfig from "./IViewConfig"; 
 import IView from "./IView"; 
-import ISubscriber from "./subView/ISubscriber";
 import ViewHandler from "./subView/ViewHandler";
 
 import {DEFAULT_VIEW_CONFIG} from "../defaults";
@@ -62,8 +61,8 @@ class View implements IView {
     }    
   }
 
-  register(subscriber: ISubscriber): void {
-    this.handler = new ViewHandler(this, subscriber);
+  addHandlers(): void {
+    this.handler = new ViewHandler(this);
   }
 
   private init(config: IViewConfig): void {

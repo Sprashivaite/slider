@@ -1,14 +1,16 @@
 import IModelConfig from './IModelConfig';
+import Observable from '../Observable/Observable';
 import {DEFAULT_MODEL_CONFIG} from '../defaults'
 
-class Model {
+class Model extends Observable{
 
   config!: IModelConfig;
 
   constructor(config = DEFAULT_MODEL_CONFIG as IModelConfig) {
+    super()
     this.init(config)
   }
-
+  
   calcBtnOffset(
     field: HTMLElement,
     button: HTMLElement,
@@ -139,6 +141,7 @@ class Model {
   private init(config: IModelConfig): void {  
     this.config = { ...DEFAULT_MODEL_CONFIG, ...config };
     this.validate();
+    // this.emit({ tipe: 'isHorizontal', value: true })
   }
 
   private validate(): void {

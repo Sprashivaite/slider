@@ -21,17 +21,17 @@ class AppSlider {
 
   initApp(): void{
     this.view.renderElements();
-    this.view.register(this.presenter);
+    this.view.addHandlers();
+    this.view.handler.addFieldHandler();
     this.view.handler.getMouseCoords();    
-    this.view.handler.mouseEventSlider();
     this.view.handler.addButtonHandler1();
     this.presenter.updateScaleValues();
-    this.presenter.mouseUp();
+    this.presenter.mouseUp();    
     if (this.view.config.isRangeSlider) {
-      this.view.handler.mouseEventRange();
       this.view.handler.addButtonHandler2();
       this.presenter.mouseUp2();
     }
+    this.presenter.subscribeListeners();
   }
 }
 export default AppSlider

@@ -246,12 +246,12 @@ describe("события мыши", () => {
     view.removeElements();
   });
 
-  it("view.handler.mouseEventSlider defaultPrevented", () => {
+  it("view.handler.addFieldHandler defaultPrevented", () => {
     let contextmenu = new MouseEvent("contextmenu", { cancelable: true });
     let mousedown = new MouseEvent("mousedown", { cancelable: true });
 
     let notify = jasmine.createSpy("notify");
-    view.handler.mouseEventSlider(notify, notify);
+    view.handler.addFieldHandler(notify, notify);
 
     let contextmenuCalled = true;
     let mousedownCalled = true;
@@ -275,10 +275,10 @@ describe("события мыши", () => {
     expect(mousedownCalled).toBeFalsy();
   });
 
-  it("view.handler.mouseEventSlider mouse down", () => {
+  it("view.handler.addFieldHandler mouse down", () => {
     let notify = jasmine.createSpy("notify");
 
-    view.handler.mouseEventSlider(notify, notify);
+    view.handler.addFieldHandler(notify, notify);
 
     view.field.div.dispatchEvent(mousedown);
 
@@ -286,17 +286,17 @@ describe("события мыши", () => {
     expect(notify.calls.count()).toEqual(1);
   });
 
-  it("view.handler.mouseEventSlider mouse move", () => {
+  it("view.handler.addFieldHandler mouse move", () => {
     let notify = jasmine.createSpy("notify");
-    view.handler.mouseEventSlider(notify, notify);
+    view.handler.addFieldHandler(notify, notify);
     view.field.div.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);
     expect(notify).toHaveBeenCalled();
     expect(notify.calls.count()).toEqual(2);
   });
-  it("view.handler.mouseEventSlider mouseup", () => {
+  it("view.handler.addFieldHandler mouseup", () => {
     let notify = jasmine.createSpy("notify");
-    view.handler.mouseEventSlider(notify, notify);
+    view.handler.addFieldHandler(notify, notify);
     view.field.div.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);
     document.dispatchEvent(mouseup);

@@ -3,7 +3,7 @@ import View from "../View/View";
 import ViewButton from "../View/subView/ViewButton";
 import ViewFlag from "../View/subView/ViewFlag";
 
-class Presenter {
+class Presenter{
   model: Model;
 
   view: View;
@@ -23,7 +23,22 @@ class Presenter {
     this.view = view;
     this.buttonValue1 = 0;
     this.buttonValue2 = 0;
+  }
 
+  subscribeListeners() {
+    this.view.handler.subscribe("scaleClick", this.scaleClick.bind(this))
+    this.view.handler.subscribe("scaleClick", this.mouseUp.bind(this))
+    this.view.handler.subscribe("scaleClick", this.mouseUp2.bind(this))    
+    this.view.handler.subscribe("fieldClick", this.mouseMoveButton.bind(this))
+    this.view.handler.subscribe("fieldClick", this.mouseUp.bind(this))
+    this.view.handler.subscribe("fieldClick2", this.mouseMoveButton2.bind(this))
+    this.view.handler.subscribe("fieldClick2", this.mouseUp2.bind(this))
+    this.view.handler.subscribe("mouseDown", this.mouseDownButton.bind(this))
+    this.view.handler.subscribe("mouseMove", this.mouseMoveButton.bind(this))
+    this.view.handler.subscribe("mouseUp", this.mouseUp.bind(this))
+    this.view.handler.subscribe("mouseDown2", this.mouseDownButton2.bind(this))
+    this.view.handler.subscribe("mouseMove2", this.mouseMoveButton2.bind(this))
+    this.view.handler.subscribe("mouseUp2", this.mouseUp2.bind(this))
   }
 
   moveButton(button: ViewButton): void {
@@ -52,8 +67,7 @@ class Presenter {
   }
 
   changeFlagValue(button: HTMLElement, flag: ViewFlag): void {
-    flag.changeFlagValue(this.model.calcFlagValue(this.view.field.div, button));
-    
+    flag.changeFlagValue(this.model.calcFlagValue(this.view.field.div, button));    
   }
 
   updateScaleValues(): void {
@@ -65,6 +79,9 @@ class Presenter {
     this.view.scale.createScale(quantity)
     this.view.scale.updateValues(this.model.calcScaleValue(quantity));
     this.view.handler.addScaleHandler();
+    
+
+    
   }
 
   makeBreakpointButton(button: ViewButton): void {
@@ -118,6 +135,7 @@ class Presenter {
   }
 
   mouseUp(): void {
+    
     this.makeBreakpointButton(this.view.button1);
     this.view.progressBar.progressBarMove();
     this.view.progressBar.changeColorBar();
@@ -129,14 +147,6 @@ class Presenter {
       } 
     }
     this.buttonValue1 = Number(this.view.flag1.div.innerHTML);
-  }
-
-  scaleClick(value): void {
-    this.setButtonValue(value)
-  }
-
-  scaleClick2(value): void {
-    this.setButtonValue2(value)
   }
 
   mouseUp2(): void {
@@ -157,12 +167,10 @@ class Presenter {
     this.model.config.isHorizontal = !this.model.config.isHorizontal;
     this.view.config.isHorizontal = !this.view.config.isHorizontal;
     this.view.renderElements();
-    this.view.register(this);
     this.view.handler.getMouseCoords();
-    this.view.handler.mouseEventSlider();
+    this.view.handler.addFieldHandler();
     this.updateScaleValues();
     if (this.view.config.isRangeSlider) {
-      this.view.handler.mouseEventRange();
       this.mouseUp2();
     }
   }
@@ -171,14 +179,18 @@ class Presenter {
     this.view.removeElements();
     this.view.config.isRangeSlider = !this.view.config.isRangeSlider;
     this.view.renderElements();
-    this.view.register(this);
     this.view.handler.getMouseCoords();
-    this.view.handler.mouseEventSlider();
+    this.view.handler.addFieldHandler();
     this.updateScaleValues();
     if (this.view.config.isRangeSlider) {
-      this.view.handler.mouseEventRange();
       this.mouseUp2();
     }
+  }
+
+  scaleClick(data) {
+    data.target.moveButton(
+      this.model.moveToValue(this.view.field.div, data.target.div, data.value),
+    );
   }
 
   setButtonValue(value: number): void {
@@ -188,8 +200,7 @@ class Presenter {
     this.mouseUp();
   }
 
-  setButtonValue2(value: number): void {
-    
+  setButtonValue2(value: number): void {    
     this.view.button2.moveButton(
       this.model.moveToValue(this.view.field.div, this.view.button2.div, value),
     );
