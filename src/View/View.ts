@@ -9,8 +9,9 @@ import IView from "./IView";
 import ViewHandler from "./subView/ViewHandler";
 
 import {DEFAULT_VIEW_CONFIG} from "../defaults";
+import Observable from "../Observable/Observable";
 
-class View implements IView {
+class View extends Observable implements IView {
   slider!: ViewContainer;
 
   button1!: ViewButton;
@@ -34,6 +35,7 @@ class View implements IView {
   constructor(
     config = DEFAULT_VIEW_CONFIG as IViewConfig
   ) {
+    super()
     this.slider = new ViewContainer(config.target);
     
     this.init(config)
@@ -63,6 +65,14 @@ class View implements IView {
 
   addHandlers(): void {
     this.handler = new ViewHandler(this);
+    this.handler.addFieldHandler();
+    this.handler.getMouseCoords();    
+    this.handler.addScaleHandler();
+    this.handler.addButtonHandler1();
+
+    if (this.config.isRangeSlider) {
+      this.handler.addButtonHandler2();
+    }
   }
 
   private init(config: IViewConfig): void {

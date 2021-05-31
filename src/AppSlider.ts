@@ -21,17 +21,19 @@ class AppSlider {
 
   initApp(): void{
     this.view.renderElements();
-    this.view.addHandlers();
-    this.view.handler.addFieldHandler();
-    this.view.handler.getMouseCoords();    
-    this.view.handler.addButtonHandler1();
-    this.presenter.updateScaleValues();
-    this.presenter.mouseUp();    
-    if (this.view.config.isRangeSlider) {
-      this.view.handler.addButtonHandler2();
-      this.presenter.mouseUp2();
-    }
+    this.updateScaleValues();
+    this.view.addHandlers();    
     this.presenter.subscribeListeners();
+  }
+
+  updateScaleValues(): void {
+    Array.from(this.view.scale.div.children).map(i => i.remove())
+    let quantity = 0;
+    for(let i = this.model.config.min; i <= this.model.config.max; i += this.model.config.step){
+      quantity += 1
+    }
+    this.view.scale.createScale(quantity)
+    this.view.scale.updateValues(this.model.calcScaleValue(quantity));
   }
 }
 export default AppSlider

@@ -27,7 +27,7 @@ class Config {
     this.initInputs();
   }
 
-  initInputs(): void {
+  findElements() {
     this.vl = this.container.querySelector(".vl");
     this.vl2 = this.container.querySelector(".vl_2");
     this.max = this.container.querySelector("#max");
@@ -37,6 +37,10 @@ class Config {
     this.scale = this.container.querySelector("#scale");
     this.orientation = this.container.querySelector("#orientation");
     this.range = this.container.querySelector("#range");
+  }
+
+  initInputs(): void {
+    this.findElements();
 
     this.vl.value = `${this.slider.presenter.buttonValue1}`;
     const changeButtonValue = () => {
@@ -139,5 +143,30 @@ class Config {
     };
     this.range.addEventListener("input", rangeChanged);
   }
+
+  // changeOrientation(): void {
+  //   this.view.removeElements();
+  //   this.model.config.isHorizontal = !this.model.config.isHorizontal;
+  //   this.view.config.isHorizontal = !this.view.config.isHorizontal;
+  //   this.view.renderElements();
+  //   this.view.handler.getMouseCoords();
+  //   this.view.handler.addFieldHandler();
+  //   this.updateScaleValues();
+  //   if (this.view.config.isRangeSlider) {
+  //     this.mouseUp2();
+  //   }
+  // }
+
+  // changeTypeSlider(): void {
+  //   this.view.removeElements();
+  //   this.view.config.isRangeSlider = !this.view.config.isRangeSlider;
+  //   this.view.renderElements();
+  //   this.view.handler.getMouseCoords();
+  //   this.view.handler.addFieldHandler();
+  //   this.updateScaleValues();
+  //   if (this.view.config.isRangeSlider) {
+  //     this.mouseUp2();
+  //   }
+  // }
 }
 export default Config;

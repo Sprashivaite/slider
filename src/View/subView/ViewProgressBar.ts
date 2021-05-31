@@ -48,6 +48,7 @@ class ViewProgressBar {
         this.div.style.height = `${buttonOffsetTop2 - buttonOffsetTop}px`;
       }
     }
+    this.changeColorBar()
   }
 
   changeColorBar(): void{

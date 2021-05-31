@@ -10,13 +10,30 @@ class Model extends Observable{
     super()
     this.init(config)
   }
+
+
+
+  updateModel(data): void {
+    const {value1, value2, button1 = 0, button2} = data
+    this.modelData = {
+      value1,
+      value2, 
+      button1,
+      button2
+    }
+    // this.emit('modelUpdate', this.modelData)
+    console.log(data);
+    console.log(this.modelData);
+  }
   
   calcBtnOffset(
-    field: HTMLElement,
-    button: HTMLElement,
-    mouseCoords: number,
+    data
   ): number {
+    // field: HTMLElement,
+    // button: HTMLElement,
+    // mouseCoords: number,
     const { isHorizontal } = this.config
+    const {field, button, mouseCoords, target} = data
     let fieldSize: number = field.offsetWidth;
     let buttonSize: number = button.offsetWidth;
     let shiftLeft: number = mouseCoords - field.getBoundingClientRect().left - buttonSize / 2;
@@ -28,18 +45,32 @@ class Model extends Observable{
     }
 
     if (shiftLeft >= fieldSize - buttonSize) {
+      if (target === "button1") {
+      this.emit('modelUpdate', this.demarcateFromSiblingButton(button, fieldSize - buttonSize) - this.shift)}
+      else {this.emit('modelUpdate2', this.demarcateFromSiblingButton(button, fieldSize - buttonSize) - this.shift)}
       return this.demarcateFromSiblingButton(button, fieldSize - buttonSize)
     }
 
     if (shiftLeft <= 0) {
+      if (target === "button1") {
+      this.emit('modelUpdate', this.demarcateFromSiblingButton(button, 0) - this.shift)}
+      else {this.emit('modelUpdate2', this.demarcateFromSiblingButton(button, 0) - this.shift)}
       return this.demarcateFromSiblingButton(button, 0);
+    }
+    if (target === "button1") {
+    this.emit('modelUpdate', this.demarcateFromSiblingButton(button, shiftLeft) - this.shift)
+    } else {
+      this.emit('modelUpdate2', this.demarcateFromSiblingButton(button, shiftLeft) - this.shift)
     }
 
     return this.demarcateFromSiblingButton(button, shiftLeft);
   }
 
-  calcFlagValue(field: HTMLElement, button: HTMLElement): number {
+  calcFlagValue(data): number {
+    // field: HTMLElement, button: HTMLElement
     const {max, min, step, isHorizontal} = this.config
+    const {field, button, target} = data
+
     let fieldSize: number = field.offsetWidth;
     let buttonSize: number = button.offsetWidth;
     let buttonOffset: number = button.offsetLeft;
@@ -70,6 +101,11 @@ class Model extends Observable{
     if (nearestValue === undefined) nearestValue = stepsPoints.pop()
     else result = nearestValue;
 
+    const test = Number(result.toFixed(this.calcDigitsAfterDot()))
+
+    if(target === 'button1') this.emit('modelValueUpdate', test)
+    else this.emit('modelValueUpdate2', test)
+
     return Number(result.toFixed(this.calcDigitsAfterDot()));
   }
 
@@ -94,8 +130,10 @@ class Model extends Observable{
     return arrValues;
   }
 
-  calcStopPoint(field: HTMLElement, button: HTMLElement): number {
+  calcStopPoint(data): number {
+    // field: HTMLElement, button: HTMLElement
     const {max, min, step, isHorizontal} = this.config
+    const {field, button, target} = data
     let fieldSize: number = field.offsetWidth;
     let buttonSize: number = button.offsetWidth;
     let buttonOffset: number = button.offsetLeft;
@@ -117,13 +155,19 @@ class Model extends Observable{
       item => buttonOffset <= item + stepPX / 2
     );
 
-    if(stopPoint === undefined) stopPoint = fieldSize - buttonSize;   
+    if(stopPoint === undefined) stopPoint = fieldSize - buttonSize;  
 
+    // console.log(stopPoint);
+    if (target === "button1") {
+    this.emit('modelUpdate', this.demarcateFromSiblingButton(button, stopPoint))
+    }
+    else {this.emit('modelUpdate2', this.demarcateFromSiblingButton(button, stopPoint))}
     return this.demarcateFromSiblingButton(button, stopPoint);
   }
 
-  moveToValue(field: HTMLElement, button: HTMLElement, value: number): number {
+  moveToValue(data): number {
     const {max, min, isHorizontal} = this.config
+    const {field, button, value, target} = data
     let fieldSize: number = field.offsetWidth;
     let buttonSize: number = button.offsetWidth;
 
@@ -134,14 +178,30 @@ class Model extends Observable{
 
     const result: number = ((fieldSize - buttonSize) / (max - min))
       * (value - min);
-
+    // console.log(target);
+    // this.updateModel({button1: result})
+    // this.setButtonPX(result)
+    console.log(target);
+    if (target === "button1") {
+    this.emit('modelUpdate', this.demarcateFromSiblingButton(button, result))
+    }
+    else {this.emit('modelUpdate2', this.demarcateFromSiblingButton(button, result))}
+    // this.buttonPX = result
     return this.demarcateFromSiblingButton(button, result);
+  }
+
+  calcShift(data): void {
+    const {mouseCoords, button} = data
+    this.shift = mouseCoords - button.getBoundingClientRect().left - button.offsetWidth/2
+    if (!this.config.isHorizontal) {
+      this.shift = mouseCoords - button.getBoundingClientRect().top - button.offsetHeight/2
+    }
   }
 
   private init(config: IModelConfig): void {  
     this.config = { ...DEFAULT_MODEL_CONFIG, ...config };
     this.validate();
-    // this.emit({ tipe: 'isHorizontal', value: true })
+    
   }
 
   private validate(): void {

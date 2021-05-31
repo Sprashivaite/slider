@@ -40,7 +40,7 @@ class ViewHandler extends Observable{
     this.field.onmousedown = () => false;
     this.field.oncontextmenu = () => false;
 
-    const useHandler = () => this.emit("fieldClick");
+    const useHandler = () => this.emit("mouseMove", {button: this.button1.div, mouseCoords: this.mouseCoords, field: this.field, target: "button1"});
 
 
     if (!this.isRangeSlider) {
@@ -73,7 +73,7 @@ class ViewHandler extends Observable{
   addScaleHandler(): void {
     let useHandler = (event: any) => {
       const value = event.currentTarget.innerHTML;
-      this.emit("scaleClick", {value, target: this.button1})
+      this.emit("scaleClick", {value, button: this.button1.div, field: this.field, target: "button1"})
     };
     if (this.isRangeSlider) {
       useHandler = (event) => {
@@ -90,9 +90,9 @@ class ViewHandler extends Observable{
         const value = event.currentTarget.innerHTML;
 
         if (this.mouseCoords > (buttonOffset2 + buttonOffset) / 2) {
-          this.emit("scaleClick", {value, target: this.button2})
+          this.emit("scaleClick2", {value, button: this.button2.div, field: this.field, target: "button2"})
         } else {
-          this.emit("scaleClick", {value, target: this.button1})
+          this.emit("scaleClick", {value, button: this.button1.div, field: this.field, target: "button1"})
         }
       };
     }
@@ -103,14 +103,13 @@ class ViewHandler extends Observable{
   }
 
   addButtonHandler1(): void {
-    const handler = this.emit.bind(this, "mouseMove");
+    const handler = () => this.emit("mouseMove", {button: this.button1.div, mouseCoords: this.mouseCoords, field: this.field, target: "button1"});
     const useHandler = () => {
-      this.emit("mouseDown")
-      this.emit("mouseMove")
+      this.emit("mouseDown", {button: this.button1.div, mouseCoords: this.mouseCoords, target: "button1"})
       document.addEventListener("mousemove", handler);
       document.onmouseup = () => {
         document.removeEventListener("mousemove", handler);
-        this.emit("mouseUp")
+        this.emit("mouseUp", {button: this.button1.div, field: this.field, target: "button1"})
       };
     };
 
@@ -120,8 +119,8 @@ class ViewHandler extends Observable{
   }
 
   addButtonHandler2(): void {
-    const handler = this.emit.bind(this, "mouseMove");
-    const handler2 = this.emit.bind(this, "mouseMove2");
+    const handler = () => this.emit("mouseMove", {button: this.button1.div, mouseCoords: this.mouseCoords, field: this.field, target: "button1"});
+    const handler2 = () => this.emit("mouseMove", {button: this.button2.div, mouseCoords: this.mouseCoords, field: this.field, target: "button2"});
     const useHandlers = () => {
       let buttonOffset =
         this.button1.div.getBoundingClientRect().left +
@@ -135,21 +134,22 @@ class ViewHandler extends Observable{
       }
 
       if (this.mouseCoords > (buttonOffset2 + buttonOffset) / 2) {
-        this.emit("mouseDown2")
-        this.emit("mouseMove2")
+        this.emit("mouseDown2", {button: this.button2.div, mouseCoords: this.mouseCoords, target: "button2"})
+        this.emit("mouseMove2", {button: this.button2.div, mouseCoords: this.mouseCoords, field: this.field, target: "button2"});
         document.addEventListener("mousemove", handler2);
         document.onmouseup = () => {
           document.removeEventListener("mousemove", handler2);
-          this.emit("mouseUp2")
+          this.emit("mouseUp2", {button: this.button2.div, field: this.field, target: "button2"})
         };
       } else {
-        this.emit("mouseDown")
-        this.emit("mouseMove")
+        this.emit("mouseDown", {button: this.button1.div, mouseCoords: this.mouseCoords, target: "button1"})
+        this.emit("mouseMove", {button: this.button1.div, mouseCoords: this.mouseCoords, field: this.field, target: "button1"});
         document.addEventListener("mousemove", handler);
         document.onmouseup = () => {
           document.removeEventListener("mousemove", handler);
-          this.emit("mouseUp")
+          this.emit("mouseUp", {button: this.button1.div, field: this.field, target: "button1"})
         };
+        
       }
     };
 
