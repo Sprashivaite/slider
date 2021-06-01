@@ -71,11 +71,7 @@ class View extends Observable implements IView {
     this.handler.addFieldHandler();
     this.handler.getMouseCoords();    
     this.handler.addScaleHandler();
-    this.handler.addButtonHandler1();
-
-    if (this.config.isRangeSlider) {
-      this.handler.addButtonHandler2();
-    }
+    this.handler.addButtonHandler();
   }
 
   private init(config: IViewConfig): void {

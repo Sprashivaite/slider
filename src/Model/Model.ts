@@ -8,48 +8,33 @@ class Model extends Observable{
 
   shift!: number;
 
-  // elementsSize!: { fieldSize: any; buttonSize: any; };
-
   constructor(config = DEFAULT_MODEL_CONFIG as IModelConfig) {
     super()
     this.init(config)
   }
 
-  updateModel(data): void {
-    const {value1, value2, button1 = 0, button2} = data
-    this.modelData = {
-      value1,
-      value2, 
-      button1,
-      button2
-    }
-    // this.emit('modelUpdate', this.modelData)
-    console.log(data);
-    console.log(this.modelData);
-  }
-
   updateValue(button, value) {
-    if(!this.findFirstButton(button)) this.emit('modelUpdate', this.demarcateFromSiblingButton(button, value))
-    else this.emit('modelUpdate2', this.demarcateFromSiblingButton(button, value))
+    const result = this.demarcateFromSiblingButton(button, value)
+
+    if(!this.findFirstButton(button)) this.emit('modelUpdate', result)
+    else this.emit('modelUpdate2', result)
   }
   
   calcBtnOffset(data): number {    
-    const { fieldSize, fieldOffset, buttonSize } = this.elementsSize
-    const { button, mouseCoords } = data
-    
-    const shiftLeft: number = mouseCoords - fieldOffset - buttonSize / 2;
+    const { button, mouseCoords } = data    
+    const { fieldSize, fieldOffset } = this.elementsSize
 
-    if (shiftLeft >= fieldSize - buttonSize) {
-      this.updateValue(button, fieldSize - buttonSize - this.shift)
-    } 
+    const shiftLeft: number = mouseCoords - fieldOffset - this.shift;
+
+    if (shiftLeft >= fieldSize) this.updateValue(button, fieldSize)    
     else if (shiftLeft <= 0) this.updateValue(button, 0) 
-    else this.updateValue(button, shiftLeft - this.shift)
+    else this.updateValue(button, shiftLeft)
   }
 
   calcFlagValue(data): number {
     const {max, min, step, isHorizontal} = this.config
-    const {field, button, target} = data
-    const { fieldSize, buttonSize } = this.elementsSize
+    const {button, target} = data
+    const { fieldSize } = this.elementsSize
 
     let buttonOffset: number = button.offsetLeft;
 
@@ -59,7 +44,7 @@ class Model extends Observable{
 
     let result: number = min + 
     (buttonOffset * (max - min)) / 
-    ((fieldSize - buttonSize));
+    ((fieldSize));
 
     result = Number(result.toFixed(this.calcDigitsAfterDot()));
 
@@ -109,15 +94,15 @@ class Model extends Observable{
   calcStopPoint(data): number {
     const {max, min, step, isHorizontal} = this.config
     const {button} = data
-    const { fieldSize, buttonSize } = this.elementsSize
+    const { fieldSize } = this.elementsSize
 
     let buttonOffset: number = button.offsetLeft;
     if (!isHorizontal) buttonOffset = button.offsetTop;   
 
-    const stepPX: number = ((fieldSize - buttonSize) * step) / (max - min);
+    const stepPX: number = ((fieldSize) * step) / (max - min);
 
     const arrStopPoints: number[] = [];
-    for (let i = 0; i <= fieldSize - buttonSize; i += stepPX) {
+    for (let i = 0; i <= fieldSize; i += stepPX) {
       arrStopPoints.push(i);
     }
 
@@ -125,18 +110,17 @@ class Model extends Observable{
       item => buttonOffset <= item + stepPX / 2
     );
 
-    if(stopPoint === undefined) stopPoint = fieldSize - buttonSize;  
+    if(stopPoint === undefined) stopPoint = fieldSize;  
 
     this.updateValue(button, stopPoint)
-
   }
 
   moveToValue(data): number {
     const {button, value} = data
     const {max, min} = this.config
-    const { fieldSize, buttonSize } = this.elementsSize    
+    const { fieldSize } = this.elementsSize    
 
-    const result: number = ((fieldSize - buttonSize) / (max - min))
+    const result: number = ((fieldSize) / (max - min))
       * (value - min);    
     
     this.updateValue(button, result)    
@@ -144,16 +128,17 @@ class Model extends Observable{
 
   calcShift(data): void {
     const {mouseCoords, button} = data
-    this.shift = mouseCoords - button.getBoundingClientRect().left - button.offsetWidth/2
+    this.shift = mouseCoords - button.getBoundingClientRect().left
     if (!this.config.isHorizontal) {
-      this.shift = mouseCoords - button.getBoundingClientRect().top - button.offsetHeight/2
+      this.shift = mouseCoords - button.getBoundingClientRect().top
     }
   }
 
   setElementsSize(data): void {
     const {fieldSize = 0, fieldOffset = 0, buttonSize = 0} = data
+    
     this.elementsSize = {
-      fieldSize,
+      fieldSize: fieldSize - buttonSize,
       fieldOffset,
       buttonSize
     }  
