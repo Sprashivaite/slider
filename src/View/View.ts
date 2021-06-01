@@ -31,6 +31,9 @@ class View extends Observable implements IView {
   handler!: ViewHandler;
   
   config!: IViewConfig;
+  fieldSize: any;
+  fieldOffset: number;
+  buttonSize: number;
 
   constructor(
     config = DEFAULT_VIEW_CONFIG as IViewConfig
@@ -98,6 +101,18 @@ class View extends Observable implements IView {
   private renderField(): void {
     this.field = new ViewField(this);
     this.field.createField();
+    if(this.config.isHorizontal) {
+      this.fieldSize = this.field.div.offsetWidth
+      this.fieldOffset = this.field.div.getBoundingClientRect().left
+    }
+    if(!this.config.isHorizontal) {
+      this.fieldSize = this.field.div.offsetHeight
+      this.fieldOffset = this.field.div.getBoundingClientRect().top
+    }
+    this.emit('elementsSize', {
+      fieldSize: this.fieldSize,
+      fieldOffset: this.fieldOffset,
+    })
   }
 
   private renderButtons(): void {
@@ -109,6 +124,17 @@ class View extends Observable implements IView {
       this.button2 = new ViewButton(this);
       this.button2.createButton();
     }
+
+    if(this.config.isHorizontal) {
+      this.buttonSize = this.button1.div.offsetWidth
+    }
+    if(!this.config.isHorizontal) {
+      this.buttonSize = this.button1.div.offsetHeight
+    }
+
+    this.emit('elementsSize', {
+      buttonSize: this.buttonSize
+    })
   }
 
   private renderFlag(): void {

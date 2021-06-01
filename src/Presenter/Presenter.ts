@@ -17,6 +17,7 @@ class Presenter{
   subscribeListeners(): void {
     
     
+    
     this.view.handler.subscribe("mouseDown", this.model.calcShift.bind(this.model))
     this.view.handler.subscribe("mouseMove",  this.model.calcBtnOffset.bind(this.model))
     this.view.handler.subscribe("mouseUp", this.model.calcStopPoint.bind(this.model)) 
@@ -26,11 +27,20 @@ class Presenter{
     this.view.handler.subscribe("mouseMove",  this.model.calcFlagValue.bind(this.model))
     this.view.handler.subscribe("mouseUp", this.model.calcFlagValue.bind(this.model)) 
 
+    
+
     this.model.subscribe("modelValueUpdate", this.view.flag1.changeFlagValue.bind(this.view.flag1 ))
 
     this.model.subscribe("modelUpdate", this.view.button1.moveButton.bind(this.view.button1))
     this.model.subscribe("modelUpdate", this.view.flag1.moveFlag.bind(this.view.flag1 ))
     this.model.subscribe("modelUpdate", this.view.progressBar.progressBarMove.bind(this.view.progressBar))
+    /////
+    this.view.subscribe("elementsSize", this.model.setElementsSize.bind(this.model))
+    this.view.emit('elementsSize', {
+      fieldSize: this.view.fieldSize,
+      fieldOffset: this.view.fieldOffset,
+      buttonSize: this.view.buttonSize
+    })
 
     /////////////////
 
