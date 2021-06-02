@@ -43,7 +43,7 @@ class ViewProgressBar {
         const buttonOffsetTop2 =
           this.button2.offsetTop + this.button2.offsetHeight /2;
         this.div.style.top = `${buttonOffsetTop}px`;
-        this.div.style.left = `${-1}px`;
+        this.div.style.left = `${0}px`;
         this.div.style.width = `${fieldWidth}px`; 
         this.div.style.height = `${buttonOffsetTop2 - buttonOffsetTop}px`;
       }

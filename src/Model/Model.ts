@@ -28,9 +28,9 @@ class Model extends Observable{
   
   calcBtnOffset(data): number {    
     const { button, mouseCoords } = data    
-    const { fieldSize, fieldOffset } = this.elementsSize
+    const { fieldSize } = this.elementsSize
 
-    const shiftLeft: number = mouseCoords - fieldOffset - this.shift;
+    const shiftLeft: number = mouseCoords - this.shift;
 
     if(shiftLeft >= fieldSize) this.updateButtonPX(button, fieldSize)    
     else if (shiftLeft <= 0) this.updateButtonPX(button, 0) 
@@ -72,16 +72,21 @@ class Model extends Observable{
     const {max, min} = this.config
     let {step} = this.config;
     const arrValues: Array<number> = [];
+    
     let value = min;
     let thisQuantity = quantity;
-
-    if (thisQuantity > 11) { thisQuantity = 11; step = (max - min) / 10 }
+    step = (max - min) / (thisQuantity -1)
     
     for (let i = 0; i < thisQuantity - 1; i += 1) {
       const isFractionalStep = step < 1 || thisQuantity - 1 > max;
-      if (isFractionalStep) arrValues.push(Number(value.toFixed(1)));
-      else arrValues.push(Number(value.toFixed(0)));
-      value += step
+      if (isFractionalStep) {
+        arrValues.push(Number(value.toFixed(1)));
+        value += Number(step.toFixed(1))
+      }
+      else {
+        arrValues.push(Number(value.toFixed(0)));
+        value += Number(step.toFixed(0))
+      }      
     }
 
     arrValues.push(max);
@@ -128,19 +133,18 @@ class Model extends Observable{
   }
 
   calcShift(data): void {
-    const {mouseCoords, button} = data
-    this.shift = mouseCoords - button.getBoundingClientRect().left
+    const {mouseCoords, button} = data    
+    this.shift = mouseCoords - button.offsetLeft
     if (!this.config.isHorizontal) {
-      this.shift = mouseCoords - button.getBoundingClientRect().top
+      this.shift = mouseCoords - button.offsetTop
     }
   }
 
   setElementsSize(data): void {
-    const {fieldSize = 0, fieldOffset = 0, buttonSize = 0} = data
+    const {fieldSize = 0, buttonSize = 0} = data
     
     this.elementsSize = {
       fieldSize: fieldSize - buttonSize,
-      fieldOffset,
       buttonSize
     }  
   }
@@ -156,7 +160,7 @@ class Model extends Observable{
   private init(config: IModelConfig): void {  
     this.config = { ...DEFAULT_MODEL_CONFIG, ...config };
     this.validate();
-    
+    this.shift = 0
   }
 
   private validate(): void {

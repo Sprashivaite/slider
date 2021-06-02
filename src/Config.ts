@@ -104,9 +104,19 @@ class Config extends Observable {
   initTooltipe(): void {
     this.tooltip.checked = this.view.config.isFlag;
     const tooltipChanged = () => {
-      this.tooltip.checked ? this.view.flag1.showFlag(): this.view.flag1.hideFlag();    
+      if(this.tooltip.checked) {
+        this.view.flag1.showFlag()
+        this.view.config.isFlag = !this.view.config.isFlag;
+      } else { 
+        this.view.flag1.hideFlag();    
+        this.view.config.isFlag = !this.view.config.isFlag;
+      }
       if (this.view.flag2) {
-        this.tooltip.checked ? this.view.flag2.showFlag(): this.view.flag2.hideFlag();        
+        if(this.tooltip.checked) {
+          this.view.flag2.showFlag()
+        } else { 
+          this.view.flag2.hideFlag();    
+        }
       }
     };
     this.tooltip.addEventListener("input", tooltipChanged);
@@ -115,8 +125,14 @@ class Config extends Observable {
   initScale(): void {
     this.scale.checked = this.view.config.isScale;
     const scaleChanged = () => {
-      if (this.scale.checked) this.view.scale.showScale();
-      else this.view.scale.hideScale();
+      if (this.scale.checked) {
+        this.view.scale.showScale();
+        this.view.config.isScale = !this.view.config.isScale
+      }
+      else {
+        this.view.scale.hideScale();
+        this.view.config.isScale = !this.view.config.isScale
+      }
     };
     this.scale.addEventListener("input", scaleChanged);
   }

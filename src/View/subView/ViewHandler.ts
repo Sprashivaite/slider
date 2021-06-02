@@ -27,8 +27,8 @@ class ViewHandler extends Observable {
 
   getMouseCoords(): void {
     const Coords = (event: MouseEvent) => {
-      if (this.isHorizontal) this.mouseCoords = event.clientX;
-      if (!this.isHorizontal) this.mouseCoords = event.clientY;
+      if (this.isHorizontal) this.mouseCoords = event.clientX - this.field.getBoundingClientRect().left;
+      if (!this.isHorizontal) this.mouseCoords = event.clientY - this.field.getBoundingClientRect().top;
     };
     document.addEventListener("mousemove", Coords);
   }
@@ -66,8 +66,14 @@ class ViewHandler extends Observable {
     this.field.oncontextmenu = () => false;
 
     const useHandlers = () => {
-      if (this.findNearestButton() === "button2") this.emit("mouseMove2", this.getSecondButtonData());
-      else this.emit("mouseMove", this.getFirstButtonData());
+      if (this.findNearestButton() === "button2") {
+        this.emit("mouseMove2", this.getSecondButtonData());
+        this.emit("mouseUp2", this.getSecondButtonData());
+      }
+      else {
+        this.emit("mouseMove", this.getFirstButtonData());
+        this.emit("mouseUp", this.getFirstButtonData());
+      }
     };
 
     this.field.addEventListener("mousedown", useHandlers);
@@ -97,14 +103,14 @@ class ViewHandler extends Observable {
   }
 
   private findNearestButton() {
-    let buttonOffset = this.button1.div.getBoundingClientRect().left;
+    let buttonOffset = this.button1.div.offsetLeft;
     let buttonOffset2;
     if (this.isRangeSlider)
-      buttonOffset2 = this.button2.div!.getBoundingClientRect().left;
+      buttonOffset2 = this.button2.div!.offsetLeft;
     if (!this.isHorizontal) {
-      buttonOffset = this.button1.div.getBoundingClientRect().top;
+      buttonOffset = this.button1.div.offsetTop;
       if (this.isRangeSlider)
-        buttonOffset2 = this.button2.div!.getBoundingClientRect().top;
+        buttonOffset2 = this.button2.div!.offsetTop;
     }
     if (this.mouseCoords > (buttonOffset2 + buttonOffset) / 2) return "button2";
     return "button1";

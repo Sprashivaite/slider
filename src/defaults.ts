@@ -15,7 +15,7 @@ const DEFAULT_VIEW_CONFIG: IViewConfig = {
     isFlag: true,
     isProgressBar: true,
     isScale: true,
-    scaleQuantity: 6,
+    scaleQuantity: 11,
 }
 
 const DEFAULT_CONFIG: IViewConfig | IModelConfig = {

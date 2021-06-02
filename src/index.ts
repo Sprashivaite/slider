@@ -2,12 +2,15 @@
 
 import Config from "./Config"
 
-const slider1 = $('.js-slider-container_1 > .js-slider').sliderPlugin().data("sliderPlugin");
+const slider1 = $('.js-slider-container_1 > .js-slider').sliderPlugin({
+    max: 100, isHorizontal: true, isRangeSlider: true, step: 1
+}).data("sliderPlugin");
+// const slider1 = $('.js-slider-container_1 > .js-slider').sliderPlugin().data("sliderPlugin");
 const slider2 = $('.js-slider-container_2 > .js-slider').sliderPlugin({isRangeSlider: false, scaleQuantity: 2, max: 5}).data("sliderPlugin");
 const slider3 = $('.js-slider-container_3 > .js-slider').sliderPlugin({isFlag: false, isScale: false}).data("sliderPlugin");
 const slider4 = $('.js-slider-container_4 > .js-slider').sliderPlugin({min: -1, max: 1, step: 0.1, isRangeSlider: false}).data("sliderPlugin");
-const slider5 = $('.js-slider-container_5 > .js-slider').sliderPlugin({isHorizontal: false, step: 250, max: 1500}).data("sliderPlugin");
-const slider6 = $('.js-slider-container_6 > .js-slider').sliderPlugin({isHorizontal: false,isRangeSlider: false, step: 1, max: 1000, min: -1000}).data("sliderPlugin"); 
+const slider5 = $('.js-slider-container_5 > .js-slider').sliderPlugin({isHorizontal: false, step: 250, max: 1500,  scaleQuantity: 7}).data("sliderPlugin");
+const slider6 = $('.js-slider-container_6 > .js-slider').sliderPlugin({isHorizontal: false,isRangeSlider: false, step: 100, max: 1000, min: -1000}).data("sliderPlugin"); 
 
 const configContainer1 = document.querySelector('.js-slider-container_1 > .config')!
 const configContainer2 = document.querySelector('.js-slider-container_2 > .config')!
