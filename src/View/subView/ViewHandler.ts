@@ -16,9 +16,10 @@ class ViewHandler extends Observable {
 
   field!: HTMLDivElement;
 
-  button1!: HTMLDivElement;
+  button1: any;
 
-  button2: HTMLDivElement | undefined;
+  button2: any;
+  
 
   constructor(View: IView) {
     super();
@@ -80,7 +81,7 @@ class ViewHandler extends Observable {
   }
 
   addScaleHandler(): void {
-    const handleScaleClick = (event) => {
+    const handleScaleClick = (event: any) => {
       const value = event.currentTarget.innerHTML;
 
       if (this.findNearestButton() === "button2") {
@@ -106,11 +107,11 @@ class ViewHandler extends Observable {
     let buttonOffset = this.button1.div.offsetLeft;
     let buttonOffset2;
     if (this.isRangeSlider)
-      buttonOffset2 = this.button2.div!.offsetLeft;
+      buttonOffset2 = this.button2!.div!.offsetLeft;
     if (!this.isHorizontal) {
       buttonOffset = this.button1.div.offsetTop;
       if (this.isRangeSlider)
-        buttonOffset2 = this.button2.div!.offsetTop;
+        buttonOffset2 = this.button2!.div!.offsetTop;
     }
     if (this.mouseCoords > (buttonOffset2 + buttonOffset) / 2) return "button2";
     return "button1";
@@ -125,7 +126,7 @@ class ViewHandler extends Observable {
 
   private getSecondButtonData() {
     return {
-      button: this.button2.div,
+      button: this.button2!.div,
       mouseCoords: this.mouseCoords,
     }
   }

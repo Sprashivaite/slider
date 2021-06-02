@@ -31,10 +31,10 @@ class View extends Observable implements IView {
   handler!: ViewHandler;
   
   config!: IViewConfig;
-  
+
   fieldSize: any;
 
-  buttonSize: number;
+  buttonSize!: number;
 
   constructor(
     config = DEFAULT_VIEW_CONFIG as IViewConfig

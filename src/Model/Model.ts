@@ -8,25 +8,27 @@ class Model extends Observable{
 
   shift!: number;
 
+  elementsSize!: { buttonSize: any, fieldSize: any };
+
   constructor(config = DEFAULT_MODEL_CONFIG as IModelConfig) {
     super()
     this.init(config)
   }
 
-  updateButtonPX(button, value) {
+  updateButtonPX(button: any, value: any): void {
     const result = this.demarcateFromSiblingButton(button, value)
 
     if(!this.findFirstButton(button)) this.emit('modelUpdate', result)
     else this.emit('modelUpdate2', result)
   }
 
-  updateValue(button, value) {
+  updateValue(button: any, value: any): void {
     const result = Number(value.toFixed(this.calcDigitsAfterDot()));
     if(!this.findFirstButton(button)) this.emit('modelValueUpdate', result)
     else this.emit('modelValueUpdate2', result)
   }
   
-  calcBtnOffset(data): number {    
+  calcBtnOffset(data: any): void {    
     const { button, mouseCoords } = data    
     const { fieldSize } = this.elementsSize
 
@@ -37,9 +39,9 @@ class Model extends Observable{
     else this.updateButtonPX(button, shiftLeft)
   }
 
-  calcFlagValue(data): number {
+  calcFlagValue(data: any): void {
     const {max, min, step, isHorizontal} = this.config
-    const {button, target} = data
+    const {button} = data
     const { fieldSize } = this.elementsSize
 
     let buttonOffset: number = button.offsetLeft;
@@ -68,13 +70,13 @@ class Model extends Observable{
     this.updateValue(button, result)
   }
 
-  calcScaleValue(quantity: number): Array<number> {
+  calcScaleValue(quantity: number): void {
     const {max, min} = this.config
     let {step} = this.config;
     const arrValues: Array<number> = [];
     
     let value = min;
-    let thisQuantity = quantity;
+    const thisQuantity = quantity;
     step = (max - min) / (thisQuantity -1)
     
     for (let i = 0; i < thisQuantity - 1; i += 1) {
@@ -88,14 +90,12 @@ class Model extends Observable{
         value += Number(step.toFixed(0))
       }      
     }
-
     arrValues.push(max);
 
     this.emit('scaleUpdate', arrValues)
-    return arrValues;
   }
 
-  calcStopPoint(data): number {
+  calcStopPoint(data: any): void {
     const {max, min, step, isHorizontal} = this.config
     const {button} = data
     const { fieldSize } = this.elementsSize
@@ -119,7 +119,7 @@ class Model extends Observable{
     this.updateButtonPX(button, stopPoint)
   }
 
-  moveToValue(data): number {
+  moveToValue(data: any): void {
     const {button, value} = data
     const {max, min} = this.config
     const { fieldSize } = this.elementsSize    
@@ -127,35 +127,25 @@ class Model extends Observable{
     const result: number = ((fieldSize) / (max - min))
       * (value - min);    
     
-    this.updateButtonPX(button, result)  
-    
-    
+    this.updateButtonPX(button, result)
   }
 
-  calcShift(data): void {
-    const {mouseCoords, button} = data    
+  calcShift(data: any): void {
+    const {mouseCoords, button} = data 
+
     this.shift = mouseCoords - button.offsetLeft
-    if (!this.config.isHorizontal) {
-      this.shift = mouseCoords - button.offsetTop
-    }
+    if (!this.config.isHorizontal) this.shift = mouseCoords - button.offsetTop   
   }
 
-  setElementsSize(data): void {
+  setElementsSize(data: any): void {
     const {fieldSize = 0, buttonSize = 0} = data
-    
+
     this.elementsSize = {
       fieldSize: fieldSize - buttonSize,
       buttonSize
     }  
   }
 
-  private findFirstButton(button) {
-    return button.previousElementSibling ? true: false
-  }
-
-  private findSecondButton(button) {
-    return button.nextElementSibling && button.nextElementSibling.getAttribute('class') === 'slider__button' ? true: false
-  }
   
   private init(config: IModelConfig): void {  
     this.config = { ...DEFAULT_MODEL_CONFIG, ...config };
@@ -167,18 +157,15 @@ class Model extends Observable{
     let {max, min, step, isHorizontal} = this.config
 
     if (typeof max !== 'number' || max <= min) max = 100;
-
     if (typeof min !== 'number' || min >= max) min = 0;
-
     if (typeof step !== 'number' || step <= 0) step = 1;
-
     if (typeof isHorizontal !== 'boolean') isHorizontal = true;
 
     this.config = {max, min, step, isHorizontal}
   }
 
   private demarcateFromSiblingButton(button: HTMLElement, value: number): number {
-    const { isHorizontal} = this.config
+    const { isHorizontal } = this.config
     const { buttonSize } = this.elementsSize
 
     if (this.findSecondButton(button)) {      
@@ -200,6 +187,14 @@ class Model extends Observable{
     return value
   }
   
+  private findFirstButton(button: any): boolean {
+    return !!button.previousElementSibling
+  }
+
+  private findSecondButton(button: any): boolean {
+    return !!(button.nextElementSibling.getAttribute('class') === 'slider__button')
+  }
+
   private calcDigitsAfterDot(): number{
     const { step } = this.config
     const isIncludeDot = step.toString().includes('.')

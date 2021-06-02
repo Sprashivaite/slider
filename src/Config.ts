@@ -22,8 +22,11 @@ class Config extends Observable {
   range!: HTMLInputElement;
 
   container!: any;
+
   presenter: any;
+
   view: any;
+
   model: any;
 
   constructor(slider: any, container: Element) {
@@ -48,7 +51,7 @@ class Config extends Observable {
   }
 
   initValue1(): void {
-    const updateValue = (value) => {this.vl.value = value}    
+    const updateValue = (value: any) => {this.vl.value = value}    
     this.model.subscribe("modelValueUpdate", updateValue)
     
     const setButtonValue = () => {
@@ -59,7 +62,7 @@ class Config extends Observable {
   }
 
   initValue2(): void {
-    const updateValue = (value) => {this.vl2.value = value}    
+    const updateValue = (value: any) => {this.vl2.value = value}    
     this.model.subscribe("modelValueUpdate2", updateValue)
     
     const setButtonValue = () => {
@@ -74,7 +77,7 @@ class Config extends Observable {
     const minChanged = () => {
       if (this.min.value > this.model.config.max) this.min.value = this.model.config.max
       this.model.config.min = Number(this.min.value);
-      this.view.emit('scaleQuantity', this.view.config.scaleQuantity)
+      this.presenter.emitModel()
     };
     this.min.addEventListener("input", minChanged);
   }
@@ -83,7 +86,7 @@ class Config extends Observable {
     this.max.value = `${this.model.config.max}`;
     const maxChanged = () => {
       this.model.config.max = Number(this.max.value);
-      this.view.emit('scaleQuantity', this.view.config.scaleQuantity)
+      this.presenter.emitModel()
     };
     this.max.addEventListener("input", maxChanged);
   }
@@ -96,7 +99,7 @@ class Config extends Observable {
         value = 1;
       }
       this.model.config.step = value;
-      this.view.emit('scaleQuantity', this.view.config.scaleQuantity)
+      this.presenter.emitModel()
     };
     this.step.addEventListener("input", stepChanged);
   }
