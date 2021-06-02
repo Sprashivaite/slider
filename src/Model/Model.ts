@@ -13,11 +13,17 @@ class Model extends Observable{
     this.init(config)
   }
 
-  updateValue(button, value) {
+  updateButtonPX(button, value) {
     const result = this.demarcateFromSiblingButton(button, value)
 
     if(!this.findFirstButton(button)) this.emit('modelUpdate', result)
     else this.emit('modelUpdate2', result)
+  }
+
+  updateValue(button, value) {
+    const result = Number(value.toFixed(this.calcDigitsAfterDot()));
+    if(!this.findFirstButton(button)) this.emit('modelValueUpdate', result)
+    else this.emit('modelValueUpdate2', result)
   }
   
   calcBtnOffset(data): number {    
@@ -26,9 +32,9 @@ class Model extends Observable{
 
     const shiftLeft: number = mouseCoords - fieldOffset - this.shift;
 
-    if (shiftLeft >= fieldSize) this.updateValue(button, fieldSize)    
-    else if (shiftLeft <= 0) this.updateValue(button, 0) 
-    else this.updateValue(button, shiftLeft)
+    if(shiftLeft >= fieldSize) this.updateButtonPX(button, fieldSize)    
+    else if (shiftLeft <= 0) this.updateButtonPX(button, 0) 
+    else this.updateButtonPX(button, shiftLeft)
   }
 
   calcFlagValue(data): number {
@@ -37,10 +43,7 @@ class Model extends Observable{
     const { fieldSize } = this.elementsSize
 
     let buttonOffset: number = button.offsetLeft;
-
-    if (!isHorizontal) {
-      buttonOffset = button.offsetTop;
-    }
+    if(!isHorizontal)  buttonOffset = button.offsetTop;        
 
     let result: number = min + 
     (buttonOffset * (max - min)) / 
@@ -62,12 +65,7 @@ class Model extends Observable{
     if (nearestValue === undefined) nearestValue = stepsPoints.pop()
     else result = nearestValue;
 
-    const test = Number(result.toFixed(this.calcDigitsAfterDot()))
-
-    if(target === 'button1') this.emit('modelValueUpdate', test)
-    else this.emit('modelValueUpdate2', test)
-
-    return Number(result.toFixed(this.calcDigitsAfterDot()));
+    this.updateValue(button, result)
   }
 
   calcScaleValue(quantity: number): Array<number> {
@@ -88,6 +86,7 @@ class Model extends Observable{
 
     arrValues.push(max);
 
+    this.emit('scaleUpdate', arrValues)
     return arrValues;
   }
 
@@ -112,7 +111,7 @@ class Model extends Observable{
 
     if(stopPoint === undefined) stopPoint = fieldSize;  
 
-    this.updateValue(button, stopPoint)
+    this.updateButtonPX(button, stopPoint)
   }
 
   moveToValue(data): number {
@@ -123,7 +122,9 @@ class Model extends Observable{
     const result: number = ((fieldSize) / (max - min))
       * (value - min);    
     
-    this.updateValue(button, result)    
+    this.updateButtonPX(button, result)  
+    
+    
   }
 
   calcShift(data): void {
@@ -149,7 +150,7 @@ class Model extends Observable{
   }
 
   private findSecondButton(button) {
-    return button.nextElementSibling.getAttribute('class') === 'slider__button' ? true: false
+    return button.nextElementSibling && button.nextElementSibling.getAttribute('class') === 'slider__button' ? true: false
   }
   
   private init(config: IModelConfig): void {  

@@ -42,7 +42,7 @@ class Flag {
     const flagOffset1: number = flag1.getBoundingClientRect().left + flagSize1;
     const flagOffset2: number = flag2.getBoundingClientRect().left; 
     if (flagOffset1 >= flagOffset2) {
-      flag2.style.left = `${flagOffset1 - this.field.getBoundingClientRect().left + 1}px`;
+      flag2.style.left = `${flagOffset1 - this.field.getBoundingClientRect().left}px`;
     }
   }
 

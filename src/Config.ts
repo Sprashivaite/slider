@@ -1,4 +1,6 @@
-class Config {
+import Observable from "./Observable/Observable";
+
+class Config extends Observable {
   slider: any;
 
   vl!: HTMLInputElement;
@@ -20,14 +22,20 @@ class Config {
   range!: HTMLInputElement;
 
   container!: any;
+  presenter: any;
+  view: any;
+  model: any;
 
   constructor(slider: any, container: Element) {
-    this.slider = slider.appSlider;
+    super()
+    this.model = slider.appSlider.model;
+    this.view = slider.appSlider.view;
+    this.presenter = slider.appSlider.presenter;
     this.container = container;
     this.initInputs();
   }
 
-  findElements() {
+  findElements(): void {
     this.vl = this.container.querySelector(".vl");
     this.vl2 = this.container.querySelector(".vl_2");
     this.max = this.container.querySelector("#max");
@@ -39,134 +47,117 @@ class Config {
     this.range = this.container.querySelector("#range");
   }
 
-  initInputs(): void {
-    this.findElements();
-
-    this.vl.value = `${this.slider.presenter.buttonValue1}`;
-    const changeButtonValue = () => {
-      this.vl.value = `${this.slider.presenter.buttonValue1}`;
-    };
+  initValue1(): void {
+    const updateValue = (value) => {this.vl.value = value}    
+    this.model.subscribe("modelValueUpdate", updateValue)
+    
     const setButtonValue = () => {
       if (Number(this.vl.value) > Number(this.max.value)) this.vl.value = this.max.value
-      this.slider.presenter.setButtonValue(Number(this.vl.value));
-    };
-    document.addEventListener("mousemove", changeButtonValue);
-    document.addEventListener("click", changeButtonValue);
+      this.model.moveToValue({value: Number(this.vl.value), button: this.view.button1.div});
+    };    
     this.vl.addEventListener("input", setButtonValue);
+  }
 
-    const setButtonValue2 = () => {
-    if (this.slider.view.config.isRangeSlider) {
-      this.vl2.value = `${this.slider.presenter.buttonValue2}`;
-      const setValue = () => {
-        if (Number(this.vl2.value) > Number(this.max.value)) this.vl2.value = this.max.value
-        this.slider.presenter.setButtonValue2(Number(this.vl2.value));
-      };
-      const changeValue = () => {
-        this.vl2.value = `${this.slider.presenter.buttonValue2}`;
-      };
-      document.addEventListener("mousemove", changeValue);
-      document.addEventListener("click", changeValue);
-      this.vl2.addEventListener("input", setValue);
-    }
-}
-    setButtonValue2()
-    this.max.value = `${this.slider.model.max}`;
-    const maxChanged = () => {
-      this.slider.model.max = Number(this.max.value);
-      this.slider.presenter.updateScaleValues();
-      this.slider.presenter.mouseUp();
-      this.slider.presenter.mouseUp2();
-      this.vl.value = `${this.slider.presenter.buttonValue1}`;
-      this.vl2.value = `${this.slider.presenter.buttonValue2}`;
-    };
-    this.max.addEventListener("input", maxChanged);
+  initValue2(): void {
+    const updateValue = (value) => {this.vl2.value = value}    
+    this.model.subscribe("modelValueUpdate2", updateValue)
+    
+    const setButtonValue = () => {
+      if (Number(this.vl2.value) > Number(this.max.value)) this.vl2.value = this.max.value
+      this.model.moveToValue({value: Number(this.vl2.value), button: this.view.button2.div});
+    };    
+    this.vl2.addEventListener("input", setButtonValue);
+  }
 
-    this.min.value = `${this.slider.model.min}`;
+  initMinValue(): void {
+    this.min.value = `${this.model.config.min}`;
     const minChanged = () => {
-      if (this.min.value > this.slider.model.max) this.min.value = this.slider.model.max
-      this.slider.model.min = Number(this.min.value);
-      this.slider.presenter.updateScaleValues();
-      this.slider.presenter.mouseUp();
-      this.slider.presenter.mouseUp2();
-      this.vl.value = `${this.slider.presenter.buttonValue1}`;
-      this.vl2.value = `${this.slider.presenter.buttonValue2}`;
+      if (this.min.value > this.model.config.max) this.min.value = this.model.config.max
+      this.model.config.min = Number(this.min.value);
+      this.view.emit('scaleQuantity', this.view.config.scaleQuantity)
     };
     this.min.addEventListener("input", minChanged);
+  }
 
-    this.step.value = `${this.slider.model.step}`;
+  initMaxValue(): void {
+    this.max.value = `${this.model.config.max}`;
+    const maxChanged = () => {
+      this.model.config.max = Number(this.max.value);
+      this.view.emit('scaleQuantity', this.view.config.scaleQuantity)
+    };
+    this.max.addEventListener("input", maxChanged);
+  }
+
+  initStep(): void {
+    this.step.value = `${this.model.config.step}`;
     const stepChanged = () => {
       let value: number = Math.abs(Number(this.step.value));
       if (value === 0) {
         value = 1;
       }
-      this.slider.model.step = value;
-      this.slider.presenter.updateScaleValues();
-      this.slider.presenter.mouseUp();
-      this.slider.presenter.mouseUp2();
-      this.vl.value = `${this.slider.presenter.buttonValue1}`;
-      this.vl2.value = `${this.slider.presenter.buttonValue2}`;
+      this.model.config.step = value;
+      this.view.emit('scaleQuantity', this.view.config.scaleQuantity)
     };
     this.step.addEventListener("input", stepChanged);
+  }
 
-    this.tooltip.checked = this.slider.view.config.isFlag;
+  initTooltipe(): void {
+    this.tooltip.checked = this.view.config.isFlag;
     const tooltipChanged = () => {
-      if (this.tooltip.checked) this.slider.view.flag1.showFlag();
-      else this.slider.view.flag1.hideFlag();
-      if (this.slider.view.flag2) {
-        if (this.tooltip.checked) this.slider.view.flag2.showFlag();
-        else this.slider.view.flag2.hideFlag();
+      this.tooltip.checked ? this.view.flag1.showFlag(): this.view.flag1.hideFlag();    
+      if (this.view.flag2) {
+        this.tooltip.checked ? this.view.flag2.showFlag(): this.view.flag2.hideFlag();        
       }
     };
     this.tooltip.addEventListener("input", tooltipChanged);
+  }
 
-    this.scale.checked = this.slider.view.config.isScale;
+  initScale(): void {
+    this.scale.checked = this.view.config.isScale;
     const scaleChanged = () => {
-      if (this.scale.checked) this.slider.view.scale.showScale();
-      else this.slider.view.scale.hideScale();
+      if (this.scale.checked) this.view.scale.showScale();
+      else this.view.scale.hideScale();
     };
     this.scale.addEventListener("input", scaleChanged);
+  }
 
-    this.orientation.checked = this.slider.view.config.isHorizontal;
+  initOrientation(): void {
+    this.orientation.checked = this.view.config.isHorizontal;
     const orientationChanged = () => {
-      this.slider.presenter.changeOrientation();
-      this.scale.checked = this.slider.view.config.isScale;
-      this.tooltip.checked = this.slider.view.config.isFlag;
+      this.view.removeElements();
+      this.model.config.isHorizontal = !this.model.config.isHorizontal;
+      this.view.config.isHorizontal = !this.view.config.isHorizontal;
+      this.view.renderElements();
+      this.view.addHandlers();
+      this.presenter.subscribeListeners();
     };
     this.orientation.addEventListener("input", orientationChanged);
+  }
 
-    this.range.checked = this.slider.view.config.isRangeSlider;
+  initRange(): void{
+    this.range.checked = this.view.config.isRangeSlider;
     const rangeChanged = () => {
-      this.slider.presenter.changeTypeSlider();
-      this.scale.checked = this.slider.view.config.isScale;
-      this.tooltip.checked = this.slider.view.config.isFlag;
-      setButtonValue2();
+      this.view.removeElements();
+      this.view.config.isRangeSlider = !this.view.config.isRangeSlider;
+      this.view.renderElements();
+      this.view.addHandlers();
+      this.presenter.subscribeListeners();
     };
     this.range.addEventListener("input", rangeChanged);
   }
 
-  // changeOrientation(): void {
-  //   this.view.removeElements();
-  //   this.model.config.isHorizontal = !this.model.config.isHorizontal;
-  //   this.view.config.isHorizontal = !this.view.config.isHorizontal;
-  //   this.view.renderElements();
-  //   this.view.handler.getMouseCoords();
-  //   this.view.handler.addFieldHandler();
-  //   this.updateScaleValues();
-  //   if (this.view.config.isRangeSlider) {
-  //     this.mouseUp2();
-  //   }
-  // }
+  initInputs(): void {
+    this.findElements();
+    this.initValue1();
+    this.initValue2();
+    this.initMinValue()
+    this.initMaxValue()
+    this.initStep()
+    this.initTooltipe();
+    this.initScale();
+    this.initOrientation();
+    this.initRange()
+  }
 
-  // changeTypeSlider(): void {
-  //   this.view.removeElements();
-  //   this.view.config.isRangeSlider = !this.view.config.isRangeSlider;
-  //   this.view.renderElements();
-  //   this.view.handler.getMouseCoords();
-  //   this.view.handler.addFieldHandler();
-  //   this.updateScaleValues();
-  //   if (this.view.config.isRangeSlider) {
-  //     this.mouseUp2();
-  //   }
-  // }
 }
 export default Config;
