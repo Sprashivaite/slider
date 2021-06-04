@@ -1,4 +1,4 @@
-class Observable {
+class Observer {
     listeners: any;
 
     constructor (){
@@ -23,4 +23,4 @@ class Observable {
     };    
 
 }
-export default Observable
+export default Observer

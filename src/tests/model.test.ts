@@ -66,9 +66,9 @@ describe("конструктор класса", () => {
 });
 
 describe("высчитывание отступа для кнопки", () => {
-  it("model.calcBtnOffset default", () => { 
+  it("model.calcButtonOffset default", () => { 
     expect(
-      model.calcBtnOffset(
+      model.calcButtonOffset(
         field_horizontal,
         button_horizontal,
         42 +
@@ -77,9 +77,9 @@ describe("высчитывание отступа для кнопки", () => {
       )
     ).toBe(42);    
   });
-  it("model.calcBtnOffset min", () => {
+  it("model.calcButtonOffset min", () => {
     expect(
-      model.calcBtnOffset(
+      model.calcButtonOffset(
         field_horizontal,
         button_horizontal,
         -5 +
@@ -88,9 +88,9 @@ describe("высчитывание отступа для кнопки", () => {
       )
     ).toBe(0);
   });
-  it("model.calcBtnOffset max", () => { 
+  it("model.calcButtonOffset max", () => { 
     expect(
-      model.calcBtnOffset(
+      model.calcButtonOffset(
         field_horizontal,
         button_horizontal_2,
         field_horizontal.offsetWidth +
@@ -100,11 +100,11 @@ describe("высчитывание отступа для кнопки", () => {
       )
     ).toBe(field_horizontal.offsetWidth - button_horizontal_2.offsetWidth); 
   });
-  it("model.calcBtnOffset vertical", () => {
+  it("model.calcButtonOffset vertical", () => {
      
     model.isHorizontal = false;
     expect(
-      model.calcBtnOffset(
+      model.calcButtonOffset(
         field_vertical,
         button_vertical,
         22 +
@@ -114,9 +114,9 @@ describe("высчитывание отступа для кнопки", () => {
     ).toBe(22);
     model.isHorizontal = true; 
   });
-  it("model.calcBtnOffset buttons", () => {  
+  it("model.calcButtonOffset buttons", () => {  
     expect(
-      model.calcBtnOffset(
+      model.calcButtonOffset(
         field_horizontal,
         button_horizontal_2,
         42 +
@@ -125,9 +125,9 @@ describe("высчитывание отступа для кнопки", () => {
       )
     ).toBe(42);
   });
-  it("model.calcBtnOffset buttons", () => {
+  it("model.calcButtonOffset buttons", () => {
     expect(
-      model.calcBtnOffset(
+      model.calcButtonOffset(
         field_horizontal,
         button_horizontal,
         90 +
@@ -139,16 +139,16 @@ describe("высчитывание отступа для кнопки", () => {
 });
 
 describe("передвинуть кнопку к точке шага ", () => {
-  it("model.calcStopPoint horizontal", () => {
+  it("model.calcStopPointPX horizontal", () => {
     model = new Model({step: 50});   
     expect(
-      model.calcStopPoint(field_horizontal, button_horizontal_2) 
+      model.calcStopPointPX(field_horizontal, button_horizontal_2) 
     ).toBeGreaterThan(field_horizontal.offsetWidth/2)
   });
-  it("model.calcStopPoint vertical", () => {
+  it("model.calcStopPointPX vertical", () => {
     model = new Model({isHorizontal: false ,step: 50});   
     expect(
-      model.calcStopPoint(field_vertical, button_vertical)
+      model.calcStopPointPX(field_vertical, button_vertical)
       ).toBeGreaterThan(field_horizontal.offsetHeight/2) 
   });
 });
@@ -181,10 +181,10 @@ describe("вычислить значение флага", () => {
 });
 
 describe("вычислить значения шкалы", () => {
-  it("model.calcScaleValue", () => {
+  it("model.calcScaleValues", () => {
     model = new Model({step: 20}); 
     expect(
-    model.calcScaleValue(6)
+    model.calcScaleValues(6)
     ).toEqual([0, 20, 40, 60, 80, 100]);
   }); 
 });

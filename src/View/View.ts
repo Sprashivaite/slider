@@ -9,9 +9,9 @@ import IView from "./IView";
 import ViewHandler from "./subView/ViewHandler";
 
 import {DEFAULT_VIEW_CONFIG} from "../defaults";
-import Observable from "../Observable/Observable";
+import Observer from "../Observer/Observer";
 
-class View extends Observable implements IView {
+class View extends Observer implements IView {
   slider!: ViewContainer;
 
   button1!: ViewButton;

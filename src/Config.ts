@@ -1,6 +1,6 @@
-import Observable from "./Observable/Observable";
+import Observer from "./Observer/Observer";
 
-class Config extends Observable {
+class Config extends Observer {
   slider: any;
 
   vl!: HTMLInputElement;
@@ -52,7 +52,7 @@ class Config extends Observable {
 
   initValue1(): void {
     const updateValue = (value: any) => {this.vl.value = value}    
-    this.model.subscribe("modelValueUpdate", updateValue)
+    this.model.subscribe("updateButtonValue", updateValue)
     
     const setButtonValue = () => {
       if (Number(this.vl.value) > Number(this.max.value)) this.vl.value = this.max.value
@@ -63,7 +63,7 @@ class Config extends Observable {
 
   initValue2(): void {
     const updateValue = (value: any) => {this.vl2.value = value}    
-    this.model.subscribe("modelValueUpdate2", updateValue)
+    this.model.subscribe("updateButtonValue2", updateValue)
     
     const setButtonValue = () => {
       if (Number(this.vl2.value) > Number(this.max.value)) this.vl2.value = this.max.value
