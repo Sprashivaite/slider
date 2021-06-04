@@ -77,7 +77,7 @@ class Config extends Observer {
     const minChanged = () => {
       if (this.min.value > this.model.config.max) this.min.value = this.model.config.max
       this.model.config.min = Number(this.min.value);
-      this.presenter.emitModel()
+      this.view.updateModel()
     };
     this.min.addEventListener("input", minChanged);
   }
@@ -86,7 +86,7 @@ class Config extends Observer {
     this.max.value = `${this.model.config.max}`;
     const maxChanged = () => {
       this.model.config.max = Number(this.max.value);
-      this.presenter.emitModel()
+      this.view.updateModel()
     };
     this.max.addEventListener("input", maxChanged);
   }
@@ -99,7 +99,7 @@ class Config extends Observer {
         value = 1;
       }
       this.model.config.step = value;
-      this.presenter.emitModel()
+      this.view.updateModel()
     };
     this.step.addEventListener("input", stepChanged);
   }

@@ -1,15 +1,15 @@
-import ViewField from "./subView/ViewField";
-import ViewButton from "./subView/ViewButton";
-import ViewFlag from "./subView/ViewFlag";
-import ViewProgressBar from "./subView/ViewProgressBar";
-import ViewScale from "./subView/ViewScale";
-import ViewContainer from "./subView/ViewContainer";
-import IViewConfig from "./IViewConfig"; 
-import IView from "./IView"; 
-import ViewHandler from "./subView/ViewHandler";
+import ViewField from './subView/ViewField';
+import ViewButton from './subView/ViewButton';
+import ViewFlag from './subView/ViewFlag';
+import ViewProgressBar from './subView/ViewProgressBar';
+import ViewScale from './subView/ViewScale';
+import ViewContainer from './subView/ViewContainer';
+import IViewConfig from './IViewConfig';
+import IView from './IView';
+import ViewHandler from './subView/ViewHandler';
 
-import {DEFAULT_VIEW_CONFIG} from "../defaults";
-import Observer from "../Observer/Observer";
+import { DEFAULT_VIEW_CONFIG } from '../defaults';
+import Observer from '../Observer/Observer';
 
 class View extends Observer implements IView {
   slider!: ViewContainer;
@@ -29,20 +29,17 @@ class View extends Observer implements IView {
   scale!: ViewScale;
 
   handler!: ViewHandler;
-  
+
   config!: IViewConfig;
 
-  fieldSize: any;
+  fieldSize!: number;
 
   buttonSize!: number;
 
-  constructor(
-    config = DEFAULT_VIEW_CONFIG as IViewConfig
-  ) {
-    super()
+  constructor(config = DEFAULT_VIEW_CONFIG as IViewConfig) {
+    super();
     this.slider = new ViewContainer(config.target);
-    
-    this.init(config)
+    this.init(config);
   }
 
   renderElements(): void {
@@ -61,54 +58,83 @@ class View extends Observer implements IView {
       this.progressBar.div,
       this.scale.div,
     ].forEach((item) => item.remove());
-    const {isRangeSlider} = this.config
-    if (isRangeSlider) {
+
+    if (this.config.isRangeSlider) {
       [this.flag2.div, this.button2.div].forEach((item) => item.remove());
-    }    
+    }
   }
 
   addHandlers(): void {
     this.handler = new ViewHandler(this);
     this.handler.addFieldHandler();
-    this.handler.getMouseCoords();    
+    this.handler.getMouseCoords();
     this.handler.addScaleHandler();
     this.handler.addButtonHandler();
   }
 
+  updateModel(): void {
+    this.emit('elementsSize', {
+      fieldSize: this.fieldSize,
+      buttonSize: this.buttonSize,
+    });
+    this.emit('scaleQuantity', this.config.scaleQuantity);
+    this.handler.emit('mouseUp', this.handler.getFirstButtonData());
+    if (this.config.isRangeSlider) {
+      this.handler.emit('mouseUp2', this.handler.getSecondButtonData());
+    }
+  }
+
   private init(config: IViewConfig): void {
     this.config = { ...DEFAULT_VIEW_CONFIG, ...config };
-    
     this.validate();
   }
 
   private validate(): void {
-    let {isHorizontal, isRangeSlider, isFlag, isProgressBar, isScale, scaleQuantity} = this.config
-    if (typeof isHorizontal !== "boolean") isHorizontal = true;
-    if (typeof isRangeSlider !== "boolean") isRangeSlider = true;
-    if (typeof isFlag !== "boolean") isFlag = true;
-    if (typeof isProgressBar !== "boolean") isProgressBar = true;
-    if (typeof isScale !== "boolean") isScale = true;
-    if (typeof scaleQuantity !== "number" || scaleQuantity < 1) {
+    let {
+      isHorizontal,
+      isRangeSlider,
+      isFlag,
+      isProgressBar,
+      isScale,
+      scaleQuantity,
+    } = this.config;
+
+    if (typeof isHorizontal !== 'boolean') isHorizontal = true;
+    if (typeof isRangeSlider !== 'boolean') isRangeSlider = true;
+    if (typeof isFlag !== 'boolean') isFlag = true;
+    if (typeof isProgressBar !== 'boolean') isProgressBar = true;
+    if (typeof isScale !== 'boolean') isScale = true;
+    if (typeof scaleQuantity !== 'number' || scaleQuantity < 1) {
       scaleQuantity = 2;
     }
     scaleQuantity = Number(scaleQuantity.toFixed(0));
-    this.config = {isHorizontal, isRangeSlider, isFlag, isProgressBar, isScale, scaleQuantity}
+    
+    this.config = {
+      isHorizontal,
+      isRangeSlider,
+      isFlag,
+      isProgressBar,
+      isScale,
+      scaleQuantity,
+    };
   }
 
   private renderField(): void {
+    const { isHorizontal } = this.config
     this.field = new ViewField(this);
     this.field.createField();
-    
-    if(this.config.isHorizontal) {
-      this.fieldSize = this.field.div.offsetWidth
+
+    if (isHorizontal) {
+      this.fieldSize = this.field.div.offsetWidth;
     }
-    if(!this.config.isHorizontal) {
-      this.fieldSize = this.field.div.offsetHeight
+    if (!isHorizontal) {
+      this.fieldSize = this.field.div.offsetHeight;
     }
   }
 
   private renderButtons(): void {
-    const {isRangeSlider} = this.config
+    const { isRangeSlider, isHorizontal } = this.config;
+    
     this.button1 = new ViewButton(this);
     this.button1.createButton();
 
@@ -117,34 +143,30 @@ class View extends Observer implements IView {
       this.button2.createButton();
     }
 
-    if(this.config.isHorizontal) {
-      this.buttonSize = this.button1.div.offsetWidth
+    if (isHorizontal) {
+      this.buttonSize = this.button1.div.offsetWidth;
     }
-    if(!this.config.isHorizontal) {
-      this.buttonSize = this.button1.div.offsetHeight
+    if (!isHorizontal) {
+      this.buttonSize = this.button1.div.offsetHeight;
     }
   }
 
   private renderFlag(): void {
-    const {isRangeSlider, isFlag} = this.config
+    const { isRangeSlider, isFlag } = this.config;
     this.flag1 = new ViewFlag(this);
     this.flag1.createFlag();
-    
-    if (!isFlag) {
-      this.flag1.hideFlag();
-    }
+
+    if (!isFlag) this.flag1.hideFlag();    
 
     if (isRangeSlider) {
       this.flag2 = new ViewFlag(this);
       this.flag2.createFlag();
-      if (!isFlag) {
-        this.flag2.hideFlag();
-      }
+      if (!isFlag) this.flag2.hideFlag();
     }
   }
 
   private renderScale(): void {
-    const {isScale, scaleQuantity} = this.config
+    const { isScale, scaleQuantity } = this.config;
     this.scale = new ViewScale(this);
     this.scale.createScale(scaleQuantity);
 
@@ -152,7 +174,7 @@ class View extends Observer implements IView {
   }
 
   private renderProgressBar(): void {
-    const {isProgressBar} = this.config
+    const { isProgressBar } = this.config;
     this.progressBar = new ViewProgressBar(this);
     this.progressBar.createProgressBar();
 

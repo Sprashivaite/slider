@@ -1,6 +1,7 @@
 import IModelConfig from './IModelConfig';
 import Observer from '../Observer/Observer';
 import { DEFAULT_MODEL_CONFIG } from '../defaults';
+import ViewData from '../types'
 
 class Model extends Observer {
   config!: IModelConfig;
@@ -14,18 +15,6 @@ class Model extends Observer {
     this.init(config);
   }
 
-  updateButtonPX(button: HTMLElement, value: number): void {
-    const result: number = this.demarcateButtons(button, value);
-    if (!this.findFirstButton(button)) this.emit('updateButtonPX', result);
-    else this.emit('updateButtonPX2', result);
-  }
-
-  updateButtonValue(button: HTMLElement, value: number): void {
-    const result = Number(value.toFixed(this.calcDigitsAfterDot()));
-    if (!this.findFirstButton(button)) this.emit('updateButtonValue', result);
-    else this.emit('updateButtonValue2', result);
-  }
-
   setElementsSize(data: { buttonSize: number; fieldSize: number }): void {
     const { fieldSize = 0, buttonSize = 0 } = data;
 
@@ -35,12 +24,12 @@ class Model extends Observer {
     };
   }
 
-  calcShift(data: { buttonOffset: number; mouseCoords: number }): void {
+  calcShift(data: ViewData): void {
     const { buttonOffset, mouseCoords } = data;
     this.shift = mouseCoords - buttonOffset;
   }
 
-  calcButtonOffset(data: { button: HTMLElement; mouseCoords: number }): void {
+  calcButtonOffset(data: ViewData): void {
     const { button, mouseCoords } = data;
     const { fieldSize } = this.elementsSize;
 
@@ -51,7 +40,7 @@ class Model extends Observer {
     else this.updateButtonPX(button, shiftLeft);
   }
 
-  calcStopPointPX(data: { button: HTMLElement; buttonOffset: number }): void {
+  calcStopPointPX(data: ViewData): void {
     const { max, min, step } = this.config;
     const { button, buttonOffset } = data;
     const { fieldSize } = this.elementsSize;
@@ -70,7 +59,7 @@ class Model extends Observer {
     this.updateButtonPX(button, stopPoint);
   }
 
-  calcFlagValue(data: { button: HTMLElement; buttonOffset: number }): void {
+  calcFlagValue(data: ViewData): void {
     const { max, min } = this.config;
     const { button, buttonOffset } = data;
     const { fieldSize } = this.elementsSize;    
@@ -85,7 +74,7 @@ class Model extends Observer {
     this.updateButtonValue(button, result);
   }
 
-  moveToValue(data: { button: HTMLElement; value: number }): void {
+  moveToValue(data: ViewData): void {
     const { button, value } = data;
     const { max, min } = this.config;
     const { fieldSize } = this.elementsSize;
@@ -128,14 +117,24 @@ class Model extends Observer {
   }
 
   private validate(): void {
-    let { max, min, step, isHorizontal } = this.config;
+    let { max, min, step } = this.config;
 
     if (typeof max !== 'number' || max <= min) max = 100;
     if (typeof min !== 'number' || min >= max) min = 0;
     if (typeof step !== 'number' || step <= 0) step = 1;
-    if (typeof isHorizontal !== 'boolean') isHorizontal = true;
 
-    this.config = { max, min, step, isHorizontal };
+    this.config = { max, min, step };
+  }
+
+  private updateButtonPX(button: HTMLElement, value: number): void {
+    if (!button.previousElementSibling) this.emit('updateButtonPX', value);
+    else this.emit('updateButtonPX2', value);
+  }
+
+  private updateButtonValue(button: HTMLElement, value: number): void {
+    const result = Number(value.toFixed(this.calcDigitsAfterDot()));
+    if (!button.previousElementSibling) this.emit('updateButtonValue', result);
+    else this.emit('updateButtonValue2', result);
   }
 
   private calcDigitsAfterDot(): number {
@@ -160,43 +159,5 @@ class Model extends Observer {
     if (nearestValue === undefined) nearestValue = stepsPoints.pop()!;
     return nearestValue;
   }
-  
-  private demarcateButtons(button: HTMLElement, value: number): number {
-    const { isHorizontal } = this.config;
-    const { buttonSize } = this.elementsSize;
-
-    if (this.findSecondButton(button)) {
-      let nextButtonOffset: number =
-        button.nextElementSibling!.offsetLeft - buttonSize;
-      if (!isHorizontal) {
-        nextButtonOffset = button.nextElementSibling!.offsetTop - buttonSize;
-      }
-      if (value >= nextButtonOffset) return nextButtonOffset;
-    }
-
-    if (this.findFirstButton(button)) {
-      let prevButtonOffset: number =
-        button.previousElementSibling!.offsetLeft + buttonSize;
-      if (!isHorizontal) {
-        prevButtonOffset =
-          button.previousElementSibling!.offsetTop + buttonSize;
-      }
-      if (value <= prevButtonOffset) return prevButtonOffset;
-    }
-
-    return value;
-  }
-
-  private findFirstButton(button: HTMLElement): boolean {
-    return !!button.previousElementSibling;
-  }
-
-  private findSecondButton(button: HTMLElement): boolean {
-    return !!(
-      button.nextElementSibling.getAttribute('class') === 'slider__button'
-    );
-  }
-
-
 }
 export default Model;

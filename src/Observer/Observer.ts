@@ -10,7 +10,7 @@ class Observer {
       if (event) event.forEach(el => el(data));      
     };
 
-    subscribe(EventName, listener) {
+    subscribe (EventName, listener) {
       const event = this.listeners[EventName];
 
       if (event) {
@@ -20,6 +20,7 @@ class Observer {
       } else {
         this.listeners[EventName] = [listener];
       }
+      return this
     };    
 
 }

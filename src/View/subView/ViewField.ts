@@ -13,8 +13,8 @@ class ViewField {
 
   createField(): void {
     this.div = document.createElement("div");
-    if (this.isHorizontal) this.div.className = "slider__field_horizontal";
-    if (!this.isHorizontal) this.div.className = "slider__field_vertical";
+    if (this.isHorizontal) this.div.className = "js-slider__field_horizontal";
+    if (!this.isHorizontal) this.div.className = "js-slider__field_vertical";
     this.slider.append(this.div);
   }
 

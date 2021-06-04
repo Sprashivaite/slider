@@ -59,16 +59,16 @@ class ViewProgressBar {
       progressBarSize = this.div.offsetHeight;
     }
     if (progressBarSize <= fieldSize / 4) {
-      this.div.style.backgroundColor = "#915E4E";
+      this.div.className = "js-progressBar js-progressBar_color_1";
     }
     if (progressBarSize >= fieldSize / 4) {
-      this.div.style.backgroundColor = "#CF866F";
+      this.div.className = "js-progressBar js-progressBar_color_2";
     }
     if (progressBarSize >= fieldSize / 2) {
-      this.div.style.backgroundColor = "#4E9179";
+      this.div.className = "js-progressBar js-progressBar_color_3";
     }
     if (progressBarSize >= fieldSize - this.button1.offsetWidth) {
-      this.div.style.backgroundColor = "#6fcf97";
+      this.div.className = "js-progressBar js-progressBar_color_4";
     }
   }
 

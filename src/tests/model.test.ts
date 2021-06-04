@@ -12,29 +12,29 @@ document.body.insertAdjacentHTML(
 let container: HTMLDivElement | Element = document.querySelector('.slider')!;
 container.insertAdjacentHTML(
   "afterbegin",
-  "<div class='slider__field_horizontal'></div>"
+  "<div class='js-slider__field_horizontal'></div>"
 );
 container.insertAdjacentHTML(
   "beforeend",
-  "<div class='slider__field_vertical'></div>"
+  "<div class='js-slider__field_vertical'></div>"
 );
-let field_horizontal: any  = document.querySelector('.slider__field_horizontal')!;
+let field_horizontal: any  = document.querySelector('.js-slider__field_horizontal')!;
 field_horizontal.insertAdjacentHTML(
   "afterbegin",
-  "<div class='slider__button'></div>"
+  "<div class='js-slider__button'></div>"
 );
 field_horizontal.insertAdjacentHTML(
   "beforeend",
-  "<div class='slider__button' style='left: 66px'></div>"
+  "<div class='js-slider__button' style='left: 66px'></div>"
 );
-let field_vertical: any  = document.querySelector('.slider__field_vertical')!;
+let field_vertical: any  = document.querySelector('.js-slider__field_vertical')!;
 field_vertical.insertAdjacentHTML(
   "afterbegin",
-  "<div class='slider__button' style='top: 20px'></div>"
+  "<div class='js-slider__button' style='top: 20px'></div>"
 );
-let button_horizontal: any = document.querySelectorAll('.slider__button')[0]!;
-let button_horizontal_2: any  = document.querySelectorAll('.slider__button')[1]!;
-let button_vertical: any  = document.querySelector('.slider__field_vertical > .slider__button')!;
+let button_horizontal: any = document.querySelectorAll('.js-slider__button')[0]!;
+let button_horizontal_2: any  = document.querySelectorAll('.js-slider__button')[1]!;
+let button_vertical: any  = document.querySelector('.js-slider__field_vertical > .js-slider__button')!;
 describe("конструктор класса", () => {
   it("Model", () => { 
     expect(model).toBeDefined();

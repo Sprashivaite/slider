@@ -114,14 +114,12 @@ class ViewHandler extends Observer {
   getButtonOffset(): number {
     let buttonOffset = this.button1.offsetLeft;
     if(!this.isHorizontal) buttonOffset = this.button1.offsetTop;
-    console.log(buttonOffset);
     return buttonOffset
   }
 
   getButtonOffset2(): number {
     let buttonOffset = this.button2.offsetLeft;
     if(!this.isHorizontal) buttonOffset = this.button2.offsetTop;
-    console.log(buttonOffset);
     return buttonOffset
   }
 

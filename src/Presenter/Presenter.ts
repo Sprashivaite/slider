@@ -1,7 +1,7 @@
-import Model from "../Model/Model";
-import View from "../View/View";
+import Model from '../Model/Model';
+import View from '../View/View';
 
-class Presenter{
+class Presenter {
   model: Model;
 
   view: View;
@@ -12,67 +12,53 @@ class Presenter{
   }
 
   subscribeListeners(): void {
-    this.view.subscribe("elementsSize", this.model.setElementsSize.bind(this.model))
+    this.subscribeModel()
+    this.subscribeView()
+    this.view.updateModel();
+  }
 
-    this.view.handler.subscribe("mouseDown", this.model.calcShift.bind(this.model))
-    this.view.handler.subscribe("mouseMove",  this.model.calcButtonOffset.bind(this.model))
-    this.view.handler.subscribe("mouseUp", this.model.calcStopPointPX.bind(this.model)) 
+  subscribeModel(): void {
+    const { model, view } = this;
 
-    this.view.handler.subscribe("scaleClick", this.model.moveToValue.bind(this.model))
-    this.view.handler.subscribe("scaleClick", this.model.calcFlagValue.bind(this.model))
-
-    this.view.handler.subscribe("mouseMove",  this.model.calcFlagValue.bind(this.model))
-    this.view.handler.subscribe("mouseUp", this.model.calcFlagValue.bind(this.model))  
-
-    this.view.subscribe("scaleQuantity", this.model.calcScaleValues.bind(this.model))
-
-    this.model.subscribe('scaleUpdate', this.view.scale.updateValues.bind(this.view.scale))
-
-    this.model.subscribe("updateButtonValue", this.view.flag1.changeFlagValue.bind(this.view.flag1 ))
-
-    this.model.subscribe("updateButtonPX", this.view.button1.moveButton.bind(this.view.button1))
-    this.model.subscribe("updateButtonPX", this.view.flag1.moveFlag.bind(this.view.flag1 ))
-    this.model.subscribe("updateButtonPX", this.view.progressBar.progressBarMove.bind(this.view.progressBar))
-
-    if(this.view.config.isRangeSlider){
-
-    this.view.handler.subscribe("mouseDown2", this.model.calcShift.bind(this.model))
-    this.view.handler.subscribe("mouseMove2",  this.model.calcButtonOffset.bind(this.model))
-    this.view.handler.subscribe("mouseUp2", this.model.calcStopPointPX.bind(this.model)) 
-
-    this.view.handler.subscribe("scaleClick2", this.model.moveToValue.bind(this.model))
-    this.view.handler.subscribe("scaleClick2", this.model.calcFlagValue.bind(this.model))
-
-    this.view.handler.subscribe("mouseMove2",  this.model.calcFlagValue.bind(this.model))
-    this.view.handler.subscribe("mouseUp2", this.model.calcFlagValue.bind(this.model)) 
-
-    this.model.subscribe("updateButtonValue2", this.view.flag2.changeFlagValue.bind(this.view.flag2 ))
-
-    if(this.model.config.isHorizontal) {
-      this.model.subscribe("updateButtonValue", this.view.flag1.demarcateFromSiblingFlag.bind(this.view.flag1,this.view.flag1.div, this.view.flag2.div ))
-      this.model.subscribe("updateButtonValue2", this.view.flag2.demarcateFromSiblingFlag.bind(this.view.flag2,this.view.flag1.div, this.view.flag2.div  ))
+    view
+      .subscribe('elementsSize', model.setElementsSize.bind(model))
+      .subscribe('scaleQuantity', model.calcScaleValues.bind(model));
+    view.handler
+      .subscribe('mouseDown', model.calcShift.bind(model))
+      .subscribe('mouseMove', model.calcButtonOffset.bind(model))
+      .subscribe('mouseMove', model.calcFlagValue.bind(model))
+      .subscribe('mouseUp', model.calcStopPointPX.bind(model))
+      .subscribe('mouseUp', model.calcFlagValue.bind(model))
+      .subscribe('scaleClick', model.moveToValue.bind(model))
+      .subscribe('scaleClick', model.calcFlagValue.bind(model));
+    if (view.config.isRangeSlider) {
+      view.handler
+        .subscribe('mouseDown2', model.calcShift.bind(model))
+        .subscribe('mouseMove2', model.calcButtonOffset.bind(model))
+        .subscribe('mouseMove2', model.calcFlagValue.bind(model))
+        .subscribe('mouseUp2', model.calcStopPointPX.bind(model))
+        .subscribe('mouseUp2', model.calcFlagValue.bind(model))
+        .subscribe('scaleClick2', model.moveToValue.bind(model))
+        .subscribe('scaleClick2', model.calcFlagValue.bind(model));
     }
-    
-    this.model.subscribe("updateButtonPX2", this.view.button2.moveButton.bind(this.view.button2))
-    this.model.subscribe("updateButtonPX2", this.view.flag2.moveFlag.bind(this.view.flag2 ))
-    this.model.subscribe("updateButtonPX2", this.view.progressBar.progressBarMove.bind(this.view.progressBar))
-
-  }
-  this.emitModel();
   }
 
-    emitModel(): void {
-      this.view.emit('elementsSize', {
-        fieldSize: this.view.fieldSize,
-        buttonSize: this.view.buttonSize
-      })
-      this.view.emit('scaleQuantity', this.view.config.scaleQuantity)
-      this.view.handler.emit("mouseUp", this.view.handler.getFirstButtonData())
-      if(this.view.config.isRangeSlider){    
-        this.view.handler.emit("mouseUp2", this.view.handler.getSecondButtonData())
-      }
+  subscribeView(): void {
+    const { model, view } = this;
+    model
+      .subscribe('scaleUpdate', view.scale.updateValues.bind(view.scale))
+      .subscribe('updateButtonValue', view.flag1.changeFlagValue.bind(view.flag1))
+      .subscribe('updateButtonPX', view.button1.moveButton.bind(view.button1))
+      .subscribe('updateButtonPX', view.flag1.moveFlag.bind(view.flag1))
+      .subscribe('updateButtonPX', view.progressBar.progressBarMove.bind(view.progressBar)
+      );
+    if (view.config.isRangeSlider) {
+      model
+        .subscribe('updateButtonValue2', view.flag2.changeFlagValue.bind(view.flag2))
+        .subscribe('updateButtonPX2',view.button2.moveButton.bind(view.button2))
+        .subscribe('updateButtonPX2', view.flag2.moveFlag.bind(view.flag2))
+        .subscribe('updateButtonPX2',view.progressBar.progressBarMove.bind(view.progressBar));
     }
-
   }
-
+}
 export default Presenter;
