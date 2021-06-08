@@ -79,7 +79,7 @@ class Model extends Observer {
     const { max, min } = this.config;
     const { fieldSize } = this.elementsSize;
 
-    const result: number = (fieldSize / (max - min)) * (value - min);
+    const result: number = (fieldSize / (max - min)) * (value! - min);
 
     this.updateButtonPX(button, result);
   }  
@@ -90,7 +90,7 @@ class Model extends Observer {
     let modelQuantity = quantity;
     const quantityModelValues = (max - min) / step + 1;
     
-    if (quantity < 3) modelQuantity = 3;
+    if (quantity < 3) modelQuantity = 2;
     if (quantityModelValues < quantity) modelQuantity = Number(quantityModelValues.toFixed(0));
 
     let value = min;

@@ -1,7 +1,25 @@
 import View from "../View/View"; 
- 
+
+
 let container  = document.querySelector('.slider');
 let view: View;
+
+const someObject = {
+  mouseCoords: 0,
+  buttonPX: 0,
+  buttonPX2: 0,
+  buttonValue: 0,
+  buttonValue2: 0,
+  scaleValues: [],
+  updateMouseCoords(data) {this.mouseCoords = data.mouseCoords},
+  updatePX(value) {this.buttonPX = value},
+  updatePX2(value) {this.buttonPX2 = value},
+  updateValue(value) {this.buttonValue = value},
+  updateValue2(value) {this.buttonValue2 = value},
+  updateScale({arrValues, quantity}) {
+    this.scaleValues = arrValues
+  }
+};
 
 beforeEach(()=>{
   view = new View();
@@ -16,17 +34,17 @@ describe("наличие инстансa класса", () => {
 describe("установка параметров View", () => {
   it("валидные параметры", () => {
     view = new View({ isRangeSlider: true, isHorizontal: false, isProgressBar: true, isScale: false }); 
-    expect(view.isRangeSlider).toBe(true); 
-    expect(view.isHorizontal).toBe(false); 
-    expect(view.isProgressBar).toBe(true); 
-    expect(view.isScale).toBe(false); 
+    expect(view.config.isRangeSlider).toBe(true); 
+    expect(view.config.isHorizontal).toBe(false); 
+    expect(view.config.isProgressBar).toBe(true); 
+    expect(view.config.isScale).toBe(false); 
   });
   it("невалидные параметры", () => {
     view = new View({ isRangeSlider: 22, isHorizontal: 'asdfc', isProgressBar: '', isScale: null }); 
-    expect(view.isRangeSlider).toBe(true); 
-    expect(view.isHorizontal).toBe(true); 
-    expect(view.isProgressBar).toBe(true); 
-    expect(view.isScale).toBe(true); 
+    expect(view.config.isRangeSlider).toBe(true); 
+    expect(view.config.isHorizontal).toBe(true); 
+    expect(view.config.isProgressBar).toBe(true); 
+    expect(view.config.isScale).toBe(true); 
   });
 });
 
@@ -81,13 +99,13 @@ describe("движение View button", () => {
     view.removeElements();
   });
   it("view.button.moveButton Horisontal", () => {
-    view = new View();
+    view = new View({isRangeSlider:false});
     view.renderElements();
     view.button1.moveButton(50);
     expect(getComputedStyle(view.button1.div).left).toBe("50px");
   });
   it("view.button.moveButton Vertical", () => {
-    view = new View({isHorizontal: false});
+    view = new View({isHorizontal: false,isRangeSlider:false});
     view.renderElements();
     view.button1.moveButton(50);
     expect(getComputedStyle(view.button1.div).top).toBe("50px");
@@ -103,11 +121,11 @@ describe("toggle View flag", () => {
   });
   it("view.flag.showFlag", () => {
     view.flag1.showFlag();
-    expect(getComputedStyle(view.flag1.div).opacity).toBe("1");
+    expect(getComputedStyle(view.flag1.div).visibility).toBe("visible");
   });
   it("view.hideFlag", () => {
     view.flag1.hideFlag();
-    expect(getComputedStyle(view.flag1.div).opacity).toBe("0");
+    expect(getComputedStyle(view.flag1.div).visibility).toBe("hidden");
   });
 });
 
@@ -155,77 +173,75 @@ describe("движение View progressBar", () => {
   });
 });
 
-describe("подписка наблюдателя", () => {
-  let something: object;
-  it("view.register", () => {
-    view.renderElements()
-    view.register(something);
-    expect(view.handler.subscriber).toBe(something);
-    view.removeElements()
-  });
-});
+// describe("подписка наблюдателя", () => {
+//   let something: object;
+//   it("view.register", () => {
+//     view.renderElements()
+//     view.register(something);
+//     expect(view.handler.subscriber).toBe(something);
+//     view.removeElements()
+//   });
+// });
 
-describe("оповещение наблюдателя", () => {
-  beforeEach(() => view.renderElements())
-  afterEach(() => view.removeElements())
-  it("view.handler.notifyMouseMove", () => {
-    let something: object = { mouseMoveButton: () => {} };
-    view.register(something);
-    spyOn(view.handler.subscriber, "mouseMoveButton");
-    view.handler.notifyMouseMove();
-    expect(view.handler.subscriber.mouseMoveButton).toHaveBeenCalled();
-  });
+// describe("оповещение наблюдателя", () => {
+  // beforeEach(() => view.renderElements())
+  // afterEach(() => view.removeElements())
+  // it("view.handler.mouseMove", () => {
+  //   view.addHandlers()
+  //   let something: object = { mouseMoveButton: () => {} };
+  //   view.handler.subscribe('mouseMove', something.mouseMoveButton);
+  //   spyOn(something, "mouseMoveButton");
+  //   view.handler.emit('mouseMove', {});
+  //   expect(something.mouseMoveButton).toHaveBeenCalled();
+  // });
  
-  it("view.handler.notifyMouseMove2", () => {
-    let something: object = { mouseMoveButton2: () => {} };
-    view.register(something);
+//   it("view.handler.notifyMouseMove2", () => {
+//     let something: object = { mouseMoveButton2: () => {} };
+//     view.register(something);
 
-    spyOn(view.handler.subscriber, "mouseMoveButton2");
-    view.handler.notifyMouseMove2();
-    expect(view.handler.subscriber.mouseMoveButton2).toHaveBeenCalled();
-  });
+//     spyOn(view.handler.subscriber, "mouseMoveButton2");
+//     view.handler.notifyMouseMove2();
+//     expect(view.handler.subscriber.mouseMoveButton2).toHaveBeenCalled();
+//   });
 
-  it("view.handler.notifyMouseUp", () => {
-    let something: object = { mouseUp: () => {} };
-    view.register(something);
+//   it("view.handler.notifyMouseUp", () => {
+//     let something: object = { mouseUp: () => {} };
+//     view.register(something);
 
-    spyOn(view.handler.subscriber, "mouseUp");
-    view.handler.notifyMouseUp();
-    expect(view.handler.subscriber.mouseUp).toHaveBeenCalled();
-  });
-  it("view.handler.notifyMouseUp2", () => {
-    let something: object = { mouseUp2: () => {} };
-    view.register(something);
+//     spyOn(view.handler.subscriber, "mouseUp");
+//     view.handler.notifyMouseUp();
+//     expect(view.handler.subscriber.mouseUp).toHaveBeenCalled();
+//   });
+//   it("view.handler.notifyMouseUp2", () => {
+//     let something: object = { mouseUp2: () => {} };
+//     view.register(something);
 
-    spyOn(view.handler.subscriber, "mouseUp2");
-    view.handler.notifyMouseUp2();
-    expect(view.handler.subscriber.mouseUp2).toHaveBeenCalled();
-  });
-});
+//     spyOn(view.handler.subscriber, "mouseUp2");
+//     view.handler.notifyMouseUp2();
+//     expect(view.handler.subscriber.mouseUp2).toHaveBeenCalled();
+//   });
+// });
 
-describe("координаты мыши", () => {
-  let someObject; 
+describe("координаты мыши", () => {  
   afterEach(() => view.removeElements());
-  it("view.getMouseCoords horisontal", () => { 
+  it("view.getMouseCoords horisontal", () => {
     view.renderElements();
-    view.register(someObject);
-    let mousemove = new MouseEvent("mousemove", { clientX: 50 }); 
-     
-    view.handler.getMouseCoords();
+    const fieldOffset = view.field.div.getBoundingClientRect().left
+    view.addHandlers()
+    let mousemove = new MouseEvent("mousemove", { clientX: 50 });      
     document.dispatchEvent(mousemove);
-    expect(view.handler.mouseCoords).toBe(50);
+
+    expect(view.handler.mouseCoords).toBe(50 - fieldOffset);
     
   });
   it("view.getMouseCoords vertical", () => {
     view = new View({ isHorizontal: false }); 
-    view.renderElements()
-    view.register(someObject)
+    view.renderElements();
+    const fieldOffset = view.field.div.getBoundingClientRect().top
+    view.addHandlers()
     let mousemove = new MouseEvent("mousemove", { clientY: 50 });
-
-    view.handler.getMouseCoords();
-
     document.dispatchEvent(mousemove);
-    expect(view.handler.mouseCoords).toBe(50);
+    expect(view.handler.mouseCoords).toBe(50 - fieldOffset);
   });
 });
 
@@ -235,8 +251,8 @@ describe("события мыши", () => {
   beforeEach(() => {
     view = new View({ isRangeSlider: false });
     view.renderElements();
-    let something: object = { mouseMoveButton: () => {}, mouseUp: () => {} };
-    view.register(something);
+    // let something: object = { mouseMoveButton: () => {}, mouseUp: () => {} };
+    // view.register(something);
     mousedown = new MouseEvent("mousedown");
     mousemove = new MouseEvent("mousemove", { clientX: 10 });
     mouseup = new MouseEvent("mouseup");
@@ -250,54 +266,53 @@ describe("события мыши", () => {
     let contextmenu = new MouseEvent("contextmenu", { cancelable: true });
     let mousedown = new MouseEvent("mousedown", { cancelable: true });
 
-    let notify = jasmine.createSpy("notify");
-    view.handler.addFieldHandler(notify, notify);
+    view.renderElements();
+    view.addHandlers()
+
 
     let contextmenuCalled = true;
     let mousedownCalled = true;
 
-    view.slider.div.addEventListener("contextmenu", (event) => {
-      if (event.defaultPrevented) {
-        contextmenuCalled = false;
-      }
+    view.field.div.addEventListener("contextmenu", (event) => {
+      if (event.defaultPrevented) contextmenuCalled = false;      
     });
 
-    view.slider.div.addEventListener("mousedown", (event) => {
-      if (event.defaultPrevented) {
-        mousedownCalled = false;
-      }
+    view.field.div.addEventListener("mousedown", (event) => {
+      if (event.defaultPrevented)  mousedownCalled = false;      
     });
 
-    view.slider.div.dispatchEvent(mousedown);
-    view.slider.div.dispatchEvent(contextmenu);
+    view.field.div.dispatchEvent(mousedown);
+    view.field.div.dispatchEvent(contextmenu);
 
     expect(contextmenuCalled).toBeFalsy();
     expect(mousedownCalled).toBeFalsy();
   });
 
-  it("view.handler.addFieldHandler mouse down", () => {
+  it("view.handler.addButtonHandler mouse down", () => {
     let notify = jasmine.createSpy("notify");
-
-    view.handler.addFieldHandler(notify, notify);
-
-    view.field.div.dispatchEvent(mousedown);
+    view.addHandlers()
+    view.handler.subscribe('mouseDown', notify)
+    view.button1.div.dispatchEvent(mousedown);
 
     expect(notify).toHaveBeenCalled();
     expect(notify.calls.count()).toEqual(1);
   });
 
-  it("view.handler.addFieldHandler mouse move", () => {
+  it("view.handler.addButtonHandler mouse move", () => {
     let notify = jasmine.createSpy("notify");
-    view.handler.addFieldHandler(notify, notify);
-    view.field.div.dispatchEvent(mousedown);
+    view.addHandlers()
+    view.handler.subscribe('mouseMove', notify)
+    view.button1.div.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);
     expect(notify).toHaveBeenCalled();
     expect(notify.calls.count()).toEqual(2);
   });
-  it("view.handler.addFieldHandler mouseup", () => {
+  it("view.handler.addButtonHandler mouseup", () => {
     let notify = jasmine.createSpy("notify");
-    view.handler.addFieldHandler(notify, notify);
-    view.field.div.dispatchEvent(mousedown);
+    view.addHandlers()
+    view.handler.subscribe('mouseMove', notify)
+    view.handler.subscribe('mouseUp', notify)
+    view.button1.div.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);
     document.dispatchEvent(mouseup);
     expect(notify).toHaveBeenCalled();
@@ -317,7 +332,7 @@ describe("события мыши range", () => {
       mouseMoveButton2: () => {},
       mouseUp2: () => {},
     };
-    view.register(something);
+    // view.register(something);
     mousedown = new MouseEvent("mousedown");
     mousemove = new MouseEvent("mousemove", { clientX: 50 });
     mouseup = new MouseEvent("mouseup");
@@ -327,45 +342,50 @@ describe("события мыши range", () => {
     view.removeElements();
   });
 
-  it("view.handler.mouseEventRange mouse event button_1", () => { 
-    let notify = jasmine.createSpy("notify");
-    let notify2 = jasmine.createSpy("notify");
-    view.handler.mouseEventRange(notify, notify2, notify, notify2);
-    view.field.div.dispatchEvent(mousedown);
-    document.dispatchEvent(mousemove);
-    document.dispatchEvent(mouseup);
-    expect(notify).toHaveBeenCalled();
-    expect(notify.calls.count()).toEqual(3);
-  });
+//   it("view.handler.mouseEventRange mouse event button_1", () => { 
+//     let notify = jasmine.createSpy("notify");
+//     let notify2 = jasmine.createSpy("notify");
+//     view.handler.mouseEventRange(notify, notify2, notify, notify2);
+//     view.field.div.dispatchEvent(mousedown);
+//     document.dispatchEvent(mousemove);
+//     document.dispatchEvent(mouseup);
+//     expect(notify).toHaveBeenCalled();
+//     expect(notify.calls.count()).toEqual(3);
+//   });
 
-  it("view.handler.mouseEventRange mouse event button_1 vertical", () => {
-    view.removeElements();
-    view = new View({ isRangeSlider: true, isHorizontal: false });
-    view.renderElements();
-    view.register(something);
-    mousemove = new MouseEvent("mousemove", { clientX: 60 });
-    let notify = jasmine.createSpy("notify");
-    let notify2 = jasmine.createSpy("notify");
-    view.handler.mouseEventRange(notify, notify2, notify, notify2);
+//   it("view.handler.mouseEventRange mouse event button_1 vertical", () => {
+//     view.removeElements();
+//     view = new View({ isRangeSlider: true, isHorizontal: false });
+//     view.renderElements();
+//     view.register(something);
+//     mousemove = new MouseEvent("mousemove", { clientX: 60 });
+//     let notify = jasmine.createSpy("notify");
+//     let notify2 = jasmine.createSpy("notify");
+//     view.handler.mouseEventRange(notify, notify2, notify, notify2);
 
-    view.field.div.dispatchEvent(mousedown);
-    document.dispatchEvent(mousemove);
-    document.dispatchEvent(mouseup);
-    expect(notify).toHaveBeenCalled();
-    expect(notify.calls.count()).toEqual(3);
-    view.removeElements();
-  });
-  it("view.handler.mouseEventRange mouse event button2", () => { 
+//     view.field.div.dispatchEvent(mousedown);
+//     document.dispatchEvent(mousemove);
+//     document.dispatchEvent(mouseup);
+//     expect(notify).toHaveBeenCalled();
+//     expect(notify.calls.count()).toEqual(3);
+//     view.removeElements();
+//   });
+  it("view.handler.addFieldHandler mouse event button2", () => { 
     let notify = jasmine.createSpy("notify");
-    let notify2 = jasmine.createSpy("notify");
+    // let notify2 = jasmine.createSpy("notify");
+    view.addHandlers()
+    view.handler.subscribe('mouseMove2', notify)
+    view.handler.subscribe('mouseUp2', notify)
+    // view.button1.div.dispatchEvent(mousedown);
     view.handler.mouseCoords = 60;
-    view.handler.mouseEventRange(notify, notify2, notify, notify2);
+
+    // view.handler.addButtonHandler(notify, notify2, notify, notify2);
 
     view.field.div.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);
     document.dispatchEvent(mouseup);
 
-    expect(notify2).toHaveBeenCalled();
-    expect(notify2.calls.count()).toEqual(3);
+    expect(notify).toHaveBeenCalled();
+    expect(notify.calls.count()).toEqual(2);
   });
 });

@@ -1,190 +1,185 @@
-import Model from "../Model/Model"; 
+import Model from '../Model/Model';
 
-let model: Model;  
+let model: Model;
+const someObject = {
+  buttonPX: 0,
+  buttonPX2: 0,
+  buttonValue: 0,
+  buttonValue2: 0,
+  scaleValues: [],
+  updatePX(value) {
+    this.buttonPX = value;
+  },
+  updatePX2(value) {
+    this.buttonPX2 = value;
+  },
+  updateValue(value) {
+    this.buttonValue = value;
+  },
+  updateValue2(value) {
+    this.buttonValue2 = value;
+  },
+  updateScale({ arrValues, quantity }) {
+    this.scaleValues = arrValues;
+  },
+};
 
-beforeEach(()=>{
-model = new Model();
-})
 document.body.insertAdjacentHTML(
-  "afterbegin",
+  'afterbegin',
   "<div class='slider' style='width:100px; height: 100px;'></div>"
 );
 let container: HTMLDivElement | Element = document.querySelector('.slider')!;
 container.insertAdjacentHTML(
-  "afterbegin",
+  'afterbegin',
   "<div class='js-slider__field_horizontal'></div>"
 );
 container.insertAdjacentHTML(
-  "beforeend",
+  'beforeend',
   "<div class='js-slider__field_vertical'></div>"
 );
-let field_horizontal: any  = document.querySelector('.js-slider__field_horizontal')!;
+let field_horizontal: any = document.querySelector(
+  '.js-slider__field_horizontal'
+)!;
 field_horizontal.insertAdjacentHTML(
-  "afterbegin",
+  'afterbegin',
   "<div class='js-slider__button'></div>"
 );
 field_horizontal.insertAdjacentHTML(
-  "beforeend",
+  'beforeend',
   "<div class='js-slider__button' style='left: 66px'></div>"
 );
-let field_vertical: any  = document.querySelector('.js-slider__field_vertical')!;
+let field_vertical: any = document.querySelector('.js-slider__field_vertical')!;
 field_vertical.insertAdjacentHTML(
-  "afterbegin",
+  'afterbegin',
   "<div class='js-slider__button' style='top: 20px'></div>"
 );
-let button_horizontal: any = document.querySelectorAll('.js-slider__button')[0]!;
-let button_horizontal_2: any  = document.querySelectorAll('.js-slider__button')[1]!;
-let button_vertical: any  = document.querySelector('.js-slider__field_vertical > .js-slider__button')!;
-describe("конструктор класса", () => {
-  it("Model", () => { 
+let button_horizontal: any =
+  document.querySelectorAll('.js-slider__button')[0]!;
+let button_horizontal2: any =
+  document.querySelectorAll('.js-slider__button')[1]!;
+let button_vertical: any = document.querySelector(
+  '.js-slider__field_vertical > .js-slider__button'
+)!;
+
+beforeEach(() => {
+  model = new Model();
+  model.setElementsSize({ buttonSize: 0, fieldSize: 100 });
+  model.subscribe('updateButtonPX', someObject.updatePX.bind(someObject));
+  model.subscribe('updateButtonPX2', someObject.updatePX2.bind(someObject));
+  model.subscribe('updateButtonValue', someObject.updateValue.bind(someObject));
+  model.subscribe(
+    'updateButtonValue2',
+    someObject.updateValue2.bind(someObject)
+  );
+  model.subscribe('scaleUpdate', someObject.updateScale.bind(someObject));
+});
+
+describe('конструктор класса', () => {
+  it('Model', () => {
     expect(model).toBeDefined();
   });
-  it("Model max", () => {
-    model = new Model({max: 200}); 
-    expect(model.max).toBe(200);
+  it('Model max', () => {
+    model = new Model({ max: 200 });
+    expect(model.config.max).toBe(200);
   });
-  it("Model min", () => {
-    model = new Model({min: -5}); 
-    expect(model.min).toBe(-5);
+  it('Model min', () => {
+    model = new Model({ min: -5 });
+    expect(model.config.min).toBe(-5);
   });
-  it("Model step", () => {
-    model = new Model({step: -5}); 
-    expect(model.step).toBe(1);
+  it('Model step', () => {
+    model = new Model({ step: -5 });
+    expect(model.config.step).toBe(1);
   });
-  it("Model step", () => {
-    model = new Model({step: 10}); 
-    expect(model.step).toBe(10);
+  it('Model step', () => {
+    model = new Model({ step: 10 });
+    expect(model.config.step).toBe(10);
   });
-  it("Model step", () => {
-    model = new Model({step: 0}); 
-    expect(model.step).toBe(1);
-  });
-  it("Model step", () => {
-    model = new Model({isHorizontal: false}); 
-    expect(model.isHorizontal).toBe(false);
+  it('Model step', () => {
+    model = new Model({ step: 0 });
+    expect(model.config.step).toBe(1);
   });
 });
 
-describe("высчитывание отступа для кнопки", () => {
-  it("model.calcButtonOffset default", () => { 
-    expect(
-      model.calcButtonOffset(
-        field_horizontal,
-        button_horizontal,
-        42 +
-        field_horizontal.getBoundingClientRect().left +
-        button_horizontal.offsetWidth / 2
-      )
-    ).toBe(42);    
+describe('высчитывание отступа для кнопки', () => {
+  it('model.calcButtonOffset default', () => {
+    model.calcButtonOffset({
+      button: button_horizontal,
+      mouseCoords: 42,
+    });
+    expect(someObject.buttonPX).toBe(42);
   });
-  it("model.calcButtonOffset min", () => {
-    expect(
-      model.calcButtonOffset(
-        field_horizontal,
-        button_horizontal,
-        -5 +
-          field_horizontal.getBoundingClientRect().left +
-          button_horizontal.offsetWidth / 2
-      )
-    ).toBe(0);
+  it('model.calcButtonOffset min', () => {
+    model.calcButtonOffset({
+      button: button_horizontal,
+      mouseCoords: -42,
+    });
+    expect(someObject.buttonPX).toBe(0);
   });
-  it("model.calcButtonOffset max", () => { 
-    expect(
-      model.calcButtonOffset(
-        field_horizontal,
-        button_horizontal_2,
-        field_horizontal.offsetWidth +
-          50 +
-          field_horizontal.getBoundingClientRect().left +
-          button_horizontal_2.offsetWidth / 2
-      )
-    ).toBe(field_horizontal.offsetWidth - button_horizontal_2.offsetWidth); 
+  it('model.calcButtonOffset max', () => {
+    model.calcButtonOffset({
+      button: button_horizontal,
+      mouseCoords: 1002,
+    });
+    expect(someObject.buttonPX).toBe(model.elementsSize.fieldSize);
   });
-  it("model.calcButtonOffset vertical", () => {
-     
-    model.isHorizontal = false;
-    expect(
-      model.calcButtonOffset(
-        field_vertical,
-        button_vertical,
-        22 +
-        field_vertical.getBoundingClientRect().top +
-          button_vertical.offsetHeight / 2
-      )
-    ).toBe(22);
-    model.isHorizontal = true; 
-  });
-  it("model.calcButtonOffset buttons", () => {  
-    expect(
-      model.calcButtonOffset(
-        field_horizontal,
-        button_horizontal_2,
-        42 +
-        field_horizontal.getBoundingClientRect().left +
-        button_horizontal_2.offsetWidth / 2
-      )
-    ).toBe(42);
-  });
-  it("model.calcButtonOffset buttons", () => {
-    expect(
-      model.calcButtonOffset(
-        field_horizontal,
-        button_horizontal,
-        90 +
-        field_horizontal.getBoundingClientRect().left +
-        button_horizontal.offsetWidth / 2
-      )
-    ).toBeLessThan(button_horizontal_2.offsetLeft);
+  it('model.calcButtonOffset button2', () => {
+    model.calcButtonOffset({
+      button: button_horizontal2,
+      mouseCoords: 42,
+    });
+    expect(someObject.buttonPX2).toBe(42);
   });
 });
 
-describe("передвинуть кнопку к точке шага ", () => {
-  it("model.calcStopPointPX horizontal", () => {
-    model = new Model({step: 50});   
-    expect(
-      model.calcStopPointPX(field_horizontal, button_horizontal_2) 
-    ).toBeGreaterThan(field_horizontal.offsetWidth/2)
-  });
-  it("model.calcStopPointPX vertical", () => {
-    model = new Model({isHorizontal: false ,step: 50});   
-    expect(
-      model.calcStopPointPX(field_vertical, button_vertical)
-      ).toBeGreaterThan(field_horizontal.offsetHeight/2) 
-  });
-});
-
-describe("передвинуть кнопку к значению ", () => {
-  it("model.moveToValue horisontal", () => {
-    expect(
-    model.moveToValue(field_horizontal, button_horizontal, 50)
-    ).toBeGreaterThan(25) 
-  });
-  it("model.moveToValue vertical", () => { 
-    model = new Model({isHorizontal: false});  
-    expect(
-      model.moveToValue(field_vertical, button_vertical, 50)
-      ).toBeGreaterThan(25) 
+describe('передвинуть кнопку к точке шага ', () => {
+  it('model.calcStopPointPX horizontal', () => {
+    model.config.step = 50;
+    model.calcStopPointPX({
+      button: button_horizontal,
+      buttonOffset: 20,
+    });
+    expect(someObject.buttonPX).toBe(0);
+    model.calcStopPointPX({
+      button: button_horizontal,
+      buttonOffset: 75,
+    });
+    expect(someObject.buttonPX).toBe(50);
+    model.config.step = 1;
   });
 });
 
-describe("вычислить значение флага", () => {
-
-  it("model.calcFlagValue", () => {
-    let value = model.calcFlagValue(field_horizontal, button_horizontal);
-    expect(value).toBe(0);
+describe('вычислить значение флага', () => {
+  it('model.calcFlagValue ', () => {
+    model.calcFlagValue({
+      button: button_horizontal,
+      buttonOffset: 75,
+    });
+    expect(someObject.buttonValue).toBe(75);
   });
-  it("model.calcFlagValue vertical", () => {
-    model = new Model({isHorizontal: false});  
-    let value = model.calcFlagValue(field_vertical, button_vertical);
-    expect(value).toBeGreaterThan(15); 
+  it('model.calcFlagValue дробное', () => {
+    model.config.step = 0.1;
+    model.calcFlagValue({
+      button: button_horizontal,
+      buttonOffset: 1.5,
+    });
+    expect(someObject.buttonValue).toBe(1.5);
+    model.config.step = 1;
   });
 });
 
-describe("вычислить значения шкалы", () => {
-  it("model.calcScaleValues", () => {
-    model = new Model({step: 20}); 
-    expect(
-    model.calcScaleValues(6)
-    ).toEqual([0, 20, 40, 60, 80, 100]);
-  }); 
+describe('передвинуть кнопку к значению ', () => {
+  it('model.moveToValue horisontal', () => {
+    model.moveToValue({
+      button: button_horizontal,
+      value: 42,
+    });
+    expect(someObject.buttonPX).toBe(42);
+  });
+});
+
+describe('вычислить значения шкалы', () => {
+  it('model.calcScaleValues', () => {
+    model.calcScaleValues(6);
+    expect(someObject.scaleValues).toEqual([0, 20, 40, 60, 80, 100]);
+  });
 });

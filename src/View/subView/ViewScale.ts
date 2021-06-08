@@ -32,7 +32,9 @@ class ViewScale {
     }
     const scaleValues = this.div.children;
     arrValues.forEach((item, index) => {scaleValues[index].innerHTML = `${item}`})
+    this.addHandler()
   }
+  
 
   hideScale(): void {
     this.div.classList.add("-js-slider__flag_hide");
@@ -46,6 +48,7 @@ class ViewScale {
     this.div = document.createElement("div");
     this.slider = View.slider.div;
     this.isHorizontal = View.config.isHorizontal;
+    // this.addHandler = View.
   }
 }
 
