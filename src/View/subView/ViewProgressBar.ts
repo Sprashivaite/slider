@@ -51,7 +51,25 @@ class ViewProgressBar {
     this.changeColorBar()
   }
 
-  changeColorBar(): void{
+  hideBar(): void {
+    this.div.classList.add("-js-slider__bar_hide");
+  }
+
+  showBar(): void {
+    this.div.classList.remove("-js-slider__bar_hide");
+  }
+
+  private init(View: IView): void {
+    this.field = View.field.div;
+    this.button1 = View.button1.div;
+    if (View.config.isRangeSlider) {
+      this.button2 = View.button2.div;
+    }    
+    this.isHorizontal = View.config.isHorizontal!;
+    this.isRangeSlider = View.config.isRangeSlider!;
+  }
+
+  private changeColorBar(): void{
     let fieldSize = this.field.offsetWidth; 
     let progressBarSize = this.div.offsetWidth;
     if (!this.isHorizontal){
@@ -70,24 +88,6 @@ class ViewProgressBar {
     if (progressBarSize >= fieldSize - this.button1.offsetWidth) {
       this.div.className = "js-progressBar js-progressBar_color_4";
     }
-  }
-
-  hideBar(): void {
-    this.div.classList.add("-js-slider__bar_hide");
-  }
-
-  showBar(): void {
-    this.div.classList.remove("-js-slider__bar_hide");
-  }
-
-  private init(View: IView): void {
-    this.field = View.field.div;
-    this.button1 = View.button1.div;
-    if (View.config.isRangeSlider) {
-      this.button2 = View.button2.div;
-    }    
-    this.isHorizontal = View.config.isHorizontal;
-    this.isRangeSlider = View.config.isRangeSlider;
   }
 }
 export default ViewProgressBar;
