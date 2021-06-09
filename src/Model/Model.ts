@@ -1,7 +1,7 @@
 import IModelConfig from './IModelConfig';
 import Observer from '../Observer/Observer';
 import { DEFAULT_MODEL_CONFIG } from '../defaults';
-import ViewData from '../types'
+import { ViewData } from '../types';
 
 class Model extends Observer {
   config!: IModelConfig;
@@ -30,74 +30,74 @@ class Model extends Observer {
   }
 
   calcButtonOffset(data: ViewData): void {
-    const { button, mouseCoords } = data;
+    const { mouseCoords } = data;
     const { fieldSize } = this.elementsSize;
 
     const shiftLeft: number = mouseCoords - this.shift;
 
-    if (shiftLeft >= fieldSize) this.updateButtonPX(button, fieldSize);
-    else if (shiftLeft <= 0) this.updateButtonPX(button, 0);
-    else this.updateButtonPX(button, shiftLeft);
+    if (shiftLeft >= fieldSize) this.updateButtonPX({ ...data, value: fieldSize });
+    else if (shiftLeft <= 0) this.updateButtonPX({ ...data, value: 0 });
+    else this.updateButtonPX({ ...data, value: shiftLeft });
   }
 
   calcStopPointPX(data: ViewData): void {
     const { max, min, step } = this.config;
-    const { button, buttonOffset } = data;
+    const { buttonOffset } = data;
     const { fieldSize } = this.elementsSize;
 
     const stepPX: number = (fieldSize * step) / (max - min);
 
     const arrStopPoints: number[] = [];
-    for (let i = 0; i <= fieldSize; i += stepPX) arrStopPoints.push(i) 
+    for (let i = 0; i <= fieldSize; i += stepPX) arrStopPoints.push(i);
 
     let stopPoint: number | undefined = arrStopPoints.find(
       (item) => buttonOffset <= item + stepPX / 2
     );
-
     if (stopPoint === undefined) stopPoint = fieldSize;
 
-    this.updateButtonPX(button, stopPoint);
+    this.updateButtonPX({ ...data, value: stopPoint });
   }
 
-  calcFlagValue(data: ViewData): void {
+  calcFlagValue(data: ViewData): number {
     const { max, min } = this.config;
-    const { button, buttonOffset } = data;
-    const { fieldSize } = this.elementsSize;    
+    const { buttonOffset } = data;
+    const { fieldSize } = this.elementsSize;
 
     const part: number = min + (buttonOffset * (max - min)) / fieldSize;
 
-    const digitsAfterDot: number = this.calcDigitsAfterDot()
+    const digitsAfterDot: number = this.calcDigitsAfterDot();
     const fixedPart = Number(part.toFixed(digitsAfterDot));
 
     const result: number = this.findNearestValue(fixedPart);
-
-    this.updateButtonValue(button, result);
+    const roundedResult = Number(result.toFixed(this.calcDigitsAfterDot()));
+    return roundedResult;
   }
 
   moveToValue(data: ViewData): void {
-    const { button, value } = data;
+    const { value } = data;
     const { max, min } = this.config;
     const { fieldSize } = this.elementsSize;
 
     const result: number = (fieldSize / (max - min)) * (value! - min);
 
-    this.updateButtonPX(button, result);
-  }  
+    this.updateButtonPX({ ...data, value: result });
+  }
 
   calcScaleValues(quantity: number): void {
     const { max, min, step } = this.config;
-    
+
     let modelQuantity = quantity;
     const quantityModelValues = (max - min) / step + 1;
-    
+
     if (quantity < 3) modelQuantity = 2;
-    if (quantityModelValues < quantity) modelQuantity = Number(quantityModelValues.toFixed(0));
+    if (quantityModelValues < quantity)
+      modelQuantity = Number(quantityModelValues.toFixed(0));
 
     let value = min;
     const stepValues = (max - min) / (modelQuantity - 1);
 
-    const digitsAfterDot: number = this.calcDigitsAfterDot()
-    const stepValuesFixed = Number(stepValues.toFixed(digitsAfterDot))
+    const digitsAfterDot: number = this.calcDigitsAfterDot();
+    const stepValuesFixed = Number(stepValues.toFixed(digitsAfterDot));
 
     const arrValues: Array<number> = [];
     for (let i = 0; i < modelQuantity - 1; i += 1) {
@@ -126,15 +126,16 @@ class Model extends Observer {
     this.config = { max, min, step };
   }
 
-  private updateButtonPX(button: HTMLElement, value: number): void {
-    if (!button.previousElementSibling) this.emit('updateButtonPX', value);
-    else this.emit('updateButtonPX2', value);
-  }
-
-  private updateButtonValue(button: HTMLElement, value: number): void {
-    const result = Number(value.toFixed(this.calcDigitsAfterDot()));
-    if (!button.previousElementSibling) this.emit('updateButtonValue', result);
-    else this.emit('updateButtonValue2', result);
+  private updateButtonPX(data: ViewData): void {
+    const { button, value } = data;
+    const flagValue = this.calcFlagValue(data);
+    if (!button.previousElementSibling) {
+      this.emit('updateButtonValue', flagValue);
+      this.emit('updateButtonPX', value);
+    } else {
+      this.emit('updateButtonValue2', flagValue);
+      this.emit('updateButtonPX2', value);
+    }
   }
 
   private calcDigitsAfterDot(): number {
