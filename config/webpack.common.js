@@ -1,5 +1,5 @@
-const webpack = require('webpack')
-const path = require("path");
+const webpack = require('webpack');
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ghpages = require('gh-pages');
@@ -15,7 +15,7 @@ const PATHS = {
 module.exports = {
   entry: `${PATHS.src}/demo-page/demo-page.js`,
   output: {
-    filename: "[name].js",
+    filename: '[name].js',
     path: `${PATHS.dist}`,
     clean: true,
   },
@@ -43,28 +43,28 @@ module.exports = {
       },
       {
         exclude: /(node_modules)/,
-        loader: "babel-loader",
+        loader: 'babel-loader',
         test: /\.[tj]sx?$/,
       },
       {
-        enforce: "post",
+        enforce: 'post',
         exclude: /(node_modules|\.test\.[tj]sx?$)/,
         test: /\.[tj]s$/,
         use: {
-          loader: "istanbul-instrumenter-loader",
+          loader: 'istanbul-instrumenter-loader',
           options: { esModules: true },
         },
       },
     ],
   },
   resolve: {
-    extensions: [".js", ".jsx", ".ts", ".tsx"],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/demo-page/demo-page.html',
       filename: `index.html`,
-      scriptLoading: "blocking"
+      scriptLoading: 'blocking',
     }),
     new MiniCssExtractPlugin(),
     new webpack.ProvidePlugin({
@@ -72,5 +72,5 @@ module.exports = {
       jQuery: 'jquery',
       'window.jQuery': 'jquery',
     }),
-  ]
+  ],
 };

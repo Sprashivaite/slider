@@ -1,6 +1,6 @@
 import IViewConfig from "../View/IViewConfig";
-import IModelConfig from "../model/IModelConfig";
-import Model from '../model/Model'
+import IModelConfig from "../Model/IModelConfig";
+import Model from '../Model/Model'
 import View from '../View/View'
 import Presenter from '../Presenter/Presenter'
 import {DEFAULT_CONFIG} from '../defaults'
@@ -21,6 +21,7 @@ import {DEFAULT_CONFIG} from '../defaults'
     }
     
     initApp(): void{
+      ;
       this.view.renderElements();
       this.view.addHandlers();    
       this.presenter.subscribeListeners();

@@ -1,2 +1,2 @@
-import './style.css'
-import "./jQueryApi/jQueryAPI"
+import './style.css';
+import './jQueryApi/jQueryAPI.ts';
