@@ -52,7 +52,7 @@ body {
 }
 
 .js-slider__button {
-  display: inline-block;
+  display: inline-flex;
   position: absolute;
   width: 18px;
   height: 18px;
@@ -64,17 +64,20 @@ body {
   justify-content: center;
 }
 
-.-js-slider__flag {
-  position: absolute;
+
+.-js-slider__flag { 
   padding: 1px 5px;
   background: linear-gradient(180deg, #6FCF97 0%, #66D2EA 100%);
   font-size: 13px;
-  z-index: 2; 
-  bottom: 17px;
+  z-index: 2;  
+  margin-bottom: 4px;
   display: flex;
   justify-content: center;
   min-width: 10px;
   height: 16px;
+  white-space: nowrap;
+  transform: translateY(-21px);
+  flex-shrink: 0;
 } 
 
 .-js-slider__flag_hide {

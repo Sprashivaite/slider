@@ -7,9 +7,9 @@ import ViewContainer from './subView/ViewContainer';
 import IViewConfig from './IViewConfig';
 import IView from './IView';
 import ViewHandler from './subView/ViewHandler';
-
-import { DEFAULT_VIEW_CONFIG } from '../defaults';
 import Observer from '../Observer/Observer';
+import { DEFAULT_VIEW_CONFIG } from '../defaults';
+import { scaleValues } from '../types'
 
 class View extends Observer implements IView {
   slider!: ViewContainer;
@@ -35,6 +35,8 @@ class View extends Observer implements IView {
   fieldSize!: number;
 
   buttonSize!: number;
+
+  flagTotal!: ViewFlag;
 
   constructor(config = DEFAULT_VIEW_CONFIG as IViewConfig) {
     super();
@@ -84,6 +86,30 @@ class View extends Observer implements IView {
     }
   }
 
+  updateScale(values: scaleValues): void {
+    this.scale.updateValues(values);
+    this.handler.addScaleHandler();
+  }
+
+  assignFlags(): void {
+    if (!this.flag2) return 
+    const {flag1, flag2, flagTotal} = this;
+    const flagOffset1 = flag1.div.getBoundingClientRect().right ;
+    const flagOffset2 = flag2.div.getBoundingClientRect().left;
+    const text = `${flag1.div.innerHTML} - ${flag2.div.innerHTML}`;    
+
+    if (flagOffset1 >= flagOffset2) {
+      flag1.hideFlag()
+      flag2.hideFlag()
+      flagTotal.showFlag()
+      flagTotal.div.innerHTML = text;
+    } else {
+      flag1.showFlag()
+      flag2.showFlag()
+      flagTotal.hideFlag()
+    }
+  }
+
   private init(config: IViewConfig): void {
     this.config = { ...DEFAULT_VIEW_CONFIG, ...config };
     this.validate();
@@ -108,7 +134,7 @@ class View extends Observer implements IView {
       scaleQuantity = 2;
     }
     scaleQuantity = Number(scaleQuantity.toFixed(0));
-    
+
     this.config = {
       isHorizontal,
       isRangeSlider,
@@ -120,7 +146,7 @@ class View extends Observer implements IView {
   }
 
   private renderField(): void {
-    const { isHorizontal } = this.config
+    const { isHorizontal } = this.config;
     this.field = new ViewField(this);
     this.field.createField();
 
@@ -134,7 +160,7 @@ class View extends Observer implements IView {
 
   private renderButtons(): void {
     const { isRangeSlider, isHorizontal } = this.config;
-    
+
     this.button1 = new ViewButton(this);
     this.button1.createButton();
 
@@ -153,15 +179,23 @@ class View extends Observer implements IView {
 
   private renderFlag(): void {
     const { isRangeSlider, isFlag } = this.config;
-    this.flag1 = new ViewFlag(this);
+    this.flag1 = new ViewFlag(this, this.button1.div);
     this.flag1.createFlag();
 
-    if (!isFlag) this.flag1.hideFlag();    
+    if (!isFlag) this.flag1.hideFlag();
 
     if (isRangeSlider) {
-      this.flag2 = new ViewFlag(this);
+      this.flag2 = new ViewFlag(this, this.button2.div);
       this.flag2.createFlag();
-      if (!isFlag) this.flag2.hideFlag();
+      this.flagTotal = new ViewFlag(this, this.button1.div);
+      this.flagTotal.createFlag();
+      this.flagTotal.hideFlag()
+      this.flagTotal.div.style.position = 'absolute';
+      this.flagTotal.div.style.left = '-50%'
+      if (!isFlag) {
+        this.flagTotal.hideFlag()
+        this.flag2.hideFlag();
+      }
     }
   }
 
@@ -169,7 +203,6 @@ class View extends Observer implements IView {
     const { isScale, scaleQuantity } = this.config;
     this.scale = new ViewScale(this);
     this.scale.createScale(scaleQuantity);
-
     if (!isScale) this.scale.hideScale();
   }
 
@@ -177,7 +210,6 @@ class View extends Observer implements IView {
     const { isProgressBar } = this.config;
     this.progressBar = new ViewProgressBar(this);
     this.progressBar.createProgressBar();
-
     if (!isProgressBar) this.progressBar.hideBar();
   }
 }
