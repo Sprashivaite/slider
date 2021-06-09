@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import IViewConfig from "../View/IViewConfig";
 import IModelConfig from "../Model/IModelConfig";
 import Model from '../Model/Model'
@@ -13,7 +14,7 @@ import {DEFAULT_CONFIG} from '../defaults'
   
     presenter: Presenter;
   
-    constructor(options = DEFAULT_CONFIG as IViewConfig & IModelConfig){
+    constructor(options: IViewConfig & IModelConfig){
       this.model = new Model(options);
       this.view = new View(options);
       this.presenter = new Presenter(this.model, this.view);
@@ -27,7 +28,7 @@ import {DEFAULT_CONFIG} from '../defaults'
       this.presenter.subscribeListeners();
     }
   }
-  $.fn.sliderPlugin = function (options: IViewConfig | IModelConfig) {
+  $.fn.sliderPlugin = function (options: IViewConfig & IModelConfig) {
     options = $.extend(
       {
         ...DEFAULT_CONFIG,
