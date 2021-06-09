@@ -1,11 +1,10 @@
-import IModelConfig from './Model/IModelConfig'
+import IModelConfig from './model/IModelConfig'
 import IViewConfig from './View/IViewConfig'
 
 const DEFAULT_MODEL_CONFIG: IModelConfig = {
     max: 100,
     min: 0,
-    step: 1,
-    isHorizontal: true,
+    step: 1
 }
 
 const DEFAULT_VIEW_CONFIG: IViewConfig = {

@@ -15,9 +15,7 @@ class ViewButton {
 
   createButton(): HTMLDivElement {
     this.div = document.createElement('div');
-    this.div.className = 'js-slider__button';
-    this.div.style.top = '-6px';
-    this.div.style.left = '0px';
+    this.div.className = 'js-slider__button';  
     this.field.append(this.div);
 
     if (this.div.previousElementSibling) {
@@ -28,8 +26,7 @@ class ViewButton {
     }
 
     if (!this.isHorizontal) {
-      this.div.style.left = '-5px';
-      this.div.style.top = '0px';
+      this.div.style.left = '-100%'; 
 
       if (this.div.previousElementSibling) {
         this.div.style.top = `${
@@ -59,7 +56,7 @@ class ViewButton {
     const { className } = this.div;
 
     const isButton = this.div.previousElementSibling;
-    const isButton2 =
+    const isButton2 = this.div.nextElementSibling &&
       this.div.nextElementSibling!.classList.contains(className);
 
     if (isButton2) {
