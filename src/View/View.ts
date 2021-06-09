@@ -92,7 +92,8 @@ class View extends Observer implements IView {
   }
 
   assignFlags(): void {
-    if (!this.flag2) return 
+    const unValid = !this.flag2 || !this.config.isHorizontal || !this.config.isFlag
+    if (unValid) return 
     const {flag1, flag2, flagTotal} = this;
     const flagOffset1 = flag1.div.getBoundingClientRect().right ;
     const flagOffset2 = flag2.div.getBoundingClientRect().left;
@@ -179,6 +180,7 @@ class View extends Observer implements IView {
 
   private renderFlag(): void {
     const { isRangeSlider, isFlag } = this.config;
+    // if (!isFlag) return
     this.flag1 = new ViewFlag(this, this.button1.div);
     this.flag1.createFlag();
 

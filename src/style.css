@@ -1,7 +1,7 @@
-* {
+/* * {
   padding: 0;
   margin: 0;
-}
+} */
 
 body {
   background-color: #fff;
@@ -73,12 +73,18 @@ body {
   margin-bottom: 4px;
   display: flex;
   justify-content: center;
-  min-width: 10px;
+  min-width: 16px;
   height: 16px;
-  white-space: nowrap;
-  transform: translateY(-21px);
+  white-space: nowrap;  
   flex-shrink: 0;
 } 
+
+.-js-slider__flag_isHorizontal{
+  transform: translateY(-120%);
+}
+.-js-slider__flag_isVertical{
+  transform: translateX(35px);
+}
 
 .-js-slider__flag_hide {
   visibility: hidden;

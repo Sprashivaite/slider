@@ -18,6 +18,8 @@ class Flag {
   createFlag(): void {
     this.div = document.createElement("div");
     this.div.className = "-js-slider__flag";
+    if(this.isHorizontal) this.div.classList.add('-js-slider__flag_isHorizontal')
+    if(!this.isHorizontal) this.div.classList.add('-js-slider__flag_isVertical')
     this.div.innerHTML = "0";
     this.button.append(this.div);
   }
