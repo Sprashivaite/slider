@@ -13,7 +13,7 @@ const PATHS = {
 };
 
 module.exports = {
-  entry: `${PATHS.src}/demo-page.js`,
+  entry: `${PATHS.src}/demo-page/demo-page.js`,
   output: {
     filename: "[name].js",
     path: `${PATHS.dist}`,
@@ -62,7 +62,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/demo-page.html',
+      template: './src/demo-page/demo-page.html',
       filename: `index.html`,
       scriptLoading: "blocking"
     }),

@@ -1,4 +1,4 @@
-import Model from '../Model/Model';
+import Model from '../model/Model';
 
 let model: Model;
 const someObject = {

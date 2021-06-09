@@ -1,2 +1,2 @@
 import './style.css'
-import "./jQueryAPI"
+import "./jQueryApi/jQueryAPI"
