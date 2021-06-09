@@ -5,12 +5,12 @@ class Observer {
         this.listeners = {};
     }    
     
-    emit(EventName, data?) {
+    emit(EventName: string, data?: any) {
       const event = this.listeners[EventName];   
-      if (event) event.forEach(el => el(data));      
+      if (event) event.forEach((el: any) => el(data));      
     };
 
-    subscribe (EventName, listener) {
+    subscribe (EventName: string, listener: any): this {
       const event = this.listeners[EventName];
 
       if (event) {

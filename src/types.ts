@@ -4,4 +4,8 @@ type ViewData = {
     mouseCoords: number;
     value?: number;
 }
-export default  ViewData 
+type scaleValues = {
+    arrValues: number[];
+    quantity: number;
+}
+export {ViewData, scaleValues }

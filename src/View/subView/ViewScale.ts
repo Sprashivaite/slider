@@ -1,4 +1,5 @@
 import IView from '../IView'
+import {scaleValues } from '../../types'
 
 class ViewScale {
   div!: HTMLDivElement;
@@ -24,15 +25,14 @@ class ViewScale {
     }
   }
 
-  updateValues(data): void {
+  updateValues(data: scaleValues): void {
     const {arrValues, quantity} = data    
     this.div.innerHTML = '' 
     for (let i = 0; i < quantity; i += 1) {
       this.div.insertAdjacentHTML("beforeend", "<span></span>");
     }
-    const scaleValues = this.div.children;
-    arrValues.forEach((item, index) => {scaleValues[index].innerHTML = `${item}`})
-    this.addHandler()
+    const scaleChildren = this.div.children;
+    arrValues.forEach((item, index) => {scaleChildren[index].innerHTML = `${item}`})
   }
   
 
@@ -43,12 +43,11 @@ class ViewScale {
   showScale(): void {
     this.div.classList.remove("-js-slider__flag_hide");
   }
-
+  
   private init(View: IView) {
     this.div = document.createElement("div");
     this.slider = View.slider.div;
-    this.isHorizontal = View.config.isHorizontal;
-    // this.addHandler = View.
+    this.isHorizontal = View.config.isHorizontal!;
   }
 }
 
