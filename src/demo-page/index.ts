@@ -3,7 +3,7 @@
 import Config from "./Config"
 
 const slider1 = $('.js-slider-container_1 > .js-slider').sliderPlugin({
-    max: 100, isHorizontal: true, isRangeSlider: true, step: 1
+    max: 1110, isHorizontal: true, isRangeSlider: true, step: 1, min: 1000
 }).data("sliderPlugin");
 // const slider1 = $('.js-slider-container_1 > .js-slider').sliderPlugin().data("sliderPlugin");
 const slider2 = $('.js-slider-container_2 > .js-slider').sliderPlugin({isRangeSlider: false, scaleQuantity: 2, max: 5}).data("sliderPlugin");

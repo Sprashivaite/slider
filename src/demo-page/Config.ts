@@ -1,4 +1,4 @@
-import Observer from "./Observer/Observer";
+import Observer from "../Observer/Observer";
 
 class Config extends Observer {
   slider: any;
@@ -31,9 +31,9 @@ class Config extends Observer {
 
   constructor(slider: any, container: Element) {
     super()
-    this.model = slider.appSlider.model;
-    this.view = slider.appSlider.view;
-    this.presenter = slider.appSlider.presenter;
+    this.model = slider.model;
+    this.view = slider.view;
+    this.presenter = slider.presenter;
     this.container = container;
     this.initInputs();
   }
