@@ -42,5 +42,3 @@ import {DEFAULT_CONFIG} from '../defaults'
     });
   };
 })(jQuery);
-let plug = $.fn.sliderPlugin
-export default plug

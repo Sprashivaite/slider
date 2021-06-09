@@ -19,7 +19,6 @@ class Presenter {
 
   subscribeModel(): void {
     const { model, view } = this;
-
     view
       .subscribe('elementsSize', model.setElementsSize.bind(model))
       .subscribe('scaleQuantity', model.calcScaleValues.bind(model));

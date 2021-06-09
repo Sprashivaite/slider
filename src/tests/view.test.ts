@@ -173,55 +173,6 @@ describe("движение View progressBar", () => {
   });
 });
 
-// describe("подписка наблюдателя", () => {
-//   let something: object;
-//   it("view.register", () => {
-//     view.renderElements()
-//     view.register(something);
-//     expect(view.handler.subscriber).toBe(something);
-//     view.removeElements()
-//   });
-// });
-
-// describe("оповещение наблюдателя", () => {
-  // beforeEach(() => view.renderElements())
-  // afterEach(() => view.removeElements())
-  // it("view.handler.mouseMove", () => {
-  //   view.addHandlers()
-  //   let something: object = { mouseMoveButton: () => {} };
-  //   view.handler.subscribe('mouseMove', something.mouseMoveButton);
-  //   spyOn(something, "mouseMoveButton");
-  //   view.handler.emit('mouseMove', {});
-  //   expect(something.mouseMoveButton).toHaveBeenCalled();
-  // });
- 
-//   it("view.handler.notifyMouseMove2", () => {
-//     let something: object = { mouseMoveButton2: () => {} };
-//     view.register(something);
-
-//     spyOn(view.handler.subscriber, "mouseMoveButton2");
-//     view.handler.notifyMouseMove2();
-//     expect(view.handler.subscriber.mouseMoveButton2).toHaveBeenCalled();
-//   });
-
-//   it("view.handler.notifyMouseUp", () => {
-//     let something: object = { mouseUp: () => {} };
-//     view.register(something);
-
-//     spyOn(view.handler.subscriber, "mouseUp");
-//     view.handler.notifyMouseUp();
-//     expect(view.handler.subscriber.mouseUp).toHaveBeenCalled();
-//   });
-//   it("view.handler.notifyMouseUp2", () => {
-//     let something: object = { mouseUp2: () => {} };
-//     view.register(something);
-
-//     spyOn(view.handler.subscriber, "mouseUp2");
-//     view.handler.notifyMouseUp2();
-//     expect(view.handler.subscriber.mouseUp2).toHaveBeenCalled();
-//   });
-// });
-
 describe("координаты мыши", () => {  
   afterEach(() => view.removeElements());
   it("view.getMouseCoords horisontal", () => {
@@ -332,7 +283,6 @@ describe("события мыши range", () => {
       mouseMoveButton2: () => {},
       mouseUp2: () => {},
     };
-    // view.register(something);
     mousedown = new MouseEvent("mousedown");
     mousemove = new MouseEvent("mousemove", { clientX: 50 });
     mouseup = new MouseEvent("mouseup");
@@ -341,46 +291,12 @@ describe("события мыши range", () => {
   afterEach(() => {
     view.removeElements();
   });
-
-//   it("view.handler.mouseEventRange mouse event button_1", () => { 
-//     let notify = jasmine.createSpy("notify");
-//     let notify2 = jasmine.createSpy("notify");
-//     view.handler.mouseEventRange(notify, notify2, notify, notify2);
-//     view.field.div.dispatchEvent(mousedown);
-//     document.dispatchEvent(mousemove);
-//     document.dispatchEvent(mouseup);
-//     expect(notify).toHaveBeenCalled();
-//     expect(notify.calls.count()).toEqual(3);
-//   });
-
-//   it("view.handler.mouseEventRange mouse event button_1 vertical", () => {
-//     view.removeElements();
-//     view = new View({ isRangeSlider: true, isHorizontal: false });
-//     view.renderElements();
-//     view.register(something);
-//     mousemove = new MouseEvent("mousemove", { clientX: 60 });
-//     let notify = jasmine.createSpy("notify");
-//     let notify2 = jasmine.createSpy("notify");
-//     view.handler.mouseEventRange(notify, notify2, notify, notify2);
-
-//     view.field.div.dispatchEvent(mousedown);
-//     document.dispatchEvent(mousemove);
-//     document.dispatchEvent(mouseup);
-//     expect(notify).toHaveBeenCalled();
-//     expect(notify.calls.count()).toEqual(3);
-//     view.removeElements();
-//   });
   it("view.handler.addFieldHandler mouse event button2", () => { 
     let notify = jasmine.createSpy("notify");
-    // let notify2 = jasmine.createSpy("notify");
     view.addHandlers()
     view.handler.subscribe('mouseMove2', notify)
     view.handler.subscribe('mouseUp2', notify)
-    // view.button1.div.dispatchEvent(mousedown);
     view.handler.mouseCoords = 60;
-
-    // view.handler.addButtonHandler(notify, notify2, notify, notify2);
-
     view.field.div.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);
     document.dispatchEvent(mouseup);
