@@ -1,0 +1,1 @@
+(self.webpackChunkarkadiy=self.webpackChunkarkadiy||[]).push([["model.test.2078578835"],{},s=>{"use strict";s.O(0,["commons"],(()=>("./src/tests/model.test.ts",s(s.s="./src/tests/model.test.ts")))),s.O()}]);
