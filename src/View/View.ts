@@ -92,7 +92,7 @@ class View extends Observer implements IView {
   }
 
   assignFlags(): void {
-    const unValid = !this.flag2 || !this.config.isHorizontal || !this.config.isFlag
+    const unValid = !this.flag2 || !this.config.isHorizontal || !this.config.isFlag || !this.config.isRangeSlider
     if (unValid) return 
     const {flag1, flag2, flagTotal} = this;
     const flagOffset1 = flag1.div.getBoundingClientRect().right ;

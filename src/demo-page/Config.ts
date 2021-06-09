@@ -53,10 +53,11 @@ class Config extends Observer {
   initValue1(): void {
     const updateValue = (value: any) => {this.vl.value = value}    
     this.model.subscribe("updateButtonValue", updateValue)
-    
+    this.view.updateModel()
     const setButtonValue = () => {
       if (Number(this.vl.value) > Number(this.max.value)) this.vl.value = this.max.value
-      this.model.moveToValue({value: Number(this.vl.value), button: this.view.button1.div});
+      if (Number(this.vl.value) < Number(this.min.value)) this.vl.value = this.min.value
+      this.model.moveToValue({value: Number(this.vl.value), ...this.view.handler.getFirstButtonData()});
     };    
     this.vl.addEventListener("input", setButtonValue);
   }
@@ -64,10 +65,11 @@ class Config extends Observer {
   initValue2(): void {
     const updateValue = (value: any) => {this.vl2.value = value}    
     this.model.subscribe("updateButtonValue2", updateValue)
-    
+    this.view.updateModel()
     const setButtonValue = () => {
       if (Number(this.vl2.value) > Number(this.max.value)) this.vl2.value = this.max.value
-      this.model.moveToValue({value: Number(this.vl2.value), button: this.view.button2.div});
+      if (Number(this.vl2.value) < Number(this.min.value)) this.vl.value = this.min.value
+      this.model.moveToValue({value: Number(this.vl2.value), ...this.view.handler.getSecondButtonData()});
     };    
     this.vl2.addEventListener("input", setButtonValue);
   }
