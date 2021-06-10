@@ -1,5 +1,5 @@
 interface IViewConfig{
-    target?: HTMLDivElement;
+    target?: HTMLElement;
     isHorizontal?: boolean;
     isRangeSlider?: boolean;
     isFlag?: boolean;

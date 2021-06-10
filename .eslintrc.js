@@ -19,7 +19,9 @@ module.exports = {
   rules: { 
     "import/extensions": ["error", "never"],
     "import/no-unresolved": "off",
+    "import/no-extraneous-dependencies": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-var-requires": "off",
   },
   settings: { 
   },

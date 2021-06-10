@@ -1,6 +1,6 @@
 import Model from '../model/Model';
 
-let model: Model;
+let model;
 const someObject = {
   buttonPX: 0,
   buttonPX2: 0,
@@ -19,7 +19,7 @@ const someObject = {
   updateValue2(value) {
     this.buttonValue2 = value;
   },
-  updateScale({ arrValues, quantity }) {
+  updateScale({ arrValues }) {
     this.scaleValues = arrValues;
   },
 };
@@ -28,7 +28,7 @@ document.body.insertAdjacentHTML(
   'afterbegin',
   "<div class='slider' style='width:100px; height: 100px;'></div>"
 );
-let container: HTMLDivElement | Element = document.querySelector('.slider')!;
+let container = document.querySelector('.slider');
 container.insertAdjacentHTML(
   'afterbegin',
   "<div class='js-slider__field_horizontal'></div>"
@@ -37,9 +37,9 @@ container.insertAdjacentHTML(
   'beforeend',
   "<div class='js-slider__field_vertical'></div>"
 );
-let field_horizontal: any = document.querySelector(
+let field_horizontal = document.querySelector(
   '.js-slider__field_horizontal'
-)!;
+);
 field_horizontal.insertAdjacentHTML(
   'afterbegin',
   "<div class='js-slider__button'></div>"
@@ -48,18 +48,18 @@ field_horizontal.insertAdjacentHTML(
   'beforeend',
   "<div class='js-slider__button' style='left: 66px'></div>"
 );
-let field_vertical: any = document.querySelector('.js-slider__field_vertical')!;
+let field_vertical = document.querySelector('.js-slider__field_vertical');
 field_vertical.insertAdjacentHTML(
   'afterbegin',
   "<div class='js-slider__button' style='top: 20px'></div>"
 );
-let button_horizontal: any =
-  document.querySelectorAll('.js-slider__button')[0]!;
-let button_horizontal2: any =
-  document.querySelectorAll('.js-slider__button')[1]!;
-let button_vertical: any = document.querySelector(
+let button_horizontal =
+  document.querySelectorAll('.js-slider__button')[0];
+let button_horizontal2 =
+  document.querySelectorAll('.js-slider__button')[1];
+let button_vertical = document.querySelector(
   '.js-slider__field_vertical > .js-slider__button'
-)!;
+);
 
 beforeEach(() => {
   model = new Model();
@@ -150,7 +150,7 @@ describe('передвинуть кнопку к точке шага ', () => {
 
 describe('вычислить значение флага', () => {
   it('model.calcFlagValue ', () => {
-    model.calcFlagValue({
+    model.calcStopPointPX({
       button: button_horizontal,
       buttonOffset: 75,
     });
@@ -158,7 +158,7 @@ describe('вычислить значение флага', () => {
   });
   it('model.calcFlagValue дробное', () => {
     model.config.step = 0.1;
-    model.calcFlagValue({
+    model.calcStopPointPX({
       button: button_horizontal,
       buttonOffset: 1.5,
     });

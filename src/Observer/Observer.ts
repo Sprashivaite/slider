@@ -1,27 +1,31 @@
+import { ViewHandleData, scaleValues, elementsSize } from '../types';
+
 class Observer {
-    listeners: any;
+  listeners: any;
 
-    constructor (){
-        this.listeners = {};
-    }    
-    
-    emit(EventName: string, data?: any) {
-      const event = this.listeners[EventName];   
-      if (event) event.forEach((el: any) => el(data));      
-    };
+  constructor() {
+    this.listeners = {};
+  }
 
-    subscribe (EventName: string, listener: any): this {
-      const event = this.listeners[EventName];
+  emit(
+    EventName: string,
+    data?: ViewHandleData | scaleValues | elementsSize | number
+  ): void {
+    const event = this.listeners[EventName];
+    if (event) event.forEach((el: any) => el(data));
+  }
 
-      if (event) {
-        if (!event.includes(listener)) {
-          event.push(listener);
-        }
-      } else {
-        this.listeners[EventName] = [listener];
+  subscribe(EventName: string, listener: unknown): this {
+    const event = this.listeners[EventName];
+
+    if (event) {
+      if (!event.includes(listener)) {
+        event.push(listener);
       }
-      return this
-    };    
-
+    } else {
+      this.listeners[EventName] = [listener];
+    }
+    return this;
+  }
 }
-export default Observer
+export default Observer;

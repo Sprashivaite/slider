@@ -1,21 +1,21 @@
 import IModelConfig from './IModelConfig';
 import Observer from '../Observer/Observer';
 import { DEFAULT_MODEL_CONFIG } from '../defaults';
-import { ViewData } from '../types';
+import { ViewHandleData, elementsSize } from '../types';
 
 class Model extends Observer {
   config!: IModelConfig;
 
   shift!: number;
 
-  elementsSize!: { buttonSize: number; fieldSize: number };
+  elementsSize!: { fieldSize: number; buttonSize: number; };
 
   constructor(config = DEFAULT_MODEL_CONFIG as IModelConfig) {
     super();
     this.init(config);
   }
 
-  setElementsSize(data: { buttonSize: number; fieldSize: number }): void {
+  setElementsSize(data: elementsSize): void {
     const { fieldSize = 0, buttonSize = 0 } = data;
 
     this.elementsSize = {
@@ -24,12 +24,12 @@ class Model extends Observer {
     };
   }
 
-  calcShift(data: ViewData): void {
+  calcShift(data: ViewHandleData): void {
     const { buttonOffset, mouseCoords } = data;
     this.shift = mouseCoords - buttonOffset;
   }
 
-  calcButtonOffset(data: ViewData): void {
+  calcButtonOffset(data: ViewHandleData): void {
     const { mouseCoords } = data;
     const { fieldSize } = this.elementsSize;
 
@@ -40,7 +40,7 @@ class Model extends Observer {
     else this.updateButtonPX({ ...data, value: shiftLeft });
   }
 
-  calcStopPointPX(data: ViewData): void {
+  calcStopPointPX(data: ViewHandleData): void {
     const { max, min, step } = this.config;
     const { buttonOffset } = data;
     const { fieldSize } = this.elementsSize;
@@ -58,7 +58,7 @@ class Model extends Observer {
     this.updateButtonPX({ ...data, value: stopPoint });
   }
 
-  calcFlagValue(data: ViewData): number {
+  calcFlagValue(data: ViewHandleData): number {
     const { max, min } = this.config;
     const { buttonOffset } = data;
     const { fieldSize } = this.elementsSize;
@@ -73,7 +73,7 @@ class Model extends Observer {
     return roundedResult;
   }
 
-  moveToValue(data: ViewData): void {
+  moveToValue(data: ViewHandleData): void {
     const { value } = data;
     const { max, min } = this.config;
     const { fieldSize } = this.elementsSize;
@@ -126,7 +126,7 @@ class Model extends Observer {
     this.config = { max, min, step };
   }
 
-  private updateButtonPX(data: ViewData): void {
+  private updateButtonPX(data: ViewHandleData): void {
     const { button, value } = data;
     const flagValue = this.calcFlagValue(data);
     if (!button.previousElementSibling) {

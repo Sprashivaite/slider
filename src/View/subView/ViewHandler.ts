@@ -1,13 +1,13 @@
 import IView from '../IView';
 import Observer from '../../Observer/Observer';
-import { ViewData } from '../../types';
+import { ViewHandleData } from '../../types';
 
 class ViewHandler extends Observer {
   mouseCoords!: number;
 
   isHorizontal!: boolean;
 
-  slider!: HTMLDivElement;
+  slider!: HTMLElement;
 
   isRangeSlider!: boolean;
 
@@ -103,7 +103,7 @@ class ViewHandler extends Observer {
     );
   }
 
-  getFirstButtonData(): ViewData {
+  getFirstButtonData(): ViewHandleData {
     return {
       button: this.button1,
       buttonOffset: this.getButtonOffset(),
@@ -111,7 +111,7 @@ class ViewHandler extends Observer {
     };
   }
 
-  getSecondButtonData(): ViewData {
+  getSecondButtonData(): ViewHandleData {
     return {
       button: this.button2,
       buttonOffset: this.getButtonOffset2(),

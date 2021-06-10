@@ -1,8 +1,7 @@
-const testCode = 'src/**/*test.ts';
-const webpackConfig = require('./config/webpack.common');
-const jasmineConfig = require('./jasmine.json');
+const testCode = 'src/**/*test.js';
+const webpackConfig = require('./config/webpack.common'); 
 
-module.exports = function (config) {
+module.exports = function karma(config) {
   config.set({
     autoWatch: true,
     basePath: '',

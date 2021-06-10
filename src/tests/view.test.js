@@ -2,7 +2,7 @@ import View from "../View/View";
 
 
 let container  = document.querySelector('.slider');
-let view: View;
+let view;
 
 const someObject = {
   mouseCoords: 0,
@@ -197,12 +197,12 @@ describe("координаты мыши", () => {
 });
 
 describe("события мыши", () => {
-  let mousedown: any, mousemove: any, mouseup: any ;
+  let mousedown, mousemove, mouseup ;
 
   beforeEach(() => {
     view = new View({ isRangeSlider: false });
     view.renderElements();
-    // let something: object = { mouseMoveButton: () => {}, mouseUp: () => {} };
+    // let something = { mouseMoveButton: () => {}, mouseUp: () => {} };
     // view.register(something);
     mousedown = new MouseEvent("mousedown");
     mousemove = new MouseEvent("mousemove", { clientX: 10 });
@@ -272,7 +272,7 @@ describe("события мыши", () => {
 });
 
 describe("события мыши range", () => {
-  let mousedown: any, mousemove: any, mouseup: any, something: object;
+  let mousedown, mousemove, mouseup, something;
 
   beforeEach(() => {
     view = new View({ isRangeSlider: true });

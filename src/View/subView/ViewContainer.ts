@@ -1,7 +1,7 @@
 class ViewContainer {
-  div!: HTMLDivElement;
+  div!: HTMLElement;
 
-  constructor(slider?: HTMLDivElement) {
+  constructor(slider?: HTMLElement) {
     if( slider ) this.div = slider
     else this.searchContainer() 
     if (!this.div) this.createContainer();

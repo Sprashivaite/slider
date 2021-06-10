@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 interface JQuery {
-  sliderPlugin:(options?: any) => JQuery;
+  sliderPlugin:(config: any) => JQuery;
 }
