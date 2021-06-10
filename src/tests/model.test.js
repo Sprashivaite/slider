@@ -37,9 +37,7 @@ container.insertAdjacentHTML(
   'beforeend',
   "<div class='js-slider__field_vertical'></div>"
 );
-let field_horizontal = document.querySelector(
-  '.js-slider__field_horizontal'
-);
+let field_horizontal = document.querySelector('.js-slider__field_horizontal');
 field_horizontal.insertAdjacentHTML(
   'afterbegin',
   "<div class='js-slider__button'></div>"
@@ -53,10 +51,8 @@ field_vertical.insertAdjacentHTML(
   'afterbegin',
   "<div class='js-slider__button' style='top: 20px'></div>"
 );
-let button_horizontal =
-  document.querySelectorAll('.js-slider__button')[0];
-let button_horizontal2 =
-  document.querySelectorAll('.js-slider__button')[1];
+let button_horizontal = document.querySelectorAll('.js-slider__button')[0];
+let button_horizontal2 = document.querySelectorAll('.js-slider__button')[1];
 let button_vertical = document.querySelector(
   '.js-slider__field_vertical > .js-slider__button'
 );
@@ -168,7 +164,7 @@ describe('вычислить значение флага', () => {
 });
 
 describe('передвинуть кнопку к значению ', () => {
-  it('model.moveToValue horisontal', () => {
+  it('model.moveToValue horizontal', () => {
     model.moveToValue({
       button: button_horizontal,
       value: 42,

@@ -9,7 +9,7 @@ import IView from './IView';
 import ViewHandler from './subView/ViewHandler';
 import Observer from '../Observer/Observer';
 import { DEFAULT_VIEW_CONFIG } from '../defaults';
-import { scaleValues } from '../types'
+import { scaleValues } from '../types';
 
 class View extends Observer implements IView {
   slider!: ViewContainer;
@@ -92,22 +92,26 @@ class View extends Observer implements IView {
   }
 
   assignFlags(): void {
-    const unValid = !this.flag2 || !this.config.isHorizontal || !this.config.isFlag || !this.config.isRangeSlider
-    if (unValid) return 
-    const {flag1, flag2, flagTotal} = this;
-    const flagOffset1 = flag1.div.getBoundingClientRect().right ;
+    const unValid =
+      !this.flag2 ||
+      !this.config.isHorizontal ||
+      !this.config.isFlag ||
+      !this.config.isRangeSlider;
+    if (unValid) return;
+    const { flag1, flag2, flagTotal } = this;
+    const flagOffset1 = flag1.div.getBoundingClientRect().right;
     const flagOffset2 = flag2.div.getBoundingClientRect().left;
-    const text = `${flag1.div.innerHTML} - ${flag2.div.innerHTML}`;    
+    const text = `${flag1.div.innerHTML} - ${flag2.div.innerHTML}`;
 
     if (flagOffset1 >= flagOffset2) {
-      flag1.hideFlag()
-      flag2.hideFlag()
-      flagTotal.showFlag()
+      flag1.hideFlag();
+      flag2.hideFlag();
+      flagTotal.showFlag();
       flagTotal.div.innerHTML = text;
     } else {
-      flag1.showFlag()
-      flag2.showFlag()
-      flagTotal.hideFlag()
+      flag1.showFlag();
+      flag2.showFlag();
+      flagTotal.hideFlag();
     }
   }
 
@@ -191,11 +195,11 @@ class View extends Observer implements IView {
       this.flag2.createFlag();
       this.flagTotal = new ViewFlag(this, this.button1.div);
       this.flagTotal.createFlag();
-      this.flagTotal.hideFlag()
+      this.flagTotal.hideFlag();
       this.flagTotal.div.style.position = 'absolute';
-      this.flagTotal.div.style.left = '-50%'
+      this.flagTotal.div.style.left = '-50%';
       if (!isFlag) {
-        this.flagTotal.hideFlag()
+        this.flagTotal.hideFlag();
         this.flag2.hideFlag();
       }
     }

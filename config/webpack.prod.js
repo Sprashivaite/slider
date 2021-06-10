@@ -12,7 +12,7 @@ module.exports = merge(common, {
     new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: `test.html`,
-      scriptLoading: "blocking"
+      scriptLoading: 'blocking',
     }),
-  ]
+  ],
 });

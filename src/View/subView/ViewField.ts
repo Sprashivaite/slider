@@ -1,26 +1,26 @@
-import IView from "../IView";
+import IView from '../IView';
 
 class ViewField {
   div!: HTMLDivElement;
 
   isHorizontal!: boolean;
 
-  slider!: HTMLDivElement;
+  slider!: HTMLElement;
 
   constructor(View: IView) {
-    this.init(View)    
+    this.init(View);
   }
 
   createField(): void {
-    this.div = document.createElement("div");
-    if (this.isHorizontal) this.div.className = "js-slider__field_horizontal";
-    if (!this.isHorizontal) this.div.className = "js-slider__field_vertical";
+    this.div = document.createElement('div');
+    if (this.isHorizontal) this.div.className = 'js-slider__field_horizontal';
+    if (!this.isHorizontal) this.div.className = 'js-slider__field_vertical';
     this.slider.append(this.div);
   }
 
   private init(View: IView): void {
     this.isHorizontal = View.config.isHorizontal!;
     this.slider = View.slider.div;
-  }  
+  }
 }
 export default ViewField;

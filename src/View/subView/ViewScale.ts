@@ -4,7 +4,7 @@ import {scaleValues } from '../../types'
 class ViewScale {
   div!: HTMLDivElement;
 
-  slider!: HTMLDivElement;
+  slider!: HTMLElement;
 
   isHorizontal!: boolean;
 
