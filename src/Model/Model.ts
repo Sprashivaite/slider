@@ -53,7 +53,7 @@ class Model extends Observer {
     let stopPoint: number | undefined = arrStopPoints.find(
       (item) => buttonOffset <= item + stepPX / 2
     );
-    if (stopPoint === undefined) stopPoint = fieldSize;
+    if (stopPoint === undefined) stopPoint = arrStopPoints.pop();
 
     this.updateButtonPX({ ...data, value: stopPoint });
   }
@@ -122,6 +122,7 @@ class Model extends Observer {
     if (typeof max !== 'number' || max <= min) max = 100;
     if (typeof min !== 'number' || min >= max) min = 0;
     if (typeof step !== 'number' || step <= 0) step = 1;
+    if (step >= max - min) step = max - min;
 
     this.config = { max, min, step };
   }
