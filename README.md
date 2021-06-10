@@ -26,8 +26,6 @@ npm run test
 npm run prod
 ```
 
-
-
 # Initialization
 
 ## HTML
@@ -108,23 +106,10 @@ $(selector).sliderPlugin({
 ```javascript 
 let slider = $(selector).sliderPlugin().data("sliderPlugin");
 ```
-### change slider type
-```javascript 
-slider.presenter.changeTypeSlider();
-```
-### change orientation slider
-```javascript
-slider.presenter.changeOrientation();
-```
-### show or hide flag
-```javascript
-slider.view.flag.showFlag()
-slider.view.flag.hideFlag()
-```
 ### set value
 ```javascript
-slider.presenter.setButtonValue(number)
-slider.presenter.setButtonValue2(number)
+slider.setValue('button1', number)
+slider.setValue('button2', number)
 ```
 # Architecture
 Всё приложение разделено на три слоя: Model, View, Presenter.
@@ -133,7 +118,7 @@ Model содержит в себе бизнес-логику, которая в�
 ### View
 View содержит логику, связанную с отображением, а также реагирует на взаимодействие пользователя с приложением. View разделён на subView, которые зависят от главного класса. Во View создаются экземпляры классов subView, и передаёт им собственные значения через параметр метода. Таким образом логика разделена на отдельные файлы, которые зависят от состояния View.
 ### Presenter
-Presenter зависит от Model и View, использует их методы. Обновления данных происходит путём получения уведомлений от View.
+Presenter зависит от Model и View. Обновления данных происходит путём подписки View и Model.
 
 ## File structure
 #### `coverage`
