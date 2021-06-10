@@ -17,7 +17,7 @@ class Presenter {
     this.view.updateModel();
   }
 
-  subscribeModel(): void {
+  private subscribeModel(): void {
     const { model, view } = this;
     view
       .subscribe('elementsSize', model.setElementsSize.bind(model))
@@ -36,7 +36,7 @@ class Presenter {
     }
   }
 
-  subscribeView(): void {
+  private subscribeView(): void {
     const { model, view } = this;
     model
       .subscribe('scaleUpdate', view.updateScale.bind(view))
