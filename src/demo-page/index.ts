@@ -32,7 +32,7 @@ const slider5 = $('.js-slider-container_5 > .js-slider')
   .sliderPlugin({
     isHorizontal: false,
     isRangeSlider: false,
-    step: 10,
+    step: 20,
     max: 100,
     min: -100,
   })
