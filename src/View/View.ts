@@ -184,7 +184,6 @@ class View extends Observer implements IView {
 
   private renderFlag(): void {
     const { isRangeSlider, isFlag } = this.config;
-    // if (!isFlag) return
     this.flag1 = new ViewFlag(this, this.button1.div);
     this.flag1.createFlag();
 
