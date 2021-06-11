@@ -48,7 +48,10 @@ class Model extends Observer {
     const stepPX: number = (fieldSize * step) / (max - min);
 
     const arrStopPoints: number[] = [];
-    for (let i = 0; i <= fieldSize; i += stepPX) arrStopPoints.push(i);
+    for (let i = 0; i <= fieldSize; i += stepPX) {
+      i = Number(i.toFixed(2))
+      arrStopPoints.push((i) );      
+    }
 
     let stopPoint: number | undefined = arrStopPoints.find(
       (item) => buttonOffset <= item + stepPX / 2
