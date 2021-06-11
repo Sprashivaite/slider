@@ -15,6 +15,11 @@ class Model extends Observer {
     this.init(config);
   }
 
+  setConfig(config: IModelConfig): void { 
+    this.config = {...this.config, ...config };
+    this.validate();
+  }
+
   setElementsSize(data: elementsSize): void {
     const { fieldSize = 0, buttonSize = 0 } = data;
 
@@ -122,12 +127,30 @@ class Model extends Observer {
   private validate(): void {
     let { max, min, step } = this.config;
 
-    if (typeof max !== 'number' || max <= min) max = 100;
-    if (typeof min !== 'number' || min >= max) min = 0;
-    if (typeof step !== 'number' || step <= 0) step = 1;
-    if (step >= max - min) step = max - min;
+    if (typeof min !== 'number') min = 0
+    if (min >= max) min = max - 1;
+    if (typeof max !== 'number') max = 100
+    if (max <= min) max = min + 1;
+    step = this.validateStep()
 
     this.config = { max, min, step };
+  }
+
+  private validateStep(): number {
+    const { max, min, step } = this.config;
+    let value = step;
+    if (typeof value !== 'number') value = 1
+    if (value >= max - min) value = max - min;
+    if (value <= 0) value = 1;
+    
+    const validateLargeNumbers = (oldValue: number): number => {
+      if (oldValue * 1000 >= max - min) return oldValue
+      return validateLargeNumbers(oldValue *10)      
+    }
+    
+
+    const result = validateLargeNumbers(value)
+    return result
   }
 
   private updateButtonPX(data: ViewHandleData): void {
