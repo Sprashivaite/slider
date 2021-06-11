@@ -66,6 +66,7 @@ class Config extends Observer {
         value: Number(this.vl.value),
         ...this.view.handler.getFirstButtonData(),
       });
+      this.view.updateModel();
     };
     this.vl.addEventListener('input', setButtonValue);
   }
@@ -91,6 +92,7 @@ class Config extends Observer {
         value: Number(this.vl2.value),
         ...this.view.handler.getSecondButtonData(),
       });
+      this.view.updateModel();
     };
     this.vl2.addEventListener('input', setButtonValue);
   }
