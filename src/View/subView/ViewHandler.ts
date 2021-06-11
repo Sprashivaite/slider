@@ -97,8 +97,8 @@ class ViewHandler extends Observer {
       }
     };
 
-    const spans = this.field.nextElementSibling!.querySelectorAll('span');
-    spans.forEach((element) =>
+    const scaleChildren = this.field.nextElementSibling!.querySelectorAll('div');
+    scaleChildren.forEach((element) =>
       element.addEventListener('click', handleScaleClick)
     );
   }

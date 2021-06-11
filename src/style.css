@@ -79,7 +79,8 @@
   transform: translateY(-120%);
 }
 .-js-slider__flag_isVertical {
-  transform: translateX(35px);
+  left: 150%;
+  position: absolute;
 }
 
 .-js-slider__flag_hide {
@@ -113,31 +114,40 @@
 }
 
 .js-slider__scale_horizontal {
-  display: flex;
-  justify-content: space-between;
+  display: flex; 
   font-size: 14px;
-  margin: 30px 0px 0px 4px;
+  margin: 30px 0px 0px 0px;
   font-stretch: expanded;
   position: absolute;
-  width: 100%;
+  width: 98%;
+}
+.js-slider__scale_horizontal div {
+  position: absolute;
+  transform: translateX(-50%);
 }
 
 .js-slider__scale_vertical {
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-  margin: 0px 0px 0px 18px;
+  display: flex; 
+  font-size: 14px; 
   font-stretch: expanded;
   flex-direction: column;
-  height: 100%;
-  top: 0;
+  height: 90%; 
+  position: relative;
+  right: 30px;
+  align-items: flex-end;
+  margin-top: 10px;
 }
-.js-slider__scale_horizontal span,
-.js-slider__scale_vertical span {
+.js-slider__scale_horizontal div,
+.js-slider__scale_vertical div {
   cursor: pointer;
+  position: absolute;
+  
 }
-.slider__scale span {
-  width: 15px;
+.js-slider__scale_vertical div {
+  transform: translateY(-50%);
+}
+.js-slider__scale_vertical div {
+  height: 15px;
 }
 
 .-js-slider__scale_hide {
