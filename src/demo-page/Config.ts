@@ -74,6 +74,12 @@ class Config extends Observer {
     const updateValue = (value: string) => {
       this.vl2.value = value;
     };
+    if(!this.view.config.isRangeSlider) {
+      this.vl2.setAttribute('disabled', 'true')
+      return
+    }
+    if(this.view.config.isRangeSlider) this.vl2.removeAttribute('disabled')
+
     this.model.subscribe('updateButtonValue2', updateValue);
     this.view.updateModel();
     const setButtonValue = () => {
@@ -92,9 +98,9 @@ class Config extends Observer {
   initMinValue(): void {
     this.min.value = `${this.model.config.min}`;
     const minChanged = () => {
-      if (this.min.value > this.model.config.max)
-        this.min.value = this.model.config.max;
-      this.model.config.min = Number(this.min.value);
+      this.model.setConfig({min: Number(this.min.value)})      
+      this.step.value = `${this.model.config.step}`;
+      this.min.value = `${this.model.config.min}`;
       this.view.updateModel();
     };
     this.min.addEventListener('input', minChanged);
@@ -103,7 +109,9 @@ class Config extends Observer {
   initMaxValue(): void {
     this.max.value = `${this.model.config.max}`;
     const maxChanged = () => {
-      this.model.config.max = Number(this.max.value);
+      this.model.setConfig({max: Number(this.max.value)})      
+      this.step.value = `${this.model.config.step}`;   
+      this.max.value = `${this.model.config.max}`;   
       this.view.updateModel();
     };
     this.max.addEventListener('input', maxChanged);
@@ -112,11 +120,8 @@ class Config extends Observer {
   initStep(): void {
     this.step.value = `${this.model.config.step}`;
     const stepChanged = () => {
-      let value: number = Math.abs(Number(this.step.value));
-      if (value === 0) {
-        value = 1;
-      }
-      this.model.config.step = value;
+      this.model.setConfig({step: Number(this.step.value)})
+      this.step.value = `${this.model.config.step}`;
       this.view.updateModel();
     };
     this.step.addEventListener('input', stepChanged);
@@ -161,7 +166,6 @@ class Config extends Observer {
     this.orientation.checked = this.view.config.isHorizontal;
     const orientationChanged = () => {
       this.view.removeElements();
-      this.model.config.isHorizontal = !this.model.config.isHorizontal;
       this.view.config.isHorizontal = !this.view.config.isHorizontal;
       this.view.renderElements();
       this.view.addHandlers();
@@ -178,6 +182,7 @@ class Config extends Observer {
       this.view.renderElements();
       this.view.addHandlers();
       this.presenter.subscribeListeners();
+      this.initValue2()
     };
     this.range.addEventListener('input', rangeChanged);
   }

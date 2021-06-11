@@ -3,11 +3,12 @@ import Config from './Config';
 
 const slider1 = $('.js-slider-container_1 > .js-slider')
   .sliderPlugin({
-    max: 1110,
+    max: 1100,
     isHorizontal: true,
     isRangeSlider: true,
     step: 1,
     min: 1000,
+    scaleQuantity: 11,
   })
   .data('sliderPlugin');
 
@@ -16,6 +17,7 @@ const slider2 = $('.js-slider-container_2 > .js-slider')
     isRangeSlider: false,
     isFlag: false,
     scaleQuantity: 6,
+    step: 3,
     max: 5,
   })
   .data('sliderPlugin');
@@ -32,9 +34,9 @@ const slider5 = $('.js-slider-container_5 > .js-slider')
   .sliderPlugin({
     isHorizontal: false,
     isRangeSlider: false,
-    step: 20,
+    step: 40,
     max: 100,
-    min: -100,
+    min: -100, 
   })
   .data('sliderPlugin');
 
