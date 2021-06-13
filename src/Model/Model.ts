@@ -40,9 +40,9 @@ class Model extends Observer {
 
     const shiftLeft: number = mouseCoords - this.shift;
 
-    if (shiftLeft >= fieldSize) this.updateButtonPX({ ...data, value: fieldSize });
-    else if (shiftLeft <= 0) this.updateButtonPX({ ...data, value: 0 });
-    else this.updateButtonPX({ ...data, value: shiftLeft });
+    if (shiftLeft >= fieldSize) this.updateButton({ ...data, value: fieldSize });
+    else if (shiftLeft <= 0) this.updateButton({ ...data, value: 0 });
+    else this.updateButton({ ...data, value: shiftLeft });
   }
 
   calcStopPointPX(data: ViewHandleData): void {
@@ -63,7 +63,7 @@ class Model extends Observer {
     );
     if (stopPoint === undefined) stopPoint = arrStopPoints.pop();
 
-    this.updateButtonPX({ ...data, value: stopPoint });
+    this.updateButton({ ...data, value: stopPoint });
   }
 
   calcFlagValue(data: ViewHandleData): number {
@@ -88,34 +88,34 @@ class Model extends Observer {
 
     const result: number = (fieldSize / (max - min)) * (value! - min);
 
-    this.updateButtonPX({ ...data, value: result });
+    this.updateButton({ ...data, value: result });
   }
 
   calcScaleValues(quantity: number): void {
     const { max, min, step } = this.config;
 
-    let modelQuantity = quantity;
-    const quantityModelValues = (max - min) / step + 1;
+    let modelQuantity: number = quantity;
+    const quantitySteps = (max - min) / step + 1;
 
     if (quantity < 3) modelQuantity = 2;
-    if (quantityModelValues < quantity)
-      modelQuantity = Number(quantityModelValues.toFixed(0));
+    if (quantitySteps < quantity)
+      modelQuantity = Number(quantitySteps.toFixed(0));
 
-    let value = min;
+    let stepValue = min;
     const stepValues = (max - min) / (modelQuantity - 1);
 
     const digitsAfterDot: number = this.calcDigitsAfterDot();
     const stepValuesFixed = Number(stepValues.toFixed(digitsAfterDot));
 
-    const arrValues: Array<number> = [];
+    const scaleValues: Array<number> = [];
     for (let i = 0; i < modelQuantity - 1; i += 1) {
-      const result = this.findNearestValue(value);
-      arrValues.push(Number(result.toFixed(digitsAfterDot)));
-      value += stepValuesFixed;
+      const result = this.findNearestValue(stepValue);
+      scaleValues.push(Number(result.toFixed(digitsAfterDot)));
+      stepValue += stepValuesFixed;
     }
-    arrValues.push(max);
+    scaleValues.push(max);
 
-    this.emit('scaleUpdate', { arrValues, quantity: modelQuantity });
+    this.emit('scaleUpdate', { scaleValues, quantity: modelQuantity });
   }
 
   private init(config: IModelConfig): void {
@@ -138,22 +138,21 @@ class Model extends Observer {
 
   private validateStep(): number {
     const { max, min, step } = this.config;
-    let value = step;
-    if (typeof value !== 'number') value = 1
-    if (value >= max - min) value = max - min;
-    if (value <= 0) value = 1;
+    let invalidStep = step;
+    if (typeof invalidStep !== 'number') invalidStep = 1
+    if (invalidStep >= max - min) invalidStep = max - min;
+    if (invalidStep <= 0) invalidStep = 1;
     
-    const validateLargeNumbers = (oldValue: number): number => {
-      if (oldValue * 1000 >= max - min) return oldValue
-      return validateLargeNumbers(oldValue *10)      
+    const validateLargeNumbers = (value: number): number => {
+      if (value * 1000 >= max - min) return value
+      return validateLargeNumbers(value *10)      
     }
-    
 
-    const result = validateLargeNumbers(value)
-    return result
+    const validStep = validateLargeNumbers(invalidStep)
+    return validStep
   }
 
-  private updateButtonPX(data: ViewHandleData): void {
+  private updateButton(data: ViewHandleData): void {
     const { button, value } = data;
     const flagValue = this.calcFlagValue(data);
     if (!button.previousElementSibling) {
@@ -167,24 +166,25 @@ class Model extends Observer {
 
   private calcDigitsAfterDot(): number {
     const { step } = this.config;
-    const isIncludeDot = step.toString().includes('.');
+    const isDot = step.toString().includes('.');
     const digitsAfterDot = step.toString().split('.').pop()!.length;
-    return isIncludeDot ? digitsAfterDot : 0;
+    return isDot ? digitsAfterDot : 0;
   }
 
   private findNearestValue(value: number): number {
     const { max, min, step } = this.config;
 
-    const stepsPoints: number[] = [];
-    for (let i = min; i <= max; i += step) stepsPoints.push(i);
+    const steps: number[] = [];
+    for (let i = min; i <= max; i += step) steps.push(i);
 
-    let nearestValue: number | undefined = stepsPoints.find(
+    let nearestValue: number | undefined = steps.find(
       (item, index, array) => {
-        const halfStepRes = value + step / 2;
-        return halfStepRes >= item && halfStepRes < array[index + 1];
+        const halfStep = value + step / 2;
+
+        return halfStep >= item && halfStep < array[index + 1];
       }
     );
-    if (nearestValue === undefined) nearestValue = stepsPoints.pop()!;
+    if (nearestValue === undefined) nearestValue = steps.pop()!;
     return nearestValue;
   }
 }

@@ -1,4 +1,4 @@
-import { ViewHandleData, scaleValues, elementsSize } from '../types';
+import { ViewHandleData, scaleData, elementsSize } from '../types';
 
 class Observer {
   listeners: any;
@@ -8,23 +8,19 @@ class Observer {
   }
 
   emit(
-    EventName: string,
-    data?: ViewHandleData | scaleValues | elementsSize | number
+    eventName: string,
+    data?: ViewHandleData | scaleData | elementsSize | number
   ): void {
-    const event = this.listeners[EventName];
+    const event = this.listeners[eventName];
     if (event) event.forEach((el: any) => el(data));
   }
 
-  subscribe(EventName: string, listener: unknown): this {
-    const event = this.listeners[EventName];
+  subscribe(eventName: string, listener: unknown): this {
+    const event = this.listeners[eventName];
 
-    if (event) {
-      if (!event.includes(listener)) {
-        event.push(listener);
-      }
-    } else {
-      this.listeners[EventName] = [listener];
-    }
+    if (event && !event.includes(listener)) event.push(listener);
+    else this.listeners[eventName] = [listener];   
+    
     return this;
   }
 }

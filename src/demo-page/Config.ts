@@ -144,8 +144,9 @@ class Config extends Observer {
           this.view.flag2.showFlag();
         } else {
           this.view.flag2.hideFlag();
+          this.view.flagTotal.hideFlag();
         }
-      }
+      } 
     };
     this.tooltip.addEventListener('input', tooltipChanged);
   }

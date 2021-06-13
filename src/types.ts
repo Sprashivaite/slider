@@ -9,8 +9,8 @@ type elementsSize = {
     buttonSize: number;
 }
 
-type scaleValues = {
-    arrValues: number[];
+type scaleData = {
+    scaleValues: number[];
     quantity: number;
 }
-export {ViewHandleData, scaleValues, elementsSize }
+export {ViewHandleData, scaleData, elementsSize }

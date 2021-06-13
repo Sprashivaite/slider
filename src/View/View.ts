@@ -9,7 +9,7 @@ import IView from './IView';
 import ViewHandler from './subView/ViewHandler';
 import Observer from '../Observer/Observer';
 import { DEFAULT_VIEW_CONFIG } from '../defaults';
-import { scaleValues } from '../types';
+import { scaleData } from '../types';
 
 class View extends Observer implements IView {
   slider!: ViewContainer;
@@ -86,7 +86,7 @@ class View extends Observer implements IView {
     }
   }
 
-  updateScale(values: scaleValues): void {
+  updateScale(values: scaleData): void {
     this.scale.updateValues(values);
     this.handler.addScaleHandler();
   }
@@ -155,12 +155,8 @@ class View extends Observer implements IView {
     this.field = new ViewField(this);
     this.field.createField();
 
-    if (isHorizontal) {
-      this.fieldSize = this.field.div.offsetWidth;
-    }
-    if (!isHorizontal) {
-      this.fieldSize = this.field.div.offsetHeight;
-    }
+    if (isHorizontal) this.fieldSize = this.field.div.offsetWidth;
+    if (!isHorizontal) this.fieldSize = this.field.div.offsetHeight;
   }
 
   private renderButtons(): void {

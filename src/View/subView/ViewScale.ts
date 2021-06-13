@@ -1,5 +1,5 @@
 import IView from '../IView'
-import {scaleValues } from '../../types'
+import { scaleData } from '../../types'
 
 class ViewScale {
   div!: HTMLDivElement;
@@ -27,15 +27,15 @@ class ViewScale {
     }
   }
 
-  updateValues(data: scaleValues): void {
-    const {arrValues, quantity} = data    
+  updateValues(data: scaleData): void {
+    const {scaleValues, quantity} = data    
     this.div.innerHTML = '' 
     for (let i = 0; i < quantity; i += 1) {
       this.div.insertAdjacentHTML("beforeend", "<div></div>");
     }
     const scaleChildren = this.div.children;
     this.calcScaleOffsets(data)
-    arrValues.forEach((item, index) => {
+    scaleValues.forEach((item, index) => {
       scaleChildren[index].innerHTML = `${item}`
       if (this.isHorizontal) scaleChildren[index].style.left = `${this.scaleOffsets[index]}%`
       if(!this.isHorizontal) scaleChildren[index].style.top = `${this.scaleOffsets[index]}%`
@@ -57,14 +57,14 @@ class ViewScale {
     this.isHorizontal = View.config.isHorizontal!;
   }
 
-  private calcScaleOffsets(data: scaleValues): void {
-    const {arrValues } = data 
-    const firstValue = arrValues[0]
-    const lastValue = arrValues[arrValues.length - 1]    
+  private calcScaleOffsets(data: scaleData): void {
+    const {scaleValues } = data 
+    const firstValue = scaleValues[0]
+    const lastValue = scaleValues[scaleValues.length - 1]    
     this.scaleOffsets = []    
     const step = 100 / (lastValue - firstValue)  
 
-    arrValues.forEach(value => {
+    scaleValues.forEach(value => {
       const moduleValue = value - firstValue
       this.scaleOffsets.push(moduleValue * step)      
     })

@@ -129,7 +129,7 @@ class ViewHandler extends Observer {
     if (this.isRangeSlider) this.button2 = View.button2.div;
   }
 
-  private findFirstButton() {
+  private findFirstButton(): boolean {
     if (!this.isRangeSlider) return true;
     const isButtonClose =
       this.mouseCoords > (this.getButtonOffset2() + this.getButtonOffset()) / 2;

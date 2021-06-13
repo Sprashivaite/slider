@@ -19,8 +19,8 @@ const someObject = {
   updateValue2(value) {
     this.buttonValue2 = value;
   },
-  updateScale({ arrValues }) {
-    this.scaleValues = arrValues;
+  updateScale({ scaleValues }) {
+    this.scaleValues = scaleValues;
   },
 };
 
