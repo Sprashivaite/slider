@@ -103,6 +103,7 @@ class Config extends Observer {
       this.model.setConfig({min: Number(this.min.value)})      
       this.step.value = `${this.model.config.step}`;
       this.min.value = `${this.model.config.min}`;
+      this.max.value = `${this.model.config.max}`;   
       this.view.updateModel();
     };
     this.min.addEventListener('input', minChanged);
@@ -112,7 +113,8 @@ class Config extends Observer {
     this.max.value = `${this.model.config.max}`;
     const maxChanged = () => {
       this.model.setConfig({max: Number(this.max.value)})      
-      this.step.value = `${this.model.config.step}`;   
+      this.step.value = `${this.model.config.step}`; 
+      this.min.value = `${this.model.config.min}`;  
       this.max.value = `${this.model.config.max}`;   
       this.view.updateModel();
     };
