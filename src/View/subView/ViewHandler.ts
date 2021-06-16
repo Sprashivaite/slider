@@ -52,6 +52,7 @@ class ViewHandler extends Observer {
         document.onmouseup = () => {
           document.removeEventListener('mousemove', emitMouseMove2);
           this.emit('mouseUp2', this.getSecondButtonData());
+          document.onmouseup = null
         };
       } else {
         this.emit('mouseDown', this.getFirstButtonData());
@@ -60,6 +61,7 @@ class ViewHandler extends Observer {
         document.onmouseup = () => {
           document.removeEventListener('mousemove', emitMouseMove);
           this.emit('mouseUp', this.getFirstButtonData());
+          document.onmouseup = null
         };
       }
     };
