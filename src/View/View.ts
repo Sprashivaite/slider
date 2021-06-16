@@ -1,3 +1,4 @@
+import ResizeSensor from 'css-element-queries/src/ResizeSensor'
 import ViewField from './subView/ViewField';
 import ViewButton from './subView/ViewButton';
 import ViewFlag from './subView/ViewFlag';
@@ -42,6 +43,8 @@ class View extends Observer implements IView {
     super();
     this.slider = new ViewContainer(config.target);
     this.init(config);
+
+
   }
 
   renderElements(): void {
@@ -72,9 +75,13 @@ class View extends Observer implements IView {
     this.handler.getMouseCoords();
     this.handler.addScaleHandler();
     this.handler.addButtonHandler();
+    new ResizeSensor(this.slider.div, (() => this.updateModel()));    
   }
 
   updateModel(): void {
+    const { isHorizontal } = this.config;
+    if (isHorizontal) this.fieldSize = this.field.div.offsetWidth;
+    if (!isHorizontal) this.fieldSize = this.field.div.offsetHeight;
     this.emit('elementsSize', {
       fieldSize: this.fieldSize,
       buttonSize: this.buttonSize,
@@ -84,6 +91,7 @@ class View extends Observer implements IView {
     if (this.config.isRangeSlider) {
       this.handler.emit('mouseUp2', this.handler.getSecondButtonData());
     }
+
   }
 
   updateScale(values: scaleData): void {
@@ -150,13 +158,9 @@ class View extends Observer implements IView {
     };
   }
 
-  private renderField(): void {
-    const { isHorizontal } = this.config;
+  private renderField(): void {    
     this.field = new ViewField(this);
     this.field.createField();
-
-    if (isHorizontal) this.fieldSize = this.field.div.offsetWidth;
-    if (!isHorizontal) this.fieldSize = this.field.div.offsetHeight;
   }
 
   private renderButtons(): void {

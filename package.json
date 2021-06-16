@@ -58,5 +58,8 @@
   "bugs": {
     "url": "https://github.com/Sprashivaite/slider/issues"
   },
-  "homepage": "https://github.com/Sprashivaite/slider#readme"
+  "homepage": "https://github.com/Sprashivaite/slider#readme",
+  "dependencies": {
+    "css-element-queries": "^1.2.3"
+  }
 }
