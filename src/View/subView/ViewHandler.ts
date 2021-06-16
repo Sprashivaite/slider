@@ -44,8 +44,8 @@ class ViewHandler extends Observer {
     const emitMouseMove2 = () =>
       this.emit('mouseMove2', this.getSecondButtonData());
 
-    const useHandlers = () => {
-      if (!this.findFirstButton()) {
+    const useHandlers = (event: MouseEvent) => {
+      if (!this.findFirstButton(event)) {
         this.emit('mouseDown2', this.getSecondButtonData());
         emitMouseMove2();
         document.addEventListener('mousemove', emitMouseMove2);
@@ -72,8 +72,8 @@ class ViewHandler extends Observer {
     this.field.onmousedown = () => false;
     this.field.oncontextmenu = () => false;
 
-    const useHandlers = () => {
-      if (!this.findFirstButton()) {
+    const useHandlers = (event: MouseEvent) => {
+      if (!this.findFirstButton(event)) {
         this.emit('mouseMove2', this.getSecondButtonData());
         this.emit('mouseUp2', this.getSecondButtonData());
       } else {
@@ -86,9 +86,9 @@ class ViewHandler extends Observer {
 
   addScaleHandler(): void {
     const handleScaleClick = (event: MouseEvent) => {
-      const value = event.currentTarget!.innerHTML;
+      const value = event.target!.innerHTML;
 
-      if (!this.findFirstButton()) {
+      if (!this.findFirstButton(event)) {
         this.emit('scaleClick2', { value, ...this.getSecondButtonData() });
         this.emit('mouseUp2', this.getSecondButtonData());
       } else {
@@ -129,8 +129,11 @@ class ViewHandler extends Observer {
     if (this.isRangeSlider) this.button2 = View.button2.div;
   }
 
-  private findFirstButton(): boolean {
+  private findFirstButton(event: MouseEvent): boolean {
     if (!this.isRangeSlider) return true;
+    if(event.target === this.button1) return true
+    if(event.target === this.button2) return false
+
     const isButtonClose =
       this.mouseCoords > (this.getButtonOffset2() + this.getButtonOffset()) / 2;
     if (isButtonClose) return false;
