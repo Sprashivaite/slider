@@ -91,31 +91,24 @@ class Model extends Observer {
     this.updateButton({ ...data, value: result });
   }
 
-  calcScaleValues(quantity: number): void {
-    const { max, min, step } = this.config;
-
-    let modelQuantity: number = quantity;
-    const quantitySteps = (max - min) / step + 1;
-
-    if (quantity < 3) modelQuantity = 2;
-    if (quantitySteps < quantity)
-      modelQuantity = Number(quantitySteps.toFixed(0));
-
+  calcScaleValues(): void {
+    const { max, min, scaleQuantity } = this.config;
+    
     let stepValue = min;
-    const stepValues = (max - min) / (modelQuantity - 1);
+    const stepValues = (max - min) / (scaleQuantity - 1);
 
     const digitsAfterDot: number = this.calcDigitsAfterDot();
     const stepValuesFixed = Number(stepValues.toFixed(digitsAfterDot));
 
     const scaleValues: Array<number> = [];
-    for (let i = 0; i < modelQuantity - 1; i += 1) {
+    for (let i = 0; i < scaleQuantity - 1; i += 1) {
       const result = this.findNearestValue(stepValue);
       scaleValues.push(Number(result.toFixed(digitsAfterDot)));
       stepValue += stepValuesFixed;
     }
     scaleValues.push(max);
-
-    this.emit('scaleUpdate', { scaleValues, quantity: modelQuantity });
+    
+    this.emit('scaleUpdate', { scaleValues, quantity: scaleQuantity });
   }
 
   private init(config: IModelConfig): void {
@@ -125,15 +118,15 @@ class Model extends Observer {
   }
 
   private validate(): void {
-    let { max, min, step } = this.config;
+    let { max, min, step, scaleQuantity} = this.config;
 
     if (typeof min !== 'number') min = 0
     if (min >= max) min = max - 1;
     if (typeof max !== 'number') max = 100
     if (max <= min) max = min + 1;
     step = this.validateStep()
-
-    this.config = { max, min, step };
+    scaleQuantity = this.validateScaleQuantity()
+    this.config = { max, min, step, scaleQuantity };
   }
 
   private validateStep(): number {
@@ -150,6 +143,20 @@ class Model extends Observer {
 
     const validStep = validateLargeNumbers(invalidStep)
     return validStep
+  }
+
+  private validateScaleQuantity(): number {
+    const { max, min, step } = this.config;
+    let { scaleQuantity} = this.config;
+
+    if (typeof scaleQuantity !== 'number' || scaleQuantity < 2) {
+      scaleQuantity = 2;
+    }
+    const quantitySteps = (max - min) / step + 1;
+    
+    if (quantitySteps < scaleQuantity) scaleQuantity = quantitySteps;
+    scaleQuantity = Number(scaleQuantity.toFixed(0));
+    return scaleQuantity
   }
 
   private updateButton(data: ViewHandleData): void {

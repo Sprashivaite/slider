@@ -15,6 +15,7 @@ class Presenter {
     this.subscribeModel()
     this.subscribeView()
     this.view.updateModel();
+    this.model.calcScaleValues()
   }
 
   private subscribeModel(): void {

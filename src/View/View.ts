@@ -43,8 +43,6 @@ class View extends Observer implements IView {
     super();
     this.slider = new ViewContainer(config.target);
     this.init(config);
-
-
   }
 
   renderElements(): void {
@@ -86,7 +84,6 @@ class View extends Observer implements IView {
       fieldSize: this.fieldSize,
       buttonSize: this.buttonSize,
     });
-    this.emit('scaleQuantity', this.config.scaleQuantity);
     this.handler.emit('mouseUp', this.handler.getFirstButtonData());
     if (this.config.isRangeSlider) {
       this.handler.emit('mouseUp2', this.handler.getSecondButtonData());
@@ -135,7 +132,6 @@ class View extends Observer implements IView {
       isFlag,
       isProgressBar,
       isScale,
-      scaleQuantity,
     } = this.config;
 
     if (typeof isHorizontal !== 'boolean') isHorizontal = true;
@@ -143,18 +139,14 @@ class View extends Observer implements IView {
     if (typeof isFlag !== 'boolean') isFlag = true;
     if (typeof isProgressBar !== 'boolean') isProgressBar = true;
     if (typeof isScale !== 'boolean') isScale = true;
-    if (typeof scaleQuantity !== 'number' || scaleQuantity < 1) {
-      scaleQuantity = 2;
-    }
-    scaleQuantity = Number(scaleQuantity.toFixed(0));
+
 
     this.config = {
       isHorizontal,
       isRangeSlider,
       isFlag,
       isProgressBar,
-      isScale,
-      scaleQuantity,
+      isScale
     };
   }
 
@@ -205,9 +197,9 @@ class View extends Observer implements IView {
   }
 
   private renderScale(): void {
-    const { isScale, scaleQuantity } = this.config;
+    const { isScale } = this.config;
     this.scale = new ViewScale(this);
-    this.scale.createScale(scaleQuantity);
+    this.scale.createScale();
     if (!isScale) this.scale.hideScale();
   }
 

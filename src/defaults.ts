@@ -4,7 +4,8 @@ import IViewConfig from './View/IViewConfig'
 const DEFAULT_MODEL_CONFIG: IModelConfig = {
     max: 100,
     min: 0,
-    step: 1
+    step: 1,
+    scaleQuantity: 11
 }
 
 const DEFAULT_VIEW_CONFIG: IViewConfig = {
@@ -14,7 +15,7 @@ const DEFAULT_VIEW_CONFIG: IViewConfig = {
     isFlag: true,
     isProgressBar: true,
     isScale: true,
-    scaleQuantity: 11,
+    
 }
 
 const DEFAULT_CONFIG: IViewConfig | IModelConfig = {

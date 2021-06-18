@@ -28,6 +28,8 @@ class Config extends Observer {
   view: any;
 
   model: any;
+  
+  scaleQuantity: any;
 
   constructor(slider: any, container: Element) {
     super();
@@ -45,6 +47,7 @@ class Config extends Observer {
     this.max = this.container.querySelector('#max');
     this.min = this.container.querySelector('#min');
     this.step = this.container.querySelector('#step');
+    this.scaleQuantity = this.container.querySelector('#scaleQuantity');    
     this.tooltip = this.container.querySelector('#tooltip');
     this.scale = this.container.querySelector('#scale');
     this.orientation = this.container.querySelector('#orientation');
@@ -105,6 +108,8 @@ class Config extends Observer {
       this.min.value = `${this.model.config.min}`;
       this.max.value = `${this.model.config.max}`;   
       this.view.updateModel();
+      this.model.calcScaleValues()
+      this.scaleQuantity.value = `${this.model.config.scaleQuantity}`;
     };
     this.min.addEventListener('input', minChanged);
   }
@@ -117,6 +122,8 @@ class Config extends Observer {
       this.min.value = `${this.model.config.min}`;  
       this.max.value = `${this.model.config.max}`;   
       this.view.updateModel();
+      this.model.calcScaleValues()
+      this.scaleQuantity.value = `${this.model.config.scaleQuantity}`;
     };
     this.max.addEventListener('input', maxChanged);
   }
@@ -127,8 +134,22 @@ class Config extends Observer {
       this.model.setConfig({step: Number(this.step.value)})
       this.step.value = `${this.model.config.step}`;
       this.view.updateModel();
+      this.model.calcScaleValues()
+      this.scaleQuantity.value = `${this.model.config.scaleQuantity}`;
     };
     this.step.addEventListener('input', stepChanged);
+  }
+
+  initScaleQuantity(): void {
+    this.scaleQuantity.value = `${this.model.config.scaleQuantity}`;
+    const scaleChanged = () => {
+      this.model.setConfig({scaleQuantity: Number(this.scaleQuantity.value)})
+      
+      this.view.updateModel();
+      this.model.calcScaleValues()
+      this.scaleQuantity.value = `${this.model.config.scaleQuantity}`;
+    };
+    this.scaleQuantity.addEventListener('input', scaleChanged);
   }
 
   initTooltipe(): void {
@@ -199,6 +220,7 @@ class Config extends Observer {
     this.initMinValue();
     this.initMaxValue();
     this.initStep();
+    this.initScaleQuantity();
     this.initTooltipe();
     this.initScale();
     this.initOrientation();

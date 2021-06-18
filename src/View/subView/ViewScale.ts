@@ -14,17 +14,10 @@ class ViewScale {
     this.init(View)
   }
 
-  createScale(quantity = 2): void {    
+  createScale(): void {    
     if (this.isHorizontal) this.div.className = "js-slider__scale_horizontal";
     if (!this.isHorizontal) this.div.className = "js-slider__scale_vertical";    
     this.slider.append(this.div);
-    
-    let thisQuantity = quantity;
-    if(thisQuantity > 11) thisQuantity = 11;
-
-    for (let i = 0; i < thisQuantity; i += 1) {
-      this.div.insertAdjacentHTML("beforeend", "<div></div>");
-    }
   }
 
   updateValues(data: scaleData): void {
