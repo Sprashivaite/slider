@@ -1,5 +1,4 @@
-import IViewConfig from '../View/IViewConfig';
-import IModelConfig from '../Model/IModelConfig';
+import { ModelConfig, ViewConfig } from '../types';
 import Model from '../Model/Model';
 import View from '../View/View';
 import Presenter from '../Presenter/Presenter';
@@ -13,7 +12,7 @@ import { DEFAULT_CONFIG } from '../defaults';
 
     presenter!: Presenter;
 
-    constructor(config: IViewConfig & IModelConfig) {
+    constructor(config: ViewConfig & ModelConfig) {
       this.model = new Model({ ...DEFAULT_CONFIG, ...config });
       this.view = new View({ ...DEFAULT_CONFIG, ...config });
       this.presenter = new Presenter(this.model, this.view);
@@ -46,7 +45,7 @@ import { DEFAULT_CONFIG } from '../defaults';
   }
 
   jQuery.fn.sliderPlugin = function sliderPlugin(
-    config: IViewConfig & IModelConfig
+    config: ViewConfig & ModelConfig
   ) {
     return this.each(function each() {
       if (!$.data(this, 'sliderPlugin')) {

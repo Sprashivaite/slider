@@ -1,14 +1,13 @@
-import IModelConfig from './model/IModelConfig'
-import IViewConfig from './View/IViewConfig'
+import { ModelConfig, ViewConfig } from './types'
 
-const DEFAULT_MODEL_CONFIG: IModelConfig = {
+const DEFAULT_MODEL_CONFIG: ModelConfig = {
     max: 100,
     min: 0,
     step: 1,
     scaleQuantity: 11
 }
 
-const DEFAULT_VIEW_CONFIG: IViewConfig = {
+const DEFAULT_VIEW_CONFIG: ViewConfig = {
     target: undefined,
     isHorizontal: true,
     isRangeSlider: true,
@@ -18,7 +17,7 @@ const DEFAULT_VIEW_CONFIG: IViewConfig = {
     
 }
 
-const DEFAULT_CONFIG: IViewConfig | IModelConfig = {
+const DEFAULT_CONFIG: ViewConfig | ModelConfig = {
     ...DEFAULT_MODEL_CONFIG,
     ...DEFAULT_VIEW_CONFIG
 }

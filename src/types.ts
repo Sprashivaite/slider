@@ -1,3 +1,19 @@
+type ModelConfig = {
+    max: number;
+    min: number;
+    step: number;    
+    scaleQuantity: number;
+}
+
+type ViewConfig = {
+    target?: HTMLElement;
+    isHorizontal?: boolean;
+    isRangeSlider?: boolean;
+    isFlag?: boolean;
+    isScale?: boolean;
+    isProgressBar?: boolean;
+}
+
 type ViewHandleData = {
     button: HTMLElement;
     buttonOffset: number;
@@ -13,4 +29,4 @@ type scaleData = {
     scaleValues: number[];
     quantity: number;
 }
-export {ViewHandleData, scaleData, elementsSize }
+export { ModelConfig, ViewConfig, ViewHandleData, scaleData, elementsSize }

@@ -5,12 +5,11 @@ import ViewFlag from './subView/ViewFlag';
 import ViewProgressBar from './subView/ViewProgressBar';
 import ViewScale from './subView/ViewScale';
 import ViewContainer from './subView/ViewContainer';
-import IViewConfig from './IViewConfig';
 import IView from './IView';
 import ViewHandler from './subView/ViewHandler';
 import Observer from '../Observer/Observer';
 import { DEFAULT_VIEW_CONFIG } from '../defaults';
-import { scaleData } from '../types';
+import { scaleData, ViewConfig } from '../types';
 
 class View extends Observer implements IView {
   slider!: ViewContainer;
@@ -31,7 +30,7 @@ class View extends Observer implements IView {
 
   handler!: ViewHandler;
 
-  config!: IViewConfig;
+  config!: ViewConfig;
 
   fieldSize!: number;
 
@@ -39,7 +38,7 @@ class View extends Observer implements IView {
 
   flagTotal!: ViewFlag;
 
-  constructor(config = DEFAULT_VIEW_CONFIG as IViewConfig) {
+  constructor(config = DEFAULT_VIEW_CONFIG as ViewConfig) {
     super();
     this.slider = new ViewContainer(config.target);
     this.init(config);
@@ -131,7 +130,7 @@ class View extends Observer implements IView {
     }
   }
 
-  private init(config: IViewConfig): void {
+  private init(config: ViewConfig): void {
     this.config = { ...DEFAULT_VIEW_CONFIG, ...config };
     this.validate();
   }

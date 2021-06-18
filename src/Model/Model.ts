@@ -1,21 +1,20 @@
-import IModelConfig from './IModelConfig';
 import Observer from '../Observer/Observer';
 import { DEFAULT_MODEL_CONFIG } from '../defaults';
-import { ViewHandleData, elementsSize } from '../types';
+import { ViewHandleData, elementsSize, ModelConfig } from '../types';
 
 class Model extends Observer {
-  config!: IModelConfig;
+  config!: ModelConfig;
 
   shift!: number;
 
   elementsSize!: { fieldSize: number; buttonSize: number; };
 
-  constructor(config = DEFAULT_MODEL_CONFIG as IModelConfig) {
+  constructor(config = DEFAULT_MODEL_CONFIG as ModelConfig) {
     super();
     this.init(config);
   }
 
-  setConfig(config: IModelConfig): void { 
+  setConfig(config: ModelConfig): void { 
     this.config = {...this.config, ...config };
     this.validate();
   }
@@ -111,7 +110,7 @@ class Model extends Observer {
     this.emit('scaleUpdate', { scaleValues, quantity: scaleQuantity });
   }
 
-  private init(config: IModelConfig): void {
+  private init(config: ModelConfig): void {
     this.config = { ...DEFAULT_MODEL_CONFIG, ...config };
     this.validate();
     this.shift = 0;
