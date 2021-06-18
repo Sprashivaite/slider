@@ -73,7 +73,8 @@ class View extends Observer implements IView {
     this.handler.getMouseCoords();
     this.handler.addScaleHandler();
     this.handler.addButtonHandler();
-    new ResizeSensor(this.slider.div, (() => this.updateModel()));    
+    // eslint-disable-next-line no-new
+    new ResizeSensor(this.slider.div, (() => this.updateModel()))
   }
 
   updateModel(): void {
@@ -88,7 +89,6 @@ class View extends Observer implements IView {
     if (this.config.isRangeSlider) {
       this.handler.emit('mouseUp2', this.handler.getSecondButtonData());
     }
-
   }
 
   updateScale(values: scaleData): void {
@@ -98,14 +98,20 @@ class View extends Observer implements IView {
 
   assignFlags(): void {
     const unValid =
-      !this.flag2 ||
-      !this.config.isHorizontal ||
+      !this.flag2 ||      
       !this.config.isFlag ||
       !this.config.isRangeSlider;
     if (unValid) return;
     const { flag1, flag2, flagTotal } = this;
-    const flagOffset1 = flag1.div.getBoundingClientRect().right;
-    const flagOffset2 = flag2.div.getBoundingClientRect().left;
+    let flagOffset1 = flag1.div.getBoundingClientRect().right;
+    let flagOffset2 = flag2.div.getBoundingClientRect().left;
+    if(!this.config.isHorizontal) {
+      flagOffset1 = flag1.div.getBoundingClientRect().bottom;
+      flagOffset2 = flag2.div.getBoundingClientRect().top;
+    }
+
+
+
     const text = `${flag1.div.innerHTML} - ${flag2.div.innerHTML}`;
 
     if (flagOffset1 >= flagOffset2) {
@@ -113,6 +119,11 @@ class View extends Observer implements IView {
       flag2.hideFlag();
       flagTotal.showFlag();
       flagTotal.div.innerHTML = text;
+      const flagTotalOffset = `${(flagOffset2 - flagOffset1) /2 }px`
+      this.flagTotal.div.style.left = flagTotalOffset;
+      if(!this.config.isHorizontal) {
+        this.flagTotal.div.style.left = '150%';
+      }
     } else {
       flag1.showFlag();
       flag2.showFlag();
@@ -188,7 +199,7 @@ class View extends Observer implements IView {
       this.flagTotal.createFlag();
       this.flagTotal.hideFlag();
       this.flagTotal.div.style.position = 'absolute';
-      this.flagTotal.div.style.left = '-50%';
+
       if (!isFlag) {
         this.flagTotal.hideFlag();
         this.flag2.hideFlag();

@@ -49,12 +49,10 @@ class Presenter {
       model
         .subscribe('updateButtonValue2', view.flag2.changeFlagValue.bind(view.flag2))        
         .subscribe('updateButtonPX2',view.button2.moveButton.bind(view.button2))
-        .subscribe('updateButtonPX2',view.progressBar.progressBarMove.bind(view.progressBar));
-      if(view.config.isHorizontal){
-        model
-          .subscribe('updateButtonPX', view.assignFlags.bind(view))
-          .subscribe('updateButtonPX2', view.assignFlags.bind(view))
-      }
+        .subscribe('updateButtonPX2',view.progressBar.progressBarMove.bind(view.progressBar))
+        .subscribe('updateButtonPX', view.assignFlags.bind(view))
+        .subscribe('updateButtonPX2', view.assignFlags.bind(view))
+      
     }
   }
 }
