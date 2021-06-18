@@ -13,13 +13,9 @@ class ViewHandler extends Observer {
 
   field!: HTMLDivElement;
 
-  button1!: HTMLDivElement;
+  firstButton!: HTMLDivElement;
 
-  button2!: HTMLDivElement;
-
-  buttonOffset1!: number;
-
-  buttonOffset2!: number;
+  secondButton!: HTMLDivElement; 
 
   constructor(View: IView) {
     super();
@@ -65,9 +61,9 @@ class ViewHandler extends Observer {
         };
       }
     };
-    this.button1.addEventListener('mousedown', useHandlers);
+    this.firstButton.addEventListener('mousedown', useHandlers);
     if (this.isRangeSlider)
-      this.button2.addEventListener('mousedown', useHandlers);
+      this.secondButton.addEventListener('mousedown', useHandlers);
   }
 
   addFieldHandler(): void {
@@ -107,16 +103,16 @@ class ViewHandler extends Observer {
 
   getFirstButtonData(): ViewHandleData {
     return {
-      button: this.button1,
-      buttonOffset: this.getButtonOffset(),
+      button: this.firstButton,
+      buttonOffset: this.getFirstButtonOffset(),
       mouseCoords: this.mouseCoords,
     };
   }
 
   getSecondButtonData(): ViewHandleData {
     return {
-      button: this.button2,
-      buttonOffset: this.getButtonOffset2(),
+      button: this.secondButton,
+      buttonOffset: this.getSecondButtonOffset(),
       mouseCoords: this.mouseCoords,
     };
   }
@@ -127,30 +123,30 @@ class ViewHandler extends Observer {
     this.isRangeSlider = View.config.isRangeSlider!;
     this.slider = View.slider.div;
     this.field = View.field.div;
-    this.button1 = View.button1.div;
-    if (this.isRangeSlider) this.button2 = View.button2.div;
+    this.firstButton = View.firstButton.div;
+    if (this.isRangeSlider) this.secondButton = View.secondButton.div;
   }
 
   private findFirstButton(event: MouseEvent): boolean {
     if (!this.isRangeSlider) return true;
-    if(event.target === this.button1) return true
-    if(event.target === this.button2) return false
+    if(event.target === this.firstButton) return true
+    if(event.target === this.secondButton) return false
 
     const isButtonClose =
-      this.mouseCoords > (this.getButtonOffset2() + this.getButtonOffset()) / 2;
+      this.mouseCoords > (this.getSecondButtonOffset() + this.getFirstButtonOffset()) / 2;
     if (isButtonClose) return false;
     return true;
   }
 
-  private getButtonOffset(): number {
-    let buttonOffset = this.button1.offsetLeft;
-    if (!this.isHorizontal) buttonOffset = this.button1.offsetTop;
+  private getFirstButtonOffset(): number {
+    let buttonOffset = this.firstButton.offsetLeft;
+    if (!this.isHorizontal) buttonOffset = this.firstButton.offsetTop;
     return buttonOffset;
   }
 
-  private getButtonOffset2(): number {
-    let buttonOffset = this.button2.offsetLeft;
-    if (!this.isHorizontal) buttonOffset = this.button2.offsetTop;
+  private getSecondButtonOffset(): number {
+    let buttonOffset = this.secondButton.offsetLeft;
+    if (!this.isHorizontal) buttonOffset = this.secondButton.offsetTop;
     return buttonOffset;
   }
 }

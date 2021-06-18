@@ -118,7 +118,7 @@ describe('высчитывание отступа для кнопки', () => {
     });
     expect(someObject.buttonPX).toBe(model.elementsSize.fieldSize);
   });
-  it('model.calcButtonOffset button2', () => {
+  it('model.calcButtonOffset secondButton', () => {
     model.calcButtonOffset({
       button: button_horizontal2,
       mouseCoords: 42,

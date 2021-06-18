@@ -156,17 +156,17 @@ class Config extends Observer {
     this.tooltip.checked = this.view.config.isFlag;
     const tooltipChanged = () => {
       if (this.tooltip.checked) {
-        this.view.flag1.showFlag();
+        this.view.firstFlag.showFlag();
         this.view.config.isFlag = !this.view.config.isFlag;
       } else {
-        this.view.flag1.hideFlag();
+        this.view.firstFlag.hideFlag();
         this.view.config.isFlag = !this.view.config.isFlag;
       }
-      if (this.view.flag2) {
+      if (this.view.secondFlag) {
         if (this.tooltip.checked) {
-          this.view.flag2.showFlag();
+          this.view.secondFlag.showFlag();
         } else {
-          this.view.flag2.hideFlag();
+          this.view.secondFlag.hideFlag();
           this.view.flagTotal.hideFlag();
         }
       } 

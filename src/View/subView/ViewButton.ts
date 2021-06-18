@@ -56,11 +56,11 @@ class ViewButton {
     const { className } = this.div;
     this.div.style.zIndex = '10'
     const isButton = this.div.previousElementSibling;
-    const isButton2 =
+    const isSecondButton =
       this.div.nextElementSibling &&
       this.div.nextElementSibling!.classList.contains(className); 
       
-    if (isButton2) {
+    if (isSecondButton) {
       this.div.nextElementSibling!.style.zIndex = '3'
       let nextButtonOffset: number =
         this.div.nextElementSibling!.offsetLeft;

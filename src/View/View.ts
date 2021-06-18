@@ -15,15 +15,15 @@ import { scaleData } from '../types';
 class View extends Observer implements IView {
   slider!: ViewContainer;
 
-  button1!: ViewButton;
+  firstButton!: ViewButton;
 
-  button2!: ViewButton;
+  secondButton!: ViewButton;
 
   field!: ViewField;
 
-  flag1!: ViewFlag;
+  firstFlag!: ViewFlag;
 
-  flag2!: ViewFlag;
+  secondFlag!: ViewFlag;
 
   progressBar!: ViewProgressBar;
 
@@ -55,15 +55,15 @@ class View extends Observer implements IView {
 
   removeElements(): void {
     [
-      this.flag1.div,
-      this.button1.div,
+      this.firstFlag.div,
+      this.firstButton.div,
       this.field.div,
       this.progressBar.div,
       this.scale.div,
     ].forEach((item) => item.remove());
 
     if (this.config.isRangeSlider) {
-      [this.flag2.div, this.button2.div].forEach((item) => item.remove());
+      [this.secondFlag.div, this.secondButton.div].forEach((item) => item.remove());
     }
   }
 
@@ -98,35 +98,35 @@ class View extends Observer implements IView {
 
   assignFlags(): void {
     const unValid =
-      !this.flag2 ||      
+      !this.secondFlag ||      
       !this.config.isFlag ||
       !this.config.isRangeSlider;
     if (unValid) return;
-    const { flag1, flag2, flagTotal } = this;
-    let flagOffset1 = flag1.div.getBoundingClientRect().right;
-    let flagOffset2 = flag2.div.getBoundingClientRect().left;
+    const { firstFlag, secondFlag, flagTotal } = this;
+    let firstFlagOffset = firstFlag.div.getBoundingClientRect().right;
+    let secondFlagOffset = secondFlag.div.getBoundingClientRect().left;
     if(!this.config.isHorizontal) {
-      flagOffset1 = flag1.div.getBoundingClientRect().bottom;
-      flagOffset2 = flag2.div.getBoundingClientRect().top;
+      firstFlagOffset = firstFlag.div.getBoundingClientRect().bottom;
+      secondFlagOffset = secondFlag.div.getBoundingClientRect().top;
     }
 
 
 
-    const text = `${flag1.div.innerHTML} - ${flag2.div.innerHTML}`;
+    const text = `${firstFlag.div.innerHTML} - ${secondFlag.div.innerHTML}`;
 
-    if (flagOffset1 >= flagOffset2) {
-      flag1.hideFlag();
-      flag2.hideFlag();
+    if (firstFlagOffset >= secondFlagOffset) {
+      firstFlag.hideFlag();
+      secondFlag.hideFlag();
       flagTotal.showFlag();
       flagTotal.div.innerHTML = text;
-      const flagTotalOffset = `${(flagOffset2 - flagOffset1) /2 }px`
+      const flagTotalOffset = `${(secondFlagOffset - firstFlagOffset) /2 }px`
       this.flagTotal.div.style.left = flagTotalOffset;
       if(!this.config.isHorizontal) {
         this.flagTotal.div.style.left = '150%';
       }
     } else {
-      flag1.showFlag();
-      flag2.showFlag();
+      firstFlag.showFlag();
+      secondFlag.showFlag();
       flagTotal.hideFlag();
     }
   }
@@ -169,40 +169,40 @@ class View extends Observer implements IView {
   private renderButtons(): void {
     const { isRangeSlider, isHorizontal } = this.config;
 
-    this.button1 = new ViewButton(this);
-    this.button1.createButton();
+    this.firstButton = new ViewButton(this);
+    this.firstButton.createButton();
 
     if (isRangeSlider) {
-      this.button2 = new ViewButton(this);
-      this.button2.createButton();
+      this.secondButton = new ViewButton(this);
+      this.secondButton.createButton();
     }
 
     if (isHorizontal) {
-      this.buttonSize = this.button1.div.offsetWidth;
+      this.buttonSize = this.firstButton.div.offsetWidth;
     }
     if (!isHorizontal) {
-      this.buttonSize = this.button1.div.offsetHeight;
+      this.buttonSize = this.firstButton.div.offsetHeight;
     }
   }
 
   private renderFlag(): void {
     const { isRangeSlider, isFlag } = this.config;
-    this.flag1 = new ViewFlag(this, this.button1.div);
-    this.flag1.createFlag();
+    this.firstFlag = new ViewFlag(this, this.firstButton.div);
+    this.firstFlag.createFlag();
 
-    if (!isFlag) this.flag1.hideFlag();
+    if (!isFlag) this.firstFlag.hideFlag();
 
     if (isRangeSlider) {
-      this.flag2 = new ViewFlag(this, this.button2.div);
-      this.flag2.createFlag();
-      this.flagTotal = new ViewFlag(this, this.button1.div);
+      this.secondFlag = new ViewFlag(this, this.secondButton.div);
+      this.secondFlag.createFlag();
+      this.flagTotal = new ViewFlag(this, this.firstButton.div);
       this.flagTotal.createFlag();
       this.flagTotal.hideFlag();
       this.flagTotal.div.style.position = 'absolute';
 
       if (!isFlag) {
         this.flagTotal.hideFlag();
-        this.flag2.hideFlag();
+        this.secondFlag.hideFlag();
       }
     }
   }

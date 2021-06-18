@@ -40,7 +40,7 @@ describe('установка параметров View', () => {
   });
 });
 
-describe('Создание/поиск контайнера View', () => {
+describe('Создание/поиск контейнера View', () => {
   it('Установка контейнера', () => {
     let container = document.querySelector('.slider');
     let view = new View({ target: container });
@@ -71,8 +71,8 @@ describe('работа фасада renderElements', () => {
   it('view.renderElements', () => {
     view.renderElements();
     expect(view.field).toBeDefined();
-    expect(view.button1.div).toBeDefined();
-    expect(view.flag1).toBeDefined();
+    expect(view.firstButton.div).toBeDefined();
+    expect(view.firstFlag).toBeDefined();
     expect(view.progressBar.div).toBeDefined();
     view.removeElements();
   });
@@ -93,14 +93,14 @@ describe('движение View button', () => {
   it('view.button.moveButton horizontal', () => {
     view = new View({ isRangeSlider: false });
     view.renderElements();
-    view.button1.moveButton(50);
-    expect(getComputedStyle(view.button1.div).left).toBe('50px');
+    view.firstButton.moveButton(50);
+    expect(getComputedStyle(view.firstButton.div).left).toBe('50px');
   });
   it('view.button.moveButton Vertical', () => {
     view = new View({ isHorizontal: false, isRangeSlider: false });
     view.renderElements();
-    view.button1.moveButton(50);
-    expect(getComputedStyle(view.button1.div).top).toBe('50px');
+    view.firstButton.moveButton(50);
+    expect(getComputedStyle(view.firstButton.div).top).toBe('50px');
   });
 });
 
@@ -112,20 +112,20 @@ describe('toggle View flag', () => {
     view.removeElements();
   });
   it('view.flag.showFlag', () => {
-    view.flag1.showFlag();
-    expect(getComputedStyle(view.flag1.div).visibility).toBe('visible');
+    view.firstFlag.showFlag();
+    expect(getComputedStyle(view.firstFlag.div).visibility).toBe('visible');
   });
   it('view.hideFlag', () => {
-    view.flag1.hideFlag();
-    expect(getComputedStyle(view.flag1.div).visibility).toBe('hidden');
+    view.firstFlag.hideFlag();
+    expect(getComputedStyle(view.firstFlag.div).visibility).toBe('hidden');
   });
 });
 
 describe('значение View flag', () => {
   it('view.changeFlagValue', () => {
     view.renderElements();
-    view.flag1.changeFlagValue(50);
-    expect(view.flag1.div.innerHTML).toBe('50');
+    view.firstFlag.changeFlagValue(50);
+    expect(view.firstFlag.div.innerHTML).toBe('50');
     view.removeElements();
   });
 });
@@ -134,7 +134,7 @@ describe('движение View progressBar', () => {
   it('view.progressBar range', () => {
     view = new View({ isRangeSlider: true });
     view.renderElements();
-    view.button2.moveButton(95);
+    view.secondButton.moveButton(95);
     view.progressBar.progressBarMove();
     expect(view.progressBar.div.offsetWidth).toBeGreaterThan(60);
     view.removeElements();
@@ -142,7 +142,7 @@ describe('движение View progressBar', () => {
   it('view.progressBar solo', () => {
     view = new View({ isRangeSlider: false });
     view.renderElements();
-    view.button1.moveButton(100);
+    view.firstButton.moveButton(100);
     view.progressBar.progressBarMove();
     expect(view.progressBar.div.offsetWidth).toBeGreaterThan(90);
     view.removeElements();
@@ -150,7 +150,7 @@ describe('движение View progressBar', () => {
   it('view.progressBar Vertical', () => {
     view = new View({ isRangeSlider: false, isHorizontal: false });
     view.renderElements();
-    view.button1.moveButton(30);
+    view.firstButton.moveButton(30);
     view.progressBar.progressBarMove();
     expect(view.progressBar.div.offsetHeight).toBeGreaterThan(10);
     view.removeElements();
@@ -158,7 +158,7 @@ describe('движение View progressBar', () => {
   it('view.progressBar range Vertical', () => {
     view = new View({ isHorizontal: false, isRangeSlider: true });
     view.renderElements();
-    view.button2.moveButton(60);
+    view.secondButton.moveButton(60);
     view.progressBar.progressBarMove();
     expect(view.progressBar.div.offsetHeight).toBeGreaterThan(30);
     view.removeElements();
@@ -231,7 +231,7 @@ describe('события мыши', () => {
     let notify = jasmine.createSpy('notify');
     view.addHandlers();
     view.handler.subscribe('mouseDown', notify);
-    view.button1.div.dispatchEvent(mousedown);
+    view.firstButton.div.dispatchEvent(mousedown);
 
     expect(notify).toHaveBeenCalled();
     expect(notify.calls.count()).toEqual(1);
@@ -241,7 +241,7 @@ describe('события мыши', () => {
     let notify = jasmine.createSpy('notify');
     view.addHandlers();
     view.handler.subscribe('mouseMove', notify);
-    view.button1.div.dispatchEvent(mousedown);
+    view.firstButton.div.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);
     expect(notify).toHaveBeenCalled();
     expect(notify.calls.count()).toEqual(2);
@@ -251,7 +251,7 @@ describe('события мыши', () => {
     view.addHandlers();
     view.handler.subscribe('mouseMove', notify);
     view.handler.subscribe('mouseUp', notify);
-    view.button1.div.dispatchEvent(mousedown);
+    view.firstButton.div.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);
     document.dispatchEvent(mouseup);
     expect(notify).toHaveBeenCalled();
@@ -268,7 +268,7 @@ describe('события мыши range', () => {
     something = {
       mouseMoveButton: () => {},
       mouseUp: () => {},
-      mouseMoveButton2: () => {},
+      mouseMovesecondButton: () => {},
       mouseUp2: () => {},
     };
     mousedown = new MouseEvent('mousedown');
@@ -279,7 +279,7 @@ describe('события мыши range', () => {
   afterEach(() => {
     view.removeElements();
   });
-  it('view.handler.addFieldHandler mouse event button2', () => {
+  it('view.handler.addFieldHandler mouse event secondButton', () => {
     let notify = jasmine.createSpy('notify');
     view.addHandlers();
     view.handler.subscribe('mouseMove2', notify);

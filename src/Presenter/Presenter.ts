@@ -41,14 +41,14 @@ class Presenter {
     const { model, view } = this;
     model
       .subscribe('scaleUpdate', view.updateScale.bind(view))
-      .subscribe('updateButtonValue', view.flag1.changeFlagValue.bind(view.flag1))
-      .subscribe('updateButtonPX', view.button1.moveButton.bind(view.button1))   
+      .subscribe('updateButtonValue', view.firstFlag.changeFlagValue.bind(view.firstFlag))
+      .subscribe('updateButtonPX', view.firstButton.moveButton.bind(view.firstButton))   
       .subscribe('updateButtonPX', view.progressBar.progressBarMove.bind(view.progressBar)
       );
     if (view.config.isRangeSlider) {
       model
-        .subscribe('updateButtonValue2', view.flag2.changeFlagValue.bind(view.flag2))        
-        .subscribe('updateButtonPX2',view.button2.moveButton.bind(view.button2))
+        .subscribe('updateButtonValue2', view.secondFlag.changeFlagValue.bind(view.secondFlag))        
+        .subscribe('updateButtonPX2',view.secondButton.moveButton.bind(view.secondButton))
         .subscribe('updateButtonPX2',view.progressBar.progressBarMove.bind(view.progressBar))
         .subscribe('updateButtonPX', view.assignFlags.bind(view))
         .subscribe('updateButtonPX2', view.assignFlags.bind(view))

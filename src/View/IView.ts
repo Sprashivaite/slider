@@ -9,11 +9,11 @@ import IViewConfig from './IViewConfig';
 
 type IView = {
   slider: ViewContainer;
-  button1: ViewButton;
-  button2: ViewButton;
+  firstButton: ViewButton;
+  secondButton: ViewButton;
   field: ViewField;
-  flag1: ViewFlag;
-  flag2: ViewFlag;
+  firstFlag: ViewFlag;
+  secondFlag: ViewFlag;
   progressBar: ViewProgressBar;
   scale: ViewScale;
   handler: ViewHandler;

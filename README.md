@@ -108,8 +108,8 @@ let slider = $(selector).sliderPlugin().data("sliderPlugin");
 ```
 ### set value
 ```javascript
-slider.setValue('button1', number)
-slider.setValue('button2', number)
+slider.setValue('firstButton', number)
+slider.setValue('secondButton', number)
 ```
 # Architecture
 Всё приложение разделено на три слоя: Model, View, Presenter.

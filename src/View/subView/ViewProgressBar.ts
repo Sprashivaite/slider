@@ -9,9 +9,9 @@ class ViewProgressBar {
 
   isRangeSlider!: boolean;
 
-  button1!: HTMLDivElement;
+  firstButton!: HTMLDivElement;
 
-  button2!: HTMLDivElement;
+  secondButton!: HTMLDivElement;
 
   constructor(View: IView) {
     this.init(View)    
@@ -26,8 +26,8 @@ class ViewProgressBar {
 
   progressBarMove(): void {
     const fieldWidth = this.field.offsetWidth; 
-    const buttonOffsetLeft = this.button1.offsetLeft + this.button1.offsetWidth / 2;
-    const buttonOffsetTop = this.button1.offsetTop + this.button1.offsetHeight / 2;
+    const buttonOffsetLeft = this.firstButton.offsetLeft + this.firstButton.offsetWidth / 2;
+    const buttonOffsetTop = this.firstButton.offsetTop + this.firstButton.offsetHeight / 2;
     this.div.style.width = `${buttonOffsetLeft}px`;
     this.div.style.left = `${0}px`;
     if (!this.isHorizontal) {
@@ -36,12 +36,12 @@ class ViewProgressBar {
     }
     if (this.isRangeSlider) {
       const buttonOffsetLeft2 =
-        this.button2.offsetLeft + this.button2.offsetWidth / 2;
+        this.secondButton.offsetLeft + this.secondButton.offsetWidth / 2;
       this.div.style.left = `${buttonOffsetLeft}px`;
       this.div.style.width = `${buttonOffsetLeft2 - buttonOffsetLeft}px`;
       if (!this.isHorizontal) {
         const buttonOffsetTop2 =
-          this.button2.offsetTop + this.button2.offsetHeight /2;
+          this.secondButton.offsetTop + this.secondButton.offsetHeight /2;
         this.div.style.top = `${buttonOffsetTop}px`;
         this.div.style.left = `${0}px`;
         this.div.style.width = `${fieldWidth}px`; 
@@ -61,9 +61,9 @@ class ViewProgressBar {
 
   private init(View: IView): void {
     this.field = View.field.div;
-    this.button1 = View.button1.div;
+    this.firstButton = View.firstButton.div;
     if (View.config.isRangeSlider) {
-      this.button2 = View.button2.div;
+      this.secondButton = View.secondButton.div;
     }    
     this.isHorizontal = View.config.isHorizontal!;
     this.isRangeSlider = View.config.isRangeSlider!;
@@ -85,7 +85,7 @@ class ViewProgressBar {
     if (progressBarSize >= fieldSize / 2) {
       this.div.className = "js-progressBar js-progressBar_color_3";
     }
-    if (progressBarSize >= fieldSize - this.button1.offsetWidth) {
+    if (progressBarSize >= fieldSize - this.firstButton.offsetWidth) {
       this.div.className = "js-progressBar js-progressBar_color_4";
     }
   }
