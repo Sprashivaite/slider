@@ -36,27 +36,27 @@ class ViewHandler extends Observer {
 
   addButtonHandler(): void {
     const emitMouseMove = () =>
-      this.emit('mouseMove', this.getFirstButtonData());
+      this.emit('firstButtonMouseMove', this.getFirstButtonData());
     const emitMouseMove2 = () =>
-      this.emit('mouseMove2', this.getSecondButtonData());
+      this.emit('secondButtonMouseMove', this.getSecondButtonData());
 
     const useHandlers = (event: MouseEvent) => {
       if (!this.findFirstButton(event)) {
-        this.emit('mouseDown2', this.getSecondButtonData());
+        this.emit('secondButtonMouseDown', this.getSecondButtonData());
         emitMouseMove2();
         document.addEventListener('mousemove', emitMouseMove2);
         document.onmouseup = () => {
           document.removeEventListener('mousemove', emitMouseMove2);
-          this.emit('mouseUp2', this.getSecondButtonData());
+          this.emit('secondButtonMouseUp', this.getSecondButtonData());
           document.onmouseup = null
         };
       } else {
-        this.emit('mouseDown', this.getFirstButtonData());
+        this.emit('firstButtonMouseDown', this.getFirstButtonData());
         emitMouseMove();
         document.addEventListener('mousemove', emitMouseMove);
         document.onmouseup = () => {
           document.removeEventListener('mousemove', emitMouseMove);
-          this.emit('mouseUp', this.getFirstButtonData());
+          this.emit('firstButtonMouseUp', this.getFirstButtonData());
           document.onmouseup = null
         };
       }
@@ -72,11 +72,11 @@ class ViewHandler extends Observer {
 
     const useHandlers = (event: MouseEvent) => {
       if (!this.findFirstButton(event)) {
-        this.emit('mouseMove2', this.getSecondButtonData());
-        this.emit('mouseUp2', this.getSecondButtonData());
+        this.emit('secondButtonMouseMove', this.getSecondButtonData());
+        this.emit('secondButtonMouseUp', this.getSecondButtonData());
       } else {
-        this.emit('mouseMove', this.getFirstButtonData());
-        this.emit('mouseUp', this.getFirstButtonData());
+        this.emit('firstButtonMouseMove', this.getFirstButtonData());
+        this.emit('firstButtonMouseUp', this.getFirstButtonData());
       }
     };
     this.field.addEventListener('mousedown', useHandlers);
@@ -87,11 +87,11 @@ class ViewHandler extends Observer {
       const value = event.currentTarget!.innerHTML;
 
       if (!this.findFirstButton(event)) {
-        this.emit('scaleClick2', { value, ...this.getSecondButtonData() });
-        this.emit('mouseUp2', this.getSecondButtonData());
+        this.emit('secondButtonScaleClick', { value, ...this.getSecondButtonData() });
+        this.emit('secondButtonMouseUp', this.getSecondButtonData());
       } else {
-        this.emit('scaleClick', { value, ...this.getFirstButtonData() });
-        this.emit('mouseUp', this.getFirstButtonData());
+        this.emit('firstButtonScaleClick', { value, ...this.getFirstButtonData() });
+        this.emit('firstButtonMouseUp', this.getFirstButtonData());
       }
     };
 

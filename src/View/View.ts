@@ -81,13 +81,13 @@ class View extends Observer implements IView {
     const { isHorizontal } = this.config;
     if (isHorizontal) this.fieldSize = this.field.div.offsetWidth;
     if (!isHorizontal) this.fieldSize = this.field.div.offsetHeight;
-    this.emit('elementsSize', {
+    this.emit('updateElementsSize', {
       fieldSize: this.fieldSize,
       buttonSize: this.buttonSize,
     });
-    this.handler.emit('mouseUp', this.handler.getFirstButtonData());
+    this.handler.emit('firstButtonMouseUp', this.handler.getFirstButtonData());
     if (this.config.isRangeSlider) {
-      this.handler.emit('mouseUp2', this.handler.getSecondButtonData());
+      this.handler.emit('secondButtonMouseUp', this.handler.getSecondButtonData());
     }
   }
 

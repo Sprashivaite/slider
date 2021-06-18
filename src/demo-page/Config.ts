@@ -58,7 +58,7 @@ class Config extends Observer {
     const updateValue = (value: string) => {
       this.vl.value = value;
     };
-    this.model.subscribe('updateButtonValue', updateValue);
+    this.model.subscribe('updateFirstButtonValue', updateValue);
     this.view.updateModel();
     const setButtonValue = () => {
       if (Number(this.vl.value) > Number(this.max.value))
@@ -84,7 +84,7 @@ class Config extends Observer {
     }
     if(this.view.config.isRangeSlider) this.vl2.removeAttribute('disabled')
 
-    this.model.subscribe('updateButtonValue2', updateValue);
+    this.model.subscribe('updateSecondButtonValue', updateValue);
     this.view.updateModel();
     const setButtonValue = () => {
       if (Number(this.vl2.value) > Number(this.max.value))

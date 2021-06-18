@@ -163,11 +163,11 @@ class Model extends Observer {
     const { button, value } = data;
     const flagValue = this.calcFlagValue(data);
     if (!button.previousElementSibling) {
-      this.emit('updateButtonValue', flagValue);
-      this.emit('updateButtonPX', value);
+      this.emit('updateFirstButtonValue', flagValue);
+      this.emit('updateFirstButtonPX', value);
     } else {
-      this.emit('updateButtonValue2', flagValue);
-      this.emit('updateButtonPX2', value);
+      this.emit('updateSecondButtonValue', flagValue);
+      this.emit('updateSecondButtonPX', value);
     }
   }
 

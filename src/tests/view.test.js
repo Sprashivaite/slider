@@ -230,7 +230,7 @@ describe('события мыши', () => {
   it('view.handler.addButtonHandler mouse down', () => {
     let notify = jasmine.createSpy('notify');
     view.addHandlers();
-    view.handler.subscribe('mouseDown', notify);
+    view.handler.subscribe('firstButtonMouseDown', notify);
     view.firstButton.div.dispatchEvent(mousedown);
 
     expect(notify).toHaveBeenCalled();
@@ -240,7 +240,7 @@ describe('события мыши', () => {
   it('view.handler.addButtonHandler mouse move', () => {
     let notify = jasmine.createSpy('notify');
     view.addHandlers();
-    view.handler.subscribe('mouseMove', notify);
+    view.handler.subscribe('firstButtonMouseMove', notify);
     view.firstButton.div.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);
     expect(notify).toHaveBeenCalled();
@@ -249,8 +249,8 @@ describe('события мыши', () => {
   it('view.handler.addButtonHandler mouseup', () => {
     let notify = jasmine.createSpy('notify');
     view.addHandlers();
-    view.handler.subscribe('mouseMove', notify);
-    view.handler.subscribe('mouseUp', notify);
+    view.handler.subscribe('firstButtonMouseMove', notify);
+    view.handler.subscribe('firstButtonMouseUp', notify);
     view.firstButton.div.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);
     document.dispatchEvent(mouseup);
@@ -266,10 +266,10 @@ describe('события мыши range', () => {
     view = new View({ isRangeSlider: true });
     view.renderElements();
     something = {
-      mouseMoveButton: () => {},
-      mouseUp: () => {},
-      mouseMovesecondButton: () => {},
-      mouseUp2: () => {},
+      firstButtonMouseMoveButton: () => {},
+      firstButtonMouseUp: () => {},
+      firstButtonMouseMovesecondButton: () => {},
+      secondButtonMouseUp: () => {},
     };
     mousedown = new MouseEvent('mousedown');
     mousemove = new MouseEvent('mousemove', { clientX: 50 });
@@ -282,8 +282,8 @@ describe('события мыши range', () => {
   it('view.handler.addFieldHandler mouse event secondButton', () => {
     let notify = jasmine.createSpy('notify');
     view.addHandlers();
-    view.handler.subscribe('mouseMove2', notify);
-    view.handler.subscribe('mouseUp2', notify);
+    view.handler.subscribe('secondButtonMouseMove', notify);
+    view.handler.subscribe('secondButtonMouseUp', notify);
     view.handler.mouseCoords = 60;
     view.field.div.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);

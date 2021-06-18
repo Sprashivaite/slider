@@ -60,11 +60,11 @@ let button_vertical = document.querySelector(
 beforeEach(() => {
   model = new Model();
   model.setElementsSize({ buttonSize: 0, fieldSize: 100 });
-  model.subscribe('updateButtonPX', someObject.updatePX.bind(someObject));
-  model.subscribe('updateButtonPX2', someObject.updatePX2.bind(someObject));
-  model.subscribe('updateButtonValue', someObject.updateValue.bind(someObject));
+  model.subscribe('updateFirstButtonPX', someObject.updatePX.bind(someObject));
+  model.subscribe('updateSecondButtonPX', someObject.updatePX2.bind(someObject));
+  model.subscribe('updateFirstButtonValue', someObject.updateValue.bind(someObject));
   model.subscribe(
-    'updateButtonValue2',
+    'updateSecondButtonValue',
     someObject.updateValue2.bind(someObject)
   );
   model.subscribe('scaleUpdate', someObject.updateScale.bind(someObject));
