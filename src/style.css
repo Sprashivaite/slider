@@ -1,24 +1,6 @@
-
-
-.sliders {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.slider-container_1,
-.slider-container_2,
-.slider-container_3,
-.slider-container_4,
-.slider-container_5 {
-  width: 85%;
-  display: flex;
-  margin: 100px auto 0;
-}
-
 .slider {
   position: relative;
   width: 100%;
-  margin: 50px 30px;
   display: flex;
   justify-content: center;
 }
