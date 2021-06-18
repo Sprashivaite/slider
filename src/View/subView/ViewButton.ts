@@ -61,7 +61,7 @@ class ViewButton {
       this.div.nextElementSibling!.classList.contains(className); 
       
     if (isButton2) {
-      this.div.nextElementSibling.style.zIndex = '3'
+      this.div.nextElementSibling!.style.zIndex = '3'
       let nextButtonOffset: number =
         this.div.nextElementSibling!.offsetLeft;
       if (!isHorizontal) {
@@ -71,7 +71,7 @@ class ViewButton {
       if (value > nextButtonOffset) return nextButtonOffset;
     }
     if (isButton) {
-      this.div.previousElementSibling.style.zIndex = '3'
+      this.div.previousElementSibling!.style.zIndex = '3'
       let prevButtonOffset: number =
         this.div.previousElementSibling!.offsetLeft;
       if (!isHorizontal) {

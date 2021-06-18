@@ -88,7 +88,7 @@ class ViewHandler extends Observer {
 
   addScaleHandler(): void {
     const handleScaleClick = (event: MouseEvent) => {
-      const value = event.target!.innerHTML;
+      const value = event.currentTarget!.innerHTML;
 
       if (!this.findFirstButton(event)) {
         this.emit('scaleClick2', { value, ...this.getSecondButtonData() });
