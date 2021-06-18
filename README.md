@@ -49,58 +49,19 @@ $(selector).sliderPlugin();
 ```
 # Basic configuration & option parameters
 Дефолтные параметры указаны первым свойством обьекта.
-```javascript
-$(selector).sliderPlugin({
-    target: null // поиск дата селектора
-    target: $(".container") // подключение к данному элементу
-});
 
-$(selector).sliderPlugin({
-    isHorizontal: true // горизонтальный
-    isHorizontal: false // вертикальный
-});
+| Параметр          | Тип                | Значение по умолчанию | Описание                                                                                        |
+|-------------------|--------------------|-----------------------|-------------------------------------------------------------------------------------------------|
+| target            | element            | поиск дата селектора  | Подключение к данному элементу                                                                  | 
+| min               | number             | 0                     | Минимальное значение слайдера                                                                   |
+| max               | number             | 100                   | Максимальное значение слайдера                                                                  |
+| step              | number             | 1                     | Шаг                                                                                             |
+| isHorizontal      | boolean            | true                  | Горизонтальный/Вертикальный                                                                     |
+| isRangeSlider     | boolean            | true                  | Одиночный/Диапазон                                                                               |
+| isFlag            | boolean            | true                  | Показывает/скрывает флажок                                                                      |
+| isScale           | boolean            | true                  | Показывает/скрывает шкалу                                                                       |
+| scaleQuantity     | number             | 11                    | Количество делений шкалы                                                                        |
 
-$(selector).sliderPlugin({
-    max: 100 // максимальное значение
-    max: 0.9 // дробное число
-});
-
-$(selector).sliderPlugin({
-    min: 0 // минимальное значение
-    min: -10 // также отрицательные числа
-});
-
-$(selector).sliderPlugin({
-  step: 1 // шаг
-  step: 0,1 // дробные значения шага
-});
-
-$(selector).sliderPlugin({
-    isRangeSlider: true // range slider
-    isRangeSlider: false // single slider
-});
-
-$(selector).sliderPlugin({
-    isRangeSlider: true // range slider
-    isRangeSlider: false // single slider
-});
-
-$(selector).sliderPlugin({
-    isFlag: true // показать флажок 
-    isFlag: false // скрыть флажок
-});
-
-
-$(selector).sliderPlugin({
-    isScale: true // показать шкалу 
-    isScale: false // скрыть шкалу
-});
-
-$(selector).sliderPlugin({
-    scaleQuantity: 6 // количество числе шкалы
-    scaleQuantity: 2 // количество числе шкалы
-});
-```
 # Plugin methods
 Также с помощью публичных методов можно управлять элементами слайдера. Чтобы получить доступ, нужно обратиться к .data("sliderPlugin"), далее вызывать методы.
 ```javascript 
