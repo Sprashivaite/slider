@@ -61,8 +61,14 @@ beforeEach(() => {
   model = new Model();
   model.setElementsSize({ buttonSize: 0, fieldSize: 100 });
   model.subscribe('updateFirstButtonPX', someObject.updatePX.bind(someObject));
-  model.subscribe('updateSecondButtonPX', someObject.updatePX2.bind(someObject));
-  model.subscribe('updateFirstButtonValue', someObject.updateValue.bind(someObject));
+  model.subscribe(
+    'updateSecondButtonPX',
+    someObject.updatePX2.bind(someObject)
+  );
+  model.subscribe(
+    'updateFirstButtonValue',
+    someObject.updateValue.bind(someObject)
+  );
   model.subscribe(
     'updateSecondButtonValue',
     someObject.updateValue2.bind(someObject)

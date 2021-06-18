@@ -15,7 +15,7 @@ class ViewHandler extends Observer {
 
   firstButton!: HTMLDivElement;
 
-  secondButton!: HTMLDivElement; 
+  secondButton!: HTMLDivElement;
 
   constructor(View: IView) {
     super();
@@ -48,7 +48,7 @@ class ViewHandler extends Observer {
         document.onmouseup = () => {
           document.removeEventListener('mousemove', emitMouseMove2);
           this.emit('secondButtonMouseUp', this.getSecondButtonData());
-          document.onmouseup = null
+          document.onmouseup = null;
         };
       } else {
         this.emit('firstButtonMouseDown', this.getFirstButtonData());
@@ -57,7 +57,7 @@ class ViewHandler extends Observer {
         document.onmouseup = () => {
           document.removeEventListener('mousemove', emitMouseMove);
           this.emit('firstButtonMouseUp', this.getFirstButtonData());
-          document.onmouseup = null
+          document.onmouseup = null;
         };
       }
     };
@@ -87,15 +87,22 @@ class ViewHandler extends Observer {
       const value = event.currentTarget!.innerHTML;
 
       if (!this.findFirstButton(event)) {
-        this.emit('secondButtonScaleClick', { value, ...this.getSecondButtonData() });
+        this.emit('secondButtonScaleClick', {
+          value,
+          ...this.getSecondButtonData(),
+        });
         this.emit('secondButtonMouseUp', this.getSecondButtonData());
       } else {
-        this.emit('firstButtonScaleClick', { value, ...this.getFirstButtonData() });
+        this.emit('firstButtonScaleClick', {
+          value,
+          ...this.getFirstButtonData(),
+        });
         this.emit('firstButtonMouseUp', this.getFirstButtonData());
       }
     };
 
-    const scaleChildren = this.field.nextElementSibling!.querySelectorAll('div');
+    const scaleChildren =
+      this.field.nextElementSibling!.querySelectorAll('div');
     scaleChildren.forEach((element) =>
       element.addEventListener('click', handleScaleClick)
     );
@@ -129,11 +136,12 @@ class ViewHandler extends Observer {
 
   private findFirstButton(event: MouseEvent): boolean {
     if (!this.isRangeSlider) return true;
-    if(event.target === this.firstButton) return true
-    if(event.target === this.secondButton) return false
+    if (event.target === this.firstButton) return true;
+    if (event.target === this.secondButton) return false;
 
     const isButtonClose =
-      this.mouseCoords > (this.getSecondButtonOffset() + this.getFirstButtonOffset()) / 2;
+      this.mouseCoords >
+      (this.getSecondButtonOffset() + this.getFirstButtonOffset()) / 2;
     if (isButtonClose) return false;
     return true;
   }

@@ -96,7 +96,7 @@
 }
 
 .js-slider__scale_horizontal {
-  display: flex; 
+  display: flex;
   font-size: 14px;
   margin: 30px 0px 0px 0px;
   font-stretch: expanded;
@@ -109,11 +109,11 @@
 }
 
 .js-slider__scale_vertical {
-  display: flex; 
-  font-size: 14px; 
+  display: flex;
+  font-size: 14px;
   font-stretch: expanded;
   flex-direction: column;
-  height: 90%; 
+  height: 90%;
   position: relative;
   right: 30px;
   align-items: flex-end;
@@ -123,7 +123,6 @@
 .js-slider__scale_vertical div {
   cursor: pointer;
   position: absolute;
-  
 }
 .js-slider__scale_vertical div {
   transform: translateY(-50%);

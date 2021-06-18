@@ -29,7 +29,7 @@ body {
 @media screen and (max-width: 768px) {
   .slider-container_1,
   .slider-container_2,
-  .slider-container_3{
+  .slider-container_3 {
     width: 75%;
     flex-direction: column;
   }

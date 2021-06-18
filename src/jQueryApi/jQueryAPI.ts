@@ -27,15 +27,15 @@ import { DEFAULT_CONFIG } from '../defaults';
 
     setValue(button: string, value: number): void {
       let result = value;
-      if (result > this.model.config.max) result = this.model.config.max;        
-      if (result < this.model.config.min) result = this.model.config.min;      
-      if(button === 'firstButton') {
+      if (result > this.model.config.max) result = this.model.config.max;
+      if (result < this.model.config.min) result = this.model.config.min;
+      if (button === 'firstButton') {
         this.model.moveToValue({
           value: result,
           ...this.view.handler.getFirstButtonData(),
         });
       }
-      if(button === 'secondButton') {
+      if (button === 'secondButton') {
         this.model.moveToValue({
           value: result,
           ...this.view.handler.getSecondButtonData(),

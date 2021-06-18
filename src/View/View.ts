@@ -1,4 +1,4 @@
-import ResizeSensor from 'css-element-queries/src/ResizeSensor'
+import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 import ViewField from './subView/ViewField';
 import ViewButton from './subView/ViewButton';
 import ViewFlag from './subView/ViewFlag';
@@ -62,7 +62,9 @@ class View extends Observer implements IView {
     ].forEach((item) => item.remove());
 
     if (this.config.isRangeSlider) {
-      [this.secondFlag.div, this.secondButton.div].forEach((item) => item.remove());
+      [this.secondFlag.div, this.secondButton.div].forEach((item) =>
+        item.remove()
+      );
     }
   }
 
@@ -73,7 +75,7 @@ class View extends Observer implements IView {
     this.handler.addScaleHandler();
     this.handler.addButtonHandler();
     // eslint-disable-next-line no-new
-    new ResizeSensor(this.slider.div, (() => this.updateModel()))
+    new ResizeSensor(this.slider.div, () => this.updateModel());
   }
 
   updateModel(): void {
@@ -86,7 +88,10 @@ class View extends Observer implements IView {
     });
     this.handler.emit('firstButtonMouseUp', this.handler.getFirstButtonData());
     if (this.config.isRangeSlider) {
-      this.handler.emit('secondButtonMouseUp', this.handler.getSecondButtonData());
+      this.handler.emit(
+        'secondButtonMouseUp',
+        this.handler.getSecondButtonData()
+      );
     }
   }
 
@@ -97,19 +102,15 @@ class View extends Observer implements IView {
 
   assignFlags(): void {
     const unValid =
-      !this.secondFlag ||      
-      !this.config.isFlag ||
-      !this.config.isRangeSlider;
+      !this.secondFlag || !this.config.isFlag || !this.config.isRangeSlider;
     if (unValid) return;
     const { firstFlag, secondFlag, flagTotal } = this;
     let firstFlagOffset = firstFlag.div.getBoundingClientRect().right;
     let secondFlagOffset = secondFlag.div.getBoundingClientRect().left;
-    if(!this.config.isHorizontal) {
+    if (!this.config.isHorizontal) {
       firstFlagOffset = firstFlag.div.getBoundingClientRect().bottom;
       secondFlagOffset = secondFlag.div.getBoundingClientRect().top;
     }
-
-
 
     const text = `${firstFlag.div.innerHTML} - ${secondFlag.div.innerHTML}`;
 
@@ -118,9 +119,9 @@ class View extends Observer implements IView {
       secondFlag.hideFlag();
       flagTotal.showFlag();
       flagTotal.div.innerHTML = text;
-      const flagTotalOffset = `${(secondFlagOffset - firstFlagOffset) /2 }px`
+      const flagTotalOffset = `${(secondFlagOffset - firstFlagOffset) / 2}px`;
       this.flagTotal.div.style.left = flagTotalOffset;
-      if(!this.config.isHorizontal) {
+      if (!this.config.isHorizontal) {
         this.flagTotal.div.style.left = '150%';
       }
     } else {
@@ -136,13 +137,8 @@ class View extends Observer implements IView {
   }
 
   private validate(): void {
-    let {
-      isHorizontal,
-      isRangeSlider,
-      isFlag,
-      isProgressBar,
-      isScale,
-    } = this.config;
+    let { isHorizontal, isRangeSlider, isFlag, isProgressBar, isScale } =
+      this.config;
 
     if (typeof isHorizontal !== 'boolean') isHorizontal = true;
     if (typeof isRangeSlider !== 'boolean') isRangeSlider = true;
@@ -150,17 +146,16 @@ class View extends Observer implements IView {
     if (typeof isProgressBar !== 'boolean') isProgressBar = true;
     if (typeof isScale !== 'boolean') isScale = true;
 
-
     this.config = {
       isHorizontal,
       isRangeSlider,
       isFlag,
       isProgressBar,
-      isScale
+      isScale,
     };
   }
 
-  private renderField(): void {    
+  private renderField(): void {
     this.field = new ViewField(this);
     this.field.createField();
   }

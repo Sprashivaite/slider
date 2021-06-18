@@ -7,15 +7,15 @@ class Model extends Observer {
 
   shift!: number;
 
-  elementsSize!: { fieldSize: number; buttonSize: number; };
+  elementsSize!: { fieldSize: number; buttonSize: number };
 
   constructor(config = DEFAULT_MODEL_CONFIG as ModelConfig) {
     super();
     this.init(config);
   }
 
-  setConfig(config: ModelConfig): void { 
-    this.config = {...this.config, ...config };
+  setConfig(config: ModelConfig): void {
+    this.config = { ...this.config, ...config };
     this.validate();
   }
 
@@ -39,7 +39,8 @@ class Model extends Observer {
 
     const shiftLeft: number = mouseCoords - this.shift;
 
-    if (shiftLeft >= fieldSize) this.updateButton({ ...data, value: fieldSize });
+    if (shiftLeft >= fieldSize)
+      this.updateButton({ ...data, value: fieldSize });
     else if (shiftLeft <= 0) this.updateButton({ ...data, value: 0 });
     else this.updateButton({ ...data, value: shiftLeft });
   }
@@ -53,8 +54,8 @@ class Model extends Observer {
 
     const arrStopPoints: number[] = [];
     for (let i = 0; i <= fieldSize; i += stepPX) {
-      i = Number(i.toFixed(2))
-      arrStopPoints.push((i) );      
+      i = Number(i.toFixed(2));
+      arrStopPoints.push(i);
     }
 
     let stopPoint: number | undefined = arrStopPoints.find(
@@ -92,7 +93,7 @@ class Model extends Observer {
 
   calcScaleValues(): void {
     const { max, min, scaleQuantity } = this.config;
-    
+
     let stepValue = min;
     const stepValues = (max - min) / (scaleQuantity - 1);
 
@@ -106,7 +107,7 @@ class Model extends Observer {
       stepValue += stepValuesFixed;
     }
     scaleValues.push(max);
-    
+
     this.emit('scaleUpdate', { scaleValues, quantity: scaleQuantity });
   }
 
@@ -117,45 +118,45 @@ class Model extends Observer {
   }
 
   private validate(): void {
-    let { max, min, step, scaleQuantity} = this.config;
+    let { max, min, step, scaleQuantity } = this.config;
 
-    if (typeof min !== 'number') min = 0
+    if (typeof min !== 'number') min = 0;
     if (min >= max) min = max - 1;
-    if (typeof max !== 'number') max = 100
+    if (typeof max !== 'number') max = 100;
     if (max <= min) max = min + 1;
-    step = this.validateStep()
-    scaleQuantity = this.validateScaleQuantity()
+    step = this.validateStep();
+    scaleQuantity = this.validateScaleQuantity();
     this.config = { max, min, step, scaleQuantity };
   }
 
   private validateStep(): number {
     const { max, min, step } = this.config;
     let invalidStep = step;
-    if (typeof invalidStep !== 'number') invalidStep = 1
+    if (typeof invalidStep !== 'number') invalidStep = 1;
     if (invalidStep >= max - min) invalidStep = max - min;
     if (invalidStep <= 0) invalidStep = 1;
-    
-    const validateLargeNumbers = (value: number): number => {
-      if (value * 1000 >= max - min) return value
-      return validateLargeNumbers(value *10)      
-    }
 
-    const validStep = validateLargeNumbers(invalidStep)
-    return validStep
+    const validateLargeNumbers = (value: number): number => {
+      if (value * 1000 >= max - min) return value;
+      return validateLargeNumbers(value * 10);
+    };
+
+    const validStep = validateLargeNumbers(invalidStep);
+    return validStep;
   }
 
   private validateScaleQuantity(): number {
     const { max, min, step } = this.config;
-    let { scaleQuantity} = this.config;
+    let { scaleQuantity } = this.config;
 
     if (typeof scaleQuantity !== 'number' || scaleQuantity < 2) {
       scaleQuantity = 2;
     }
     const quantitySteps = (max - min) / step + 1;
-    
+
     if (quantitySteps < scaleQuantity) scaleQuantity = quantitySteps;
     scaleQuantity = Number(scaleQuantity.toFixed(0));
-    return scaleQuantity
+    return scaleQuantity;
   }
 
   private updateButton(data: ViewHandleData): void {
@@ -183,13 +184,11 @@ class Model extends Observer {
     const steps: number[] = [];
     for (let i = min; i <= max; i += step) steps.push(i);
 
-    let nearestValue: number | undefined = steps.find(
-      (item, index, array) => {
-        const halfStep = value + step / 2;
+    let nearestValue: number | undefined = steps.find((item, index, array) => {
+      const halfStep = value + step / 2;
 
-        return halfStep >= item && halfStep < array[index + 1];
-      }
-    );
+      return halfStep >= item && halfStep < array[index + 1];
+    });
     if (nearestValue === undefined) nearestValue = steps.pop()!;
     return nearestValue;
   }

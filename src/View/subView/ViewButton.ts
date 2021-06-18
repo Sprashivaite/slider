@@ -54,29 +54,26 @@ class ViewButton {
   private demarcateButtons(value: number): number {
     const { isHorizontal } = this;
     const { className } = this.div;
-    this.div.style.zIndex = '10'
+    this.div.style.zIndex = '10';
     const isButton = this.div.previousElementSibling;
     const isSecondButton =
       this.div.nextElementSibling &&
-      this.div.nextElementSibling!.classList.contains(className); 
-      
+      this.div.nextElementSibling!.classList.contains(className);
+
     if (isSecondButton) {
-      this.div.nextElementSibling!.style.zIndex = '3'
-      let nextButtonOffset: number =
-        this.div.nextElementSibling!.offsetLeft;
+      this.div.nextElementSibling!.style.zIndex = '3';
+      let nextButtonOffset: number = this.div.nextElementSibling!.offsetLeft;
       if (!isHorizontal) {
-        nextButtonOffset =
-          this.div.nextElementSibling!.offsetTop;
+        nextButtonOffset = this.div.nextElementSibling!.offsetTop;
       }
       if (value > nextButtonOffset) return nextButtonOffset;
     }
     if (isButton) {
-      this.div.previousElementSibling!.style.zIndex = '3'
+      this.div.previousElementSibling!.style.zIndex = '3';
       let prevButtonOffset: number =
         this.div.previousElementSibling!.offsetLeft;
       if (!isHorizontal) {
-        prevButtonOffset =
-          this.div.previousElementSibling!.offsetTop;
+        prevButtonOffset = this.div.previousElementSibling!.offsetTop;
       }
       if (value < prevButtonOffset) return prevButtonOffset;
     }

@@ -29,7 +29,7 @@ describe('установка параметров View', () => {
   it('невалидные параметры', () => {
     view = new View({
       isRangeSlider: 22,
-      isHorizontal: 'asdfc',
+      isHorizontal: 'value',
       isProgressBar: '',
       isScale: null,
     });
@@ -268,7 +268,7 @@ describe('события мыши range', () => {
     something = {
       firstButtonMouseMoveButton: () => {},
       firstButtonMouseUp: () => {},
-      firstButtonMouseMovesecondButton: () => {},
+      secondButtonMouseMove: () => {},
       secondButtonMouseUp: () => {},
     };
     mousedown = new MouseEvent('mousedown');

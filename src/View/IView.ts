@@ -5,7 +5,7 @@ import ViewFlag from './subView/ViewFlag';
 import ViewHandler from './subView/ViewHandler';
 import ViewProgressBar from './subView/ViewProgressBar';
 import ViewScale from './subView/ViewScale';
-import {ViewConfig} from '../types';
+import { ViewConfig } from '../types';
 
 interface IView {
   slider: ViewContainer;
@@ -18,5 +18,5 @@ interface IView {
   scale: ViewScale;
   handler: ViewHandler;
   config: ViewConfig;
-};
+}
 export default IView;

@@ -19,8 +19,8 @@ class Observer {
     const event = this.listeners[eventName];
 
     if (event && !event.includes(listener)) event.push(listener);
-    else this.listeners[eventName] = [listener];   
-    
+    else this.listeners[eventName] = [listener];
+
     return this;
   }
 }
