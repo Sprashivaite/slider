@@ -1,6 +1,6 @@
 import IView from '../IView';
 import Observer from '../../Observer/Observer';
-import { ViewHandleData } from '../../types';
+import { viewHandleData } from '../../types';
 
 class ViewHandler extends Observer {
   mouseCoords!: number;
@@ -108,7 +108,7 @@ class ViewHandler extends Observer {
     );
   }
 
-  getFirstButtonData(): ViewHandleData {
+  getFirstButtonData(): viewHandleData {
     return {
       button: this.firstButton,
       buttonOffset: this.getFirstButtonOffset(),
@@ -116,7 +116,7 @@ class ViewHandler extends Observer {
     };
   }
 
-  getSecondButtonData(): ViewHandleData {
+  getSecondButtonData(): viewHandleData {
     return {
       button: this.secondButton,
       buttonOffset: this.getSecondButtonOffset(),

@@ -1,4 +1,5 @@
 import Observer from '../Observer/Observer';
+import Model from '../Model/Model'
 
 class Config extends Observer {
   slider: any;
@@ -27,7 +28,7 @@ class Config extends Observer {
 
   view: any;
 
-  model: any;
+  model: Model;
   
   scaleQuantity: any;
 

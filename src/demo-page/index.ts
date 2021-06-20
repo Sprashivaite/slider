@@ -15,8 +15,7 @@ const slider1 = $('.js-slider-container_1 > .js-slider')
 const slider2 = $('.js-slider-container_2 > .js-slider')
   .sliderPlugin({
     isRangeSlider: false,
-    isFlag: false,
-    scaleQuantity: 6,
+    scaleQuantity: 3,
     step: 3,
     max: 5,
   })

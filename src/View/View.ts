@@ -9,7 +9,7 @@ import IView from './IView';
 import ViewHandler from './subView/ViewHandler';
 import Observer from '../Observer/Observer';
 import { DEFAULT_VIEW_CONFIG } from '../defaults';
-import { scaleData, ViewConfig } from '../types';
+import { scaleData, viewConfig } from '../types';
 
 class View extends Observer implements IView {
   slider!: ViewContainer;
@@ -30,7 +30,7 @@ class View extends Observer implements IView {
 
   handler!: ViewHandler;
 
-  config!: ViewConfig;
+  config!: viewConfig;
 
   fieldSize!: number;
 
@@ -38,7 +38,7 @@ class View extends Observer implements IView {
 
   flagTotal!: ViewFlag;
 
-  constructor(config = DEFAULT_VIEW_CONFIG as ViewConfig) {
+  constructor(config = DEFAULT_VIEW_CONFIG as viewConfig) {
     super();
     this.slider = new ViewContainer(config.target);
     this.init(config);
@@ -131,7 +131,7 @@ class View extends Observer implements IView {
     }
   }
 
-  private init(config: ViewConfig): void {
+  private init(config: viewConfig): void {
     this.config = { ...DEFAULT_VIEW_CONFIG, ...config };
     this.validate();
   }
