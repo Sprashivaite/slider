@@ -10,6 +10,8 @@ class ViewScale {
 
   scaleOffsets!: number[];
 
+  isScale!: boolean;
+
   constructor(View: IView) {
     this.init(View);
   }
@@ -18,6 +20,7 @@ class ViewScale {
     if (this.isHorizontal) this.div.className = 'js-slider__scale_horizontal';
     if (!this.isHorizontal) this.div.className = 'js-slider__scale_vertical';
     this.slider.append(this.div);
+    if(!this.isScale) this.hideScale()
   }
 
   updateValues(data: scaleData): void {
@@ -48,7 +51,8 @@ class ViewScale {
   private init(View: IView) {
     this.div = document.createElement('div');
     this.slider = View.slider.div;
-    this.isHorizontal = View.config.isHorizontal!;
+    this.isHorizontal = View.config.isHorizontal;
+    this.isScale = View.config.isScale;
   }
 
   private calcScaleOffsets(data: scaleData): void {

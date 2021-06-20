@@ -9,7 +9,8 @@ import IView from './IView';
 import ViewHandler from './subView/ViewHandler';
 import Observer from '../Observer/Observer';
 import { DEFAULT_VIEW_CONFIG } from '../defaults';
-import { scaleData, viewConfig } from '../types';
+import { scaleData, viewConfig, userViewConfig } from '../types';
+import assignFlags from './utils/demarcateElements';
 
 class View extends Observer implements IView {
   slider!: ViewContainer;
@@ -38,7 +39,7 @@ class View extends Observer implements IView {
 
   flagTotal!: ViewFlag;
 
-  constructor(config = DEFAULT_VIEW_CONFIG as viewConfig) {
+  constructor(config = DEFAULT_VIEW_CONFIG as userViewConfig) {
     super();
     this.slider = new ViewContainer(config.target);
     this.init(config);
@@ -80,8 +81,16 @@ class View extends Observer implements IView {
 
   updateModel(): void {
     const { isHorizontal } = this.config;
-    if (isHorizontal) this.fieldSize = this.field.div.offsetWidth;
-    if (!isHorizontal) this.fieldSize = this.field.div.offsetHeight;
+    if (isHorizontal) {
+      this.fieldSize = this.field.div.offsetWidth;
+      this.buttonSize = this.firstButton.div.offsetWidth;
+    }
+
+    if (!isHorizontal) {
+      this.fieldSize = this.field.div.offsetHeight;
+      this.buttonSize = this.firstButton.div.offsetHeight;
+    }
+
     this.emit('updateElementsSize', {
       fieldSize: this.fieldSize,
       buttonSize: this.buttonSize,
@@ -100,53 +109,33 @@ class View extends Observer implements IView {
     this.handler.addScaleHandler();
   }
 
-  assignFlags(): void {
-    const unValid =
-      !this.secondFlag || !this.config.isFlag || !this.config.isRangeSlider;
-    if (unValid) return;
-    const { firstFlag, secondFlag, flagTotal } = this;
-    let firstFlagOffset = firstFlag.div.getBoundingClientRect().right;
-    let secondFlagOffset = secondFlag.div.getBoundingClientRect().left;
-    if (!this.config.isHorizontal) {
-      firstFlagOffset = firstFlag.div.getBoundingClientRect().bottom;
-      secondFlagOffset = secondFlag.div.getBoundingClientRect().top;
-    }
-
-    const text = `${firstFlag.div.innerHTML} - ${secondFlag.div.innerHTML}`;
-
-    if (firstFlagOffset >= secondFlagOffset) {
-      firstFlag.hideFlag();
-      secondFlag.hideFlag();
-      flagTotal.showFlag();
-      flagTotal.div.innerHTML = text;
-      const flagTotalOffset = `${(secondFlagOffset - firstFlagOffset) / 2}px`;
-      this.flagTotal.div.style.left = flagTotalOffset;
-      if (!this.config.isHorizontal) {
-        this.flagTotal.div.style.left = '150%';
-      }
-    } else {
-      firstFlag.showFlag();
-      secondFlag.showFlag();
-      flagTotal.hideFlag();
-    }
+  demarcateElements(): void {
+    const { isRangeSlider } = this.config;
+    if (isRangeSlider) assignFlags(this)
   }
 
-  private init(config: viewConfig): void {
+  private init(config: userViewConfig): void {
     this.config = { ...DEFAULT_VIEW_CONFIG, ...config };
     this.validate();
   }
 
   private validate(): void {
-    let { isHorizontal, isRangeSlider, isFlag, isProgressBar, isScale } =
-      this.config;
+    let {
+      isHorizontal,
+      isRangeSlider,
+      isFlag,
+      isProgressBar,
+      isScale
+    } = this.config;
 
     if (typeof isHorizontal !== 'boolean') isHorizontal = true;
     if (typeof isRangeSlider !== 'boolean') isRangeSlider = true;
     if (typeof isFlag !== 'boolean') isFlag = true;
     if (typeof isProgressBar !== 'boolean') isProgressBar = true;
     if (typeof isScale !== 'boolean') isScale = true;
-
+    
     this.config = {
+      ...this.config,
       isHorizontal,
       isRangeSlider,
       isFlag,
@@ -161,31 +150,19 @@ class View extends Observer implements IView {
   }
 
   private renderButtons(): void {
-    const { isRangeSlider, isHorizontal } = this.config;
-
+    const { isRangeSlider } = this.config;
     this.firstButton = new ViewButton(this);
     this.firstButton.createButton();
-
     if (isRangeSlider) {
       this.secondButton = new ViewButton(this);
       this.secondButton.createButton();
     }
-
-    if (isHorizontal) {
-      this.buttonSize = this.firstButton.div.offsetWidth;
-    }
-    if (!isHorizontal) {
-      this.buttonSize = this.firstButton.div.offsetHeight;
-    }
   }
 
   private renderFlag(): void {
-    const { isRangeSlider, isFlag } = this.config;
+    const { isRangeSlider } = this.config;
     this.firstFlag = new ViewFlag(this, this.firstButton.div);
     this.firstFlag.createFlag();
-
-    if (!isFlag) this.firstFlag.hideFlag();
-
     if (isRangeSlider) {
       this.secondFlag = new ViewFlag(this, this.secondButton.div);
       this.secondFlag.createFlag();
@@ -193,26 +170,17 @@ class View extends Observer implements IView {
       this.flagTotal.createFlag();
       this.flagTotal.hideFlag();
       this.flagTotal.div.style.position = 'absolute';
-
-      if (!isFlag) {
-        this.flagTotal.hideFlag();
-        this.secondFlag.hideFlag();
-      }
     }
   }
 
   private renderScale(): void {
-    const { isScale } = this.config;
     this.scale = new ViewScale(this);
     this.scale.createScale();
-    if (!isScale) this.scale.hideScale();
   }
 
   private renderProgressBar(): void {
-    const { isProgressBar } = this.config;
     this.progressBar = new ViewProgressBar(this);
     this.progressBar.createProgressBar();
-    if (!isProgressBar) this.progressBar.hideBar();
   }
 }
 

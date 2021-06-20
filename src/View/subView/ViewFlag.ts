@@ -11,6 +11,8 @@ class Flag {
 
   isRangeSlider!: boolean;
 
+  isFlag!: boolean;
+
   constructor(View: IView, button: HTMLDivElement) {    
     this.init(View, button)    
   }
@@ -22,6 +24,7 @@ class Flag {
     if(!this.isHorizontal) this.div.classList.add('-js-slider__flag_isVertical')
     this.div.innerHTML = "0";
     this.button.append(this.div);
+    if(!this.isFlag) this.hideFlag()
   }
 
   changeFlagValue(value: number): void {
@@ -41,6 +44,7 @@ class Flag {
     this.field = View.field.div;
     this.isHorizontal = View.config.isHorizontal!
     this.isRangeSlider = View.config.isRangeSlider!
+    this.isFlag = View.config.isFlag!
   } 
 }
 export default Flag;

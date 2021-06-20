@@ -1,6 +1,6 @@
 import Observer from '../Observer/Observer';
 import { DEFAULT_MODEL_CONFIG } from '../defaults';
-import { viewHandleData, elementsSize, modelConfig, userModelConfig } from '../types';
+import { elementsData, elementsSize, modelConfig, userModelConfig } from '../types';
 
 class Model extends Observer {
   config!: modelConfig;
@@ -28,12 +28,12 @@ class Model extends Observer {
     };
   }
 
-  calcShift(data: viewHandleData): void {
+  calcShift(data: elementsData): void {
     const { buttonOffset, mouseCoords } = data;
     this.shift = mouseCoords - buttonOffset;
   }
 
-  calcButtonOffset(data: viewHandleData): void {
+  calcButtonOffset(data: elementsData): void {
     const { fieldSize } = this.elementsSize;
     const { mouseCoords } = data;
     const shiftLeft: number = mouseCoords - this.shift;
@@ -46,7 +46,7 @@ class Model extends Observer {
     }
   }
 
-  calcStopPointPX(data: viewHandleData): void {
+  calcStopPointPX(data: elementsData): void {
     const { max, min, step } = this.config;
     const { fieldSize } = this.elementsSize;
     const { buttonOffset } = data;
@@ -63,17 +63,17 @@ class Model extends Observer {
     this.updateButton({ ...data, value: stopPoint });
   }
 
-  calcFlagValue(buttonOffset: number): number {
+  calcFlagValue(data: elementsData): number {
     const { max, min } = this.config;
     const { fieldSize } = this.elementsSize;
-    const offset = buttonOffset;
-    const value: number = min + (offset * (max - min)) / fieldSize;
+    const { buttonOffset } = data;
+    const value: number = min + (buttonOffset * (max - min)) / fieldSize;
     const roundedValue: number = this.roundByStep(value)
     if (roundedValue === max) return roundedValue
     return this.findNearestValue(roundedValue);
   }
 
-  moveToValue(data: viewHandleData): void {
+  moveToValue(data: elementsData): void {
     const { max, min } = this.config;
     const { fieldSize } = this.elementsSize;
     const { value } = data;
@@ -148,9 +148,9 @@ class Model extends Observer {
     this.config = { ...this.config, scaleQuantity };
   }
 
-  private updateButton(data: viewHandleData): void {
+  private updateButton(data: elementsData): void {
     const { button, value } = data;
-    const flagValue = this.calcFlagValue(value);
+    const flagValue = this.calcFlagValue(data);
     if (!button.previousElementSibling) {
       this.emit('updateFirstButtonPX', value);
       this.emit('updateFirstButtonValue', flagValue);
@@ -172,7 +172,7 @@ class Model extends Observer {
     const roundedValue = this.roundByStep(value)
     let result = max;
     for (let i = min; i <= max; i += step) {
-      if (roundedValue >= i) result = i
+      if (roundedValue >= i) result = i;
     }
 
     return this.roundByStep(result);

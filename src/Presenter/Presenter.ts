@@ -67,8 +67,8 @@ class Presenter {
           'updateSecondButtonPX',
           view.progressBar.progressBarMove.bind(view.progressBar)
         )
-        .subscribe('updateFirstButtonPX', view.assignFlags.bind(view))
-        .subscribe('updateSecondButtonPX', view.assignFlags.bind(view));
+        .subscribe('updateFirstButtonPX', view.demarcateElements.bind(view))
+        .subscribe('updateSecondButtonPX', view.demarcateElements.bind(view));
     }
   }
 }

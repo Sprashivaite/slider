@@ -13,6 +13,8 @@ class ViewProgressBar {
 
   secondButton!: HTMLDivElement;
 
+  isProgressBar!: boolean;
+
   constructor(View: IView) {
     this.init(View);
   }
@@ -22,6 +24,7 @@ class ViewProgressBar {
     this.div.className = 'progressBar';
     if (!this.isHorizontal) this.div.style.top = '0px';
     this.field.append(this.div);
+    if(!this.isProgressBar) this.hideBar()
   }
 
   progressBarMove(): void {
@@ -67,8 +70,9 @@ class ViewProgressBar {
     if (View.config.isRangeSlider) {
       this.secondButton = View.secondButton.div;
     }
-    this.isHorizontal = View.config.isHorizontal!;
-    this.isRangeSlider = View.config.isRangeSlider!;
+    this.isHorizontal = View.config.isHorizontal;
+    this.isRangeSlider = View.config.isRangeSlider;
+    this.isProgressBar = View.config.isProgressBar;
   }
 
   private changeColorBar(): void {

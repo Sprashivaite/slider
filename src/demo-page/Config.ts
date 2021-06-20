@@ -1,5 +1,7 @@
 import Observer from '../Observer/Observer';
 import Model from '../Model/Model'
+import View from '../View/View'
+import Presenter from '../Presenter/Presenter'
 
 class Config extends Observer {
   slider: any;
@@ -24,9 +26,9 @@ class Config extends Observer {
 
   container!: any;
 
-  presenter: any;
+  presenter: Presenter;
 
-  view: any;
+  view: View;
 
   model: Model;
   

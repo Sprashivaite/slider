@@ -13,6 +13,15 @@ type userModelConfig = {
 };
 
 type viewConfig = {
+  target: HTMLElement;
+  isHorizontal: boolean;
+  isRangeSlider: boolean;
+  isFlag: boolean;
+  isScale: boolean;
+  isProgressBar: boolean;
+};
+
+type userViewConfig = {
   target?: HTMLElement;
   isHorizontal?: boolean;
   isRangeSlider?: boolean;
@@ -22,6 +31,13 @@ type viewConfig = {
 };
 
 type viewHandleData = {
+  button: HTMLElement;
+  buttonOffset: number;
+  mouseCoords: number;
+  value?: number;
+};
+
+type elementsData = {
   button: HTMLElement;
   buttonOffset: number;
   mouseCoords: number;
@@ -38,4 +54,4 @@ type scaleData = {
   quantity: number;
 };
 
-export { modelConfig, userModelConfig, viewConfig, viewHandleData, scaleData, elementsSize };
+export { modelConfig, userModelConfig, viewConfig, viewHandleData, scaleData, elementsSize, elementsData, userViewConfig };
