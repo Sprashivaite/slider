@@ -110,9 +110,10 @@ class Config extends Observer {
       this.step.value = `${this.model.config.step}`;
       this.min.value = `${this.model.config.min}`;
       this.max.value = `${this.model.config.max}`;   
-      this.view.updateModel();
-      this.model.calcScaleValues()
+      
       this.scaleQuantity.value = `${this.model.config.scaleQuantity}`;
+      this.view.updateModel();
+      this.initValue2()
     };
     this.min.addEventListener('change', minChanged);
   }
@@ -124,9 +125,10 @@ class Config extends Observer {
       this.step.value = `${this.model.config.step}`; 
       this.min.value = `${this.model.config.min}`;  
       this.max.value = `${this.model.config.max}`;   
-      this.view.updateModel();
-      this.model.calcScaleValues()
+      
       this.scaleQuantity.value = `${this.model.config.scaleQuantity}`;
+      this.view.updateModel();
+      this.initValue2()
     };
     this.max.addEventListener('change', maxChanged);
   }
@@ -136,9 +138,10 @@ class Config extends Observer {
     const stepChanged = () => {
       this.model.setConfig({step: Number(this.step.value)})
       this.step.value = `${this.model.config.step}`;
-      this.view.updateModel();
-      this.model.calcScaleValues()
+      
       this.scaleQuantity.value = `${this.model.config.scaleQuantity}`;
+      this.view.updateModel();
+      this.initValue2()
     };
     this.step.addEventListener('change', stepChanged);
   }
@@ -148,9 +151,10 @@ class Config extends Observer {
     const scaleChanged = () => {
       this.model.setConfig({scaleQuantity: Number(this.scaleQuantity.value)})
       
-      this.view.updateModel();
-      this.model.calcScaleValues()
+      
       this.scaleQuantity.value = `${this.model.config.scaleQuantity}`;
+      this.view.updateModel();
+      this.initValue2()
     };
     this.scaleQuantity.addEventListener('change', scaleChanged);
   }

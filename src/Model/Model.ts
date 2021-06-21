@@ -18,6 +18,7 @@ class Model extends Observer {
   setConfig(config: userModelConfig): void {
     this.config = { ...this.config, ...config };
     this.validate();
+    this.calcScaleValues()
   }
 
   setElementsSize(data: elementsSize): void {
