@@ -138,23 +138,27 @@ class ViewHandler extends Observer {
     if (!this.isRangeSlider) return true;
     if (event.target === this.firstButton) return true;
     if (event.target === this.secondButton) return false;
+    const offsetSize = this.isHorizontal ? 'offsetWidth' : 'offsetHeight';
+    const betweenButtons =
+      (this.getSecondButtonOffset() +
+        this.getFirstButtonOffset() +
+        this.firstButton[offsetSize]) /
+      2;
 
-    const isButtonClose =
-      this.mouseCoords >
-      (this.getSecondButtonOffset() + this.getFirstButtonOffset()) / 2;
+    const isButtonClose = this.mouseCoords > betweenButtons;
     if (isButtonClose) return false;
     return true;
   }
 
   private getFirstButtonOffset(): number {
-    let buttonOffset = this.firstButton.offsetLeft;
-    if (!this.isHorizontal) buttonOffset = this.firstButton.offsetTop;
+    const offsetDirection = this.isHorizontal ? 'offsetLeft' : 'offsetTop';
+    const buttonOffset = this.firstButton[offsetDirection];
     return buttonOffset;
   }
 
   private getSecondButtonOffset(): number {
-    let buttonOffset = this.secondButton.offsetLeft;
-    if (!this.isHorizontal) buttonOffset = this.secondButton.offsetTop;
+    const offsetDirection = this.isHorizontal ? 'offsetLeft' : 'offsetTop';
+    const buttonOffset = this.secondButton[offsetDirection];
     return buttonOffset;
   }
 }
