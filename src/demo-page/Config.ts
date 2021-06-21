@@ -74,7 +74,7 @@ class Config extends Observer {
       });
       this.view.updateModel();
     };
-    this.vl.addEventListener('input', setButtonValue);
+    this.vl.addEventListener('change', setButtonValue);
   }
 
   initValue2(): void {
@@ -100,7 +100,7 @@ class Config extends Observer {
       });
       this.view.updateModel();
     };
-    this.vl2.addEventListener('input', setButtonValue);
+    this.vl2.addEventListener('change', setButtonValue);
   }
 
   initMinValue(): void {
@@ -114,7 +114,7 @@ class Config extends Observer {
       this.model.calcScaleValues()
       this.scaleQuantity.value = `${this.model.config.scaleQuantity}`;
     };
-    this.min.addEventListener('input', minChanged);
+    this.min.addEventListener('change', minChanged);
   }
 
   initMaxValue(): void {
@@ -128,7 +128,7 @@ class Config extends Observer {
       this.model.calcScaleValues()
       this.scaleQuantity.value = `${this.model.config.scaleQuantity}`;
     };
-    this.max.addEventListener('input', maxChanged);
+    this.max.addEventListener('change', maxChanged);
   }
 
   initStep(): void {
@@ -140,7 +140,7 @@ class Config extends Observer {
       this.model.calcScaleValues()
       this.scaleQuantity.value = `${this.model.config.scaleQuantity}`;
     };
-    this.step.addEventListener('input', stepChanged);
+    this.step.addEventListener('change', stepChanged);
   }
 
   initScaleQuantity(): void {
@@ -152,7 +152,7 @@ class Config extends Observer {
       this.model.calcScaleValues()
       this.scaleQuantity.value = `${this.model.config.scaleQuantity}`;
     };
-    this.scaleQuantity.addEventListener('input', scaleChanged);
+    this.scaleQuantity.addEventListener('change', scaleChanged);
   }
 
   initTooltipe(): void {
@@ -174,7 +174,7 @@ class Config extends Observer {
         }
       } 
     };
-    this.tooltip.addEventListener('input', tooltipChanged);
+    this.tooltip.addEventListener('change', tooltipChanged);
   }
 
   initScale(): void {
@@ -188,7 +188,7 @@ class Config extends Observer {
         this.view.config.isScale = !this.view.config.isScale;
       }
     };
-    this.scale.addEventListener('input', scaleChanged);
+    this.scale.addEventListener('change', scaleChanged);
   }
 
   initOrientation(): void {
@@ -200,7 +200,7 @@ class Config extends Observer {
       this.view.addHandlers();
       this.presenter.subscribeListeners();
     };
-    this.orientation.addEventListener('input', orientationChanged);
+    this.orientation.addEventListener('change', orientationChanged);
   }
 
   initRange(): void {
@@ -213,7 +213,7 @@ class Config extends Observer {
       this.presenter.subscribeListeners();
       this.initValue2()
     };
-    this.range.addEventListener('input', rangeChanged);
+    this.range.addEventListener('change', rangeChanged);
   }
 
   initInputs(): void {
