@@ -52,7 +52,7 @@ import { DEFAULT_CONFIG } from '../defaults';
         $.data(
           this,
           'sliderPlugin',
-          new SliderPlugin({ target: this, ...config })
+          new SliderPlugin({ ...config, target: this })
         );
       }
     });

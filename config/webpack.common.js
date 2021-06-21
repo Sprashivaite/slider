@@ -3,11 +3,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-// const ElementQueries = require('css-element-queries/src/ElementQueries');
-
-// ElementQueries.listen();
-// ElementQueries.init();
-
 const PATHS = {
   src: path.join(__dirname, '../src'),
   dist: path.join(__dirname, '../dist'),

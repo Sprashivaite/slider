@@ -18,22 +18,19 @@ class ViewButton {
     this.div.className = 'js-slider__button';
     this.field.append(this.div);
 
+    const direction = this.isHorizontal ? 'left' : 'top';
+    const offsetDirection = this.isHorizontal ? 'offsetLeft' : 'offsetTop';
+    const offsetSize = this.isHorizontal ? 'offsetWidth' : 'offsetHeight';
+
     if (this.div.previousElementSibling) {
-      this.div.style.left = `${
-        this.div.previousElementSibling.offsetLeft +
-        this.div.previousElementSibling.offsetWidth
+      this.div.style[direction] = `${
+        this.div.previousElementSibling[offsetDirection] +
+        this.div.previousElementSibling[offsetSize]
       }px`;
     }
 
     if (!this.isHorizontal) {
       this.div.style.left = '-100%';
-
-      if (this.div.previousElementSibling) {
-        this.div.style.top = `${
-          this.div.previousElementSibling.offsetTop +
-          this.div.previousElementSibling.offsetHeight
-        }px`;
-      }
     }
     return this.div;
   }
@@ -41,8 +38,8 @@ class ViewButton {
   moveButton(value: number): void {
     let result = value;
     if (this.isRangeSlider) result = this.demarcateButtons(value);
-    if (this.isHorizontal) this.div.style.left = `${result}px`;
-    if (!this.isHorizontal) this.div.style.top = `${result}px`;
+    const direction = this.isHorizontal ? 'left': 'top';
+    this.div.style[direction] = `${result}px`;
   }
 
   private init(View: IView): void {
@@ -60,21 +57,16 @@ class ViewButton {
       this.div.nextElementSibling &&
       this.div.nextElementSibling!.classList.contains(className);
 
+    const offset = isHorizontal ? 'offsetLeft': 'offsetTop';
     if (isSecondButton) {
       this.div.nextElementSibling!.style.zIndex = '3';
-      let nextButtonOffset: number = this.div.nextElementSibling!.offsetLeft;
-      if (!isHorizontal) {
-        nextButtonOffset = this.div.nextElementSibling!.offsetTop;
-      }
+      const nextButtonOffset: number = this.div.nextElementSibling![offset];
       if (value > nextButtonOffset) return nextButtonOffset;
     }
     if (isButton) {
       this.div.previousElementSibling!.style.zIndex = '3';
-      let prevButtonOffset: number =
-        this.div.previousElementSibling!.offsetLeft;
-      if (!isHorizontal) {
-        prevButtonOffset = this.div.previousElementSibling!.offsetTop;
-      }
+      const prevButtonOffset: number =
+        this.div.previousElementSibling![offset];
       if (value < prevButtonOffset) return prevButtonOffset;
     }
     return value;

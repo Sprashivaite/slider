@@ -71,11 +71,20 @@
 
 .js-progressBar {
   position: absolute;
-  height: 100%;
   border-radius: 3px;
   transition-property: background-color;
   transition-duration: 0.5s;
   z-index: 1;
+}
+
+.js-progressBar_horizontal {
+  left: 0;
+  height: 100%;
+}
+
+.js-progressBar_vertical {
+  top: 0;
+  width: 100%;
 }
 
 .js-progressBar_color_1 {
@@ -132,5 +141,5 @@
 }
 
 .-js-slider__scale_hide {
-  opacity: 0;
+  visibility: hidden;
 }

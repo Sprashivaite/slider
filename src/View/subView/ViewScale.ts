@@ -4,13 +4,13 @@ import { scaleData } from '../../types';
 class ViewScale {
   div!: HTMLDivElement;
 
-  slider!: HTMLElement;
+  private slider!: HTMLElement;
 
-  isHorizontal!: boolean;
+  private isHorizontal!: boolean;
 
-  scaleOffsets!: number[];
+  private scaleOffsets!: number[];
 
-  isScale!: boolean;
+  private isScale!: boolean;
 
   constructor(View: IView) {
     this.init(View);
@@ -25,27 +25,25 @@ class ViewScale {
 
   updateValues(data: scaleData): void {
     const { scaleValues, quantity } = data;
+    this.calcScaleOffsets(data);
     this.div.innerHTML = '';
     for (let i = 0; i < quantity; i += 1) {
       this.div.insertAdjacentHTML('beforeend', '<div></div>');
     }
     const scaleChildren = this.div.children;
-    this.calcScaleOffsets(data);
+    const direction = this.isHorizontal ? 'left': 'top';
     scaleValues.forEach((item, index) => {
       scaleChildren[index].innerHTML = `${item}`;
-      if (this.isHorizontal)
-        scaleChildren[index].style.left = `${this.scaleOffsets[index]}%`;
-      if (!this.isHorizontal)
-        scaleChildren[index].style.top = `${this.scaleOffsets[index]}%`;
+      scaleChildren[index].style[direction] = `${this.scaleOffsets[index]}%`;
     });
   }
 
   hideScale(): void {
-    this.div.classList.add('-js-slider__flag_hide');
+    this.div.classList.add('-js-slider__scale_hide');
   }
 
   showScale(): void {
-    this.div.classList.remove('-js-slider__flag_hide');
+    this.div.classList.remove('-js-slider__scale_hide');
   }
 
   private init(View: IView) {
@@ -61,7 +59,6 @@ class ViewScale {
     const lastValue = scaleValues[scaleValues.length - 1];
     this.scaleOffsets = [];
     const step = 100 / (lastValue - firstValue);
-
     scaleValues.forEach((value) => {
       const moduleValue = value - firstValue;
       this.scaleOffsets.push(moduleValue * step);

@@ -81,15 +81,9 @@ class View extends Observer implements IView {
 
   updateModel(): void {
     const { isHorizontal } = this.config;
-    if (isHorizontal) {
-      this.fieldSize = this.field.div.offsetWidth;
-      this.buttonSize = this.firstButton.div.offsetWidth;
-    }
-
-    if (!isHorizontal) {
-      this.fieldSize = this.field.div.offsetHeight;
-      this.buttonSize = this.firstButton.div.offsetHeight;
-    }
+    const offsetSize = isHorizontal ? 'offsetWidth' : 'offsetHeight';    
+    this.fieldSize = this.field.div[offsetSize];
+    this.buttonSize = this.firstButton.div[offsetSize];  
 
     this.emit('updateElementsSize', {
       fieldSize: this.fieldSize,
