@@ -52,13 +52,14 @@
   display: flex;
   justify-content: center;
   min-width: 10px;
-  height: 16px;
-  white-space: nowrap;
+  min-height: 16px;
+  
   flex-shrink: 0;
 }
 
 .-js-slider__flag_isHorizontal {
   transform: translateY(-120%);
+  white-space: nowrap;
 }
 .-js-slider__flag_isVertical {
   left: 150%;

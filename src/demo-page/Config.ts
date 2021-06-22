@@ -109,8 +109,7 @@ class Config extends Observer {
       this.model.setConfig({min: Number(this.min.value)})      
       this.step.value = `${this.model.config.step}`;
       this.min.value = `${this.model.config.min}`;
-      this.max.value = `${this.model.config.max}`;   
-      
+      this.max.value = `${this.model.config.max}`;
       this.scaleQuantity.value = `${this.model.config.scaleQuantity}`;
       this.view.updateModel();
       this.initValue2()
@@ -124,8 +123,7 @@ class Config extends Observer {
       this.model.setConfig({max: Number(this.max.value)})      
       this.step.value = `${this.model.config.step}`; 
       this.min.value = `${this.model.config.min}`;  
-      this.max.value = `${this.model.config.max}`;   
-      
+      this.max.value = `${this.model.config.max}`;         
       this.scaleQuantity.value = `${this.model.config.scaleQuantity}`;
       this.view.updateModel();
       this.initValue2()
@@ -137,8 +135,7 @@ class Config extends Observer {
     this.step.value = `${this.model.config.step}`;
     const stepChanged = () => {
       this.model.setConfig({step: Number(this.step.value)})
-      this.step.value = `${this.model.config.step}`;
-      
+      this.step.value = `${this.model.config.step}`;      
       this.scaleQuantity.value = `${this.model.config.scaleQuantity}`;
       this.view.updateModel();
       this.initValue2()
@@ -149,9 +146,7 @@ class Config extends Observer {
   initScaleQuantity(): void {
     this.scaleQuantity.value = `${this.model.config.scaleQuantity}`;
     const scaleChanged = () => {
-      this.model.setConfig({scaleQuantity: Number(this.scaleQuantity.value)})
-      
-      
+      this.model.setConfig({scaleQuantity: Number(this.scaleQuantity.value)})      
       this.scaleQuantity.value = `${this.model.config.scaleQuantity}`;
       this.view.updateModel();
       this.initValue2()
@@ -162,21 +157,12 @@ class Config extends Observer {
   initTooltipe(): void {
     this.tooltip.checked = this.view.config.isFlag;
     const tooltipChanged = () => {
-      if (this.tooltip.checked) {
-        this.view.firstFlag.showFlag();
-        this.view.config.isFlag = !this.view.config.isFlag;
-      } else {
-        this.view.firstFlag.hideFlag();
-        this.view.config.isFlag = !this.view.config.isFlag;
-      }
-      if (this.view.secondFlag) {
-        if (this.tooltip.checked) {
-          this.view.secondFlag.showFlag();
-        } else {
-          this.view.secondFlag.hideFlag();
-          this.view.flagTotal.hideFlag();
-        }
-      } 
+      this.view.removeElements();
+      this.view.config.isFlag = !this.view.config.isFlag;
+      this.view.renderElements();
+      this.view.addHandlers();
+      this.presenter.subscribeListeners();
+      this.initValue2()
     };
     this.tooltip.addEventListener('change', tooltipChanged);
   }
@@ -184,12 +170,11 @@ class Config extends Observer {
   initScale(): void {
     this.scale.checked = this.view.config.isScale;
     const scaleChanged = () => {
+      this.view.config.isScale = !this.view.config.isScale;
       if (this.scale.checked) {
-        this.view.scale.showScale();
-        this.view.config.isScale = !this.view.config.isScale;
+        this.view.scale.showScale();        
       } else {
         this.view.scale.hideScale();
-        this.view.config.isScale = !this.view.config.isScale;
       }
     };
     this.scale.addEventListener('change', scaleChanged);
@@ -203,6 +188,7 @@ class Config extends Observer {
       this.view.renderElements();
       this.view.addHandlers();
       this.presenter.subscribeListeners();
+      this.initValue2()
     };
     this.orientation.addEventListener('change', orientationChanged);
   }
