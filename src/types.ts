@@ -2,14 +2,12 @@ type modelConfig = {
   max: number;
   min: number;
   step: number;
-  scaleQuantity: number;
 };
 
 type userModelConfig = {
   max?: number;
   min?: number;
   step?: number;
-  scaleQuantity?: number;
 };
 
 type viewConfig = {

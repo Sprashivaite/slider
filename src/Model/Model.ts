@@ -69,10 +69,10 @@ class Model extends Observer {
     this.updateButton({ ...data, value: stopPoint });
   }
 
-  calcFlagValue(data: elementsData): number {
+  calcFlagValue(data: number): number {
     const { max, min } = this.config;
     const { fieldSize } = this.elementsSize;
-    const { buttonOffset } = data;
+    const  buttonOffset  = data;
     const value: number = min + (buttonOffset * (max - min)) / fieldSize;
     const roundedValue: number = this.roundByStep(value)
     if (roundedValue === max) return roundedValue
@@ -88,19 +88,18 @@ class Model extends Observer {
   }
 
   calcScaleValues(): void {
-    const { max, min, scaleQuantity } = this.config;
-    const scaleStep = (max - min) / (scaleQuantity - 1);
+    const { max, min, step } = this.config;
+    
     const scaleValues: Array<number> = [];
     let stepValue: number = min;
     let result: number;
-    for (stepValue; stepValue < max; stepValue += scaleStep) {
+    for (stepValue; stepValue < max; stepValue += step) {
       result = this.findNearestValue(stepValue);
-      scaleValues.push(result);
-      if (scaleValues.length >= scaleQuantity - 1) break;
+      scaleValues.push(result);      
     }
 
     scaleValues.push(max);
-    this.emit('scaleUpdate', { scaleValues, quantity: scaleQuantity });
+    this.emit('scaleUpdate', { scaleValues, quantity: scaleValues.length });
   }
 
   private init(config: userModelConfig): void {
@@ -111,7 +110,6 @@ class Model extends Observer {
   private validate(): void {
     this.validateMinMax();
     this.validateStep();
-    this.validateScaleQuantity();
   }
 
   private validateMinMax(): void {
@@ -130,33 +128,17 @@ class Model extends Observer {
     if (step >= max - min) step = max - min;
     if (step <= 0) step = 1;
     const validateLargeNumbers = (value: number): number => {
-      if (value * 1000 >= max - min) return value;
-      return validateLargeNumbers(value * 10);
+      if (value * 200 > max - min) return value;
+      return validateLargeNumbers(value + 1);
     };
 
     step = validateLargeNumbers(step);
     this.config = { ...this.config, step };
   }
 
-  private validateScaleQuantity(): void {
-    const { max, min, step } = this.config;
-    let { scaleQuantity } = this.config;
-    if (typeof scaleQuantity !== 'number' || scaleQuantity < 2) {
-      scaleQuantity = 2;
-    }
-
-    const quantitySteps = (max - min) / step + 1;
-    if (quantitySteps < scaleQuantity) {
-      scaleQuantity = quantitySteps;
-    }
-
-    scaleQuantity = Number(scaleQuantity.toFixed(0));
-    this.config = { ...this.config, scaleQuantity };
-  }
-
   private updateButton(data: elementsData): void {
     const { button, value } = data;
-    const flagValue = this.calcFlagValue(data);
+    const flagValue = this.calcFlagValue(value);
     if (!button.previousElementSibling) {
       this.emit('updateFirstButtonPX', value);
       this.emit('updateFirstButtonValue', flagValue);
@@ -178,7 +160,7 @@ class Model extends Observer {
     const roundedValue = this.roundByStep(value)
 
     const arrStopPoints = []
-    for (let i = min; i <= max; i += step) {
+    for (let i = min; i < max; i += step) {
       this.roundByStep(i)
       arrStopPoints.push(i)
     }

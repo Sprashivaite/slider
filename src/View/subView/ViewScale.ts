@@ -36,6 +36,27 @@ class ViewScale {
       scaleChildren[index].innerHTML = `${item}`;
       scaleChildren[index].style[direction] = `${this.scaleOffsets[index]}%`;
     });
+    this.removeExtraValues();
+  }
+
+  removeExtraValues(): void {
+    const scaleChildren = [...this.div.children];
+    const current = this.isHorizontal ? 'left': 'top'
+    const previous = this.isHorizontal ? 'right': 'bottom'
+    scaleChildren.forEach((item, index, array) => {
+      if(index === 0) return
+      if(array[array.length - 1] === item) {
+        if(item.getBoundingClientRect()[current]
+        < item.previousElementSibling.getBoundingClientRect()[previous]) {
+          item.previousElementSibling.remove()
+        }
+        return
+      }
+      if(item.getBoundingClientRect()[current] < item.previousElementSibling.getBoundingClientRect()[previous] + 5){
+        
+        item.remove()
+      }
+    })
   }
 
   hideScale(): void {

@@ -3,8 +3,7 @@ import { modelConfig, viewConfig } from './types';
 const DEFAULT_MODEL_CONFIG: modelConfig = {
   max: 100,
   min: 0,
-  step: 1,
-  scaleQuantity: 11,
+  step: 1
 };
 
 const DEFAULT_VIEW_CONFIG: viewConfig = {
