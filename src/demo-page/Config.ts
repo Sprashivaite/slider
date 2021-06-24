@@ -1,7 +1,7 @@
 import Observer from '../Observer/Observer';
-import Model from '../Model/Model'
-import View from '../View/View'
-import Presenter from '../Presenter/Presenter'
+import Model from '../Model/Model';
+import View from '../View/View';
+import Presenter from '../Presenter/Presenter';
 
 class Config extends Observer {
   slider: any;
@@ -54,17 +54,15 @@ class Config extends Observer {
     this.range = this.container.querySelector('#range');
   }
 
-  initValue1(): void {
+  initFirstValue(): void {
     const updateValue = (value: string) => {
       this.vl.value = value;
+      if (Number(this.vl.value) > Number(this.vl2.value))
+        this.vl.value = this.vl2.value;
     };
     this.model.subscribe('updateFirstButtonValue', updateValue);
     this.view.updateModel();
     const setButtonValue = () => {
-      if (Number(this.vl.value) > Number(this.max.value))
-        this.vl.value = this.max.value;
-      if (Number(this.vl.value) < Number(this.min.value))
-        this.vl.value = this.min.value;
       this.model.moveToValue({
         value: Number(this.vl.value),
         ...this.view.handler.getFirstButtonData(),
@@ -74,23 +72,21 @@ class Config extends Observer {
     this.vl.addEventListener('change', setButtonValue);
   }
 
-  initValue2(): void {
+  initSecondValue(): void {
     const updateValue = (value: string) => {
       this.vl2.value = value;
+      if (Number(this.vl2.value) < Number(this.vl.value))
+        this.vl2.value = this.vl.value;
     };
-    if(!this.view.config.isRangeSlider) {
-      this.vl2.setAttribute('disabled', 'true')
-      return
+    if (!this.view.config.isRangeSlider) {
+      this.vl2.setAttribute('disabled', 'true');
+      return;
     }
-    if(this.view.config.isRangeSlider) this.vl2.removeAttribute('disabled')
+    if (this.view.config.isRangeSlider) this.vl2.removeAttribute('disabled');
 
     this.model.subscribe('updateSecondButtonValue', updateValue);
     this.view.updateModel();
     const setButtonValue = () => {
-      if (Number(this.vl2.value) > Number(this.max.value))
-        this.vl2.value = this.max.value;
-      if (Number(this.vl2.value) < Number(this.min.value))
-        this.vl.value = this.min.value;
       this.model.moveToValue({
         value: Number(this.vl2.value),
         ...this.view.handler.getSecondButtonData(),
@@ -103,12 +99,12 @@ class Config extends Observer {
   initMinValue(): void {
     this.min.value = `${this.model.config.min}`;
     const minChanged = () => {
-      this.model.setConfig({min: Number(this.min.value)})      
+      this.model.setConfig({ min: Number(this.min.value) });
       this.step.value = `${this.model.config.step}`;
       this.min.value = `${this.model.config.min}`;
       this.max.value = `${this.model.config.max}`;
       this.view.updateModel();
-      this.initValue2()
+      this.initSecondValue();
     };
     this.min.addEventListener('change', minChanged);
   }
@@ -116,12 +112,12 @@ class Config extends Observer {
   initMaxValue(): void {
     this.max.value = `${this.model.config.max}`;
     const maxChanged = () => {
-      this.model.setConfig({max: Number(this.max.value)})      
-      this.step.value = `${this.model.config.step}`; 
-      this.min.value = `${this.model.config.min}`;  
-      this.max.value = `${this.model.config.max}`;         
+      this.model.setConfig({ max: Number(this.max.value) });
+      this.step.value = `${this.model.config.step}`;
+      this.min.value = `${this.model.config.min}`;
+      this.max.value = `${this.model.config.max}`;
       this.view.updateModel();
-      this.initValue2()
+      this.initSecondValue();
     };
     this.max.addEventListener('change', maxChanged);
   }
@@ -129,15 +125,15 @@ class Config extends Observer {
   initStep(): void {
     this.step.value = `${this.model.config.step}`;
     const stepChanged = () => {
-      this.model.setConfig({step: Number(this.step.value)})
-      this.step.value = `${this.model.config.step}`;      
+      this.model.setConfig({ step: Number(this.step.value) });
+      this.step.value = `${this.model.config.step}`;
       this.view.updateModel();
-      this.initValue2()
+      this.initSecondValue();
     };
     this.step.addEventListener('change', stepChanged);
   }
 
-  initTooltipe(): void {
+  initTooltip(): void {
     this.tooltip.checked = this.view.config.isFlag;
     const tooltipChanged = () => {
       this.view.removeElements();
@@ -145,7 +141,7 @@ class Config extends Observer {
       this.view.renderElements();
       this.view.addHandlers();
       this.presenter.subscribeListeners();
-      this.initValue2()
+      this.initSecondValue();
     };
     this.tooltip.addEventListener('change', tooltipChanged);
   }
@@ -155,7 +151,7 @@ class Config extends Observer {
     const scaleChanged = () => {
       this.view.config.isScale = !this.view.config.isScale;
       if (this.scale.checked) {
-        this.view.scale.showScale();        
+        this.view.scale.showScale();
       } else {
         this.view.scale.hideScale();
       }
@@ -171,7 +167,7 @@ class Config extends Observer {
       this.view.renderElements();
       this.view.addHandlers();
       this.presenter.subscribeListeners();
-      this.initValue2()
+      this.initSecondValue();
     };
     this.orientation.addEventListener('change', orientationChanged);
   }
@@ -184,19 +180,19 @@ class Config extends Observer {
       this.view.renderElements();
       this.view.addHandlers();
       this.presenter.subscribeListeners();
-      this.initValue2()
+      this.initSecondValue();
     };
     this.range.addEventListener('change', rangeChanged);
   }
 
   initInputs(): void {
     this.findElements();
-    this.initValue1();
-    this.initValue2();
+    this.initFirstValue();
+    this.initSecondValue();
     this.initMinValue();
     this.initMaxValue();
     this.initStep();
-    this.initTooltipe();
+    this.initTooltip();
     this.initScale();
     this.initOrientation();
     this.initRange();

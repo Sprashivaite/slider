@@ -17,10 +17,10 @@ class ViewScale {
   }
 
   createScale(): void {
-    if (this.isHorizontal) this.div.className = 'js-slider__scale_horizontal';
-    if (!this.isHorizontal) this.div.className = 'js-slider__scale_vertical';
+    const styleAxis = this.isHorizontal ? 'js-slider__scale_horizontal': 'js-slider__scale_vertical'
+    this.div.className = styleAxis
     this.slider.append(this.div);
-    if(!this.isScale) this.hideScale()
+    if (!this.isScale) this.hideScale();
   }
 
   updateValues(data: scaleData): void {
@@ -31,32 +31,12 @@ class ViewScale {
       this.div.insertAdjacentHTML('beforeend', '<div></div>');
     }
     const scaleChildren = this.div.children;
-    const direction = this.isHorizontal ? 'left': 'top';
+    const direction = this.isHorizontal ? 'left' : 'top';
     scaleValues.forEach((item, index) => {
       scaleChildren[index].innerHTML = `${item}`;
       scaleChildren[index].style[direction] = `${this.scaleOffsets[index]}%`;
     });
     this.removeExtraValues();
-  }
-
-  removeExtraValues(): void {
-    const scaleChildren = [...this.div.children];
-    const current = this.isHorizontal ? 'left': 'top'
-    const previous = this.isHorizontal ? 'right': 'bottom'
-    scaleChildren.forEach((item, index, array) => {
-      if(index === 0) return
-      if(array[array.length - 1] === item) {
-        if(item.getBoundingClientRect()[current]
-        < item.previousElementSibling.getBoundingClientRect()[previous]) {
-          item.previousElementSibling.remove()
-        }
-        return
-      }
-      if(item.getBoundingClientRect()[current] < item.previousElementSibling.getBoundingClientRect()[previous] + 5){
-        
-        item.remove()
-      }
-    })
   }
 
   hideScale(): void {
@@ -72,6 +52,28 @@ class ViewScale {
     this.slider = View.slider.div;
     this.isHorizontal = View.config.isHorizontal;
     this.isScale = View.config.isScale;
+  }
+
+  private removeExtraValues(): void {
+    const scaleChildren = Array.from(this.div.children)    
+    const current = this.isHorizontal ? 'left' : 'top';
+    const previous = this.isHorizontal ? 'right' : 'bottom';
+    const isClose = (item: Element) => (
+      item.getBoundingClientRect()[current] 
+      < item.previousElementSibling!.getBoundingClientRect()[previous] + 5
+    )
+    const isCloseMax = (item: Element) => (
+      item.getBoundingClientRect()[current] 
+      < item.previousElementSibling!.getBoundingClientRect()[previous]
+    )
+    scaleChildren.forEach((item, index, array) => {
+      if (index === 0) return;
+      if (array[array.length - 1] === item) {
+        if (isCloseMax(item)) item.previousElementSibling!.remove();  
+        return;
+      }
+      if (isClose(item)) item.remove();      
+    });
   }
 
   private calcScaleOffsets(data: scaleData): void {

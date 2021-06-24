@@ -32,6 +32,7 @@ type viewHandleData = {
   button: HTMLElement;
   buttonOffset: number;
   mouseCoords: number;
+  buttonName: string;
   value?: number;
 };
 
@@ -40,6 +41,7 @@ type elementsData = {
   buttonOffset: number;
   mouseCoords: number;
   value: number;
+  buttonName: string;
 };
 
 type elementsSize = {

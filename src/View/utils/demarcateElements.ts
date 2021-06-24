@@ -7,14 +7,12 @@ const assignFlags = (view: View): void => {
   const firstOffset = config.isHorizontal ? 'right' : 'bottom';
   const secondOffset = config.isHorizontal ? 'left' : 'top';
   const delimiter = config.isHorizontal ? ' - ' : ' ';
-
   const firstFlagOffset = firstFlag.div.getBoundingClientRect()[firstOffset];
   const secondFlagOffset = secondFlag.div.getBoundingClientRect()[secondOffset];
-  const text = `${firstFlag.div.innerHTML}${delimiter}${secondFlag.div.innerHTML}`;
-  const flagTotalOffset = `${(secondFlagOffset - firstFlagOffset) / 2}px`;  
-  flagTotal.div.innerHTML = text;
+  const flagTotalOffset = `${(secondFlagOffset - firstFlagOffset) / 2}px`;
   flagTotal.div.style[secondOffset] = flagTotalOffset;
-  
+  const text = `${firstFlag.div.innerHTML}${delimiter}${secondFlag.div.innerHTML}`;
+  flagTotal.div.innerHTML = text;
   if (firstFlagOffset >= secondFlagOffset) {
     [firstFlag, secondFlag].forEach((flag) => flag.hideFlag());
     flagTotal.showFlag();
@@ -23,4 +21,40 @@ const assignFlags = (view: View): void => {
     flagTotal.hideFlag();
   }
 };
-export default assignFlags;
+
+const demarcateButtons = (view: View, event: string): void => {
+  const { config, firstButton, secondButton, firstFlag, secondFlag } = view;
+  const direction = config.isHorizontal ? 'left' : 'top';
+  const offset = config.isHorizontal ? 'offsetLeft' : 'offsetTop';
+  const firstButtonOffset = firstButton.div[offset];
+  const secondButtonOffset = secondButton.div[offset];
+  const isFirstGreater = (
+    firstButtonOffset 
+    >= secondButtonOffset 
+    && event === 'updateFirstButtonPX'
+  );
+  const isSecondGreater = (
+    secondButtonOffset 
+    <= firstButtonOffset 
+    && event === 'updateSecondButtonPX'
+  );
+  const firstFlagValue = Number(firstFlag.div.innerHTML);
+  const secondFlagValue = Number(secondFlag.div.innerHTML);
+  if (isFirstGreater) {
+    firstButton.div.style[direction] = `${secondButtonOffset}px`;
+    firstButton.div.style.zIndex = '10';
+    secondButton.div.style.zIndex = '2';
+    if (firstFlagValue >= secondFlagValue) {
+      firstFlag.div.innerHTML = secondFlagValue;
+    }
+  }
+  if (isSecondGreater) {
+    secondButton.div.style[direction] = `${firstButtonOffset}px`;
+    firstButton.div.style.zIndex = '2';
+    secondButton.div.style.zIndex = '10';
+    if (secondFlagValue <= firstFlagValue) {
+      secondFlag.div.innerHTML = firstFlagValue;
+    }
+  }
+};
+export { assignFlags, demarcateButtons };

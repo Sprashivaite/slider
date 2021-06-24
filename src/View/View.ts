@@ -5,12 +5,12 @@ import ViewFlag from './subView/ViewFlag';
 import ViewProgressBar from './subView/ViewProgressBar';
 import ViewScale from './subView/ViewScale';
 import ViewContainer from './subView/ViewContainer';
-import IView from './IView';
 import ViewHandler from './subView/ViewHandler';
+import IView from './IView';
 import Observer from '../Observer/Observer';
+import { assignFlags, demarcateButtons } from './utils/demarcateElements';
 import { DEFAULT_VIEW_CONFIG } from '../defaults';
 import { scaleData, viewConfig, userViewConfig } from '../types';
-import assignFlags from './utils/demarcateElements';
 
 class View extends Observer implements IView {
   slider!: ViewContainer;
@@ -63,8 +63,9 @@ class View extends Observer implements IView {
     ].forEach((item) => item.remove());
 
     if (this.config.isRangeSlider) {
-      [this.secondFlag.div, this.secondButton.div].forEach((item) =>
-        item.remove()
+      [this.secondFlag.div, this.secondButton.div].forEach((item) => (
+          item.remove()
+        )
       );
     }
   }
@@ -81,9 +82,9 @@ class View extends Observer implements IView {
 
   updateModel(): void {
     const { isHorizontal } = this.config;
-    const offsetSize = isHorizontal ? 'offsetWidth' : 'offsetHeight';    
+    const offsetSize = isHorizontal ? 'offsetWidth' : 'offsetHeight';
     this.fieldSize = this.field.div[offsetSize];
-    this.buttonSize = this.firstButton.div[offsetSize];  
+    this.buttonSize = this.firstButton.div[offsetSize];
 
     this.emit('updateElementsSize', {
       fieldSize: this.fieldSize,
@@ -103,9 +104,12 @@ class View extends Observer implements IView {
     this.handler.addScaleHandler();
   }
 
-  demarcateElements(): void {
+  demarcateElements(event: string): void {
     const { isRangeSlider } = this.config;
-    if (isRangeSlider) assignFlags(this)
+    if (isRangeSlider) {
+      demarcateButtons(this, event)
+      assignFlags(this);
+    }
   }
 
   private init(config: userViewConfig): void {
@@ -114,20 +118,15 @@ class View extends Observer implements IView {
   }
 
   private validate(): void {
-    let {
-      isHorizontal,
-      isRangeSlider,
-      isFlag,
-      isProgressBar,
-      isScale
-    } = this.config;
+    let { isHorizontal, isRangeSlider, isFlag, isProgressBar, isScale } =
+      this.config;
 
     if (typeof isHorizontal !== 'boolean') isHorizontal = true;
     if (typeof isRangeSlider !== 'boolean') isRangeSlider = true;
     if (typeof isFlag !== 'boolean') isFlag = true;
     if (typeof isProgressBar !== 'boolean') isProgressBar = true;
     if (typeof isScale !== 'boolean') isScale = true;
-    
+
     this.config = {
       ...this.config,
       isHorizontal,

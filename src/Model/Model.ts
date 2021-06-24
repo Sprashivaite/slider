@@ -24,8 +24,8 @@ class Model extends Observer {
   setElementsSize(data: elementsSize): void {
     const { fieldSize = 0, buttonSize = 0 } = data;
     this.elementsSize = {
-      fieldSize: fieldSize - buttonSize,
       buttonSize,
+      fieldSize: fieldSize - buttonSize,
     };
   }
 
@@ -72,7 +72,7 @@ class Model extends Observer {
   calcFlagValue(data: number): number {
     const { max, min } = this.config;
     const { fieldSize } = this.elementsSize;
-    const  buttonOffset  = data;
+    const  buttonOffset   = data;
     const value: number = min + (buttonOffset * (max - min)) / fieldSize;
     const roundedValue: number = this.roundByStep(value)
     if (roundedValue === max) return roundedValue
@@ -137,12 +137,13 @@ class Model extends Observer {
   }
 
   private updateButton(data: elementsData): void {
-    const { button, value } = data;
+    const { value, buttonName } = data;
     const flagValue = this.calcFlagValue(value);
-    if (!button.previousElementSibling) {
+    if (buttonName === 'first') {
       this.emit('updateFirstButtonPX', value);
       this.emit('updateFirstButtonValue', flagValue);
-    } else {
+    } 
+    if (buttonName === 'second') {
       this.emit('updateSecondButtonPX', value);
       this.emit('updateSecondButtonValue', flagValue);
     }
@@ -157,19 +158,20 @@ class Model extends Observer {
 
   private findNearestValue(value: number): number {
     const { max, min, step } = this.config;
-    const roundedValue = this.roundByStep(value)
+    // const roundedValue = this.roundByStep(value)
 
     const arrStopPoints = []
     for (let i = min; i < max; i += step) {
-      this.roundByStep(i)
+      // this.roundByStep(i)
       arrStopPoints.push(i)
     }
     arrStopPoints.push(max)
 
     let result;
     result = arrStopPoints.find((item, index, array) => {
+
       const halfStep = (item + array[index + 1]) /2
-      return roundedValue <= halfStep
+      return value <= halfStep
     })
     if(result === undefined) result = max
 

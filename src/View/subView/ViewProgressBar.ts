@@ -38,8 +38,9 @@ class ViewProgressBar {
     const offsetDirection = this.isHorizontal ? 'offsetLeft' : 'offsetTop';
     const offsetSize = this.isHorizontal ? 'offsetWidth' : 'offsetHeight';
 
-    const firstButtonOffset =
-      this.firstButton[offsetDirection] + this.firstButton[offsetSize] / 2;
+    const firstButtonOffset = (
+      this.firstButton[offsetDirection] + this.firstButton[offsetSize] / 2
+    );
 
     this.div.style[size] = `${firstButtonOffset}px`;
 
