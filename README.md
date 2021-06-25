@@ -72,6 +72,10 @@ let slider = $(selector).sliderPlugin().data("sliderPlugin");
 slider.setValue('firstButton', number)
 slider.setValue('secondButton', number)
 ```
+### set config
+```javascript
+slider.setConfig(parameters)
+```
 # Architecture
 Всё приложение разделено на три слоя: Model, View, Presenter.
 ### Model 

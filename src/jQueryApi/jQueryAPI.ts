@@ -42,6 +42,12 @@ import { DEFAULT_CONFIG } from '../defaults';
         });
       }
     }
+
+    setConfig(userConfig: viewConfig & modelConfig): void {
+      this.model.setConfig(userConfig)
+      this.view.setConfig(userConfig)
+      this.presenter.subscribeListeners();
+    }
   }
 
   jQuery.fn.sliderPlugin = function sliderPlugin(

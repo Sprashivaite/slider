@@ -45,6 +45,14 @@ class View extends Observer implements IView {
     this.init(config);
   }
 
+  setConfig(config: userViewConfig): void {
+    this.config = {...this.config, ...config};
+    this.validate();
+    this.removeElements();
+    this.renderElements();
+    this.addHandlers();
+  }
+
   renderElements(): void {
     this.renderField();
     this.renderButtons();

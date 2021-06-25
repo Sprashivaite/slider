@@ -42,7 +42,20 @@ class Config extends Observer {
     this.initInputs();
   }
 
-  findElements(): void {
+  private initInputs(): void {
+    this.findElements();
+    this.initFirstValue();
+    this.initSecondValue();
+    this.initMinValue();
+    this.initMaxValue();
+    this.initStep();
+    this.initTooltip();
+    this.initScale();
+    this.initOrientation();
+    this.initRange();
+  }
+
+  private findElements(): void {
     this.vl = this.container.querySelector('.vl');
     this.vl2 = this.container.querySelector('.vl_2');
     this.max = this.container.querySelector('#max');
@@ -54,7 +67,7 @@ class Config extends Observer {
     this.range = this.container.querySelector('#range');
   }
 
-  initFirstValue(): void {
+  private initFirstValue(): void {
     const updateValue = (value: string) => {
       this.vl.value = value;
       if (Number(this.vl.value) > Number(this.vl2.value))
@@ -72,7 +85,7 @@ class Config extends Observer {
     this.vl.addEventListener('change', setButtonValue);
   }
 
-  initSecondValue(): void {
+  private initSecondValue(): void {
     const updateValue = (value: string) => {
       this.vl2.value = value;
       if (Number(this.vl2.value) < Number(this.vl.value))
@@ -96,7 +109,7 @@ class Config extends Observer {
     this.vl2.addEventListener('change', setButtonValue);
   }
 
-  initMinValue(): void {
+  private initMinValue(): void {
     this.min.value = `${this.model.config.min}`;
     const minChanged = () => {
       this.model.setConfig({ min: Number(this.min.value) });
@@ -109,7 +122,7 @@ class Config extends Observer {
     this.min.addEventListener('change', minChanged);
   }
 
-  initMaxValue(): void {
+  private initMaxValue(): void {
     this.max.value = `${this.model.config.max}`;
     const maxChanged = () => {
       this.model.setConfig({ max: Number(this.max.value) });
@@ -122,7 +135,7 @@ class Config extends Observer {
     this.max.addEventListener('change', maxChanged);
   }
 
-  initStep(): void {
+  private initStep(): void {
     this.step.value = `${this.model.config.step}`;
     const stepChanged = () => {
       this.model.setConfig({ step: Number(this.step.value) });
@@ -133,69 +146,41 @@ class Config extends Observer {
     this.step.addEventListener('change', stepChanged);
   }
 
-  initTooltip(): void {
+  private initTooltip(): void {
     this.tooltip.checked = this.view.config.isFlag;
     const tooltipChanged = () => {
-      this.view.removeElements();
-      this.view.config.isFlag = !this.view.config.isFlag;
-      this.view.renderElements();
-      this.view.addHandlers();
-      this.presenter.subscribeListeners();
+      this.slider.setConfig({isFlag: !this.view.config.isFlag})
       this.initSecondValue();
     };
     this.tooltip.addEventListener('change', tooltipChanged);
   }
 
-  initScale(): void {
+  private initScale(): void {
     this.scale.checked = this.view.config.isScale;
     const scaleChanged = () => {
-      this.view.config.isScale = !this.view.config.isScale;
-      if (this.scale.checked) {
-        this.view.scale.showScale();
-      } else {
-        this.view.scale.hideScale();
-      }
+      this.slider.setConfig({isScale: !this.view.config.isScale})
     };
     this.scale.addEventListener('change', scaleChanged);
   }
 
-  initOrientation(): void {
+  private initOrientation(): void {
     this.orientation.checked = this.view.config.isHorizontal;
     const orientationChanged = () => {
-      this.view.removeElements();
-      this.view.config.isHorizontal = !this.view.config.isHorizontal;
-      this.view.renderElements();
-      this.view.addHandlers();
-      this.presenter.subscribeListeners();
+      this.slider.setConfig({isHorizontal: !this.view.config.isHorizontal})
       this.initSecondValue();
     };
     this.orientation.addEventListener('change', orientationChanged);
   }
 
-  initRange(): void {
+  private initRange(): void {
     this.range.checked = this.view.config.isRangeSlider;
     const rangeChanged = () => {
-      this.view.removeElements();
-      this.view.config.isRangeSlider = !this.view.config.isRangeSlider;
-      this.view.renderElements();
-      this.view.addHandlers();
-      this.presenter.subscribeListeners();
+      this.slider.setConfig({isRangeSlider: !this.view.config.isRangeSlider})
       this.initSecondValue();
     };
     this.range.addEventListener('change', rangeChanged);
   }
 
-  initInputs(): void {
-    this.findElements();
-    this.initFirstValue();
-    this.initSecondValue();
-    this.initMinValue();
-    this.initMaxValue();
-    this.initStep();
-    this.initTooltip();
-    this.initScale();
-    this.initOrientation();
-    this.initRange();
-  }
+
 }
 export default Config;

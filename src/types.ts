@@ -11,7 +11,7 @@ type userModelConfig = {
 };
 
 type viewConfig = {
-  target: HTMLElement;
+  target?: HTMLElement;
   isHorizontal: boolean;
   isRangeSlider: boolean;
   isFlag: boolean;

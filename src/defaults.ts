@@ -7,7 +7,6 @@ const DEFAULT_MODEL_CONFIG: modelConfig = {
 };
 
 const DEFAULT_VIEW_CONFIG: viewConfig = {
-  target: null,
   isHorizontal: true,
   isRangeSlider: true,
   isFlag: true,
