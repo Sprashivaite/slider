@@ -3,6 +3,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  user-select: none;
 }
 
 .js-slider__field_horizontal {
@@ -43,6 +44,14 @@
   justify-content: center;
 }
 
+.js-slider__button_isTarget {
+  z-index: 10;
+}
+
+.js-slider__button_isVertical {
+  transform: translateX(-25%);
+}
+
 .-js-slider__flag {
   padding: 1px 5px;
   background: linear-gradient(180deg, #6fcf97 0%, #66d2ea 100%);
@@ -52,14 +61,16 @@
   display: flex;
   justify-content: center;
   min-width: 10px;
-  height: 16px;
-  white-space: nowrap;
+  min-height: 16px;
+
   flex-shrink: 0;
 }
 
 .-js-slider__flag_isHorizontal {
   transform: translateY(-120%);
+  white-space: nowrap;
 }
+
 .-js-slider__flag_isVertical {
   left: 150%;
   position: absolute;
@@ -71,22 +82,34 @@
 
 .js-progressBar {
   position: absolute;
-  height: 100%;
   border-radius: 3px;
   transition-property: background-color;
   transition-duration: 0.5s;
   z-index: 1;
 }
 
+.js-progressBar_horizontal {
+  left: 0;
+  height: 100%;
+}
+
+.js-progressBar_vertical {
+  top: 0;
+  width: 100%;
+}
+
 .js-progressBar_color_1 {
   background-color: #915e4e;
 }
+
 .js-progressBar_color_2 {
   background-color: #cf866f;
 }
+
 .js-progressBar_color_3 {
   background-color: #4e9179;
 }
+
 .js-progressBar_color_4 {
   background-color: #6fcf97;
 }
@@ -103,6 +126,7 @@
   position: absolute;
   width: 98%;
 }
+
 .js-slider__scale_horizontal div {
   position: absolute;
   transform: translateX(-50%);
@@ -119,20 +143,23 @@
   align-items: flex-end;
   margin-top: 10px;
 }
+
 .js-slider__scale_horizontal div,
 .js-slider__scale_vertical div {
   cursor: pointer;
   position: absolute;
 }
+
 .js-slider__scale_vertical div {
   transform: translateY(-50%);
 }
+
 .js-slider__scale_vertical div {
   height: 15px;
 }
 
 .-js-slider__scale_hide {
-  opacity: 0;
+  visibility: hidden;
 }
 
 * {
