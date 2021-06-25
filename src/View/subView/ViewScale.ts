@@ -30,12 +30,14 @@ class ViewScale {
     for (let i = 0; i < quantity; i += 1) {
       this.div.insertAdjacentHTML('beforeend', '<div></div>');
     }
+
     const scaleChildren = this.div.children;
     const direction = this.isHorizontal ? 'left' : 'top';
     scaleValues.forEach((item, index) => {
       scaleChildren[index].innerHTML = `${item}`;
       scaleChildren[index].style[direction] = `${this.scaleOffsets[index]}%`;
     });
+    
     this.removeExtraValues();
   }
 

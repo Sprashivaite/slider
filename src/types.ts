@@ -54,4 +54,13 @@ type scaleData = {
   quantity: number;
 };
 
-export { modelConfig, userModelConfig, viewConfig, viewHandleData, scaleData, elementsSize, elementsData, userViewConfig };
+export { 
+  modelConfig,
+  userModelConfig,
+  viewConfig,
+  viewHandleData,
+  scaleData,
+  elementsSize,
+  elementsData,
+  userViewConfig 
+};

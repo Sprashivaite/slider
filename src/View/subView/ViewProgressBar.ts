@@ -37,19 +37,17 @@ class ViewProgressBar {
     const size = this.isHorizontal ? 'width' : 'height';
     const offsetDirection = this.isHorizontal ? 'offsetLeft' : 'offsetTop';
     const offsetSize = this.isHorizontal ? 'offsetWidth' : 'offsetHeight';
-
     const firstButtonOffset = (
       this.firstButton[offsetDirection] + this.firstButton[offsetSize] / 2
     );
-
     this.div.style[size] = `${firstButtonOffset}px`;
-
     if (this.isRangeSlider) {
       const secondButtonOffset =
         this.secondButton[offsetDirection] + this.secondButton[offsetSize] / 2;
       this.div.style[direction] = `${firstButtonOffset}px`;
       this.div.style[size] = `${secondButtonOffset - firstButtonOffset}px`;
     }
+
     this.changeColorBar();
   }
 
@@ -67,6 +65,7 @@ class ViewProgressBar {
     if (View.config.isRangeSlider) {
       this.secondButton = View.secondButton.div;
     }
+
     this.isHorizontal = View.config.isHorizontal;
     this.isRangeSlider = View.config.isRangeSlider;
     this.isProgressBar = View.config.isProgressBar;
@@ -90,6 +89,7 @@ class ViewProgressBar {
     if (progressBarSize >= fieldSize - this.firstButton.offsetWidth) {
       styleColor = `js-progressBar_color_4`;
     }
+    
     this.div.className = `js-progressBar ${this.styleDirection} ${styleColor}`;
   }
 }

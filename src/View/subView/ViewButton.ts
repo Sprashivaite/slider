@@ -16,6 +16,7 @@ class ViewButton {
   createButton(): HTMLDivElement {
     this.div = document.createElement('div');
     this.div.className = 'js-slider__button';
+    if(!this.isHorizontal) this.div.classList.add('js-slider__button_isVertical')
     this.field.append(this.div);
     return this.div;
   }

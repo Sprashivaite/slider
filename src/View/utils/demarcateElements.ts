@@ -42,16 +42,16 @@ const demarcateButtons = (view: View, event: string): void => {
   const secondFlagValue = Number(secondFlag.div.innerHTML);
   if (isFirstGreater) {
     firstButton.div.style[direction] = `${secondButtonOffset}px`;
-    firstButton.div.style.zIndex = '10';
-    secondButton.div.style.zIndex = '2';
+    firstButton.div.classList.add('js-slider__button_isTarget');
+    secondButton.div.classList.remove('js-slider__button_isTarget');
     if (firstFlagValue >= secondFlagValue) {
       firstFlag.div.innerHTML = secondFlagValue;
     }
   }
   if (isSecondGreater) {
     secondButton.div.style[direction] = `${firstButtonOffset}px`;
-    firstButton.div.style.zIndex = '2';
-    secondButton.div.style.zIndex = '10';
+    firstButton.div.classList.remove('js-slider__button_isTarget');
+    secondButton.div.classList.add('js-slider__button_isTarget');
     if (secondFlagValue <= firstFlagValue) {
       secondFlag.div.innerHTML = firstFlagValue;
     }

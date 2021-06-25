@@ -26,19 +26,17 @@ class ViewHandler extends Observer {
     const Coords = (event: MouseEvent) => {
       const direction = this.isHorizontal ? 'left': 'top';
       const coordinate = this.isHorizontal ? 'clientX': 'clientY';
-      this.mouseCoords =
-          event[coordinate] - this.field.getBoundingClientRect()[direction];      
+      this.mouseCoords = (
+        event[coordinate] - this.field.getBoundingClientRect()[direction]
+      )
     };
     document.addEventListener('mousemove', Coords);
   }
 
   addButtonHandler(): void {
     const useHandlers = (event: MouseEvent) => {
-      if (!this.findFirstButton(event)) {
-        this.handleSecondButton()
-      } else {
-        this.handleFirstButton()
-      }
+      if (!this.findFirstButton(event)) this.handleSecondButton()
+      else this.handleFirstButton()
     };
     this.firstButton.addEventListener('mousedown', useHandlers);
     if (this.isRangeSlider) {
@@ -72,8 +70,7 @@ class ViewHandler extends Observer {
     };
     const scaleChildren = this.field.nextElementSibling!.querySelectorAll('div');
     scaleChildren.forEach((element) => (
-      element.addEventListener('click', handleScaleClick)
-      )
+      element.addEventListener('click', handleScaleClick))
     );
   }
 
@@ -113,9 +110,7 @@ class ViewHandler extends Observer {
     const betweenButtons =
       (this.getSecondButtonOffset() +
         this.getFirstButtonOffset() +
-        this.firstButton[offsetSize]) /
-      2;
-
+        this.firstButton[offsetSize]) / 2;
     const isButtonClose = this.mouseCoords > betweenButtons;
     if (isButtonClose) return false;
     return true;
@@ -123,8 +118,7 @@ class ViewHandler extends Observer {
 
   private handleFirstButton(): void {
     const emitMouseMove = () => (
-      this.emit('firstButtonMouseMove', this.getFirstButtonData()
-    )
+      this.emit('firstButtonMouseMove', this.getFirstButtonData())
   );
   this.emit('firstButtonMouseDown', this.getFirstButtonData());
   emitMouseMove();
@@ -137,15 +131,14 @@ class ViewHandler extends Observer {
   }
 
   private handleSecondButton(): void {
-    const emitMouseMove2 = () => (
-      this.emit('secondButtonMouseMove', this.getSecondButtonData()
-      )
+    const emitMouseMove = () => (
+      this.emit('secondButtonMouseMove', this.getSecondButtonData())
     );
     this.emit('secondButtonMouseDown', this.getSecondButtonData());
-    emitMouseMove2();
-    document.addEventListener('mousemove', emitMouseMove2);
+    emitMouseMove();
+    document.addEventListener('mousemove', emitMouseMove);
     document.onmouseup = () => {
-      document.removeEventListener('mousemove', emitMouseMove2);
+      document.removeEventListener('mousemove', emitMouseMove);
       this.emit('secondButtonMouseUp', this.getSecondButtonData());
       document.onmouseup = null;
     };

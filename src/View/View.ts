@@ -85,7 +85,6 @@ class View extends Observer implements IView {
     const offsetSize = isHorizontal ? 'offsetWidth' : 'offsetHeight';
     this.fieldSize = this.field.div[offsetSize];
     this.buttonSize = this.firstButton.div[offsetSize];
-
     this.emit('updateElementsSize', {
       fieldSize: this.fieldSize,
       buttonSize: this.buttonSize,
@@ -120,13 +119,11 @@ class View extends Observer implements IView {
   private validate(): void {
     let { isHorizontal, isRangeSlider, isFlag, isProgressBar, isScale } =
       this.config;
-
     if (typeof isHorizontal !== 'boolean') isHorizontal = true;
     if (typeof isRangeSlider !== 'boolean') isRangeSlider = true;
     if (typeof isFlag !== 'boolean') isFlag = true;
     if (typeof isProgressBar !== 'boolean') isProgressBar = true;
     if (typeof isScale !== 'boolean') isScale = true;
-
     this.config = {
       ...this.config,
       isHorizontal,
