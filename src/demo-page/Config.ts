@@ -6,9 +6,9 @@ import Presenter from '../sliderPlugin/Presenter/Presenter';
 class Config extends Observer {
   slider: any;
 
-  vl!: HTMLInputElement;
+  firstHandle!: HTMLInputElement;
 
-  vl2!: HTMLInputElement;
+  secondHandle!: HTMLInputElement;
 
   max!: HTMLInputElement;
 
@@ -56,57 +56,53 @@ class Config extends Observer {
   }
 
   private findElements(): void {
-    this.vl = this.container.querySelector('.vl');
-    this.vl2 = this.container.querySelector('.vl_2');
-    this.max = this.container.querySelector('#max');
-    this.min = this.container.querySelector('#min');
-    this.step = this.container.querySelector('#step');
-    this.tooltip = this.container.querySelector('#tooltip');
-    this.scale = this.container.querySelector('#scale');
-    this.orientation = this.container.querySelector('#orientation');
-    this.range = this.container.querySelector('#range');
+    this.firstHandle = this.container.querySelector('[name=firstHandle]');
+    this.secondHandle = this.container.querySelector('[name=secondHandle]');
+    this.max = this.container.querySelector('[name=max]');
+    this.min = this.container.querySelector('[name=min]');
+    this.step = this.container.querySelector('[name=step]');
+    this.tooltip = this.container.querySelector('[name=tooltip]');
+    this.scale = this.container.querySelector('[name=scale]');
+    this.orientation = this.container.querySelector('[name=orientation]');
+    this.range = this.container.querySelector('[name=range]');
   }
 
   private initFirstValue(): void {
     const updateValue = (value: string) => {
-      this.vl.value = value;
-      if (Number(this.vl.value) > Number(this.vl2.value))
-        this.vl.value = this.vl2.value;
+      this.firstHandle.value = value;
     };
     this.model.subscribe('updateFirstHandleValue', updateValue);
     this.view.updateModel();
     const setHandleValue = () => {
       this.model.moveToValue({
-        value: Number(this.vl.value),
+        value: Number(this.firstHandle.value),
         ...this.view.handler.getFirstHandleData(),
       });
       this.view.updateModel();
     };
-    this.vl.addEventListener('change', setHandleValue);
+    this.firstHandle.addEventListener('change', setHandleValue);
   }
 
   private initSecondValue(): void {
     const updateValue = (value: string) => {
-      this.vl2.value = value;
-      if (Number(this.vl2.value) < Number(this.vl.value))
-        this.vl2.value = this.vl.value;
+      this.secondHandle.value = value;
     };
     if (!this.view.config.isRangeSlider) {
-      this.vl2.setAttribute('disabled', 'true');
+      this.secondHandle.setAttribute('disabled', 'true');
       return;
     }
-    if (this.view.config.isRangeSlider) this.vl2.removeAttribute('disabled');
+    if (this.view.config.isRangeSlider) this.secondHandle.removeAttribute('disabled');
 
     this.model.subscribe('updateSecondHandleValue', updateValue);
     this.view.updateModel();
     const setHandleValue = () => {
       this.model.moveToValue({
-        value: Number(this.vl2.value),
+        value: Number(this.secondHandle.value),
         ...this.view.handler.getSecondHandleData(),
       });
       this.view.updateModel();
     };
-    this.vl2.addEventListener('change', setHandleValue);
+    this.secondHandle.addEventListener('change', setHandleValue);
   }
 
   private initMinValue(): void {
@@ -180,7 +176,6 @@ class Config extends Observer {
     };
     this.range.addEventListener('change', rangeChanged);
   }
-
 
 }
 export default Config;

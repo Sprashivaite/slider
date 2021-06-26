@@ -1,7 +1,7 @@
 /* eslint-disable no-new */
 import Config from './Config';
 
-const slider1 = $('.js-slider-container_1 > .js-slider')
+const slider1 = $('.js-slider-container_order_first > .js-slider')
   .sliderPlugin({
     max: 1000,
     isHorizontal: true,
@@ -11,7 +11,7 @@ const slider1 = $('.js-slider-container_1 > .js-slider')
   })
   .data('sliderPlugin');
 
-const slider2 = $('.js-slider-container_2 > .js-slider')
+const slider2 = $('.js-slider-container_order_second > .js-slider')
   .sliderPlugin({
     isRangeSlider: true,
     step: 11,
@@ -20,15 +20,15 @@ const slider2 = $('.js-slider-container_2 > .js-slider')
   })
   .data('sliderPlugin');
 
-const slider3 = $('.js-slider-container_3 > .js-slider')
+const slider3 = $('.js-slider-container_order_third > .js-slider')
   .sliderPlugin({ min: -1, max: 1, step: 0.2, isRangeSlider: false })
   .data('sliderPlugin');
 
-const slider4 = $('.js-slider-container_4 > .js-slider')
+const slider4 = $('.js-slider-container_order_fourth > .js-slider')
   .sliderPlugin({ isHorizontal: false, step: 250, max: 1500 })
   .data('sliderPlugin');
 
-const slider5 = $('.js-slider-container_5 > .js-slider')
+const slider5 = $('.js-slider-container_order_fifth > .js-slider')
   .sliderPlugin({
     isHorizontal: false,
     isRangeSlider: false,
@@ -39,19 +39,19 @@ const slider5 = $('.js-slider-container_5 > .js-slider')
   .data('sliderPlugin');
 
 const configContainer1 = document.querySelector(
-  '.js-slider-container_1 > .config'
+  '.js-slider-container_order_first > .config'
 )!;
 const configContainer2 = document.querySelector(
-  '.js-slider-container_2 > .config'
+  '.js-slider-container_order_second > .config'
 )!;
 const configContainer3 = document.querySelector(
-  '.js-slider-container_3 > .config'
+  '.js-slider-container_order_third > .config'
 )!;
 const configContainer4 = document.querySelector(
-  '.js-slider-container_4 > .config'
+  '.js-slider-container_order_fourth > .config'
 )!;
 const configContainer5 = document.querySelector(
-  '.js-slider-container_5 > .config'
+  '.js-slider-container_order_fifth > .config'
 )!;
 
 new Config(slider1, configContainer1);

@@ -17,32 +17,27 @@ body {
     margin: 50px auto;
   }
 }
-.slider-container_1,
-.slider-container_2,
-.slider-container_3,
-.slider-container_4,
-.slider-container_5 {
+.slider-container {
   width: 85%;
   display: flex;
   margin: 100px auto 0;
 }
 @media screen and (max-width: 768px) {
-  .slider-container_1,
-  .slider-container_2,
-  .slider-container_3 {
+  .slider-container {
     width: 75%;
     flex-direction: column;
   }
-  .slider-container_4,
-  .slider-container_5 {
+  .slider-container:nth-child(4),
+  .slider-container:nth-child(5) {
     width: 85%;
+    flex-direction: row;
   }
 }
 .config {
   display: inline-flex;
-  flex-direction: row;
+  flex-direction: column;
   font-family: sans-serif;
-  max-width: 320px;
+  max-width: 300px;
   min-width: 200px;
   top: 40px;
   left: 320px;
@@ -51,33 +46,31 @@ body {
   border-radius: 13px;
   flex: 0 0 30%;
 }
-.config input {
-  margin-bottom: 5px;
-  height: 15.5px;
-  max-width: 50px;
+.config__item {
+  display: flex;
+  max-width: 200px;
+  justify-content: space-between;
+  margin: 0 20px 10px;
 }
-.config__left div {
-  margin-bottom: 10px;
+.config__item:first-child {
+  margin-top: 20px;
 }
-.config__left {
-  margin-left: 10px;
-  margin-top: 15px;
-  margin-bottom: 10px;
+.config__item:last-child {
+  margin-bottom: 20px;
+}
+.config__description{
   color: #e6e6e6;
   font-family: 'Times New Roman', serif;
   font-size: 18px;
 }
-.config__right {
-  display: flex;
-  flex-direction: column;
-  margin-left: 30px;
-  margin-top: 15px;
+.config__checkbox {
+  min-width: 90px;
 }
-.config__right input {
-  margin-bottom: 13px;
+.config__value {
+  margin-bottom: 5px;
+  height: 15.5px;
+  max-width: 50px;
   background-color: white;
   border: 1px solid #689ba3;
-  height: 17px;
-  padding-left: 3px;
   font-size: 14px;
 }
