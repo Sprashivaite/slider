@@ -151,9 +151,9 @@ class Model extends Observer {
 
   private roundByStep(value: number): number {
     const { step } = this.config;
-    const isDot = step.toString().includes('.');
+    const isFractional = Number.isInteger(step);
     const digitsAfterDot = String(step).split('.').pop()!.length;
-    return isDot ? Number(value.toFixed(digitsAfterDot)) : Number(value.toFixed(0));
+    return !isFractional ? Number(value.toFixed(digitsAfterDot)) : Number(value.toFixed(0));
   }
 
   private findNearestValue(value: number): number {
