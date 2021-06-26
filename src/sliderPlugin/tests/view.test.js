@@ -1,6 +1,6 @@
 import View from '../View/View';
 
-let container = document.querySelector('.slider');
+const container = document.querySelector('.slider');
 let view;
 
 beforeEach(() => {
@@ -42,8 +42,8 @@ describe('установка параметров View', () => {
 
 describe('Создание/поиск контейнера View', () => {
   it('Установка контейнера', () => {
-    let container = document.querySelector('.slider');
-    let view = new View({ target: container });
+    const container = document.querySelector('.slider');
+    const view = new View({ target: container });
     expect(view.slider.divElement).toEqual(container);
   });
   it('Поиск контейнера по дата селектору', () => {
@@ -53,13 +53,13 @@ describe('Создание/поиск контейнера View', () => {
     );
     container.classList = 'none';
     view = new View();
-    let div = document.querySelector('[data-slider]');
+    const div = document.querySelector('[data-slider]');
     expect(view.slider.divElement).toEqual(div);
     div.remove();
     container.classList = 'slider';
   });
   it('Создание контейнера', () => {
-    let div = document.querySelector('.slider');
+    const div = document.querySelector('.slider');
     div.className = '';
     view = new View();
     expect(view.slider.divElement).toBeDefined();
@@ -87,7 +87,7 @@ describe('удаление элементов View', () => {
 });
 
 describe('движение View handle', () => {
-  afterEach(function () {
+  afterEach(() => {
     view.removeElements();
   });
   it('view.handle.moveHandle horizontal', () => {
@@ -105,10 +105,10 @@ describe('движение View handle', () => {
 });
 
 describe('toggle View tooltip', () => {
-  beforeEach(function () {
+  beforeEach(() => {
     view.renderElements();
   });
-  afterEach(function () {
+  afterEach(() => {
     view.removeElements();
   });
   it('view.tooltip.showTooltip', () => {
@@ -171,7 +171,7 @@ describe('координаты мыши', () => {
     view.renderElements();
     const fieldOffset = view.field.divElement.getBoundingClientRect().left;
     view.addHandlers();
-    let mousemove = new MouseEvent('mousemove', { clientX: 50 });
+    const mousemove = new MouseEvent('mousemove', { clientX: 50 });
     document.dispatchEvent(mousemove);
 
     expect(view.handler.mouseCoords).toBe(50 - fieldOffset);
@@ -181,14 +181,14 @@ describe('координаты мыши', () => {
     view.renderElements();
     const fieldOffset = view.field.divElement.getBoundingClientRect().top;
     view.addHandlers();
-    let mousemove = new MouseEvent('mousemove', { clientY: 50 });
+    const mousemove = new MouseEvent('mousemove', { clientY: 50 });
     document.dispatchEvent(mousemove);
     expect(view.handler.mouseCoords).toBe(50 - fieldOffset);
   });
 });
 
 describe('события мыши', () => {
-  let mousedown, mousemove, mouseup;
+  let mousedown; let mousemove; let mouseup;
 
   beforeEach(() => {
     view = new View({ isRangeSlider: false });
@@ -203,8 +203,8 @@ describe('события мыши', () => {
   });
 
   it('view.handler.addFieldHandler defaultPrevented', () => {
-    let contextmenu = new MouseEvent('contextmenu', { cancelable: true });
-    let mousedown = new MouseEvent('mousedown', { cancelable: true });
+    const contextmenu = new MouseEvent('contextmenu', { cancelable: true });
+    const mousedown = new MouseEvent('mousedown', { cancelable: true });
 
     view.renderElements();
     view.addHandlers();
@@ -228,7 +228,7 @@ describe('события мыши', () => {
   });
 
   it('view.handler.addHandleHandler mouse down', () => {
-    let notify = jasmine.createSpy('notify');
+    const notify = jasmine.createSpy('notify');
     view.addHandlers();
     view.handler.subscribe('firstHandleMouseDown', notify);
     view.firstHandle.divElement.dispatchEvent(mousedown);
@@ -238,7 +238,7 @@ describe('события мыши', () => {
   });
 
   it('view.handler.addHandleHandler mouse move', () => {
-    let notify = jasmine.createSpy('notify');
+    const notify = jasmine.createSpy('notify');
     view.addHandlers();
     view.handler.subscribe('firstHandleMouseMove', notify);
     view.firstHandle.divElement.dispatchEvent(mousedown);
@@ -247,7 +247,7 @@ describe('события мыши', () => {
     expect(notify.calls.count()).toEqual(2);
   });
   it('view.handler.addHandleHandler mouseup', () => {
-    let notify = jasmine.createSpy('notify');
+    const notify = jasmine.createSpy('notify');
     view.addHandlers();
     view.handler.subscribe('firstHandleMouseMove', notify);
     view.handler.subscribe('firstHandleMouseUp', notify);
@@ -260,7 +260,7 @@ describe('события мыши', () => {
 });
 
 describe('события мыши range', () => {
-  let mousedown, mousemove, mouseup, something;
+  let mousedown; let mousemove; let mouseup; let something;
 
   beforeEach(() => {
     view = new View({ isRangeSlider: true });
@@ -280,7 +280,7 @@ describe('события мыши range', () => {
     view.removeElements();
   });
   it('view.handler.addFieldHandler mouse event secondHandle', () => {
-    let notify = jasmine.createSpy('notify');
+    const notify = jasmine.createSpy('notify');
     view.addHandlers();
     view.handler.subscribe('secondHandleMouseMove', notify);
     view.handler.subscribe('secondHandleMouseUp', notify);

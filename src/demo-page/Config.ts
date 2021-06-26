@@ -1,7 +1,7 @@
-import Observer from '../Observer/Observer';
-import Model from '../Model/Model';
-import View from '../View/View';
-import Presenter from '../Presenter/Presenter';
+import Observer from '../sliderPlugin/Observer/Observer';
+import Model from '../sliderPlugin/Model/Model';
+import View from '../sliderPlugin/View/View';
+import Presenter from '../sliderPlugin/Presenter/Presenter';
 
 class Config extends Observer {
   slider: any;
