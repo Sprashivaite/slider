@@ -29,24 +29,24 @@ type userViewConfig = {
 };
 
 type viewHandleData = {
-  button: HTMLElement;
-  buttonOffset: number;
+  handle: HTMLElement;
+  handleOffset: number;
   mouseCoords: number;
-  buttonName: string;
+  handleName: string;
   value?: number;
 };
 
 type elementsData = {
-  button: HTMLElement;
-  buttonOffset: number;
+  handle: HTMLElement;
+  handleOffset: number;
   mouseCoords: number;
   value: number;
-  buttonName: string;
+  handleName: string;
 };
 
 type elementsSize = {
   fieldSize: number;
-  buttonSize: number;
+  handleSize: number;
 };
 
 type scaleData = {

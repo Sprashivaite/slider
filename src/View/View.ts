@@ -1,6 +1,6 @@
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 import ViewField from './subView/ViewField';
-import ViewButton from './subView/ViewButton';
+import ViewHandle from './subView/ViewHandle';
 import ViewTooltip from './subView/ViewTooltip';
 import ViewProgressBar from './subView/ViewProgressBar';
 import ViewScale from './subView/ViewScale';
@@ -8,16 +8,16 @@ import ViewContainer from './subView/ViewContainer';
 import ViewHandler from './subView/ViewHandler';
 import IView from './IView';
 import Observer from '../Observer/Observer';
-import { assignTooltips, demarcateButtons } from './utils/demarcateElements';
+import { assignTooltips, demarcateHandles } from './utils/demarcateElements';
 import { DEFAULT_VIEW_CONFIG } from '../defaults';
 import { scaleData, viewConfig, userViewConfig } from '../types';
 
 class View extends Observer implements IView {
   slider!: ViewContainer;
 
-  firstButton!: ViewButton;
+  firstHandle!: ViewHandle;
 
-  secondButton!: ViewButton;
+  secondHandle!: ViewHandle;
 
   field!: ViewField;
 
@@ -35,7 +35,7 @@ class View extends Observer implements IView {
 
   fieldSize!: number;
 
-  buttonSize!: number;
+  handleSize!: number;
 
   tooltipTotal!: ViewTooltip;
 
@@ -55,7 +55,7 @@ class View extends Observer implements IView {
 
   renderElements(): void {
     this.renderField();
-    this.renderButtons();
+    this.renderHandles();
     this.renderTooltip();
     this.renderProgressBar();
     this.renderScale();
@@ -64,14 +64,14 @@ class View extends Observer implements IView {
   removeElements(): void {
     [
       this.firstTooltip.div,
-      this.firstButton.div,
+      this.firstHandle.div,
       this.field.div,
       this.progressBar.div,
       this.scale.div,
     ].forEach((item) => item.remove());
 
     if (this.config.isRangeSlider) {
-      [this.secondTooltip.div, this.secondButton.div].forEach((item) => (
+      [this.secondTooltip.div, this.secondHandle.div].forEach((item) => (
           item.remove()
         )
       );
@@ -83,7 +83,7 @@ class View extends Observer implements IView {
     this.handler.addFieldHandler();
     this.handler.getMouseCoords();
     this.handler.addScaleHandler();
-    this.handler.addButtonHandler();
+    this.handler.addHandleHandler();
     // eslint-disable-next-line no-new
     new ResizeSensor(this.slider.div, () => this.updateModel());
   }
@@ -92,16 +92,16 @@ class View extends Observer implements IView {
     const { isHorizontal } = this.config;
     const offsetSize = isHorizontal ? 'offsetWidth' : 'offsetHeight';
     this.fieldSize = this.field.div[offsetSize];
-    this.buttonSize = this.firstButton.div[offsetSize];
+    this.handleSize = this.firstHandle.div[offsetSize];
     this.emit('updateElementsSize', {
       fieldSize: this.fieldSize,
-      buttonSize: this.buttonSize,
+      handleSize: this.handleSize,
     });
-    this.handler.emit('firstButtonMouseUp', this.handler.getFirstButtonData());
+    this.handler.emit('firstHandleMouseUp', this.handler.getFirstHandleData());
     if (this.config.isRangeSlider) {
       this.handler.emit(
-        'secondButtonMouseUp',
-        this.handler.getSecondButtonData()
+        'secondHandleMouseUp',
+        this.handler.getSecondHandleData()
       );
     }
   }
@@ -114,7 +114,7 @@ class View extends Observer implements IView {
   demarcateElements(event: string): void {
     const { isRangeSlider } = this.config;
     if (isRangeSlider) {
-      demarcateButtons(this, event)
+      demarcateHandles(this, event)
       assignTooltips(this);
     }
   }
@@ -147,24 +147,24 @@ class View extends Observer implements IView {
     this.field.createField();
   }
 
-  private renderButtons(): void {
+  private renderHandles(): void {
     const { isRangeSlider } = this.config;
-    this.firstButton = new ViewButton(this);
-    this.firstButton.createButton();
+    this.firstHandle = new ViewHandle(this);
+    this.firstHandle.createHandle();
     if (isRangeSlider) {
-      this.secondButton = new ViewButton(this);
-      this.secondButton.createButton();
+      this.secondHandle = new ViewHandle(this);
+      this.secondHandle.createHandle();
     }
   }
 
   private renderTooltip(): void {
     const { isRangeSlider } = this.config;
-    this.firstTooltip = new ViewTooltip(this, this.firstButton.div);
+    this.firstTooltip = new ViewTooltip(this, this.firstHandle.div);
     this.firstTooltip.createTooltip();
     if (isRangeSlider) {
-      this.secondTooltip = new ViewTooltip(this, this.secondButton.div);
+      this.secondTooltip = new ViewTooltip(this, this.secondHandle.div);
       this.secondTooltip.createTooltip();
-      this.tooltipTotal = new ViewTooltip(this, this.firstButton.div);
+      this.tooltipTotal = new ViewTooltip(this, this.firstHandle.div);
       this.tooltipTotal.createTooltip();
       this.tooltipTotal.hideTooltip();
       this.tooltipTotal.div.style.position = 'absolute';

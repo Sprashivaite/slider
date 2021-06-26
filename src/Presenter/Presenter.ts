@@ -24,41 +24,41 @@ class Presenter {
       .subscribe('updateElementsSize', model.setElementsSize.bind(model))
       .subscribe('scaleQuantity', model.calcScaleValues.bind(model));
     view.handler
-      .subscribe('firstButtonScaleClick', model.moveToValue.bind(model))
-      .subscribe('firstButtonMouseDown', model.calcShift.bind(model))
-      .subscribe('firstButtonMouseMove', model.calcButtonOffset.bind(model))
-      .subscribe('firstButtonMouseUp', model.calcStopPointPX.bind(model))
-      .subscribe('secondButtonMouseDown', model.calcShift.bind(model))
-      .subscribe('secondButtonMouseMove', model.calcButtonOffset.bind(model))
-      .subscribe('secondButtonMouseUp', model.calcStopPointPX.bind(model))
-      .subscribe('secondButtonScaleClick', model.moveToValue.bind(model));    
+      .subscribe('firstHandleScaleClick', model.moveToValue.bind(model))
+      .subscribe('firstHandleMouseDown', model.calcShift.bind(model))
+      .subscribe('firstHandleMouseMove', model.calcHandleOffset.bind(model))
+      .subscribe('firstHandleMouseUp', model.calcStopPointPX.bind(model))
+      .subscribe('secondHandleMouseDown', model.calcShift.bind(model))
+      .subscribe('secondHandleMouseMove', model.calcHandleOffset.bind(model))
+      .subscribe('secondHandleMouseUp', model.calcStopPointPX.bind(model))
+      .subscribe('secondHandleScaleClick', model.moveToValue.bind(model));    
   }
 
   private subscribeView(): void {
     const { model, view } = this;
     model
       .subscribe('scaleUpdate', view.updateScale.bind(view))
-      .subscribe('updateFirstButtonValue', view.firstTooltip.changeTooltipValue.bind(view.firstTooltip))
-      .subscribe('updateFirstButtonPX', view.firstButton.moveButton.bind(view.firstButton))      
+      .subscribe('updateFirstHandleValue', view.firstTooltip.changeTooltipValue.bind(view.firstTooltip))
+      .subscribe('updateFirstHandlePX', view.firstHandle.moveHandle.bind(view.firstHandle))      
       if(view.config.isRangeSlider) {
         model
           .subscribe(
-            'updateSecondButtonPX',
-            view.secondButton.moveButton.bind(view.secondButton),
-            view.demarcateElements.bind(view, 'updateSecondButtonPX'), 
+            'updateSecondHandlePX',
+            view.secondHandle.moveHandle.bind(view.secondHandle),
+            view.demarcateElements.bind(view, 'updateSecondHandlePX'), 
             view.progressBar.progressBarMove.bind(view.progressBar)
           )
           .subscribe(
-            'updateSecondButtonValue', 
+            'updateSecondHandleValue', 
             view.secondTooltip.changeTooltipValue.bind(view.secondTooltip)
             )        
           .subscribe(
-            'updateFirstButtonPX', 
-            view.demarcateElements.bind(view, 'updateFirstButtonPX')
+            'updateFirstHandlePX', 
+            view.demarcateElements.bind(view, 'updateFirstHandlePX')
             )        
       }
     model
-      .subscribe('updateFirstButtonPX', view.progressBar.progressBarMove.bind(view.progressBar));
+      .subscribe('updateFirstHandlePX', view.progressBar.progressBarMove.bind(view.progressBar));
   }
 }
 export default Presenter;

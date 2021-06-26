@@ -73,16 +73,16 @@ class Config extends Observer {
       if (Number(this.vl.value) > Number(this.vl2.value))
         this.vl.value = this.vl2.value;
     };
-    this.model.subscribe('updateFirstButtonValue', updateValue);
+    this.model.subscribe('updateFirstHandleValue', updateValue);
     this.view.updateModel();
-    const setButtonValue = () => {
+    const setHandleValue = () => {
       this.model.moveToValue({
         value: Number(this.vl.value),
-        ...this.view.handler.getFirstButtonData(),
+        ...this.view.handler.getFirstHandleData(),
       });
       this.view.updateModel();
     };
-    this.vl.addEventListener('change', setButtonValue);
+    this.vl.addEventListener('change', setHandleValue);
   }
 
   private initSecondValue(): void {
@@ -97,16 +97,16 @@ class Config extends Observer {
     }
     if (this.view.config.isRangeSlider) this.vl2.removeAttribute('disabled');
 
-    this.model.subscribe('updateSecondButtonValue', updateValue);
+    this.model.subscribe('updateSecondHandleValue', updateValue);
     this.view.updateModel();
-    const setButtonValue = () => {
+    const setHandleValue = () => {
       this.model.moveToValue({
         value: Number(this.vl2.value),
-        ...this.view.handler.getSecondButtonData(),
+        ...this.view.handler.getSecondHandleData(),
       });
       this.view.updateModel();
     };
-    this.vl2.addEventListener('change', setButtonValue);
+    this.vl2.addEventListener('change', setHandleValue);
   }
 
   private initMinValue(): void {

@@ -2,22 +2,22 @@ import Model from '../model/Model';
 
 let model;
 const someObject = {
-  buttonPX: 0,
-  buttonPX2: 0,
-  buttonValue: 0,
-  buttonValue2: 0,
+  handlePX: 0,
+  handlePX2: 0,
+  handleValue: 0,
+  handleValue2: 0,
   scaleValues: [],
   updatePX(value) {
-    this.buttonPX = value;
+    this.handlePX = value;
   },
   updatePX2(value) {
-    this.buttonPX2 = value;
+    this.handlePX2 = value;
   },
   updateValue(value) {
-    this.buttonValue = value;
+    this.handleValue = value;
   },
   updateValue2(value) {
-    this.buttonValue2 = value;
+    this.handleValue2 = value;
   },
   updateScale({ scaleValues }) {
     this.scaleValues = scaleValues;
@@ -40,37 +40,37 @@ container.insertAdjacentHTML(
 let field_horizontal = document.querySelector('.js-slider__field_horizontal');
 field_horizontal.insertAdjacentHTML(
   'afterbegin',
-  "<div class='js-slider__button'></div>"
+  "<div class='js-slider__handle'></div>"
 );
 field_horizontal.insertAdjacentHTML(
   'beforeend',
-  "<div class='js-slider__button' style='left: 66px'></div>"
+  "<div class='js-slider__handle' style='left: 66px'></div>"
 );
 let field_vertical = document.querySelector('.js-slider__field_vertical');
 field_vertical.insertAdjacentHTML(
   'afterbegin',
-  "<div class='js-slider__button' style='top: 20px'></div>"
+  "<div class='js-slider__handle' style='top: 20px'></div>"
 );
-let button_horizontal = document.querySelectorAll('.js-slider__button')[0];
-let button_horizontal2 = document.querySelectorAll('.js-slider__button')[1];
-let button_vertical = document.querySelector(
-  '.js-slider__field_vertical > .js-slider__button'
+let handle_horizontal = document.querySelectorAll('.js-slider__handle')[0];
+let handle_horizontal2 = document.querySelectorAll('.js-slider__handle')[1];
+let handle_vertical = document.querySelector(
+  '.js-slider__field_vertical > .js-slider__handle'
 );
 
 beforeEach(() => {
   model = new Model();
-  model.setElementsSize({ buttonSize: 0, fieldSize: 100 });
-  model.subscribe('updateFirstButtonPX', someObject.updatePX.bind(someObject));
+  model.setElementsSize({ handleSize: 0, fieldSize: 100 });
+  model.subscribe('updateFirstHandlePX', someObject.updatePX.bind(someObject));
   model.subscribe(
-    'updateSecondButtonPX',
+    'updateSecondHandlePX',
     someObject.updatePX2.bind(someObject)
   );
   model.subscribe(
-    'updateFirstButtonValue',
+    'updateFirstHandleValue',
     someObject.updateValue.bind(someObject)
   );
   model.subscribe(
-    'updateSecondButtonValue',
+    'updateSecondHandleValue',
     someObject.updateValue2.bind(someObject)
   );
   model.subscribe('scaleUpdate', someObject.updateScale.bind(someObject));
@@ -103,33 +103,33 @@ describe('конструктор класса', () => {
 });
 
 describe('высчитывание отступа для кнопки', () => {
-  it('model.calcButtonOffset default', () => {
-    model.calcButtonOffset({
-      button: button_horizontal,
+  it('model.calcHandleOffset default', () => {
+    model.calcHandleOffset({
+      handle: handle_horizontal,
       mouseCoords: 42,
     });
-    expect(someObject.buttonPX).toBe(42);
+    expect(someObject.handlePX).toBe(42);
   });
-  it('model.calcButtonOffset min', () => {
-    model.calcButtonOffset({
-      button: button_horizontal,
+  it('model.calcHandleOffset min', () => {
+    model.calcHandleOffset({
+      handle: handle_horizontal,
       mouseCoords: -42,
     });
-    expect(someObject.buttonPX).toBe(0);
+    expect(someObject.handlePX).toBe(0);
   });
-  it('model.calcButtonOffset max', () => {
-    model.calcButtonOffset({
-      button: button_horizontal,
+  it('model.calcHandleOffset max', () => {
+    model.calcHandleOffset({
+      handle: handle_horizontal,
       mouseCoords: 1002,
     });
-    expect(someObject.buttonPX).toBe(model.elementsSize.fieldSize);
+    expect(someObject.handlePX).toBe(model.elementsSize.fieldSize);
   });
-  it('model.calcButtonOffset secondButton', () => {
-    model.calcButtonOffset({
-      button: button_horizontal2,
+  it('model.calcHandleOffset secondHandle', () => {
+    model.calcHandleOffset({
+      handle: handle_horizontal2,
       mouseCoords: 42,
     });
-    expect(someObject.buttonPX2).toBe(42);
+    expect(someObject.handlePX2).toBe(42);
   });
 });
 
@@ -137,15 +137,15 @@ describe('передвинуть кнопку к точке шага ', () => {
   it('model.calcStopPointPX horizontal', () => {
     model.config.step = 50;
     model.calcStopPointPX({
-      button: button_horizontal,
-      buttonOffset: 20,
+      handle: handle_horizontal,
+      handleOffset: 20,
     });
-    expect(someObject.buttonPX).toBe(0);
+    expect(someObject.handlePX).toBe(0);
     model.calcStopPointPX({
-      button: button_horizontal,
-      buttonOffset: 75,
+      handle: handle_horizontal,
+      handleOffset: 75,
     });
-    expect(someObject.buttonPX).toBe(50);
+    expect(someObject.handlePX).toBe(50);
     model.config.step = 1;
   });
 });
@@ -153,18 +153,18 @@ describe('передвинуть кнопку к точке шага ', () => {
 describe('вычислить значение флага', () => {
   it('model.calcTooltipValue ', () => {
     model.calcStopPointPX({
-      button: button_horizontal,
-      buttonOffset: 75,
+      handle: handle_horizontal,
+      handleOffset: 75,
     });
-    expect(someObject.buttonValue).toBe(75);
+    expect(someObject.handleValue).toBe(75);
   });
   it('model.calcTooltipValue дробное', () => {
     model.config.step = 0.1;
     model.calcStopPointPX({
-      button: button_horizontal,
-      buttonOffset: 1.5,
+      handle: handle_horizontal,
+      handleOffset: 1.5,
     });
-    expect(someObject.buttonValue).toBe(1.5);
+    expect(someObject.handleValue).toBe(1.5);
     model.config.step = 1;
   });
 });
@@ -172,10 +172,10 @@ describe('вычислить значение флага', () => {
 describe('передвинуть кнопку к значению ', () => {
   it('model.moveToValue horizontal', () => {
     model.moveToValue({
-      button: button_horizontal,
+      handle: handle_horizontal,
       value: 42,
     });
-    expect(someObject.buttonPX).toBe(42);
+    expect(someObject.handlePX).toBe(42);
   });
 });
 

@@ -7,7 +7,7 @@ class Model extends Observer {
 
   private shift: number;
 
-  private elementsSize!: { fieldSize: number; buttonSize: number };
+  private elementsSize!: { fieldSize: number; handleSize: number };
 
   constructor(config = DEFAULT_MODEL_CONFIG as userModelConfig) {
     super();
@@ -22,35 +22,35 @@ class Model extends Observer {
   }
 
   setElementsSize(data: elementsSize): void {
-    const { fieldSize = 0, buttonSize = 0 } = data;
+    const { fieldSize = 0, handleSize = 0 } = data;
     this.elementsSize = {
-      buttonSize,
-      fieldSize: fieldSize - buttonSize,
+      handleSize,
+      fieldSize: fieldSize - handleSize,
     };
   }
 
   calcShift(data: elementsData): void {
-    const { buttonOffset, mouseCoords } = data;
-    this.shift = mouseCoords - buttonOffset;
+    const { handleOffset, mouseCoords } = data;
+    this.shift = mouseCoords - handleOffset;
   }
 
-  calcButtonOffset(data: elementsData): void {
+  calcHandleOffset(data: elementsData): void {
     const { fieldSize } = this.elementsSize;
     const { mouseCoords } = data;
     const shiftLeft: number = mouseCoords - this.shift;
     if (shiftLeft >= fieldSize) {
-      this.updateButton({ ...data, value: fieldSize });
+      this.updateHandle({ ...data, value: fieldSize });
     } else if (shiftLeft <= 0) {
-      this.updateButton({ ...data, value: 0 });
+      this.updateHandle({ ...data, value: 0 });
     } else {
-      this.updateButton({ ...data, value: shiftLeft });
+      this.updateHandle({ ...data, value: shiftLeft });
     }
   }
 
   calcStopPointPX(data: elementsData): void {
     const { max, min, step } = this.config;
     const { fieldSize } = this.elementsSize;
-    const { buttonOffset } = data;
+    const { handleOffset } = data;
     const stepPX: number = (fieldSize * step) / (max - min);
     const arrStopPoints = []
     for (let i = 0; i < fieldSize; i += stepPX) {
@@ -62,18 +62,18 @@ class Model extends Observer {
     let stopPoint;
     stopPoint = arrStopPoints.find((value, index, array) => {
       const halfStep = (value + array[index + 1]) /2
-      return buttonOffset <= halfStep
+      return handleOffset <= halfStep
     })
     
     if(stopPoint === undefined) stopPoint = fieldSize
-    this.updateButton({ ...data, value: stopPoint });
+    this.updateHandle({ ...data, value: stopPoint });
   }
 
   calcTooltipValue(data: number): number {
     const { max, min } = this.config;
     const { fieldSize } = this.elementsSize;
-    const  buttonOffset   = data;
-    const value: number = min + (buttonOffset * (max - min)) / fieldSize;
+    const  handleOffset   = data;
+    const value: number = min + (handleOffset * (max - min)) / fieldSize;
     const roundedValue: number = this.roundByStep(value)
     if (roundedValue === max) return roundedValue
     return this.findNearestValue(roundedValue);
@@ -84,7 +84,7 @@ class Model extends Observer {
     const { fieldSize } = this.elementsSize;
     const { value } = data;
     const result: number = (fieldSize / (max - min)) * (value - min);
-    this.updateButton({ ...data, value: result });
+    this.updateHandle({ ...data, value: result });
   }
 
   calcScaleValues(): void {
@@ -135,17 +135,17 @@ class Model extends Observer {
     this.config = { ...this.config, step };
   }
 
-  private updateButton(data: elementsData): void {
-    const { value, buttonName } = data;
+  private updateHandle(data: elementsData): void {
+    const { value, handleName } = data;
     const tooltipValue = this.calcTooltipValue(value);
-    if (buttonName === 'first') {
-      this.emit('updateFirstButtonPX', value);
-      this.emit('updateFirstButtonValue', tooltipValue);
+    if (handleName === 'first') {
+      this.emit('updateFirstHandlePX', value);
+      this.emit('updateFirstHandleValue', tooltipValue);
     }
     
-    if (buttonName === 'second') {
-      this.emit('updateSecondButtonPX', value);
-      this.emit('updateSecondButtonValue', tooltipValue);
+    if (handleName === 'second') {
+      this.emit('updateSecondHandlePX', value);
+      this.emit('updateSecondHandleValue', tooltipValue);
     }
   }
 

@@ -22,39 +22,39 @@ const assignTooltips = (view: View): void => {
   }
 };
 
-const demarcateButtons = (view: View, event: string): void => {
-  const { config, firstButton, secondButton, firstTooltip, secondTooltip } = view;
+const demarcateHandles = (view: View, event: string): void => {
+  const { config, firstHandle, secondHandle, firstTooltip, secondTooltip } = view;
   const direction = config.isHorizontal ? 'left' : 'top';
   const offset = config.isHorizontal ? 'offsetLeft' : 'offsetTop';
-  const firstButtonOffset = firstButton.div[offset];
-  const secondButtonOffset = secondButton.div[offset];
+  const firstHandleOffset = firstHandle.div[offset];
+  const secondHandleOffset = secondHandle.div[offset];
   const isFirstGreater = (
-    firstButtonOffset 
-    >= secondButtonOffset 
-    && event === 'updateFirstButtonPX'
+    firstHandleOffset 
+    >= secondHandleOffset 
+    && event === 'updateFirstHandlePX'
   );
   const isSecondGreater = (
-    secondButtonOffset 
-    <= firstButtonOffset 
-    && event === 'updateSecondButtonPX'
+    secondHandleOffset 
+    <= firstHandleOffset 
+    && event === 'updateSecondHandlePX'
   );
   const firstTooltipValue = Number(firstTooltip.div.innerHTML);
   const secondTooltipValue = Number(secondTooltip.div.innerHTML);
   if (isFirstGreater) {
-    firstButton.div.style[direction] = `${secondButtonOffset}px`;
-    firstButton.div.classList.add('js-slider__button_isTarget');
-    secondButton.div.classList.remove('js-slider__button_isTarget');
+    firstHandle.div.style[direction] = `${secondHandleOffset}px`;
+    firstHandle.div.classList.add('js-slider__handle_isTarget');
+    secondHandle.div.classList.remove('js-slider__handle_isTarget');
     if (firstTooltipValue >= secondTooltipValue) {
       firstTooltip.div.innerHTML = secondTooltipValue;
     }
   }
   if (isSecondGreater) {
-    secondButton.div.style[direction] = `${firstButtonOffset}px`;
-    firstButton.div.classList.remove('js-slider__button_isTarget');
-    secondButton.div.classList.add('js-slider__button_isTarget');
+    secondHandle.div.style[direction] = `${firstHandleOffset}px`;
+    firstHandle.div.classList.remove('js-slider__handle_isTarget');
+    secondHandle.div.classList.add('js-slider__handle_isTarget');
     if (secondTooltipValue <= firstTooltipValue) {
       secondTooltip.div.innerHTML = firstTooltipValue;
     }
   }
 };
-export { assignTooltips, demarcateButtons };
+export { assignTooltips, demarcateHandles };

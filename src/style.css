@@ -31,7 +31,7 @@
   align-items: center;
 }
 
-.js-slider__button {
+.js-slider__handle {
   display: inline-flex;
   position: absolute;
   width: 18px;
@@ -44,11 +44,11 @@
   justify-content: center;
 }
 
-.js-slider__button_isTarget {
+.js-slider__handle_isTarget {
   z-index: 10;
 }
 
-.js-slider__button_isVertical {
+.js-slider__handle_isVertical {
   transform: translateX(-25%);
 }
 

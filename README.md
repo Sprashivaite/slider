@@ -69,8 +69,8 @@ let slider = $(selector).sliderPlugin().data("sliderPlugin");
 ```
 ### set value
 ```javascript
-slider.setValue('firstButton', number)
-slider.setValue('secondButton', number)
+slider.setValue('firstHandle', number)
+slider.setValue('secondHandle', number)
 ```
 ### set config
 ```javascript

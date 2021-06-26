@@ -71,7 +71,7 @@ describe('работа фасада renderElements', () => {
   it('view.renderElements', () => {
     view.renderElements();
     expect(view.field).toBeDefined();
-    expect(view.firstButton.div).toBeDefined();
+    expect(view.firstHandle.div).toBeDefined();
     expect(view.firstTooltip).toBeDefined();
     expect(view.progressBar.div).toBeDefined();
     view.removeElements();
@@ -86,21 +86,21 @@ describe('удаление элементов View', () => {
   });
 });
 
-describe('движение View button', () => {
+describe('движение View handle', () => {
   afterEach(function () {
     view.removeElements();
   });
-  it('view.button.moveButton horizontal', () => {
+  it('view.handle.moveHandle horizontal', () => {
     view = new View({ isRangeSlider: false });
     view.renderElements();
-    view.firstButton.moveButton(50);
-    expect(getComputedStyle(view.firstButton.div).left).toBe('50px');
+    view.firstHandle.moveHandle(50);
+    expect(getComputedStyle(view.firstHandle.div).left).toBe('50px');
   });
-  it('view.button.moveButton Vertical', () => {
+  it('view.handle.moveHandle Vertical', () => {
     view = new View({ isHorizontal: false, isRangeSlider: false });
     view.renderElements();
-    view.firstButton.moveButton(50);
-    expect(getComputedStyle(view.firstButton.div).top).toBe('50px');
+    view.firstHandle.moveHandle(50);
+    expect(getComputedStyle(view.firstHandle.div).top).toBe('50px');
   });
 });
 
@@ -134,7 +134,7 @@ describe('движение View progressBar', () => {
   it('view.progressBar range', () => {
     view = new View({ isRangeSlider: true });
     view.renderElements();
-    view.secondButton.moveButton(95);
+    view.secondHandle.moveHandle(95);
     view.progressBar.progressBarMove();
     expect(view.progressBar.div.offsetWidth).toBeGreaterThan(60);
     view.removeElements();
@@ -142,7 +142,7 @@ describe('движение View progressBar', () => {
   it('view.progressBar solo', () => {
     view = new View({ isRangeSlider: false });
     view.renderElements();
-    view.firstButton.moveButton(100);
+    view.firstHandle.moveHandle(100);
     view.progressBar.progressBarMove();
     expect(view.progressBar.div.offsetWidth).toBeGreaterThan(90);
     view.removeElements();
@@ -150,7 +150,7 @@ describe('движение View progressBar', () => {
   it('view.progressBar Vertical', () => {
     view = new View({ isRangeSlider: false, isHorizontal: false });
     view.renderElements();
-    view.firstButton.moveButton(30);
+    view.firstHandle.moveHandle(30);
     view.progressBar.progressBarMove();
     expect(view.progressBar.div.offsetHeight).toBeGreaterThan(10);
     view.removeElements();
@@ -158,7 +158,7 @@ describe('движение View progressBar', () => {
   it('view.progressBar range Vertical', () => {
     view = new View({ isHorizontal: false, isRangeSlider: true });
     view.renderElements();
-    view.secondButton.moveButton(60);
+    view.secondHandle.moveHandle(60);
     view.progressBar.progressBarMove();
     expect(view.progressBar.div.offsetHeight).toBeGreaterThan(30);
     view.removeElements();
@@ -227,31 +227,31 @@ describe('события мыши', () => {
     expect(mousedownCalled).toBeFalsy();
   });
 
-  it('view.handler.addButtonHandler mouse down', () => {
+  it('view.handler.addHandleHandler mouse down', () => {
     let notify = jasmine.createSpy('notify');
     view.addHandlers();
-    view.handler.subscribe('firstButtonMouseDown', notify);
-    view.firstButton.div.dispatchEvent(mousedown);
+    view.handler.subscribe('firstHandleMouseDown', notify);
+    view.firstHandle.div.dispatchEvent(mousedown);
 
     expect(notify).toHaveBeenCalled();
     expect(notify.calls.count()).toEqual(1);
   });
 
-  it('view.handler.addButtonHandler mouse move', () => {
+  it('view.handler.addHandleHandler mouse move', () => {
     let notify = jasmine.createSpy('notify');
     view.addHandlers();
-    view.handler.subscribe('firstButtonMouseMove', notify);
-    view.firstButton.div.dispatchEvent(mousedown);
+    view.handler.subscribe('firstHandleMouseMove', notify);
+    view.firstHandle.div.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);
     expect(notify).toHaveBeenCalled();
     expect(notify.calls.count()).toEqual(2);
   });
-  it('view.handler.addButtonHandler mouseup', () => {
+  it('view.handler.addHandleHandler mouseup', () => {
     let notify = jasmine.createSpy('notify');
     view.addHandlers();
-    view.handler.subscribe('firstButtonMouseMove', notify);
-    view.handler.subscribe('firstButtonMouseUp', notify);
-    view.firstButton.div.dispatchEvent(mousedown);
+    view.handler.subscribe('firstHandleMouseMove', notify);
+    view.handler.subscribe('firstHandleMouseUp', notify);
+    view.firstHandle.div.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);
     document.dispatchEvent(mouseup);
     expect(notify).toHaveBeenCalled();
@@ -266,10 +266,10 @@ describe('события мыши range', () => {
     view = new View({ isRangeSlider: true });
     view.renderElements();
     something = {
-      firstButtonMouseMoveButton: () => {},
-      firstButtonMouseUp: () => {},
-      secondButtonMouseMove: () => {},
-      secondButtonMouseUp: () => {},
+      firstHandleMouseMoveHandle: () => {},
+      firstHandleMouseUp: () => {},
+      secondHandleMouseMove: () => {},
+      secondHandleMouseUp: () => {},
     };
     mousedown = new MouseEvent('mousedown');
     mousemove = new MouseEvent('mousemove', { clientX: 50 });
@@ -279,11 +279,11 @@ describe('события мыши range', () => {
   afterEach(() => {
     view.removeElements();
   });
-  it('view.handler.addFieldHandler mouse event secondButton', () => {
+  it('view.handler.addFieldHandler mouse event secondHandle', () => {
     let notify = jasmine.createSpy('notify');
     view.addHandlers();
-    view.handler.subscribe('secondButtonMouseMove', notify);
-    view.handler.subscribe('secondButtonMouseUp', notify);
+    view.handler.subscribe('secondHandleMouseMove', notify);
+    view.handler.subscribe('secondHandleMouseUp', notify);
     view.handler.mouseCoords = 60;
     view.field.div.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);

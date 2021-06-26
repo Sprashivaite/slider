@@ -3,7 +3,7 @@ import IView from "../IView";
 class Tooltip {
   div!: HTMLDivElement;
 
-  button!: HTMLDivElement;
+  handle!: HTMLDivElement;
 
   field!: HTMLDivElement;
 
@@ -13,8 +13,8 @@ class Tooltip {
 
   isTooltip!: boolean;
 
-  constructor(View: IView, button: HTMLDivElement) {    
-    this.init(View, button)    
+  constructor(View: IView, handle: HTMLDivElement) {    
+    this.init(View, handle)    
   }
 
   createTooltip(): void {
@@ -23,7 +23,7 @@ class Tooltip {
     if(this.isHorizontal) this.div.classList.add('-js-slider__tooltip_isHorizontal')
     if(!this.isHorizontal) this.div.classList.add('-js-slider__tooltip_isVertical')
     this.div.innerHTML = "0";
-    this.button.append(this.div);
+    this.handle.append(this.div);
     if(!this.isTooltip) this.hideTooltip()
   }
 
@@ -39,8 +39,8 @@ class Tooltip {
     this.div.classList.remove("-js-slider__tooltip_hide");
   }
 
-  private init(View: IView, button: HTMLDivElement): void { 
-    this.button = button;
+  private init(View: IView, handle: HTMLDivElement): void { 
+    this.handle = handle;
     this.field = View.field.div;
     this.isHorizontal = View.config.isHorizontal!
     this.isRangeSlider = View.config.isRangeSlider!

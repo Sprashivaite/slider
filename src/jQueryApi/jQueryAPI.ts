@@ -25,20 +25,20 @@ import { DEFAULT_CONFIG } from '../defaults';
       this.presenter.subscribeListeners();
     }
 
-    setValue(button: string, value: number): void {
+    setValue(handle: string, value: number): void {
       let result = value;
       if (result > this.model.config.max) result = this.model.config.max;
       if (result < this.model.config.min) result = this.model.config.min;
-      if (button === 'firstButton') {
+      if (handle === 'firstHandle') {
         this.model.moveToValue({
           value: result,
-          ...this.view.handler.getFirstButtonData(),
+          ...this.view.handler.getFirstHandleData(),
         });
       }
-      if (button === 'secondButton') {
+      if (handle === 'secondHandle') {
         this.model.moveToValue({
           value: result,
-          ...this.view.handler.getSecondButtonData(),
+          ...this.view.handler.getSecondHandleData(),
         });
       }
     }

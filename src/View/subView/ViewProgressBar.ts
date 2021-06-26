@@ -9,9 +9,9 @@ class ViewProgressBar {
 
   isRangeSlider!: boolean;
 
-  firstButton!: HTMLDivElement;
+  firstHandle!: HTMLDivElement;
 
-  secondButton!: HTMLDivElement;
+  secondHandle!: HTMLDivElement;
 
   isProgressBar!: boolean;
 
@@ -37,15 +37,15 @@ class ViewProgressBar {
     const size = this.isHorizontal ? 'width' : 'height';
     const offsetDirection = this.isHorizontal ? 'offsetLeft' : 'offsetTop';
     const offsetSize = this.isHorizontal ? 'offsetWidth' : 'offsetHeight';
-    const firstButtonOffset = (
-      this.firstButton[offsetDirection] + this.firstButton[offsetSize] / 2
+    const firstHandleOffset = (
+      this.firstHandle[offsetDirection] + this.firstHandle[offsetSize] / 2
     );
-    this.div.style[size] = `${firstButtonOffset}px`;
+    this.div.style[size] = `${firstHandleOffset}px`;
     if (this.isRangeSlider) {
-      const secondButtonOffset =
-        this.secondButton[offsetDirection] + this.secondButton[offsetSize] / 2;
-      this.div.style[direction] = `${firstButtonOffset}px`;
-      this.div.style[size] = `${secondButtonOffset - firstButtonOffset}px`;
+      const secondHandleOffset =
+        this.secondHandle[offsetDirection] + this.secondHandle[offsetSize] / 2;
+      this.div.style[direction] = `${firstHandleOffset}px`;
+      this.div.style[size] = `${secondHandleOffset - firstHandleOffset}px`;
     }
 
     this.changeColorBar();
@@ -61,9 +61,9 @@ class ViewProgressBar {
 
   private init(View: IView): void {
     this.field = View.field.div;
-    this.firstButton = View.firstButton.div;
+    this.firstHandle = View.firstHandle.div;
     if (View.config.isRangeSlider) {
-      this.secondButton = View.secondButton.div;
+      this.secondHandle = View.secondHandle.div;
     }
 
     this.isHorizontal = View.config.isHorizontal;
@@ -86,7 +86,7 @@ class ViewProgressBar {
     if (progressBarSize >= fieldSize / 2) {
       styleColor = `js-progressBar_color_3`;
     } 
-    if (progressBarSize >= fieldSize - this.firstButton.offsetWidth) {
+    if (progressBarSize >= fieldSize - this.firstHandle.offsetWidth) {
       styleColor = `js-progressBar_color_4`;
     }
     

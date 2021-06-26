@@ -1,6 +1,6 @@
 import IView from '../IView';
 
-class ViewButton {
+class ViewHandle {
   div!: HTMLDivElement;
 
   field!: HTMLDivElement;
@@ -13,15 +13,15 @@ class ViewButton {
     this.init(View);
   }
 
-  createButton(): HTMLDivElement {
+  createHandle(): HTMLDivElement {
     this.div = document.createElement('div');
-    this.div.className = 'js-slider__button';
-    if(!this.isHorizontal) this.div.classList.add('js-slider__button_isVertical')
+    this.div.className = 'js-slider__handle';
+    if(!this.isHorizontal) this.div.classList.add('js-slider__handle_isVertical')
     this.field.append(this.div);
     return this.div;
   }
 
-  moveButton(value: number): void {
+  moveHandle(value: number): void {
     const direction = this.isHorizontal ? 'left' : 'top';
     this.div.style[direction] = `${value}px`;
   }
@@ -32,4 +32,4 @@ class ViewButton {
     this.isRangeSlider = View.config.isRangeSlider!;
   }
 }
-export default ViewButton;
+export default ViewHandle;
