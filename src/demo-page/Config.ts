@@ -26,24 +26,16 @@ class Config extends Observer {
 
   container!: any;
 
-  presenter: Presenter;
-
-  view: View;
-
-  model: Model;
-
   constructor(slider: any, container: Element) {
     super();
     this.slider = slider;
-    this.model = slider.model;
-    this.view = slider.view;
-    this.presenter = slider.presenter;
     this.container = container;
     this.initInputs();
   }
 
   private initInputs(): void {
     this.findElements();
+    this.updateInputs()
     this.initFirstValue();
     this.initSecondValue();
     this.initMinValue();
@@ -71,14 +63,9 @@ class Config extends Observer {
     const updateValue = (value: string) => {
       this.firstHandle.value = value;
     };
-    this.model.subscribe('updateFirstHandleValue', updateValue);
-    this.view.updateModel();
+    this.slider.subscribe('updateFirstHandleValue', updateValue);
     const setHandleValue = () => {
-      this.model.moveToValue({
-        value: Number(this.firstHandle.value),
-        ...this.view.handler.getFirstHandleData(),
-      });
-      this.view.updateModel();
+      this.slider.setValue('firstHandle', this.firstHandle.valueAsNumber)
     };
     this.firstHandle.addEventListener('change', setHandleValue);
   }
@@ -87,94 +74,83 @@ class Config extends Observer {
     const updateValue = (value: string) => {
       this.secondHandle.value = value;
     };
-    if (!this.view.config.isRangeSlider) {
+    if (!this.slider.getConfig().isRangeSlider) {
       this.secondHandle.setAttribute('disabled', 'true');
       return;
     }
-    if (this.view.config.isRangeSlider) this.secondHandle.removeAttribute('disabled');
-
-    this.model.subscribe('updateSecondHandleValue', updateValue);
-    this.view.updateModel();
+    if (this.slider.getConfig().isRangeSlider) this.secondHandle.removeAttribute('disabled');
+    this.slider.subscribe('updateSecondHandleValue', updateValue);    
     const setHandleValue = () => {
-      this.model.moveToValue({
-        value: Number(this.secondHandle.value),
-        ...this.view.handler.getSecondHandleData(),
-      });
-      this.view.updateModel();
+      this.slider.setValue('secondHandle', this.secondHandle.valueAsNumber)
     };
     this.secondHandle.addEventListener('change', setHandleValue);
   }
 
   private initMinValue(): void {
-    this.min.value = `${this.model.config.min}`;
     const minChanged = () => {
-      this.model.setConfig({ min: Number(this.min.value) });
-      this.step.value = `${this.model.config.step}`;
-      this.min.value = `${this.model.config.min}`;
-      this.max.value = `${this.model.config.max}`;
-      this.view.updateModel();
-      this.initSecondValue();
+      this.slider.setConfig({ min: this.min.valueAsNumber });
+      this.updateInputs()
     };
     this.min.addEventListener('change', minChanged);
   }
 
   private initMaxValue(): void {
-    this.max.value = `${this.model.config.max}`;
     const maxChanged = () => {
-      this.model.setConfig({ max: Number(this.max.value) });
-      this.step.value = `${this.model.config.step}`;
-      this.min.value = `${this.model.config.min}`;
-      this.max.value = `${this.model.config.max}`;
-      this.view.updateModel();
-      this.initSecondValue();
+      this.slider.setConfig({ max: Number(this.max.value) });
+      this.updateInputs()
     };
     this.max.addEventListener('change', maxChanged);
   }
 
   private initStep(): void {
-    this.step.value = `${this.model.config.step}`;
     const stepChanged = () => {
-      this.model.setConfig({ step: Number(this.step.value) });
-      this.step.value = `${this.model.config.step}`;
-      this.view.updateModel();
-      this.initSecondValue();
+      this.slider.setConfig({ step: Number(this.step.value) });
+      this.updateInputs()
     };
     this.step.addEventListener('change', stepChanged);
   }
 
   private initTooltip(): void {
-    this.tooltip.checked = this.view.config.isTooltip;
     const tooltipChanged = () => {
-      this.slider.setConfig({isTooltip: !this.view.config.isTooltip})
-      this.initSecondValue();
+      this.slider.setConfig({isTooltip: !this.slider.getConfig().isTooltip})
+      this.updateInputs()
     };
     this.tooltip.addEventListener('change', tooltipChanged);
   }
 
   private initScale(): void {
-    this.scale.checked = this.view.config.isScale;
     const scaleChanged = () => {
-      this.slider.setConfig({isScale: !this.view.config.isScale})
+      this.slider.setConfig({isScale: !this.slider.getConfig().isScale})
+      this.updateInputs()
     };
     this.scale.addEventListener('change', scaleChanged);
   }
 
   private initOrientation(): void {
-    this.orientation.checked = this.view.config.isHorizontal;
     const orientationChanged = () => {
-      this.slider.setConfig({isHorizontal: !this.view.config.isHorizontal})
-      this.initSecondValue();
+      this.slider.setConfig({isHorizontal: !this.slider.getConfig().isHorizontal})
+      this.updateInputs()
     };
     this.orientation.addEventListener('change', orientationChanged);
   }
 
   private initRange(): void {
-    this.range.checked = this.view.config.isRangeSlider;
     const rangeChanged = () => {
-      this.slider.setConfig({isRangeSlider: !this.view.config.isRangeSlider})
-      this.initSecondValue();
+      this.slider.setConfig({isRangeSlider: !this.slider.getConfig().isRangeSlider})
+      this.updateInputs()
     };
     this.range.addEventListener('change', rangeChanged);
+  }
+
+  private updateInputs(): void {
+    this.tooltip.checked = this.slider.getConfig().isTooltip;
+    this.scale.checked = this.slider.getConfig().isScale;
+    this.range.checked = this.slider.getConfig().isRangeSlider;
+    this.orientation.checked = this.slider.getConfig().isHorizontal;
+    this.step.value = `${this.slider.getConfig().step}`;
+    this.min.value = `${this.slider.getConfig().min}`;
+    this.max.value = `${this.slider.getConfig().max}`;
+    this.initSecondValue();
   }
 
 }

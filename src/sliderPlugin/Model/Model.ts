@@ -21,6 +21,10 @@ class Model extends Observer {
     this.calcScaleValues()
   }
 
+  getConfig(): modelConfig {
+    return this.config
+  }
+
   setElementsSize(data: elementsSize): void {
     const { fieldSize = 0, handleSize = 0 } = data;
     this.elementsSize = {

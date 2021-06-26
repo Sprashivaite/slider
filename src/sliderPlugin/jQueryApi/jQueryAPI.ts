@@ -6,11 +6,11 @@ import { DEFAULT_CONFIG } from '../defaults';
 
 (function addFunc($) {
   class SliderPlugin {
-    model!: Model;
+    private model!: Model;
 
-    view!: View;
+    private view!: View;
 
-    presenter!: Presenter;
+    private presenter!: Presenter;
 
     constructor(config: viewConfig & modelConfig) {
       this.model = new Model({ ...DEFAULT_CONFIG, ...config });
@@ -41,12 +41,24 @@ import { DEFAULT_CONFIG } from '../defaults';
           ...this.view.handler.getSecondHandleData(),
         });
       }
+      this.view.updateModel();
     }
 
     setConfig(userConfig: viewConfig & modelConfig): void {
       this.model.setConfig(userConfig)
       this.view.setConfig(userConfig)
       this.presenter.subscribeListeners();
+    }
+
+    getConfig(): viewConfig & modelConfig {      
+      return {...this.model.getConfig(), ...this.view.getConfig() }
+    }
+
+    subscribe(eventName, listener): void {
+      this.model.subscribe(eventName, listener);
+      this.view.subscribe(eventName, listener);
+      this.view.handler.subscribe(eventName, listener);
+      this.view.updateModel();
     }
   }
 

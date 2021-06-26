@@ -53,6 +53,10 @@ class View extends Observer implements IView {
     this.addHandlers();
   }
 
+  getConfig(): userViewConfig {
+    return this.config
+  }
+
   renderElements(): void {
     this.renderField();
     this.renderHandles();
