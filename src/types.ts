@@ -14,7 +14,7 @@ type viewConfig = {
   target?: HTMLElement;
   isHorizontal: boolean;
   isRangeSlider: boolean;
-  isFlag: boolean;
+  isTooltip: boolean;
   isScale: boolean;
   isProgressBar: boolean;
 };
@@ -23,7 +23,7 @@ type userViewConfig = {
   target?: HTMLElement;
   isHorizontal?: boolean;
   isRangeSlider?: boolean;
-  isFlag?: boolean;
+  isTooltip?: boolean;
   isScale?: boolean;
   isProgressBar?: boolean;
 };

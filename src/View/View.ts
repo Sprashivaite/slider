@@ -1,14 +1,14 @@
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 import ViewField from './subView/ViewField';
 import ViewButton from './subView/ViewButton';
-import ViewFlag from './subView/ViewFlag';
+import ViewTooltip from './subView/ViewTooltip';
 import ViewProgressBar from './subView/ViewProgressBar';
 import ViewScale from './subView/ViewScale';
 import ViewContainer from './subView/ViewContainer';
 import ViewHandler from './subView/ViewHandler';
 import IView from './IView';
 import Observer from '../Observer/Observer';
-import { assignFlags, demarcateButtons } from './utils/demarcateElements';
+import { assignTooltips, demarcateButtons } from './utils/demarcateElements';
 import { DEFAULT_VIEW_CONFIG } from '../defaults';
 import { scaleData, viewConfig, userViewConfig } from '../types';
 
@@ -21,9 +21,9 @@ class View extends Observer implements IView {
 
   field!: ViewField;
 
-  firstFlag!: ViewFlag;
+  firstTooltip!: ViewTooltip;
 
-  secondFlag!: ViewFlag;
+  secondTooltip!: ViewTooltip;
 
   progressBar!: ViewProgressBar;
 
@@ -37,7 +37,7 @@ class View extends Observer implements IView {
 
   buttonSize!: number;
 
-  flagTotal!: ViewFlag;
+  tooltipTotal!: ViewTooltip;
 
   constructor(config = DEFAULT_VIEW_CONFIG as userViewConfig) {
     super();
@@ -56,14 +56,14 @@ class View extends Observer implements IView {
   renderElements(): void {
     this.renderField();
     this.renderButtons();
-    this.renderFlag();
+    this.renderTooltip();
     this.renderProgressBar();
     this.renderScale();
   }
 
   removeElements(): void {
     [
-      this.firstFlag.div,
+      this.firstTooltip.div,
       this.firstButton.div,
       this.field.div,
       this.progressBar.div,
@@ -71,7 +71,7 @@ class View extends Observer implements IView {
     ].forEach((item) => item.remove());
 
     if (this.config.isRangeSlider) {
-      [this.secondFlag.div, this.secondButton.div].forEach((item) => (
+      [this.secondTooltip.div, this.secondButton.div].forEach((item) => (
           item.remove()
         )
       );
@@ -115,7 +115,7 @@ class View extends Observer implements IView {
     const { isRangeSlider } = this.config;
     if (isRangeSlider) {
       demarcateButtons(this, event)
-      assignFlags(this);
+      assignTooltips(this);
     }
   }
 
@@ -125,18 +125,18 @@ class View extends Observer implements IView {
   }
 
   private validate(): void {
-    let { isHorizontal, isRangeSlider, isFlag, isProgressBar, isScale } =
+    let { isHorizontal, isRangeSlider, isTooltip, isProgressBar, isScale } =
       this.config;
     if (typeof isHorizontal !== 'boolean') isHorizontal = true;
     if (typeof isRangeSlider !== 'boolean') isRangeSlider = true;
-    if (typeof isFlag !== 'boolean') isFlag = true;
+    if (typeof isTooltip !== 'boolean') isTooltip = true;
     if (typeof isProgressBar !== 'boolean') isProgressBar = true;
     if (typeof isScale !== 'boolean') isScale = true;
     this.config = {
       ...this.config,
       isHorizontal,
       isRangeSlider,
-      isFlag,
+      isTooltip,
       isProgressBar,
       isScale,
     };
@@ -157,17 +157,17 @@ class View extends Observer implements IView {
     }
   }
 
-  private renderFlag(): void {
+  private renderTooltip(): void {
     const { isRangeSlider } = this.config;
-    this.firstFlag = new ViewFlag(this, this.firstButton.div);
-    this.firstFlag.createFlag();
+    this.firstTooltip = new ViewTooltip(this, this.firstButton.div);
+    this.firstTooltip.createTooltip();
     if (isRangeSlider) {
-      this.secondFlag = new ViewFlag(this, this.secondButton.div);
-      this.secondFlag.createFlag();
-      this.flagTotal = new ViewFlag(this, this.firstButton.div);
-      this.flagTotal.createFlag();
-      this.flagTotal.hideFlag();
-      this.flagTotal.div.style.position = 'absolute';
+      this.secondTooltip = new ViewTooltip(this, this.secondButton.div);
+      this.secondTooltip.createTooltip();
+      this.tooltipTotal = new ViewTooltip(this, this.firstButton.div);
+      this.tooltipTotal.createTooltip();
+      this.tooltipTotal.hideTooltip();
+      this.tooltipTotal.div.style.position = 'absolute';
     }
   }
 

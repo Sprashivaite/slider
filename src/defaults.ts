@@ -9,7 +9,7 @@ const DEFAULT_MODEL_CONFIG: modelConfig = {
 const DEFAULT_VIEW_CONFIG: viewConfig = {
   isHorizontal: true,
   isRangeSlider: true,
-  isFlag: true,
+  isTooltip: true,
   isProgressBar: true,
   isScale: true,
 };

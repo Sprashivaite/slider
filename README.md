@@ -58,7 +58,7 @@ $(selector).sliderPlugin();
 | step              | number             | 1                     | Шаг                                                                                             |
 | isHorizontal      | boolean            | true                  | Горизонтальный/Вертикальный                                                                     |
 | isRangeSlider     | boolean            | true                  | Одиночный/Диапазон                                                                               |
-| isFlag            | boolean            | true                  | Показывает/скрывает флажок                                                                      |
+| isTooltip            | boolean            | true                  | Показывает/скрывает флажок                                                                      |
 | isScale           | boolean            | true                  | Показывает/скрывает шкалу                                                                       |
 | scaleQuantity     | number             | 11                    | Количество делений шкалы                                                                        |
 

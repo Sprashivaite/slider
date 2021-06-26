@@ -147,9 +147,9 @@ class Config extends Observer {
   }
 
   private initTooltip(): void {
-    this.tooltip.checked = this.view.config.isFlag;
+    this.tooltip.checked = this.view.config.isTooltip;
     const tooltipChanged = () => {
-      this.slider.setConfig({isFlag: !this.view.config.isFlag})
+      this.slider.setConfig({isTooltip: !this.view.config.isTooltip})
       this.initSecondValue();
     };
     this.tooltip.addEventListener('change', tooltipChanged);

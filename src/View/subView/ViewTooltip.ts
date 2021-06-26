@@ -1,6 +1,6 @@
 import IView from "../IView";
 
-class Flag {
+class Tooltip {
   div!: HTMLDivElement;
 
   button!: HTMLDivElement;
@@ -11,32 +11,32 @@ class Flag {
 
   isRangeSlider!: boolean;
 
-  isFlag!: boolean;
+  isTooltip!: boolean;
 
   constructor(View: IView, button: HTMLDivElement) {    
     this.init(View, button)    
   }
 
-  createFlag(): void {
+  createTooltip(): void {
     this.div = document.createElement("div");
-    this.div.className = "-js-slider__flag";
-    if(this.isHorizontal) this.div.classList.add('-js-slider__flag_isHorizontal')
-    if(!this.isHorizontal) this.div.classList.add('-js-slider__flag_isVertical')
+    this.div.className = "-js-slider__tooltip";
+    if(this.isHorizontal) this.div.classList.add('-js-slider__tooltip_isHorizontal')
+    if(!this.isHorizontal) this.div.classList.add('-js-slider__tooltip_isVertical')
     this.div.innerHTML = "0";
     this.button.append(this.div);
-    if(!this.isFlag) this.hideFlag()
+    if(!this.isTooltip) this.hideTooltip()
   }
 
-  changeFlagValue(value: number): void {
+  changeTooltipValue(value: number): void {
     this.div.innerHTML = `${value}`;
   }
 
-  hideFlag(): void {
-    this.div.classList.add("-js-slider__flag_hide");
+  hideTooltip(): void {
+    this.div.classList.add("-js-slider__tooltip_hide");
   }
 
-  showFlag(): void {
-    this.div.classList.remove("-js-slider__flag_hide");
+  showTooltip(): void {
+    this.div.classList.remove("-js-slider__tooltip_hide");
   }
 
   private init(View: IView, button: HTMLDivElement): void { 
@@ -44,7 +44,7 @@ class Flag {
     this.field = View.field.div;
     this.isHorizontal = View.config.isHorizontal!
     this.isRangeSlider = View.config.isRangeSlider!
-    this.isFlag = View.config.isFlag!
+    this.isTooltip = View.config.isTooltip!
   } 
 }
-export default Flag;
+export default Tooltip;

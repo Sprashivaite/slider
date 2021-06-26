@@ -72,7 +72,7 @@ describe('работа фасада renderElements', () => {
     view.renderElements();
     expect(view.field).toBeDefined();
     expect(view.firstButton.div).toBeDefined();
-    expect(view.firstFlag).toBeDefined();
+    expect(view.firstTooltip).toBeDefined();
     expect(view.progressBar.div).toBeDefined();
     view.removeElements();
   });
@@ -104,28 +104,28 @@ describe('движение View button', () => {
   });
 });
 
-describe('toggle View flag', () => {
+describe('toggle View tooltip', () => {
   beforeEach(function () {
     view.renderElements();
   });
   afterEach(function () {
     view.removeElements();
   });
-  it('view.flag.showFlag', () => {
-    view.firstFlag.showFlag();
-    expect(getComputedStyle(view.firstFlag.div).visibility).toBe('visible');
+  it('view.tooltip.showTooltip', () => {
+    view.firstTooltip.showTooltip();
+    expect(getComputedStyle(view.firstTooltip.div).visibility).toBe('visible');
   });
-  it('view.hideFlag', () => {
-    view.firstFlag.hideFlag();
-    expect(getComputedStyle(view.firstFlag.div).visibility).toBe('hidden');
+  it('view.hideTooltip', () => {
+    view.firstTooltip.hideTooltip();
+    expect(getComputedStyle(view.firstTooltip.div).visibility).toBe('hidden');
   });
 });
 
-describe('значение View flag', () => {
-  it('view.changeFlagValue', () => {
+describe('значение View tooltip', () => {
+  it('view.changeTooltipValue', () => {
     view.renderElements();
-    view.firstFlag.changeFlagValue(50);
-    expect(view.firstFlag.div.innerHTML).toBe('50');
+    view.firstTooltip.changeTooltipValue(50);
+    expect(view.firstTooltip.div.innerHTML).toBe('50');
     view.removeElements();
   });
 });

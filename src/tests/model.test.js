@@ -151,14 +151,14 @@ describe('передвинуть кнопку к точке шага ', () => {
 });
 
 describe('вычислить значение флага', () => {
-  it('model.calcFlagValue ', () => {
+  it('model.calcTooltipValue ', () => {
     model.calcStopPointPX({
       button: button_horizontal,
       buttonOffset: 75,
     });
     expect(someObject.buttonValue).toBe(75);
   });
-  it('model.calcFlagValue дробное', () => {
+  it('model.calcTooltipValue дробное', () => {
     model.config.step = 0.1;
     model.calcStopPointPX({
       button: button_horizontal,

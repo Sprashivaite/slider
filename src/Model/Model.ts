@@ -69,7 +69,7 @@ class Model extends Observer {
     this.updateButton({ ...data, value: stopPoint });
   }
 
-  calcFlagValue(data: number): number {
+  calcTooltipValue(data: number): number {
     const { max, min } = this.config;
     const { fieldSize } = this.elementsSize;
     const  buttonOffset   = data;
@@ -137,15 +137,15 @@ class Model extends Observer {
 
   private updateButton(data: elementsData): void {
     const { value, buttonName } = data;
-    const flagValue = this.calcFlagValue(value);
+    const tooltipValue = this.calcTooltipValue(value);
     if (buttonName === 'first') {
       this.emit('updateFirstButtonPX', value);
-      this.emit('updateFirstButtonValue', flagValue);
+      this.emit('updateFirstButtonValue', tooltipValue);
     }
     
     if (buttonName === 'second') {
       this.emit('updateSecondButtonPX', value);
-      this.emit('updateSecondButtonValue', flagValue);
+      this.emit('updateSecondButtonValue', tooltipValue);
     }
   }
 

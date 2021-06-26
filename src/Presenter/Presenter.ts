@@ -38,7 +38,7 @@ class Presenter {
     const { model, view } = this;
     model
       .subscribe('scaleUpdate', view.updateScale.bind(view))
-      .subscribe('updateFirstButtonValue', view.firstFlag.changeFlagValue.bind(view.firstFlag))
+      .subscribe('updateFirstButtonValue', view.firstTooltip.changeTooltipValue.bind(view.firstTooltip))
       .subscribe('updateFirstButtonPX', view.firstButton.moveButton.bind(view.firstButton))      
       if(view.config.isRangeSlider) {
         model
@@ -50,7 +50,7 @@ class Presenter {
           )
           .subscribe(
             'updateSecondButtonValue', 
-            view.secondFlag.changeFlagValue.bind(view.secondFlag)
+            view.secondTooltip.changeTooltipValue.bind(view.secondTooltip)
             )        
           .subscribe(
             'updateFirstButtonPX', 

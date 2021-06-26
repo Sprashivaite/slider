@@ -52,7 +52,7 @@
   transform: translateX(-25%);
 }
 
-.-js-slider__flag {
+.-js-slider__tooltip {
   padding: 1px 5px;
   background: linear-gradient(180deg, #6fcf97 0%, #66d2ea 100%);
   font-size: 13px;
@@ -66,17 +66,17 @@
   flex-shrink: 0;
 }
 
-.-js-slider__flag_isHorizontal {
+.-js-slider__tooltip_isHorizontal {
   transform: translateY(-120%);
   white-space: nowrap;
 }
 
-.-js-slider__flag_isVertical {
+.-js-slider__tooltip_isVertical {
   left: 150%;
   position: absolute;
 }
 
-.-js-slider__flag_hide {
+.-js-slider__tooltip_hide {
   visibility: hidden;
 }
 
