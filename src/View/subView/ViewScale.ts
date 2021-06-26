@@ -2,7 +2,7 @@ import IView from '../IView';
 import { scaleData } from '../../types';
 
 class ViewScale {
-  div!: HTMLDivElement;
+  divElement!: HTMLDivElement;
 
   private slider!: HTMLElement;
 
@@ -18,20 +18,20 @@ class ViewScale {
 
   createScale(): void {
     const styleAxis = this.isHorizontal ? 'js-slider__scale_horizontal': 'js-slider__scale_vertical'
-    this.div.className = styleAxis
-    this.slider.append(this.div);
+    this.divElement.className = styleAxis
+    this.slider.append(this.divElement);
     if (!this.isScale) this.hideScale();
   }
 
   updateValues(data: scaleData): void {
     const { scaleValues, quantity } = data;
     this.calcScaleOffsets(data);
-    this.div.innerHTML = '';
+    this.divElement.innerHTML = '';
     for (let i = 0; i < quantity; i += 1) {
-      this.div.insertAdjacentHTML('beforeend', '<div></div>');
+      this.divElement.insertAdjacentHTML('beforeend', '<div></div>');
     }
 
-    const scaleChildren = this.div.children;
+    const scaleChildren = this.divElement.children;
     const direction = this.isHorizontal ? 'left' : 'top';
     scaleValues.forEach((item, index) => {
       scaleChildren[index].innerHTML = `${item}`;
@@ -42,22 +42,22 @@ class ViewScale {
   }
 
   hideScale(): void {
-    this.div.classList.add('-js-slider__scale_hide');
+    this.divElement.classList.add('-js-slider__scale_hide');
   }
 
   showScale(): void {
-    this.div.classList.remove('-js-slider__scale_hide');
+    this.divElement.classList.remove('-js-slider__scale_hide');
   }
 
   private init(View: IView) {
-    this.div = document.createElement('div');
-    this.slider = View.slider.div;
+    this.divElement = document.createElement('div');
+    this.slider = View.slider.divElement;
     this.isHorizontal = View.config.isHorizontal;
     this.isScale = View.config.isScale;
   }
 
   private removeExtraValues(): void {
-    const scaleChildren = Array.from(this.div.children)    
+    const scaleChildren = Array.from(this.divElement.children)    
     const current = this.isHorizontal ? 'left' : 'top';
     const previous = this.isHorizontal ? 'right' : 'bottom';
     const isClose = (item: Element) => (

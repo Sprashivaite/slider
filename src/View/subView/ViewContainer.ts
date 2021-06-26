@@ -1,23 +1,23 @@
 class ViewContainer {
-  div!: HTMLElement;
+  divElement!: HTMLElement;
 
   constructor(slider?: HTMLElement) {
-    if (slider) this.div = slider;
+    if (slider) this.divElement = slider;
     else this.searchContainer();
-    if (!this.div) this.createContainer();
+    if (!this.divElement) this.createContainer();
   }
 
   searchContainer(): void {
     const container: HTMLDivElement | null =
       document.querySelector('[data-slider]');
-    if (container) this.div = container;
+    if (container) this.divElement = container;
   }
 
   createContainer(): void {
     const sliderDiv = document.createElement('div');
     sliderDiv.classList.add('slider');
     document.body.append(sliderDiv);
-    this.div = sliderDiv;
+    this.divElement = sliderDiv;
   }
 }
 export default ViewContainer;

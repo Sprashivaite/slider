@@ -63,15 +63,15 @@ class View extends Observer implements IView {
 
   removeElements(): void {
     [
-      this.firstTooltip.div,
-      this.firstHandle.div,
-      this.field.div,
-      this.progressBar.div,
-      this.scale.div,
+      this.firstTooltip.divElement,
+      this.firstHandle.divElement,
+      this.field.divElement,
+      this.progressBar.divElement,
+      this.scale.divElement,
     ].forEach((item) => item.remove());
 
     if (this.config.isRangeSlider) {
-      [this.secondTooltip.div, this.secondHandle.div].forEach((item) => (
+      [this.secondTooltip.divElement, this.secondHandle.divElement].forEach((item) => (
           item.remove()
         )
       );
@@ -85,14 +85,14 @@ class View extends Observer implements IView {
     this.handler.addScaleHandler();
     this.handler.addHandleHandler();
     // eslint-disable-next-line no-new
-    new ResizeSensor(this.slider.div, () => this.updateModel());
+    new ResizeSensor(this.slider.divElement, () => this.updateModel());
   }
 
   updateModel(): void {
     const { isHorizontal } = this.config;
     const offsetSize = isHorizontal ? 'offsetWidth' : 'offsetHeight';
-    this.fieldSize = this.field.div[offsetSize];
-    this.handleSize = this.firstHandle.div[offsetSize];
+    this.fieldSize = this.field.divElement[offsetSize];
+    this.handleSize = this.firstHandle.divElement[offsetSize];
     this.emit('updateElementsSize', {
       fieldSize: this.fieldSize,
       handleSize: this.handleSize,
@@ -159,15 +159,15 @@ class View extends Observer implements IView {
 
   private renderTooltip(): void {
     const { isRangeSlider } = this.config;
-    this.firstTooltip = new ViewTooltip(this, this.firstHandle.div);
+    this.firstTooltip = new ViewTooltip(this, this.firstHandle.divElement);
     this.firstTooltip.createTooltip();
     if (isRangeSlider) {
-      this.secondTooltip = new ViewTooltip(this, this.secondHandle.div);
+      this.secondTooltip = new ViewTooltip(this, this.secondHandle.divElement);
       this.secondTooltip.createTooltip();
-      this.tooltipTotal = new ViewTooltip(this, this.firstHandle.div);
+      this.tooltipTotal = new ViewTooltip(this, this.firstHandle.divElement);
       this.tooltipTotal.createTooltip();
       this.tooltipTotal.hideTooltip();
-      this.tooltipTotal.div.style.position = 'absolute';
+      this.tooltipTotal.divElement.style.position = 'absolute';
     }
   }
 

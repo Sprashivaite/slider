@@ -7,12 +7,12 @@ const assignTooltips = (view: View): void => {
   const firstOffset = config.isHorizontal ? 'right' : 'bottom';
   const secondOffset = config.isHorizontal ? 'left' : 'top';
   const delimiter = config.isHorizontal ? ' - ' : ' ';
-  const firstTooltipOffset = firstTooltip.div.getBoundingClientRect()[firstOffset];
-  const secondTooltipOffset = secondTooltip.div.getBoundingClientRect()[secondOffset];
+  const firstTooltipOffset = firstTooltip.divElement.getBoundingClientRect()[firstOffset];
+  const secondTooltipOffset = secondTooltip.divElement.getBoundingClientRect()[secondOffset];
   const tooltipTotalOffset = `${(secondTooltipOffset - firstTooltipOffset) / 2}px`;
-  tooltipTotal.div.style[secondOffset] = tooltipTotalOffset;
-  const text = `${firstTooltip.div.innerHTML}${delimiter}${secondTooltip.div.innerHTML}`;
-  tooltipTotal.div.innerHTML = text;
+  tooltipTotal.divElement.style[secondOffset] = tooltipTotalOffset;
+  const text = `${firstTooltip.divElement.innerHTML}${delimiter}${secondTooltip.divElement.innerHTML}`;
+  tooltipTotal.divElement.innerHTML = text;
   if (firstTooltipOffset >= secondTooltipOffset) {
     [firstTooltip, secondTooltip].forEach((tooltip) => tooltip.hideTooltip());
     tooltipTotal.showTooltip();
@@ -26,8 +26,8 @@ const demarcateHandles = (view: View, event: string): void => {
   const { config, firstHandle, secondHandle, firstTooltip, secondTooltip } = view;
   const direction = config.isHorizontal ? 'left' : 'top';
   const offset = config.isHorizontal ? 'offsetLeft' : 'offsetTop';
-  const firstHandleOffset = firstHandle.div[offset];
-  const secondHandleOffset = secondHandle.div[offset];
+  const firstHandleOffset = firstHandle.divElement[offset];
+  const secondHandleOffset = secondHandle.divElement[offset];
   const isFirstGreater = (
     firstHandleOffset 
     >= secondHandleOffset 
@@ -38,22 +38,22 @@ const demarcateHandles = (view: View, event: string): void => {
     <= firstHandleOffset 
     && event === 'updateSecondHandlePX'
   );
-  const firstTooltipValue = Number(firstTooltip.div.innerHTML);
-  const secondTooltipValue = Number(secondTooltip.div.innerHTML);
+  const firstTooltipValue = Number(firstTooltip.divElement.innerHTML);
+  const secondTooltipValue = Number(secondTooltip.divElement.innerHTML);
   if (isFirstGreater) {
-    firstHandle.div.style[direction] = `${secondHandleOffset}px`;
-    firstHandle.div.classList.add('js-slider__handle_isTarget');
-    secondHandle.div.classList.remove('js-slider__handle_isTarget');
+    firstHandle.divElement.style[direction] = `${secondHandleOffset}px`;
+    firstHandle.divElement.classList.add('js-slider__handle_isTarget');
+    secondHandle.divElement.classList.remove('js-slider__handle_isTarget');
     if (firstTooltipValue >= secondTooltipValue) {
-      firstTooltip.div.innerHTML = secondTooltipValue;
+      firstTooltip.divElement.innerHTML = secondTooltipValue;
     }
   }
   if (isSecondGreater) {
-    secondHandle.div.style[direction] = `${firstHandleOffset}px`;
-    firstHandle.div.classList.remove('js-slider__handle_isTarget');
-    secondHandle.div.classList.add('js-slider__handle_isTarget');
+    secondHandle.divElement.style[direction] = `${firstHandleOffset}px`;
+    firstHandle.divElement.classList.remove('js-slider__handle_isTarget');
+    secondHandle.divElement.classList.add('js-slider__handle_isTarget');
     if (secondTooltipValue <= firstTooltipValue) {
-      secondTooltip.div.innerHTML = firstTooltipValue;
+      secondTooltip.divElement.innerHTML = firstTooltipValue;
     }
   }
 };

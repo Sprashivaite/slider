@@ -1,7 +1,7 @@
 import IView from '../IView';
 
 class ViewHandle {
-  div!: HTMLDivElement;
+  divElement!: HTMLDivElement;
 
   field!: HTMLDivElement;
 
@@ -14,20 +14,20 @@ class ViewHandle {
   }
 
   createHandle(): HTMLDivElement {
-    this.div = document.createElement('div');
-    this.div.className = 'js-slider__handle';
-    if(!this.isHorizontal) this.div.classList.add('js-slider__handle_isVertical')
-    this.field.append(this.div);
-    return this.div;
+    this.divElement = document.createElement('div');
+    this.divElement.className = 'js-slider__handle';
+    if(!this.isHorizontal) this.divElement.classList.add('js-slider__handle_isVertical')
+    this.field.append(this.divElement);
+    return this.divElement;
   }
 
   moveHandle(value: number): void {
     const direction = this.isHorizontal ? 'left' : 'top';
-    this.div.style[direction] = `${value}px`;
+    this.divElement.style[direction] = `${value}px`;
   }
 
   private init(View: IView): void {
-    this.field = View.field.div;
+    this.field = View.field.divElement;
     this.isHorizontal = View.config.isHorizontal!;
     this.isRangeSlider = View.config.isRangeSlider!;
   }

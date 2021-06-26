@@ -1,7 +1,7 @@
 import IView from '../IView';
 
 class ViewProgressBar {
-  div!: HTMLDivElement;
+  divElement!: HTMLDivElement;
 
   field!: HTMLDivElement;
 
@@ -22,13 +22,13 @@ class ViewProgressBar {
   }
 
   createProgressBar(): void {
-    this.div = document.createElement('div');
-    this.div.className = 'js-progressBar';
+    this.divElement = document.createElement('div');
+    this.divElement.className = 'js-progressBar';
     this.styleDirection = this.isHorizontal
       ? 'js-progressBar_horizontal'
       : 'js-progressBar_vertical';
-    this.div.classList.add(this.styleDirection);
-    this.field.append(this.div);
+    this.divElement.classList.add(this.styleDirection);
+    this.field.append(this.divElement);
     if (!this.isProgressBar) this.hideBar();
   }
 
@@ -40,30 +40,30 @@ class ViewProgressBar {
     const firstHandleOffset = (
       this.firstHandle[offsetDirection] + this.firstHandle[offsetSize] / 2
     );
-    this.div.style[size] = `${firstHandleOffset}px`;
+    this.divElement.style[size] = `${firstHandleOffset}px`;
     if (this.isRangeSlider) {
       const secondHandleOffset =
         this.secondHandle[offsetDirection] + this.secondHandle[offsetSize] / 2;
-      this.div.style[direction] = `${firstHandleOffset}px`;
-      this.div.style[size] = `${secondHandleOffset - firstHandleOffset}px`;
+      this.divElement.style[direction] = `${firstHandleOffset}px`;
+      this.divElement.style[size] = `${secondHandleOffset - firstHandleOffset}px`;
     }
 
     this.changeColorBar();
   }
 
   hideBar(): void {
-    this.div.classList.add('-js-slider__bar_hide');
+    this.divElement.classList.add('-js-slider__bar_hide');
   }
 
   showBar(): void {
-    this.div.classList.remove('-js-slider__bar_hide');
+    this.divElement.classList.remove('-js-slider__bar_hide');
   }
 
   private init(View: IView): void {
-    this.field = View.field.div;
-    this.firstHandle = View.firstHandle.div;
+    this.field = View.field.divElement;
+    this.firstHandle = View.firstHandle.divElement;
     if (View.config.isRangeSlider) {
-      this.secondHandle = View.secondHandle.div;
+      this.secondHandle = View.secondHandle.divElement;
     }
 
     this.isHorizontal = View.config.isHorizontal;
@@ -74,7 +74,7 @@ class ViewProgressBar {
   private changeColorBar(): void {
     const size = this.isHorizontal ? 'offsetWidth' : 'offsetHeight';
     const fieldSize = this.field[size];
-    const progressBarSize = this.div[size];
+    const progressBarSize = this.divElement[size];
     
     let styleColor;
     if (progressBarSize <= fieldSize / 4) {
@@ -90,7 +90,7 @@ class ViewProgressBar {
       styleColor = `js-progressBar_color_4`;
     }
     
-    this.div.className = `js-progressBar ${this.styleDirection} ${styleColor}`;
+    this.divElement.className = `js-progressBar ${this.styleDirection} ${styleColor}`;
   }
 }
 export default ViewProgressBar;

@@ -1,7 +1,7 @@
 import IView from "../IView";
 
 class Tooltip {
-  div!: HTMLDivElement;
+  divElement!: HTMLDivElement;
 
   handle!: HTMLDivElement;
 
@@ -18,30 +18,29 @@ class Tooltip {
   }
 
   createTooltip(): void {
-    this.div = document.createElement("div");
-    this.div.className = "-js-slider__tooltip";
-    if(this.isHorizontal) this.div.classList.add('-js-slider__tooltip_isHorizontal')
-    if(!this.isHorizontal) this.div.classList.add('-js-slider__tooltip_isVertical')
-    this.div.innerHTML = "0";
-    this.handle.append(this.div);
+    this.divElement = document.createElement("div");
+    this.divElement.className = "-js-slider__tooltip";
+    if(this.isHorizontal) this.divElement.classList.add('-js-slider__tooltip_isHorizontal')
+    if(!this.isHorizontal) this.divElement.classList.add('-js-slider__tooltip_isVertical')
+    this.divElement.innerHTML = "0";
+    this.handle.append(this.divElement);
     if(!this.isTooltip) this.hideTooltip()
   }
 
   changeTooltipValue(value: number): void {
-    this.div.innerHTML = `${value}`;
+    this.divElement.innerHTML = `${value}`;
   }
 
   hideTooltip(): void {
-    this.div.classList.add("-js-slider__tooltip_hide");
+    this.divElement.classList.add("-js-slider__tooltip_hide");
   }
 
   showTooltip(): void {
-    this.div.classList.remove("-js-slider__tooltip_hide");
+    this.divElement.classList.remove("-js-slider__tooltip_hide");
   }
 
   private init(View: IView, handle: HTMLDivElement): void { 
     this.handle = handle;
-    this.field = View.field.div;
     this.isHorizontal = View.config.isHorizontal!
     this.isRangeSlider = View.config.isRangeSlider!
     this.isTooltip = View.config.isTooltip!

@@ -96,10 +96,10 @@ class ViewHandler extends Observer {
     this.mouseCoords = 0;
     this.isHorizontal = View.config.isHorizontal!;
     this.isRangeSlider = View.config.isRangeSlider!;
-    this.slider = View.slider.div;
-    this.field = View.field.div;
-    this.firstHandle = View.firstHandle.div;
-    if (this.isRangeSlider) this.secondHandle = View.secondHandle.div;
+    this.slider = View.slider.divElement;
+    this.field = View.field.divElement;
+    this.firstHandle = View.firstHandle.divElement;
+    if (this.isRangeSlider) this.secondHandle = View.secondHandle.divElement;
   }
 
   private findFirstHandle(event: MouseEvent): boolean {

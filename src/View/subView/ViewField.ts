@@ -1,7 +1,7 @@
 import IView from '../IView';
 
 class ViewField {
-  div!: HTMLDivElement;
+  divElement!: HTMLDivElement;
 
   isHorizontal!: boolean;
 
@@ -12,17 +12,17 @@ class ViewField {
   }
 
   createField(): void {
-    this.div = document.createElement('div');
+    this.divElement = document.createElement('div');
     const styleDirection = this.isHorizontal
     ? 'js-slider__field_horizontal'
     : 'js-slider__field_vertical';
-    this.div.className = `${styleDirection}`;
-    this.slider.append(this.div);
+    this.divElement.className = `${styleDirection}`;
+    this.slider.append(this.divElement);
   }
 
   private init(View: IView): void {
     this.isHorizontal = View.config.isHorizontal!;
-    this.slider = View.slider.div;
+    this.slider = View.slider.divElement;
   }
 }
 export default ViewField;

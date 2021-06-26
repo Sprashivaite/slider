@@ -44,7 +44,7 @@ describe('Создание/поиск контейнера View', () => {
   it('Установка контейнера', () => {
     let container = document.querySelector('.slider');
     let view = new View({ target: container });
-    expect(view.slider.div).toEqual(container);
+    expect(view.slider.divElement).toEqual(container);
   });
   it('Поиск контейнера по дата селектору', () => {
     document.body.insertAdjacentHTML(
@@ -54,7 +54,7 @@ describe('Создание/поиск контейнера View', () => {
     container.classList = 'none';
     view = new View();
     let div = document.querySelector('[data-slider]');
-    expect(view.slider.div).toEqual(div);
+    expect(view.slider.divElement).toEqual(div);
     div.remove();
     container.classList = 'slider';
   });
@@ -62,7 +62,7 @@ describe('Создание/поиск контейнера View', () => {
     let div = document.querySelector('.slider');
     div.className = '';
     view = new View();
-    expect(view.slider.div).toBeDefined();
+    expect(view.slider.divElement).toBeDefined();
     div.className = 'slider';
   });
 });
@@ -71,9 +71,9 @@ describe('работа фасада renderElements', () => {
   it('view.renderElements', () => {
     view.renderElements();
     expect(view.field).toBeDefined();
-    expect(view.firstHandle.div).toBeDefined();
+    expect(view.firstHandle.divElement).toBeDefined();
     expect(view.firstTooltip).toBeDefined();
-    expect(view.progressBar.div).toBeDefined();
+    expect(view.progressBar.divElement).toBeDefined();
     view.removeElements();
   });
 });
@@ -94,13 +94,13 @@ describe('движение View handle', () => {
     view = new View({ isRangeSlider: false });
     view.renderElements();
     view.firstHandle.moveHandle(50);
-    expect(getComputedStyle(view.firstHandle.div).left).toBe('50px');
+    expect(getComputedStyle(view.firstHandle.divElement).left).toBe('50px');
   });
   it('view.handle.moveHandle Vertical', () => {
     view = new View({ isHorizontal: false, isRangeSlider: false });
     view.renderElements();
     view.firstHandle.moveHandle(50);
-    expect(getComputedStyle(view.firstHandle.div).top).toBe('50px');
+    expect(getComputedStyle(view.firstHandle.divElement).top).toBe('50px');
   });
 });
 
@@ -113,11 +113,11 @@ describe('toggle View tooltip', () => {
   });
   it('view.tooltip.showTooltip', () => {
     view.firstTooltip.showTooltip();
-    expect(getComputedStyle(view.firstTooltip.div).visibility).toBe('visible');
+    expect(getComputedStyle(view.firstTooltip.divElement).visibility).toBe('visible');
   });
   it('view.hideTooltip', () => {
     view.firstTooltip.hideTooltip();
-    expect(getComputedStyle(view.firstTooltip.div).visibility).toBe('hidden');
+    expect(getComputedStyle(view.firstTooltip.divElement).visibility).toBe('hidden');
   });
 });
 
@@ -125,7 +125,7 @@ describe('значение View tooltip', () => {
   it('view.changeTooltipValue', () => {
     view.renderElements();
     view.firstTooltip.changeTooltipValue(50);
-    expect(view.firstTooltip.div.innerHTML).toBe('50');
+    expect(view.firstTooltip.divElement.innerHTML).toBe('50');
     view.removeElements();
   });
 });
@@ -136,7 +136,7 @@ describe('движение View progressBar', () => {
     view.renderElements();
     view.secondHandle.moveHandle(95);
     view.progressBar.progressBarMove();
-    expect(view.progressBar.div.offsetWidth).toBeGreaterThan(60);
+    expect(view.progressBar.divElement.offsetWidth).toBeGreaterThan(60);
     view.removeElements();
   });
   it('view.progressBar solo', () => {
@@ -144,7 +144,7 @@ describe('движение View progressBar', () => {
     view.renderElements();
     view.firstHandle.moveHandle(100);
     view.progressBar.progressBarMove();
-    expect(view.progressBar.div.offsetWidth).toBeGreaterThan(90);
+    expect(view.progressBar.divElement.offsetWidth).toBeGreaterThan(90);
     view.removeElements();
   });
   it('view.progressBar Vertical', () => {
@@ -152,7 +152,7 @@ describe('движение View progressBar', () => {
     view.renderElements();
     view.firstHandle.moveHandle(30);
     view.progressBar.progressBarMove();
-    expect(view.progressBar.div.offsetHeight).toBeGreaterThan(10);
+    expect(view.progressBar.divElement.offsetHeight).toBeGreaterThan(10);
     view.removeElements();
   });
   it('view.progressBar range Vertical', () => {
@@ -160,7 +160,7 @@ describe('движение View progressBar', () => {
     view.renderElements();
     view.secondHandle.moveHandle(60);
     view.progressBar.progressBarMove();
-    expect(view.progressBar.div.offsetHeight).toBeGreaterThan(30);
+    expect(view.progressBar.divElement.offsetHeight).toBeGreaterThan(30);
     view.removeElements();
   });
 });
@@ -169,7 +169,7 @@ describe('координаты мыши', () => {
   afterEach(() => view.removeElements());
   it('view.getMouseCoords horizontal', () => {
     view.renderElements();
-    const fieldOffset = view.field.div.getBoundingClientRect().left;
+    const fieldOffset = view.field.divElement.getBoundingClientRect().left;
     view.addHandlers();
     let mousemove = new MouseEvent('mousemove', { clientX: 50 });
     document.dispatchEvent(mousemove);
@@ -179,7 +179,7 @@ describe('координаты мыши', () => {
   it('view.getMouseCoords vertical', () => {
     view = new View({ isHorizontal: false });
     view.renderElements();
-    const fieldOffset = view.field.div.getBoundingClientRect().top;
+    const fieldOffset = view.field.divElement.getBoundingClientRect().top;
     view.addHandlers();
     let mousemove = new MouseEvent('mousemove', { clientY: 50 });
     document.dispatchEvent(mousemove);
@@ -212,16 +212,16 @@ describe('события мыши', () => {
     let contextmenuCalled = true;
     let mousedownCalled = true;
 
-    view.field.div.addEventListener('contextmenu', (event) => {
+    view.field.divElement.addEventListener('contextmenu', (event) => {
       if (event.defaultPrevented) contextmenuCalled = false;
     });
 
-    view.field.div.addEventListener('mousedown', (event) => {
+    view.field.divElement.addEventListener('mousedown', (event) => {
       if (event.defaultPrevented) mousedownCalled = false;
     });
 
-    view.field.div.dispatchEvent(mousedown);
-    view.field.div.dispatchEvent(contextmenu);
+    view.field.divElement.dispatchEvent(mousedown);
+    view.field.divElement.dispatchEvent(contextmenu);
 
     expect(contextmenuCalled).toBeFalsy();
     expect(mousedownCalled).toBeFalsy();
@@ -231,7 +231,7 @@ describe('события мыши', () => {
     let notify = jasmine.createSpy('notify');
     view.addHandlers();
     view.handler.subscribe('firstHandleMouseDown', notify);
-    view.firstHandle.div.dispatchEvent(mousedown);
+    view.firstHandle.divElement.dispatchEvent(mousedown);
 
     expect(notify).toHaveBeenCalled();
     expect(notify.calls.count()).toEqual(1);
@@ -241,7 +241,7 @@ describe('события мыши', () => {
     let notify = jasmine.createSpy('notify');
     view.addHandlers();
     view.handler.subscribe('firstHandleMouseMove', notify);
-    view.firstHandle.div.dispatchEvent(mousedown);
+    view.firstHandle.divElement.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);
     expect(notify).toHaveBeenCalled();
     expect(notify.calls.count()).toEqual(2);
@@ -251,7 +251,7 @@ describe('события мыши', () => {
     view.addHandlers();
     view.handler.subscribe('firstHandleMouseMove', notify);
     view.handler.subscribe('firstHandleMouseUp', notify);
-    view.firstHandle.div.dispatchEvent(mousedown);
+    view.firstHandle.divElement.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);
     document.dispatchEvent(mouseup);
     expect(notify).toHaveBeenCalled();
@@ -285,7 +285,7 @@ describe('события мыши range', () => {
     view.handler.subscribe('secondHandleMouseMove', notify);
     view.handler.subscribe('secondHandleMouseUp', notify);
     view.handler.mouseCoords = 60;
-    view.field.div.dispatchEvent(mousedown);
+    view.field.divElement.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);
     document.dispatchEvent(mouseup);
 
