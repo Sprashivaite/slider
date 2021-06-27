@@ -1,4 +1,4 @@
-import ViewHandle from './subView/ViewHandle';
+import ViewPoint from './subView/ViewPoint';
 import ViewContainer from './subView/ViewContainer';
 import ViewField from './subView/ViewField';
 import ViewTooltip from './subView/ViewTooltip';
@@ -9,8 +9,8 @@ import { viewConfig } from '../types';
 
 interface IView {
   slider: ViewContainer;
-  firstHandle: ViewHandle;
-  secondHandle: ViewHandle;
+  firstPoint: ViewPoint;
+  secondPoint: ViewPoint;
   field: ViewField;
   firstTooltip: ViewTooltip;
   secondTooltip: ViewTooltip;

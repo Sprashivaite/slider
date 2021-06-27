@@ -1,6 +1,6 @@
 import IView from '../IView';
 import Observer from '../../Observer/Observer';
-import { viewHandleData } from '../../types';
+import { viewPointData } from '../../types';
 
 class ViewHandler extends Observer {
   mouseCoords!: number;
@@ -13,9 +13,9 @@ class ViewHandler extends Observer {
 
   field!: HTMLDivElement;
 
-  firstHandle!: HTMLDivElement;
+  firstPoint!: HTMLDivElement;
 
-  secondHandle!: HTMLDivElement;
+  secondPoint!: HTMLDivElement;
 
   constructor(View: IView) {
     super();
@@ -33,25 +33,25 @@ class ViewHandler extends Observer {
     document.addEventListener('mousemove', Coords);
   }
 
-  addHandleHandler(): void {
+  addPointHandler(): void {
     const useHandlers = (event: MouseEvent) => {
-      if (!this.findFirstHandle(event)) this.handleSecondHandle()
-      else this.handleFirstHandle()
+      if (!this.findFirstPoint(event)) this.handleSecondPoint()
+      else this.handleFirstPoint()
     };
-    this.firstHandle.addEventListener('mousedown', useHandlers);
+    this.firstPoint.addEventListener('mousedown', useHandlers);
     if (this.isRangeSlider) {
-      this.secondHandle.addEventListener('mousedown', useHandlers);
+      this.secondPoint.addEventListener('mousedown', useHandlers);
     }
   }
 
   addFieldHandler(): void {
     const useHandlers = (event: MouseEvent) => {
-      if (!this.findFirstHandle(event)) {
-        this.emit('secondHandleMouseMove', this.getSecondHandleData());
-        this.emit('secondHandleMouseUp', this.getSecondHandleData());
+      if (!this.findFirstPoint(event)) {
+        this.emit('secondPointMouseMove', this.getSecondPointData());
+        this.emit('secondPointMouseUp', this.getSecondPointData());
       } else {
-        this.emit('firstHandleMouseMove', this.getFirstHandleData());
-        this.emit('firstHandleMouseUp', this.getFirstHandleData());
+        this.emit('firstPointMouseMove', this.getFirstPointData());
+        this.emit('firstPointMouseUp', this.getFirstPointData());
       }
     };    
     this.field.addEventListener('mousedown', useHandlers);
@@ -60,12 +60,12 @@ class ViewHandler extends Observer {
   addScaleHandler(): void {
     const handleScaleClick = (event: MouseEvent) => {
       const value = event.currentTarget!.innerHTML;
-      if (!this.findFirstHandle(event)) {
-        this.emit('secondHandleScaleClick', {value, ...this.getSecondHandleData()});
-        this.emit('secondHandleMouseUp', this.getSecondHandleData());
+      if (!this.findFirstPoint(event)) {
+        this.emit('secondPointScaleClick', {value, ...this.getSecondPointData()});
+        this.emit('secondPointMouseUp', this.getSecondPointData());
       } else {
-        this.emit('firstHandleScaleClick', {value, ...this.getFirstHandleData()});
-        this.emit('firstHandleMouseUp', this.getFirstHandleData());
+        this.emit('firstPointScaleClick', {value, ...this.getFirstPointData()});
+        this.emit('firstPointMouseUp', this.getFirstPointData());
       }
     };
     const scaleChildren = this.field.nextElementSibling!.querySelectorAll('div');
@@ -74,21 +74,21 @@ class ViewHandler extends Observer {
     );
   }
 
-  getFirstHandleData(): viewHandleData {
+  getFirstPointData(): viewPointData {
     return {
-      handle: this.firstHandle,
-      handleOffset: this.getFirstHandleOffset(),
+      point: this.firstPoint,
+      pointOffset: this.getFirstPointOffset(),
       mouseCoords: this.mouseCoords,
-      handleName: 'first'
+      pointName: 'first'
     };
   }
 
-  getSecondHandleData(): viewHandleData {
+  getSecondPointData(): viewPointData {
     return {
-      handle: this.secondHandle,
-      handleOffset: this.getSecondHandleOffset(),
+      point: this.secondPoint,
+      pointOffset: this.getSecondPointOffset(),
       mouseCoords: this.mouseCoords,
-      handleName: 'second'
+      pointName: 'second'
     };
   }
 
@@ -98,62 +98,62 @@ class ViewHandler extends Observer {
     this.isRangeSlider = View.config.isRangeSlider!;
     this.slider = View.slider.divElement;
     this.field = View.field.divElement;
-    this.firstHandle = View.firstHandle.divElement;
-    if (this.isRangeSlider) this.secondHandle = View.secondHandle.divElement;
+    this.firstPoint = View.firstPoint.divElement;
+    if (this.isRangeSlider) this.secondPoint = View.secondPoint.divElement;
   }
 
-  private findFirstHandle(event: MouseEvent): boolean {
+  private findFirstPoint(event: MouseEvent): boolean {
     if (!this.isRangeSlider) return true;
-    if (event.target === this.firstHandle) return true;
-    if (event.target === this.secondHandle) return false;
+    if (event.target === this.firstPoint) return true;
+    if (event.target === this.secondPoint) return false;
     const offsetSize = this.isHorizontal ? 'offsetWidth' : 'offsetHeight';
-    const betweenHandles =
-      (this.getSecondHandleOffset() +
-        this.getFirstHandleOffset() +
-        this.firstHandle[offsetSize]) / 2;
-    const isHandleClose = this.mouseCoords > betweenHandles;
-    if (isHandleClose) return false;
+    const betweenPoints =
+      (this.getSecondPointOffset() +
+        this.getFirstPointOffset() +
+        this.firstPoint[offsetSize]) / 2;
+    const isPointClose = this.mouseCoords > betweenPoints;
+    if (isPointClose) return false;
     return true;
   }
 
-  private handleFirstHandle(): void {
+  private handleFirstPoint(): void {
     const emitMouseMove = () => (
-      this.emit('firstHandleMouseMove', this.getFirstHandleData())
+      this.emit('firstPointMouseMove', this.getFirstPointData())
   );
-  this.emit('firstHandleMouseDown', this.getFirstHandleData());
+  this.emit('firstPointMouseDown', this.getFirstPointData());
   emitMouseMove();
   document.addEventListener('mousemove', emitMouseMove);
   document.onmouseup = () => {
     document.removeEventListener('mousemove', emitMouseMove);
-    this.emit('firstHandleMouseUp', this.getFirstHandleData());
+    this.emit('firstPointMouseUp', this.getFirstPointData());
     document.onmouseup = null;
   };
   }
 
-  private handleSecondHandle(): void {
+  private handleSecondPoint(): void {
     const emitMouseMove = () => (
-      this.emit('secondHandleMouseMove', this.getSecondHandleData())
+      this.emit('secondPointMouseMove', this.getSecondPointData())
     );
-    this.emit('secondHandleMouseDown', this.getSecondHandleData());
+    this.emit('secondPointMouseDown', this.getSecondPointData());
     emitMouseMove();
     document.addEventListener('mousemove', emitMouseMove);
     document.onmouseup = () => {
       document.removeEventListener('mousemove', emitMouseMove);
-      this.emit('secondHandleMouseUp', this.getSecondHandleData());
+      this.emit('secondPointMouseUp', this.getSecondPointData());
       document.onmouseup = null;
     };
   }
 
-  private getFirstHandleOffset(): number {
+  private getFirstPointOffset(): number {
     const offsetDirection = this.isHorizontal ? 'offsetLeft' : 'offsetTop';
-    const handleOffset = this.firstHandle[offsetDirection];
-    return handleOffset;
+    const pointOffset = this.firstPoint[offsetDirection];
+    return pointOffset;
   }
 
-  private getSecondHandleOffset(): number {
+  private getSecondPointOffset(): number {
     const offsetDirection = this.isHorizontal ? 'offsetLeft' : 'offsetTop';
-    const handleOffset = this.secondHandle[offsetDirection];
-    return handleOffset;
+    const pointOffset = this.secondPoint[offsetDirection];
+    return pointOffset;
   }
 }
 export default ViewHandler;

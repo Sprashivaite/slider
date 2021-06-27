@@ -1,6 +1,6 @@
 import IView from '../IView';
 
-class ViewHandle {
+class ViewPoint {
   divElement!: HTMLDivElement;
 
   field!: HTMLDivElement;
@@ -13,15 +13,15 @@ class ViewHandle {
     this.init(View);
   }
 
-  createHandle(): HTMLDivElement {
+  createPoint(): HTMLDivElement {
     this.divElement = document.createElement('div');
-    this.divElement.className = 'js-slider__handle';
-    if(!this.isHorizontal) this.divElement.classList.add('js-slider__handle_isVertical')
+    this.divElement.className = 'js-slider__point';
+    if(!this.isHorizontal) this.divElement.classList.add('js-slider__point_isVertical')
     this.field.append(this.divElement);
     return this.divElement;
   }
 
-  moveHandle(value: number): void {
+  movePoint(value: number): void {
     const direction = this.isHorizontal ? 'left' : 'top';
     this.divElement.style[direction] = `${value}px`;
   }
@@ -32,4 +32,4 @@ class ViewHandle {
     this.isRangeSlider = View.config.isRangeSlider!;
   }
 }
-export default ViewHandle;
+export default ViewPoint;

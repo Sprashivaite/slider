@@ -6,9 +6,9 @@ import Presenter from '../sliderPlugin/Presenter/Presenter';
 class Config extends Observer {
   slider: any;
 
-  firstHandle!: HTMLInputElement;
+  firstPoint!: HTMLInputElement;
 
-  secondHandle!: HTMLInputElement;
+  secondPoint!: HTMLInputElement;
 
   max!: HTMLInputElement;
 
@@ -48,8 +48,8 @@ class Config extends Observer {
   }
 
   private findElements(): void {
-    this.firstHandle = this.container.querySelector('[name=firstHandle]');
-    this.secondHandle = this.container.querySelector('[name=secondHandle]');
+    this.firstPoint = this.container.querySelector('[name=firstPoint]');
+    this.secondPoint = this.container.querySelector('[name=secondPoint]');
     this.max = this.container.querySelector('[name=max]');
     this.min = this.container.querySelector('[name=min]');
     this.step = this.container.querySelector('[name=step]');
@@ -61,29 +61,29 @@ class Config extends Observer {
 
   private initFirstValue(): void {
     const updateValue = (value: string) => {
-      this.firstHandle.value = value;
+      this.firstPoint.value = value;
     };
-    this.slider.subscribe('updateFirstHandleValue', updateValue);
-    const setHandleValue = () => {
-      this.slider.setValue('firstHandle', this.firstHandle.valueAsNumber)
+    this.slider.subscribe('updateFirstPointValue', updateValue);
+    const setPointValue = () => {
+      this.slider.setValue('firstPoint', this.firstPoint.valueAsNumber)
     };
-    this.firstHandle.addEventListener('change', setHandleValue);
+    this.firstPoint.addEventListener('change', setPointValue);
   }
 
   private initSecondValue(): void {
     const updateValue = (value: string) => {
-      this.secondHandle.value = value;
+      this.secondPoint.value = value;
     };
     if (!this.slider.getConfig().isRangeSlider) {
-      this.secondHandle.setAttribute('disabled', 'true');
+      this.secondPoint.setAttribute('disabled', 'true');
       return;
     }
-    if (this.slider.getConfig().isRangeSlider) this.secondHandle.removeAttribute('disabled');
-    this.slider.subscribe('updateSecondHandleValue', updateValue);    
-    const setHandleValue = () => {
-      this.slider.setValue('secondHandle', this.secondHandle.valueAsNumber)
+    if (this.slider.getConfig().isRangeSlider) this.secondPoint.removeAttribute('disabled');
+    this.slider.subscribe('updateSecondPointValue', updateValue);    
+    const setPointValue = () => {
+      this.slider.setValue('secondPoint', this.secondPoint.valueAsNumber)
     };
-    this.secondHandle.addEventListener('change', setHandleValue);
+    this.secondPoint.addEventListener('change', setPointValue);
   }
 
   private initMinValue(): void {

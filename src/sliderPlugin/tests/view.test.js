@@ -71,7 +71,7 @@ describe('работа фасада renderElements', () => {
   it('view.renderElements', () => {
     view.renderElements();
     expect(view.field).toBeDefined();
-    expect(view.firstHandle.divElement).toBeDefined();
+    expect(view.firstPoint.divElement).toBeDefined();
     expect(view.firstTooltip).toBeDefined();
     expect(view.progressBar.divElement).toBeDefined();
     view.removeElements();
@@ -86,21 +86,21 @@ describe('удаление элементов View', () => {
   });
 });
 
-describe('движение View handle', () => {
+describe('движение View point', () => {
   afterEach(() => {
     view.removeElements();
   });
-  it('view.handle.moveHandle horizontal', () => {
+  it('view.point.movePoint horizontal', () => {
     view = new View({ isRangeSlider: false });
     view.renderElements();
-    view.firstHandle.moveHandle(50);
-    expect(getComputedStyle(view.firstHandle.divElement).left).toBe('50px');
+    view.firstPoint.movePoint(50);
+    expect(getComputedStyle(view.firstPoint.divElement).left).toBe('50px');
   });
-  it('view.handle.moveHandle Vertical', () => {
+  it('view.point.movePoint Vertical', () => {
     view = new View({ isHorizontal: false, isRangeSlider: false });
     view.renderElements();
-    view.firstHandle.moveHandle(50);
-    expect(getComputedStyle(view.firstHandle.divElement).top).toBe('50px');
+    view.firstPoint.movePoint(50);
+    expect(getComputedStyle(view.firstPoint.divElement).top).toBe('50px');
   });
 });
 
@@ -134,7 +134,7 @@ describe('движение View progressBar', () => {
   it('view.progressBar range', () => {
     view = new View({ isRangeSlider: true });
     view.renderElements();
-    view.secondHandle.moveHandle(95);
+    view.secondPoint.movePoint(95);
     view.progressBar.progressBarMove();
     expect(view.progressBar.divElement.offsetWidth).toBeGreaterThan(60);
     view.removeElements();
@@ -142,7 +142,7 @@ describe('движение View progressBar', () => {
   it('view.progressBar solo', () => {
     view = new View({ isRangeSlider: false });
     view.renderElements();
-    view.firstHandle.moveHandle(100);
+    view.firstPoint.movePoint(100);
     view.progressBar.progressBarMove();
     expect(view.progressBar.divElement.offsetWidth).toBeGreaterThan(90);
     view.removeElements();
@@ -150,7 +150,7 @@ describe('движение View progressBar', () => {
   it('view.progressBar Vertical', () => {
     view = new View({ isRangeSlider: false, isHorizontal: false });
     view.renderElements();
-    view.firstHandle.moveHandle(30);
+    view.firstPoint.movePoint(30);
     view.progressBar.progressBarMove();
     expect(view.progressBar.divElement.offsetHeight).toBeGreaterThan(10);
     view.removeElements();
@@ -158,7 +158,7 @@ describe('движение View progressBar', () => {
   it('view.progressBar range Vertical', () => {
     view = new View({ isHorizontal: false, isRangeSlider: true });
     view.renderElements();
-    view.secondHandle.moveHandle(60);
+    view.secondPoint.movePoint(60);
     view.progressBar.progressBarMove();
     expect(view.progressBar.divElement.offsetHeight).toBeGreaterThan(30);
     view.removeElements();
@@ -227,31 +227,31 @@ describe('события мыши', () => {
     expect(mousedownCalled).toBeFalsy();
   });
 
-  it('view.handler.addHandleHandler mouse down', () => {
+  it('view.handler.addPointHandler mouse down', () => {
     const notify = jasmine.createSpy('notify');
     view.addHandlers();
-    view.handler.subscribe('firstHandleMouseDown', notify);
-    view.firstHandle.divElement.dispatchEvent(mousedown);
+    view.handler.subscribe('firstPointMouseDown', notify);
+    view.firstPoint.divElement.dispatchEvent(mousedown);
 
     expect(notify).toHaveBeenCalled();
     expect(notify.calls.count()).toEqual(1);
   });
 
-  it('view.handler.addHandleHandler mouse move', () => {
+  it('view.handler.addPointPointr mouse move', () => {
     const notify = jasmine.createSpy('notify');
     view.addHandlers();
-    view.handler.subscribe('firstHandleMouseMove', notify);
-    view.firstHandle.divElement.dispatchEvent(mousedown);
+    view.handler.subscribe('firstPointMouseMove', notify);
+    view.firstPoint.divElement.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);
     expect(notify).toHaveBeenCalled();
     expect(notify.calls.count()).toEqual(2);
   });
-  it('view.handler.addHandleHandler mouseup', () => {
+  it('view.handler.addPointPointr mouseup', () => {
     const notify = jasmine.createSpy('notify');
     view.addHandlers();
-    view.handler.subscribe('firstHandleMouseMove', notify);
-    view.handler.subscribe('firstHandleMouseUp', notify);
-    view.firstHandle.divElement.dispatchEvent(mousedown);
+    view.handler.subscribe('firstPointMouseMove', notify);
+    view.handler.subscribe('firstPointMouseUp', notify);
+    view.firstPoint.divElement.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);
     document.dispatchEvent(mouseup);
     expect(notify).toHaveBeenCalled();
@@ -266,10 +266,10 @@ describe('события мыши range', () => {
     view = new View({ isRangeSlider: true });
     view.renderElements();
     something = {
-      firstHandleMouseMoveHandle: () => {},
-      firstHandleMouseUp: () => {},
-      secondHandleMouseMove: () => {},
-      secondHandleMouseUp: () => {},
+      firstPointMouseMovePoint: () => {},
+      firstPointMouseUp: () => {},
+      secondPointMouseMove: () => {},
+      secondPointMouseUp: () => {},
     };
     mousedown = new MouseEvent('mousedown');
     mousemove = new MouseEvent('mousemove', { clientX: 50 });
@@ -279,11 +279,11 @@ describe('события мыши range', () => {
   afterEach(() => {
     view.removeElements();
   });
-  it('view.handler.addFieldHandler mouse event secondHandle', () => {
+  it('view.handler.addFieldPointr mouse event secondPoint', () => {
     const notify = jasmine.createSpy('notify');
     view.addHandlers();
-    view.handler.subscribe('secondHandleMouseMove', notify);
-    view.handler.subscribe('secondHandleMouseUp', notify);
+    view.handler.subscribe('secondPointMouseMove', notify);
+    view.handler.subscribe('secondPointMouseUp', notify);
     view.handler.mouseCoords = 60;
     view.field.divElement.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);

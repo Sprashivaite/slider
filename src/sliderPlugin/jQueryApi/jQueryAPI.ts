@@ -25,20 +25,20 @@ import { DEFAULT_CONFIG } from '../defaults';
       this.presenter.subscribeListeners();
     }
 
-    setValue(handle: string, value: number): void {
+    setValue(point: string, value: number): void {
       let result = value;
       if (result > this.model.config.max) result = this.model.config.max;
       if (result < this.model.config.min) result = this.model.config.min;
-      if (handle === 'firstHandle') {
+      if (point === 'firstPoint') {
         this.model.moveToValue({
           value: result,
-          ...this.view.handler.getFirstHandleData(),
+          ...this.view.handler.getFirstPointData(),
         });
       }
-      if (handle === 'secondHandle') {
+      if (point === 'secondPoint') {
         this.model.moveToValue({
           value: result,
-          ...this.view.handler.getSecondHandleData(),
+          ...this.view.handler.getSecondPointData(),
         });
       }
       this.view.updateModel();

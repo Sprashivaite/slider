@@ -28,25 +28,25 @@ type userViewConfig = {
   isProgressBar?: boolean;
 };
 
-type viewHandleData = {
-  handle: HTMLElement;
-  handleOffset: number;
+type viewPointData = {
+  point: HTMLElement;
+  pointOffset: number;
   mouseCoords: number;
-  handleName: string;
+  pointName: string;
   value?: number;
 };
 
 type elementsData = {
-  handle: HTMLElement;
-  handleOffset: number;
+  point: HTMLElement;
+  pointOffset: number;
   mouseCoords: number;
   value: number;
-  handleName: string;
+  pointName: string;
 };
 
 type elementsSize = {
   fieldSize: number;
-  handleSize: number;
+  pointSize: number;
 };
 
 type scaleData = {
@@ -58,7 +58,7 @@ export {
   modelConfig,
   userModelConfig,
   viewConfig,
-  viewHandleData,
+  viewPointData,
   scaleData,
   elementsSize,
   elementsData,

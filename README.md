@@ -68,8 +68,8 @@ let slider = $(selector).sliderPlugin().data("sliderPlugin");
 ```
 ### set value
 ```javascript
-slider.setValue('firstHandle', number)
-slider.setValue('secondHandle', number)
+slider.setValue('firstPoint', number)
+slider.setValue('secondPoint', number)
 ```
 ### set config
 ```javascript

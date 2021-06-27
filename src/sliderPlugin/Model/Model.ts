@@ -7,7 +7,7 @@ class Model extends Observer {
 
   private shift: number;
 
-  private elementsSize!: { fieldSize: number; handleSize: number };
+  private elementsSize!: { fieldSize: number; pointSize: number };
 
   constructor(config = DEFAULT_MODEL_CONFIG as userModelConfig) {
     super();
@@ -26,35 +26,35 @@ class Model extends Observer {
   }
 
   setElementsSize(data: elementsSize): void {
-    const { fieldSize = 0, handleSize = 0 } = data;
+    const { fieldSize = 0, pointSize = 0 } = data;
     this.elementsSize = {
-      handleSize,
-      fieldSize: fieldSize - handleSize,
+      pointSize,
+      fieldSize: fieldSize - pointSize,
     };
   }
 
   calcShift(data: elementsData): void {
-    const { handleOffset, mouseCoords } = data;
-    this.shift = mouseCoords - handleOffset;
+    const { pointOffset, mouseCoords } = data;
+    this.shift = mouseCoords - pointOffset;
   }
 
-  calcHandleOffset(data: elementsData): void {
+  calcPointOffset(data: elementsData): void {
     const { fieldSize } = this.elementsSize;
     const { mouseCoords } = data;
     const shiftLeft: number = mouseCoords - this.shift;
     if (shiftLeft >= fieldSize) {
-      this.updateHandle({ ...data, value: fieldSize });
+      this.updatePoint({ ...data, value: fieldSize });
     } else if (shiftLeft <= 0) {
-      this.updateHandle({ ...data, value: 0 });
+      this.updatePoint({ ...data, value: 0 });
     } else {
-      this.updateHandle({ ...data, value: shiftLeft });
+      this.updatePoint({ ...data, value: shiftLeft });
     }
   }
 
   calcStopPointPX(data: elementsData): void {
     const { max, min, step } = this.config;
     const { fieldSize } = this.elementsSize;
-    const { handleOffset } = data;
+    const { pointOffset } = data;
     const stepPX: number = (fieldSize * step) / (max - min);
     const arrStopPoints = []
     for (let i = 0; i < fieldSize; i += stepPX) {
@@ -66,18 +66,18 @@ class Model extends Observer {
     let stopPoint;
     stopPoint = arrStopPoints.find((value, index, array) => {
       const halfStep = (value + array[index + 1]) /2
-      return handleOffset <= halfStep
+      return pointOffset <= halfStep
     })
     
     if(stopPoint === undefined) stopPoint = fieldSize
-    this.updateHandle({ ...data, value: stopPoint });
+    this.updatePoint({ ...data, value: stopPoint });
   }
 
   calcTooltipValue(data: number): number {
     const { max, min } = this.config;
     const { fieldSize } = this.elementsSize;
-    const  handleOffset   = data;
-    const value: number = min + (handleOffset * (max - min)) / fieldSize;
+    const  pointOffset   = data;
+    const value: number = min + (pointOffset * (max - min)) / fieldSize;
     const roundedValue: number = this.roundByStep(value)
     if (roundedValue === max) return roundedValue
     return this.findNearestValue(roundedValue);
@@ -88,7 +88,7 @@ class Model extends Observer {
     const { fieldSize } = this.elementsSize;
     const { value } = data;
     const result: number = (fieldSize / (max - min)) * (value - min);
-    this.updateHandle({ ...data, value: result });
+    this.updatePoint({ ...data, value: result });
   }
 
   calcScaleValues(): void {
@@ -139,17 +139,17 @@ class Model extends Observer {
     this.config = { ...this.config, step };
   }
 
-  private updateHandle(data: elementsData): void {
-    const { value, handleName } = data;
+  private updatePoint(data: elementsData): void {
+    const { value, pointName } = data;
     const tooltipValue = this.calcTooltipValue(value);
-    if (handleName === 'first') {
-      this.emit('updateFirstHandlePX', value);
-      this.emit('updateFirstHandleValue', tooltipValue);
+    if (pointName === 'first') {
+      this.emit('updateFirstPointPX', value);
+      this.emit('updateFirstPointValue', tooltipValue);
     }
     
-    if (handleName === 'second') {
-      this.emit('updateSecondHandlePX', value);
-      this.emit('updateSecondHandleValue', tooltipValue);
+    if (pointName === 'second') {
+      this.emit('updateSecondPointPX', value);
+      this.emit('updateSecondPointValue', tooltipValue);
     }
   }
 
