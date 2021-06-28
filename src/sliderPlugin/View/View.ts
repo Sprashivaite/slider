@@ -38,7 +38,7 @@ class View implements IView {
 
   notifier!: ViewNotifier;
 
-  constructor(config = DEFAULT_VIEW_CONFIG as userConfig) {
+  constructor(config: userConfig) {
     this.slider = new ViewContainer(config.target);
     this.init(config);
   }
@@ -114,7 +114,9 @@ class View implements IView {
   }
 
   private init(config: userConfig): void {
-    this.config = { ...DEFAULT_VIEW_CONFIG, ...config };
+    let newConfig = config;
+    if(typeof newConfig !== 'object') newConfig = {};
+    this.config = { ...DEFAULT_VIEW_CONFIG, ...newConfig };
     this.validate();
   }
 

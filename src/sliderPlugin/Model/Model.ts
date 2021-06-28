@@ -5,7 +5,7 @@ import { pointData, modelConfig, userConfig } from '../types';
 class Model extends Observer {
   config!: modelConfig;
 
-  constructor(config = DEFAULT_MODEL_CONFIG as userConfig) {
+  constructor(config: userConfig) {
     super();
     this.init(config);
   }
@@ -63,7 +63,9 @@ class Model extends Observer {
   }  
 
   private init(config: userConfig): void {
-    this.config = { ...DEFAULT_MODEL_CONFIG, ...config };
+    let newConfig = config;
+    if(typeof newConfig !== 'object') newConfig = {};
+    this.config = { ...DEFAULT_MODEL_CONFIG, ...newConfig };
     this.validate();
   }
 
