@@ -1,5 +1,4 @@
 import IView from '../IView';
-import { scaleData } from '../../types';
 
 class ViewScale {
   divElement!: HTMLDivElement;
@@ -23,14 +22,12 @@ class ViewScale {
     if (!this.isScale) this.hideScale();
   }
 
-  updateValues(data: scaleData): void {
-    const { scaleValues, quantity } = data;
-    this.calcScaleOffsets(data);
+  updateValues(scaleValues: number[]): void {
+    this.calcScaleOffsets(scaleValues);
     this.divElement.innerHTML = '';
-    for (let i = 0; i < quantity; i += 1) {
+    for (let i = 0; i < scaleValues.length; i += 1) {
       this.divElement.insertAdjacentHTML('beforeend', '<div></div>');
     }
-
     const scaleChildren = this.divElement.children;
     const direction = this.isHorizontal ? 'left' : 'top';
     scaleValues.forEach((item, index) => {
@@ -78,8 +75,7 @@ class ViewScale {
     });
   }
 
-  private calcScaleOffsets(data: scaleData): void {
-    const { scaleValues } = data;
+  private calcScaleOffsets(scaleValues: number[]): void {
     const firstValue = scaleValues[0];
     const lastValue = scaleValues[scaleValues.length - 1];
     this.scaleOffsets = [];

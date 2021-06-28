@@ -36,14 +36,13 @@ class ViewProgressBar {
     const direction = this.isHorizontal ? 'left' : 'top';
     const size = this.isHorizontal ? 'width' : 'height';
     const offsetDirection = this.isHorizontal ? 'offsetLeft' : 'offsetTop';
-    const offsetSize = this.isHorizontal ? 'offsetWidth' : 'offsetHeight';
     const firstPointOffset = (
-      this.firstPoint[offsetDirection] + this.firstPoint[offsetSize] / 2
+      this.firstPoint[offsetDirection]
     );
     this.divElement.style[size] = `${firstPointOffset}px`;
     if (this.isRangeSlider) {
       const secondPointOffset =
-        this.secondPoint[offsetDirection] + this.secondPoint[offsetSize] / 2;
+        this.secondPoint[offsetDirection]
       this.divElement.style[direction] = `${firstPointOffset}px`;
       this.divElement.style[size] = `${secondPointOffset - firstPointOffset}px`;
     }

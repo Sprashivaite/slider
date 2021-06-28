@@ -1,4 +1,4 @@
-import { viewPointData, scaleData, elementsSize } from '../types';
+import { pointData } from '../types';
 
 class Observer {
   listeners: any;
@@ -9,7 +9,7 @@ class Observer {
 
   emit(
     eventName: string,
-    data?: viewPointData | scaleData | elementsSize | number
+    data?: pointData |  number | pointData | number[]
   ): void {
     const event = this.listeners[eventName];
     if (event) event.forEach((el: any) => el(data));

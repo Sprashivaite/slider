@@ -1,111 +1,61 @@
 import Observer from '../Observer/Observer';
 import { DEFAULT_MODEL_CONFIG } from '../defaults';
-import { elementsData, elementsSize, modelConfig, userModelConfig } from '../types';
+import { pointData, modelConfig, userConfig } from '../types';
 
 class Model extends Observer {
   config!: modelConfig;
 
-  private shift: number;
-
-  private elementsSize!: { fieldSize: number; pointSize: number };
-
-  constructor(config = DEFAULT_MODEL_CONFIG as userModelConfig) {
+  constructor(config = DEFAULT_MODEL_CONFIG as userConfig) {
     super();
-    this.shift = 0;
     this.init(config);
   }
 
-  setConfig(config: userModelConfig): void {
+  setConfig(config: userConfig): void {
     this.config = { ...this.config, ...config };
     this.validate();
-    this.calcScaleValues()
+    this.calcSteps()
   }
 
-  getConfig(): modelConfig {
-    return this.config
-  }
-
-  setElementsSize(data: elementsSize): void {
-    const { fieldSize = 0, pointSize = 0 } = data;
-    this.elementsSize = {
-      pointSize,
-      fieldSize: fieldSize - pointSize,
-    };
-  }
-
-  calcShift(data: elementsData): void {
-    const { pointOffset, mouseCoords } = data;
-    this.shift = mouseCoords - pointOffset;
-  }
-
-  calcPointOffset(data: elementsData): void {
-    const { fieldSize } = this.elementsSize;
-    const { mouseCoords } = data;
-    const shiftLeft: number = mouseCoords - this.shift;
-    if (shiftLeft >= fieldSize) {
-      this.updatePoint({ ...data, value: fieldSize });
-    } else if (shiftLeft <= 0) {
-      this.updatePoint({ ...data, value: 0 });
-    } else {
-      this.updatePoint({ ...data, value: shiftLeft });
-    }
-  }
-
-  calcStopPointPX(data: elementsData): void {
+  calcStopPoint(data: pointData): void {
     const { max, min, step } = this.config;
-    const { fieldSize } = this.elementsSize;
     const { pointOffset } = data;
-    const stepPX: number = (fieldSize * step) / (max - min);
+    const stepPercent: number = (100 * step) / (max - min);
     const arrStopPoints = []
-    for (let i = 0; i < fieldSize; i += stepPX) {
+    for (let i = 0; i < 100; i += stepPercent) {
       i = this.roundByStep(i)
       arrStopPoints.push(i)
     }
 
-    arrStopPoints.push(fieldSize)
+    arrStopPoints.push(100)
     let stopPoint;
     stopPoint = arrStopPoints.find((value, index, array) => {
       const halfStep = (value + array[index + 1]) /2
       return pointOffset <= halfStep
     })
     
-    if(stopPoint === undefined) stopPoint = fieldSize
-    this.updatePoint({ ...data, value: stopPoint });
+    if(stopPoint === undefined) stopPoint = 100
+    
+    this.updatePoint({ ...data, pointOffset: stopPoint });
   }
 
-  calcTooltipValue(data: number): number {
+  moveToValue(data: pointData): void {
     const { max, min } = this.config;
-    const { fieldSize } = this.elementsSize;
-    const  pointOffset   = data;
-    const value: number = min + (pointOffset * (max - min)) / fieldSize;
-    const roundedValue: number = this.roundByStep(value)
-    if (roundedValue === max) return roundedValue
-    return this.findNearestValue(roundedValue);
-  }
-
-  moveToValue(data: elementsData): void {
-    const { max, min } = this.config;
-    const { fieldSize } = this.elementsSize;
     const { value } = data;
-    const result: number = (fieldSize / (max - min)) * (value - min);
-    this.updatePoint({ ...data, value: result });
+    const result: number = (100 / (max - min)) * (value! - min);
+    this.updatePoint({ ...data, pointOffset: result });
   }
 
-  calcScaleValues(): void {
-    const { max, min, step } = this.config;    
-    const scaleValues: Array<number> = [];
-    let stepValue: number = min;
-    let result: number;
-    for (stepValue; stepValue < max; stepValue += step) {
-      result = this.findNearestValue(stepValue);
-      scaleValues.push(result);      
-    }
+  updatePoint(data: pointData): void {
+    const value = this.calcValue(data);
+    this.emit('updatePoint', {value, ...data})
+  }  
 
-    scaleValues.push(max);
-    this.emit('scaleUpdate', { scaleValues, quantity: scaleValues.length });
-  }
+  updateSteps(): void {
+    const steps = this.calcSteps()
+    this.emit('stepsUpdate', steps);
+  }  
 
-  private init(config: userModelConfig): void {
+  private init(config: userConfig): void {
     this.config = { ...DEFAULT_MODEL_CONFIG, ...config };
     this.validate();
   }
@@ -139,25 +89,33 @@ class Model extends Observer {
     this.config = { ...this.config, step };
   }
 
-  private updatePoint(data: elementsData): void {
-    const { value, pointName } = data;
-    const tooltipValue = this.calcTooltipValue(value);
-    if (pointName === 'first') {
-      this.emit('updateFirstPointPX', value);
-      this.emit('updateFirstPointValue', tooltipValue);
-    }
-    
-    if (pointName === 'second') {
-      this.emit('updateSecondPointPX', value);
-      this.emit('updateSecondPointValue', tooltipValue);
-    }
-  }
-
   private roundByStep(value: number): number {
     const { step } = this.config;
     const isFractional = Number.isInteger(step);
     const digitsAfterDot = String(step).split('.').pop()!.length;
     return !isFractional ? Number(value.toFixed(digitsAfterDot)) : Number(value.toFixed(0));
+  }
+
+  private calcValue(data: pointData): number {
+    const { max, min } = this.config;
+    const { pointOffset }  = data;
+    const value: number = min + (pointOffset * (max - min)) / 100;
+    const roundedValue: number = this.roundByStep(value)
+    if (roundedValue === max) return roundedValue
+    return this.findNearestValue(roundedValue);
+  }
+
+  private calcSteps(): number[] {
+    const { max, min, step } = this.config;    
+    const scaleValues: Array<number> = [];
+    let stepValue: number = min;
+    let result: number;
+    for (stepValue; stepValue < max; stepValue += step) {
+      result = this.findNearestValue(stepValue);
+      scaleValues.push(result);      
+    }
+    scaleValues.push(max);
+    return scaleValues
   }
 
   private findNearestValue(value: number): number {

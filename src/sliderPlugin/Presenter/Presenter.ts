@@ -9,56 +9,26 @@ class Presenter {
   constructor(model: Model, view: View) {
     this.model = model;
     this.view = view;
+    this.subscribeListeners()
   }
 
-  subscribeListeners(): void {
-    this.subscribeModel();
-    this.subscribeView();
-    this.view.updateModel();
-    this.model.calcScaleValues();
+  private subscribeListeners(): void {
+    this.subscribe();
+    this.view.notifyListeners();
+    this.model.updateSteps();
   }
 
-  private subscribeModel(): void {
+  private subscribe(): void {
     const { model, view } = this;
+    model
+      .subscribe('stepsUpdate', view.updateScale.bind(view))
+      .subscribe('updatePoint', view.changeView.bind(view))    
     view
-      .subscribe('updateElementsSize', model.setElementsSize.bind(model))
-      .subscribe('scaleQuantity', model.calcScaleValues.bind(model));
+      .subscribe('scaleQuantity', model.updateSteps.bind(model));
     view.handler
-      .subscribe('firstPointScaleClick', model.moveToValue.bind(model))
-      .subscribe('firstPointMouseDown', model.calcShift.bind(model))
-      .subscribe('firstPointMouseMove', model.calcPointOffset.bind(model))
-      .subscribe('firstPointMouseUp', model.calcStopPointPX.bind(model))
-      .subscribe('secondPointMouseDown', model.calcShift.bind(model))
-      .subscribe('secondPointMouseMove', model.calcPointOffset.bind(model))
-      .subscribe('secondPointMouseUp', model.calcStopPointPX.bind(model))
-      .subscribe('secondPointScaleClick', model.moveToValue.bind(model));    
-  }
-
-  private subscribeView(): void {
-    const { model, view } = this;
-    model
-      .subscribe('scaleUpdate', view.updateScale.bind(view))
-      .subscribe('updateFirstPointValue', view.firstTooltip.changeTooltipValue.bind(view.firstTooltip))
-      .subscribe('updateFirstPointPX', view.firstPoint.movePoint.bind(view.firstPoint))      
-      if(view.config.isRangeSlider) {
-        model
-          .subscribe(
-            'updateSecondPointPX',
-            view.secondPoint.movePoint.bind(view.secondPoint),
-            view.demarcateElements.bind(view, 'updateSecondPointPX'), 
-            view.progressBar.progressBarMove.bind(view.progressBar)
-          )
-          .subscribe(
-            'updateSecondPointValue', 
-            view.secondTooltip.changeTooltipValue.bind(view.secondTooltip)
-            )        
-          .subscribe(
-            'updateFirstPointPX', 
-            view.demarcateElements.bind(view, 'updateFirstPointPX')
-            )        
-      }
-    model
-      .subscribe('updateFirstPointPX', view.progressBar.progressBarMove.bind(view.progressBar));
+      .subscribe('scaleClick', model.moveToValue.bind(model))
+      .subscribe('pointStopped', model.calcStopPoint.bind(model))
+      .subscribe('pointMoving', model.updatePoint.bind(model))   
   }
 }
 export default Presenter;

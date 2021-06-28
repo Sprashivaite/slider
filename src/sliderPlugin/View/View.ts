@@ -8,9 +8,9 @@ import ViewContainer from './subView/ViewContainer';
 import ViewHandler from './subView/ViewHandler';
 import IView from './IView';
 import Observer from '../Observer/Observer';
-import { assignTooltips, demarcatePoints } from './utils/demarcateElements';
+import  assignTooltips  from './utils/demarcateElements';
 import { DEFAULT_VIEW_CONFIG } from '../defaults';
-import { scaleData, viewConfig, userViewConfig } from '../types';
+import { viewConfig, userConfig, pointData } from '../types';
 
 class View extends Observer implements IView {
   slider!: ViewContainer;
@@ -39,22 +39,18 @@ class View extends Observer implements IView {
 
   tooltipTotal!: ViewTooltip;
 
-  constructor(config = DEFAULT_VIEW_CONFIG as userViewConfig) {
+  constructor(config = DEFAULT_VIEW_CONFIG as userConfig) {
     super();
     this.slider = new ViewContainer(config.target);
     this.init(config);
   }
 
-  setConfig(config: userViewConfig): void {
+  setConfig(config: userConfig): void {
     this.config = {...this.config, ...config};
     this.validate();
     this.removeElements();
     this.renderElements();
     this.addHandlers();
-  }
-
-  getConfig(): userViewConfig {
-    return this.config
   }
 
   renderElements(): void {
@@ -84,46 +80,40 @@ class View extends Observer implements IView {
 
   addHandlers(): void {
     this.handler = new ViewHandler(this);
-    this.handler.addFieldHandler();
-    this.handler.getMouseCoords();
-    this.handler.addScaleHandler();
-    this.handler.addPointHandler();
+    this.handler.addHandlers();
     // eslint-disable-next-line no-new
-    new ResizeSensor(this.slider.divElement, () => this.updateModel());
+    new ResizeSensor(this.slider.divElement, () => this.notifyListeners());
   }
 
-  updateModel(): void {
-    const { isHorizontal } = this.config;
-    const offsetSize = isHorizontal ? 'offsetWidth' : 'offsetHeight';
-    this.fieldSize = this.field.divElement[offsetSize];
-    this.pointSize = this.firstPoint.divElement[offsetSize];
-    this.emit('updateElementsSize', {
-      fieldSize: this.fieldSize,
-      pointSize: this.pointSize,
-    });
-    this.handler.emit('firstPointMouseUp', this.handler.getFirstPointData());
+  notifyListeners(): void {    
+    this.handler.emit('firstPointStopped', this.handler.getFirstPointData());
     if (this.config.isRangeSlider) {
       this.handler.emit(
-        'secondPointMouseUp',
+        'secondPointStopped',
         this.handler.getSecondPointData()
       );
     }
   }
 
-  updateScale(values: scaleData): void {
+  changeView(data: pointData): void {
+    const {point, pointOffset, pointName, value} = data
+    point.movePoint(pointOffset)
+    this.progressBar.progressBarMove()
+    if(pointName === 'first') {
+      this.firstTooltip.changeTooltipValue(value!)
+    }
+    if(pointName === 'second') {
+      this.secondTooltip.changeTooltipValue(value!)
+    }
+    assignTooltips(this)
+  }
+
+  updateScale(values: number[]): void {
     this.scale.updateValues(values);
     this.handler.addScaleHandler();
   }
 
-  demarcateElements(event: string): void {
-    const { isRangeSlider } = this.config;
-    if (isRangeSlider) {
-      demarcatePoints(this, event)
-      assignTooltips(this);
-    }
-  }
-
-  private init(config: userViewConfig): void {
+  private init(config: userConfig): void {
     this.config = { ...DEFAULT_VIEW_CONFIG, ...config };
     this.validate();
   }

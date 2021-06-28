@@ -240,7 +240,7 @@ describe('события мыши', () => {
   it('view.handler.addPointPointr mouse move', () => {
     const notify = jasmine.createSpy('notify');
     view.addHandlers();
-    view.handler.subscribe('firstPointMouseMove', notify);
+    view.handler.subscribe('firstPointMoving', notify);
     view.firstPoint.divElement.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);
     expect(notify).toHaveBeenCalled();
@@ -249,8 +249,8 @@ describe('события мыши', () => {
   it('view.handler.addPointPointr mouseup', () => {
     const notify = jasmine.createSpy('notify');
     view.addHandlers();
-    view.handler.subscribe('firstPointMouseMove', notify);
-    view.handler.subscribe('firstPointMouseUp', notify);
+    view.handler.subscribe('firstPointMoving', notify);
+    view.handler.subscribe('firstPointStopped', notify);
     view.firstPoint.divElement.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);
     document.dispatchEvent(mouseup);
@@ -266,10 +266,10 @@ describe('события мыши range', () => {
     view = new View({ isRangeSlider: true });
     view.renderElements();
     something = {
-      firstPointMouseMovePoint: () => {},
-      firstPointMouseUp: () => {},
-      secondPointMouseMove: () => {},
-      secondPointMouseUp: () => {},
+      firstPointMovingPoint: () => {},
+      firstPointStopped: () => {},
+      secondPointMoves: () => {},
+      secondPointStopped: () => {},
     };
     mousedown = new MouseEvent('mousedown');
     mousemove = new MouseEvent('mousemove', { clientX: 50 });
@@ -282,8 +282,8 @@ describe('события мыши range', () => {
   it('view.handler.addFieldPointr mouse event secondPoint', () => {
     const notify = jasmine.createSpy('notify');
     view.addHandlers();
-    view.handler.subscribe('secondPointMouseMove', notify);
-    view.handler.subscribe('secondPointMouseUp', notify);
+    view.handler.subscribe('secondPointMoves', notify);
+    view.handler.subscribe('secondPointStopped', notify);
     view.handler.mouseCoords = 60;
     view.field.divElement.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);

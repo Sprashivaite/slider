@@ -60,9 +60,9 @@ let point_vertical = document.querySelector(
 beforeEach(() => {
   model = new Model();
   model.setElementsSize({ pointSize: 0, fieldSize: 100 });
-  model.subscribe('updateFirstPointPX', someObject.updatePX.bind(someObject));
+  model.subscribe('updateFirstPointOffset', someObject.updatePX.bind(someObject));
   model.subscribe(
-    'updateSecondPointPX',
+    'updateSecondPointOffset',
     someObject.updatePX2.bind(someObject)
   );
   model.subscribe(
@@ -134,14 +134,14 @@ describe('высчитывание отступа для кнопки', () => {
 });
 
 describe('передвинуть кнопку к точке шага ', () => {
-  it('model.calcStopPointPX horizontal', () => {
+  it('model.calcStopPoint horizontal', () => {
     model.config.step = 50;
-    model.calcStopPointPX({
+    model.calcStopPoint({
       point: point_horizontal,
       pointOffset: 20,
     });
     expect(someObject.pointPX).toBe(0);
-    model.calcStopPointPX({
+    model.calcStopPoint({
       point: point_horizontal,
       pointOffset: 75,
     });
@@ -152,7 +152,7 @@ describe('передвинуть кнопку к точке шага ', () => {
 
 describe('вычислить значение флага', () => {
   it('model.calcTooltipValue ', () => {
-    model.calcStopPointPX({
+    model.calcStopPoint({
       point: point_horizontal,
       pointOffset: 75,
     });
@@ -160,7 +160,7 @@ describe('вычислить значение флага', () => {
   });
   it('model.calcTooltipValue дробное', () => {
     model.config.step = 0.1;
-    model.calcStopPointPX({
+    model.calcStopPoint({
       point: point_horizontal,
       pointOffset: 1.5,
     });
@@ -180,8 +180,8 @@ describe('передвинуть кнопку к значению ', () => {
 });
 
 describe('вычислить значения шкалы', () => {
-  it('model.calcScaleValues', () => {
-    model.calcScaleValues(6);
+  it('model.calcSteps', () => {
+    model.calcSteps(6);
     expect(someObject.scaleValues).toEqual([0, 20, 40, 60, 80, 100]);
   });
 });
