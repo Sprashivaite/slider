@@ -16,6 +16,13 @@ class Model extends Observer {
     this.calcSteps()
   }
 
+  notifyListeners(): void{
+    const { firstValue, secondValue } = this.config; 
+    this.moveToValue({value: firstValue, pointName: 'firstPoint', pointOffset: 0})
+    this.moveToValue({value: secondValue, pointName: 'secondPoint', pointOffset: 0})
+    this.updateSteps()
+  }
+
   calcStopPoint(data: pointData): void {
     const { max, min, step } = this.config;
     const { pointOffset } = data;
@@ -62,7 +69,17 @@ class Model extends Observer {
 
   private validate(): void {
     this.validateMinMax();
+    this.validateValues();
     this.validateStep();
+  }
+
+  private validateValues(): void {
+    let { firstValue, secondValue } = this.config;
+    if (typeof firstValue !== 'number') firstValue = 0;
+    if (typeof secondValue !== 'number') secondValue = 100;
+    if (firstValue >= secondValue) firstValue = secondValue - 1;
+    if (secondValue <= firstValue) secondValue = firstValue + 1;
+    this.config = { ...this.config, firstValue, secondValue };
   }
 
   private validateMinMax(): void {

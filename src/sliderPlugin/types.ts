@@ -1,6 +1,9 @@
-import ViewPoint from "./View/subView/ViewPoint";
+// import ViewPoint from "./View/subView/ViewPoint";
 
 type modelConfig = {
+  firstValue: number;
+  secondValue: number;
+  isRangeSlider: boolean;
   max: number;
   min: number;
   step: number;
@@ -16,6 +19,8 @@ type viewConfig = {
 };
 
 type userConfig = {  
+  firstValue?: number;
+  secondValue?: number;
   max?: number;
   min?: number;
   step?: number;
@@ -28,7 +33,6 @@ type userConfig = {
 };
 
 type pointData = {
-  point: ViewPoint;
   pointOffset: number;
   pointName: string;
   value?: number;

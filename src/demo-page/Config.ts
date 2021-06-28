@@ -1,7 +1,5 @@
 import Observer from '../sliderPlugin/Observer/Observer';
-import Model from '../sliderPlugin/Model/Model';
-import View from '../sliderPlugin/View/View';
-import Presenter from '../sliderPlugin/Presenter/Presenter';
+import { pointData } from '../sliderPlugin/types';
 
 class Config extends Observer {
   slider: any;
@@ -60,10 +58,11 @@ class Config extends Observer {
   }
 
   private initFirstValue(): void {
-    const updateValue = (value: string) => {
-      this.firstPoint.value = value;
+    const updateValue = (data: pointData) => {
+      const { value, pointName } = data
+      if(pointName === 'firstPoint') this.firstPoint.value = `${value}`;      
     };
-    this.slider.subscribe('updateFirstPointValue', updateValue);
+    this.slider.subscribe('updatePoint', updateValue);
     const setPointValue = () => {
       this.slider.setValue('firstPoint', this.firstPoint.valueAsNumber)
     };
@@ -71,15 +70,16 @@ class Config extends Observer {
   }
 
   private initSecondValue(): void {
-    const updateValue = (value: string) => {
-      this.secondPoint.value = value;
-    };
     if (!this.slider.getConfig().isRangeSlider) {
       this.secondPoint.setAttribute('disabled', 'true');
       return;
     }
+    const updateValue = (data: pointData) => {
+      const { value, pointName } = data
+      if(pointName === 'secondPoint') this.secondPoint.value = `${value}`;
+    };    
     if (this.slider.getConfig().isRangeSlider) this.secondPoint.removeAttribute('disabled');
-    this.slider.subscribe('updateSecondPointValue', updateValue);    
+    this.slider.subscribe('updatePoint', updateValue);    
     const setPointValue = () => {
       this.slider.setValue('secondPoint', this.secondPoint.valueAsNumber)
     };

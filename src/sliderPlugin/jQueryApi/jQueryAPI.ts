@@ -31,16 +31,16 @@ import { DEFAULT_CONFIG } from '../defaults';
       if (point === 'firstPoint') {
         this.model.moveToValue({
           value: result,
-          ...this.view.handler.getFirstPointData(),
+          ...this.view.notifier.getFirstPointData(),
         });
       }
       if (point === 'secondPoint') {
         this.model.moveToValue({
           value: result,
-          ...this.view.handler.getSecondPointData(),
+          ...this.view.notifier.getSecondPointData(),
         });
       }
-      this.view.notifyListeners();
+      this.view.notifier.notifyListeners();
     }
 
     setConfig(userConfig: viewConfig & modelConfig): void {
@@ -53,11 +53,10 @@ import { DEFAULT_CONFIG } from '../defaults';
       return {...this.model.config, ...this.view.config }
     }
 
-    subscribe(eventName, listener): void {
+    subscribe(eventName: string, listener: unknown): void {
       this.model.subscribe(eventName, listener);
-      this.view.subscribe(eventName, listener);
-      this.view.handler.subscribe(eventName, listener);
-      this.view.notifyListeners();
+      this.view.notifier.subscribe(eventName, listener);
+      this.view.notifier.notifyListeners();
     }
   }
 

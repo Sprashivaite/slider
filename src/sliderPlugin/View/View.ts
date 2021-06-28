@@ -5,14 +5,13 @@ import ViewTooltip from './subView/ViewTooltip';
 import ViewProgressBar from './subView/ViewProgressBar';
 import ViewScale from './subView/ViewScale';
 import ViewContainer from './subView/ViewContainer';
-import ViewHandler from './subView/ViewHandler';
+import ViewNotifier from './subView/ViewNotifier';
 import IView from './IView';
-import Observer from '../Observer/Observer';
 import  assignTooltips  from './utils/demarcateElements';
 import { DEFAULT_VIEW_CONFIG } from '../defaults';
 import { viewConfig, userConfig, pointData } from '../types';
 
-class View extends Observer implements IView {
+class View implements IView {
   slider!: ViewContainer;
 
   firstPoint!: ViewPoint;
@@ -29,8 +28,6 @@ class View extends Observer implements IView {
 
   scale!: ViewScale;
 
-  handler!: ViewHandler;
-
   config!: viewConfig;
 
   fieldSize!: number;
@@ -39,8 +36,9 @@ class View extends Observer implements IView {
 
   tooltipTotal!: ViewTooltip;
 
+  notifier!: ViewNotifier;
+
   constructor(config = DEFAULT_VIEW_CONFIG as userConfig) {
-    super();
     this.slider = new ViewContainer(config.target);
     this.init(config);
   }
@@ -79,38 +77,40 @@ class View extends Observer implements IView {
   }
 
   addHandlers(): void {
-    this.handler = new ViewHandler(this);
-    this.handler.addHandlers();
+    this.notifier = new ViewNotifier(this);
+    this.notifier.addHandlers();
     // eslint-disable-next-line no-new
     new ResizeSensor(this.slider.divElement, () => this.notifyListeners());
   }
 
-  notifyListeners(): void {    
-    this.handler.emit('firstPointStopped', this.handler.getFirstPointData());
+  notifyListeners(): void {
+    this.notifier.emit('firstPointStopped', this.notifier.getFirstPointData());
     if (this.config.isRangeSlider) {
-      this.handler.emit(
+      this.notifier.emit(
         'secondPointStopped',
-        this.handler.getSecondPointData()
+        this.notifier.getSecondPointData()
       );
     }
   }
 
   changeView(data: pointData): void {
-    const {point, pointOffset, pointName, value} = data
-    point.movePoint(pointOffset)
-    this.progressBar.progressBarMove()
-    if(pointName === 'first') {
+    const { pointOffset, pointName, value } = data
+    
+    if(pointName === 'firstPoint') {
+      this.firstPoint.movePoint(pointOffset)
       this.firstTooltip.changeTooltipValue(value!)
     }
-    if(pointName === 'second') {
+    if(pointName === 'secondPoint' && this.config.isRangeSlider) {
+      this.secondPoint.movePoint(pointOffset)
       this.secondTooltip.changeTooltipValue(value!)
     }
+    this.progressBar.progressBarMove()
     assignTooltips(this)
   }
 
   updateScale(values: number[]): void {
     this.scale.updateValues(values);
-    this.handler.addScaleHandler();
+    this.notifier.addScaleHandler();
   }
 
   private init(config: userConfig): void {

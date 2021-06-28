@@ -2,7 +2,7 @@ import IView from '../IView';
 import Observer from '../../Observer/Observer';
 import { pointData } from '../../types';
 
-class ViewHandler extends Observer {
+class ViewNotifier extends Observer {
   mouseCoords!: number;
 
   isHorizontal!: boolean;
@@ -24,6 +24,16 @@ class ViewHandler extends Observer {
     this.init(View);
   }
 
+  notifyListeners(): void{
+    this.emit('firstPointStopped', this.getFirstPointData());
+    if (this.isRangeSlider) {
+      this.emit(
+        'secondPointStopped',
+        this.getSecondPointData()
+      );
+    }
+  }
+
   addHandlers(): void {
     this.addFieldHandler();
     this.getMouseCoords();
@@ -33,17 +43,15 @@ class ViewHandler extends Observer {
   
   getFirstPointData(): pointData {
     return {
-      point: this.firstPoint,
       pointOffset: this.firstPoint.getPointOffset(),
-      pointName: 'first'
+      pointName: 'firstPoint'
     };
   }
 
   getSecondPointData(): pointData {
     return {
-      point: this.secondPoint,
       pointOffset: this.secondPoint.getPointOffset(),
-      pointName: 'second'
+      pointName: 'secondPoint'
     };
   }
 
@@ -51,10 +59,10 @@ class ViewHandler extends Observer {
     const handleScaleClick = (event: MouseEvent) => {
       const value = event.currentTarget!.innerHTML;
       if (!this.isFirstPointClosest(event)) {
-        this.emit('scaleClick', {value, ...this.getSecondPointData()});
+        this.emit('valueChanged', {value, ...this.getSecondPointData()});
         this.emit('pointStopped', this.getSecondPointData());
       } else {
-        this.emit('scaleClick', {value, ...this.getFirstPointData()});
+        this.emit('valueChanged', {value, ...this.getFirstPointData()});
         this.emit('pointStopped', this.getFirstPointData());
       }
     };
@@ -133,7 +141,7 @@ class ViewHandler extends Observer {
     }
     const emitMouseMove = () => {
       this.firstPoint.movePoint(this.mouseCoords - shift)
-      if(this.firstPoint.getPointOffset() > this.secondPoint.getPointOffset()) {
+      if(this.isRangeSlider && this.firstPoint.getPointOffset() > this.secondPoint.getPointOffset()) {
         this.firstPoint.movePoint(this.secondPoint.getPointOffset())
       }      
       this.emit('pointMoving', this.getFirstPointData());
@@ -170,4 +178,4 @@ class ViewHandler extends Observer {
     };
   } 
 }
-export default ViewHandler;
+export default ViewNotifier;

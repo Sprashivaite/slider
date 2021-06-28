@@ -174,7 +174,7 @@ describe('координаты мыши', () => {
     const mousemove = new MouseEvent('mousemove', { clientX: 50 });
     document.dispatchEvent(mousemove);
 
-    expect(view.handler.mouseCoords).toBe(50 - fieldOffset);
+    expect(view.notifier.mouseCoords).toBe(50 - fieldOffset);
   });
   it('view.getMouseCoords vertical', () => {
     view = new View({ isHorizontal: false });
@@ -183,7 +183,7 @@ describe('координаты мыши', () => {
     view.addHandlers();
     const mousemove = new MouseEvent('mousemove', { clientY: 50 });
     document.dispatchEvent(mousemove);
-    expect(view.handler.mouseCoords).toBe(50 - fieldOffset);
+    expect(view.notifier.mouseCoords).toBe(50 - fieldOffset);
   });
 });
 
@@ -202,7 +202,7 @@ describe('события мыши', () => {
     view.removeElements();
   });
 
-  it('view.handler.addFieldHandler defaultPrevented', () => {
+  it('view.notifier.addFieldHandler defaultPrevented', () => {
     const contextmenu = new MouseEvent('contextmenu', { cancelable: true });
     const mousedown = new MouseEvent('mousedown', { cancelable: true });
 
@@ -227,30 +227,30 @@ describe('события мыши', () => {
     expect(mousedownCalled).toBeFalsy();
   });
 
-  it('view.handler.addPointHandler mouse down', () => {
+  it('view.notifier.addPointHandler mouse down', () => {
     const notify = jasmine.createSpy('notify');
     view.addHandlers();
-    view.handler.subscribe('firstPointMouseDown', notify);
+    view.notifier.subscribe('firstPointMouseDown', notify);
     view.firstPoint.divElement.dispatchEvent(mousedown);
 
     expect(notify).toHaveBeenCalled();
     expect(notify.calls.count()).toEqual(1);
   });
 
-  it('view.handler.addPointPointr mouse move', () => {
+  it('view.notifier.addPointPointr mouse move', () => {
     const notify = jasmine.createSpy('notify');
     view.addHandlers();
-    view.handler.subscribe('firstPointMoving', notify);
+    view.notifier.subscribe('firstPointMoving', notify);
     view.firstPoint.divElement.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);
     expect(notify).toHaveBeenCalled();
     expect(notify.calls.count()).toEqual(2);
   });
-  it('view.handler.addPointPointr mouseup', () => {
+  it('view.notifier.addPointPointr mouseup', () => {
     const notify = jasmine.createSpy('notify');
     view.addHandlers();
-    view.handler.subscribe('firstPointMoving', notify);
-    view.handler.subscribe('firstPointStopped', notify);
+    view.notifier.subscribe('firstPointMoving', notify);
+    view.notifier.subscribe('firstPointStopped', notify);
     view.firstPoint.divElement.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);
     document.dispatchEvent(mouseup);
@@ -279,12 +279,12 @@ describe('события мыши range', () => {
   afterEach(() => {
     view.removeElements();
   });
-  it('view.handler.addFieldPointr mouse event secondPoint', () => {
+  it('view.notifier.addFieldPointr mouse event secondPoint', () => {
     const notify = jasmine.createSpy('notify');
     view.addHandlers();
-    view.handler.subscribe('secondPointMoves', notify);
-    view.handler.subscribe('secondPointStopped', notify);
-    view.handler.mouseCoords = 60;
+    view.notifier.subscribe('secondPointMoves', notify);
+    view.notifier.subscribe('secondPointStopped', notify);
+    view.notifier.mouseCoords = 60;
     view.field.divElement.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);
     document.dispatchEvent(mouseup);
