@@ -29,7 +29,7 @@ npm run prod
 # Initialization
 
 ## HTML
-Используемые файлы находятся в папке dist. Подключить к странице index.js и style.css.
+Используемые файлы находятся в папке plugin-files. Подключить к странице index.js и style.css.
 ```javascript
 <link rel="stylesheet" href="/dist/style.css" />
 <script src="./dist/index.js"></script>
@@ -75,6 +75,11 @@ slider.setValue('secondPoint', number)
 ```javascript
 slider.setConfig(parameters)
 ```
+### set subscribe
+```javascript
+slider.subscribe('valueChanged', {value})  // Подписать на изменения значения слайдера
+```
+Событие 
 # Architecture
 Всё приложение разделено на три слоя: Model, View, Presenter.
 ### Model 
