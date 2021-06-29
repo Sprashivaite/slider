@@ -55,8 +55,8 @@ import { DEFAULT_CONFIG } from '../defaults';
 
     subscribe(eventName: string, listener: unknown): void {
       this.model.subscribe(eventName, listener);
-      this.view.notifier.subscribe(eventName, listener);
-      this.view.notifier.notifyListeners();
+      this.view.subscribe(eventName, listener);
+      this.view.notifyListeners();
     }
   }
 

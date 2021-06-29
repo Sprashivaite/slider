@@ -1,5 +1,6 @@
 import Model from '../Model/Model';
 import View from '../View/View';
+import { eventTypes } from '../types'
 
 class Presenter {
   model: Model;
@@ -14,19 +15,19 @@ class Presenter {
 
   private subscribeListeners(): void {
     this.subscribe();
-    this.view.notifier.notifyListeners();
+    this.view.notifyListeners();
     this.model.notifyListeners();
   }
 
   private subscribe(): void {
     const { model, view } = this;
     model
-      .subscribe('stepsUpdate', view.updateScale.bind(view))
-      .subscribe('updatePoint', view.changeView.bind(view))    
-    view.notifier
-      .subscribe('valueChanged', model.moveToValue.bind(model))
-      .subscribe('pointStopped', model.calcStopPoint.bind(model))
-      .subscribe('pointMoving', model.updatePoint.bind(model))   
+      .subscribe(eventTypes.stepsUpdate, view.updateScale.bind(view))
+      .subscribe(eventTypes.updatePoint, view.changeView.bind(view))    
+    view
+      .subscribe(eventTypes.valueChanged, model.moveToValue.bind(model))
+      .subscribe(eventTypes.pointStopped, model.calcStopPoint.bind(model))
+      .subscribe(eventTypes.pointMoving, model.updatePoint.bind(model))
   }
 }
 export default Presenter;
