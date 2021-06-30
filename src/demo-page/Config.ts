@@ -1,8 +1,8 @@
-import Observer from '../sliderPlugin/Observer/Observer';
-import { pointData } from '../sliderPlugin/types';
+import SliderPlugin from '../slider/SliderPlugin/SliderPlugin';
+import { pointData } from '../slider/types';
 
-class Config extends Observer {
-  slider: any;
+class Config {
+  slider: SliderPlugin;
 
   firstPoint!: HTMLInputElement;
 
@@ -22,10 +22,9 @@ class Config extends Observer {
 
   range!: HTMLInputElement;
 
-  container!: any;
+  container!: HTMLElement;
 
-  constructor(slider: any, container: Element) {
-    super();
+  constructor(slider: SliderPlugin, container: HTMLElement) {
     this.slider = slider;
     this.container = container;
     this.initInputs();
@@ -46,15 +45,15 @@ class Config extends Observer {
   }
 
   private findElements(): void {
-    this.firstPoint = this.container.querySelector('[name=firstPoint]');
-    this.secondPoint = this.container.querySelector('[name=secondPoint]');
-    this.max = this.container.querySelector('[name=max]');
-    this.min = this.container.querySelector('[name=min]');
-    this.step = this.container.querySelector('[name=step]');
-    this.tooltip = this.container.querySelector('[name=tooltip]');
-    this.scale = this.container.querySelector('[name=scale]');
-    this.orientation = this.container.querySelector('[name=orientation]');
-    this.range = this.container.querySelector('[name=range]');
+    this.firstPoint = this.container.querySelector('[name=firstPoint]')!;
+    this.secondPoint = this.container.querySelector('[name=secondPoint]')!;
+    this.max = this.container.querySelector('[name=max]')!;
+    this.min = this.container.querySelector('[name=min]')!;
+    this.step = this.container.querySelector('[name=step]')!;
+    this.tooltip = this.container.querySelector('[name=tooltip]')!;
+    this.scale = this.container.querySelector('[name=scale]')!;
+    this.orientation = this.container.querySelector('[name=orientation]')!;
+    this.range = this.container.querySelector('[name=range]')!;
   }
 
   private initFirstValue(): void {
