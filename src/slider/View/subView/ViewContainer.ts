@@ -8,8 +8,7 @@ class ViewContainer {
   }
 
   searchContainer(): void {
-    const container: HTMLDivElement | null =
-      document.querySelector('[data-slider]');
+    const container: HTMLDivElement | null = document.querySelector('[data-slider]');
     if (container) this.divElement = container;
   }
 

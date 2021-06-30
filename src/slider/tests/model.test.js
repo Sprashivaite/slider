@@ -28,7 +28,7 @@ document.body.insertAdjacentHTML(
   'afterbegin',
   "<div class='slider' style='width:100px; height: 100px;'></div>"
 );
-let container = document.querySelector('.slider');
+const container = document.querySelector('.slider');
 container.insertAdjacentHTML(
   'afterbegin',
   "<div class='js-slider__field_horizontal'></div>"
@@ -37,23 +37,23 @@ container.insertAdjacentHTML(
   'beforeend',
   "<div class='js-slider__field_vertical'></div>"
 );
-let field_horizontal = document.querySelector('.js-slider__field_horizontal');
-field_horizontal.insertAdjacentHTML(
+const fieldHorizontal = document.querySelector('.js-slider__field_horizontal');
+fieldHorizontal.insertAdjacentHTML(
   'afterbegin',
   "<div class='js-slider__point'></div>"
 );
-field_horizontal.insertAdjacentHTML(
+fieldHorizontal.insertAdjacentHTML(
   'beforeend',
   "<div class='js-slider__point' style='left: 66px'></div>"
 );
-let field_vertical = document.querySelector('.js-slider__field_vertical');
+const field_vertical = document.querySelector('.js-slider__field_vertical');
 field_vertical.insertAdjacentHTML(
   'afterbegin',
   "<div class='js-slider__point' style='top: 20px'></div>"
 );
-let point_horizontal = document.querySelectorAll('.js-slider__point')[0];
-let point_horizontal2 = document.querySelectorAll('.js-slider__point')[1];
-let point_vertical = document.querySelector(
+const point_horizontal = document.querySelectorAll('.js-slider__point')[0];
+const point_horizontal2 = document.querySelectorAll('.js-slider__point')[1];
+const point_vertical = document.querySelector(
   '.js-slider__field_vertical > .js-slider__point'
 );
 

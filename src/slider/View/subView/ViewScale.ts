@@ -1,9 +1,9 @@
-import IView from '../IView';
+import { viewConfig, viewElements } from '../../types';
 
 class ViewScale {
-  divElement!: HTMLDivElement;
+  divElement!: HTMLElement;
 
-  private slider!: HTMLElement;
+  private root!: HTMLElement;
 
   private isHorizontal!: boolean;
 
@@ -11,14 +11,18 @@ class ViewScale {
 
   private isScale!: boolean;
 
-  constructor(View: IView) {
-    this.init(View);
+  constructor(data: viewConfig & viewElements) {
+    this.init(data);
+    this.createScale();
   }
 
   createScale(): void {
-    const styleAxis = this.isHorizontal ? 'js-slider__scale_horizontal': 'js-slider__scale_vertical'
-    this.divElement.className = styleAxis
-    this.slider.append(this.divElement);
+    this.divElement = document.createElement('div');
+    const styleAxis = this.isHorizontal
+      ? 'js-slider__scale_horizontal'
+      : 'js-slider__scale_vertical';
+    this.divElement.className = styleAxis;
+    this.root.append(this.divElement);
     if (!this.isScale) this.hideScale();
   }
 
@@ -34,7 +38,7 @@ class ViewScale {
       scaleChildren[index].innerHTML = `${item}`;
       scaleChildren[index].style[direction] = `${this.scaleOffsets[index]}%`;
     });
-    
+
     this.removeExtraValues();
   }
 
@@ -46,32 +50,32 @@ class ViewScale {
     this.divElement.classList.remove('-js-slider__scale_hide');
   }
 
-  private init(View: IView) {
-    this.divElement = document.createElement('div');
-    this.slider = View.slider.divElement;
-    this.isHorizontal = View.config.isHorizontal;
-    this.isScale = View.config.isScale;
+  private init(data: viewConfig & viewElements) {
+    const { isHorizontal, isScale, root } = data;
+    this.root = root!;
+    this.isHorizontal = isHorizontal;
+    this.isScale = isScale;
   }
 
   private removeExtraValues(): void {
-    const scaleChildren = Array.from(this.divElement.children)    
+    const scaleChildren = Array.from(this.divElement.children);
     const current = this.isHorizontal ? 'left' : 'top';
     const previous = this.isHorizontal ? 'right' : 'bottom';
     const isClose = (item: Element) => (
-      item.getBoundingClientRect()[current] 
-      < item.previousElementSibling!.getBoundingClientRect()[previous] + 5
+      item.getBoundingClientRect()[current] <
+      item.previousElementSibling!.getBoundingClientRect()[previous] + 5
     )
     const isCloseMax = (item: Element) => (
-      item.getBoundingClientRect()[current] 
-      < item.previousElementSibling!.getBoundingClientRect()[previous]
+      item.getBoundingClientRect()[current] <
+      item.previousElementSibling!.getBoundingClientRect()[previous]
     )
     scaleChildren.forEach((item, index, array) => {
       if (index === 0) return;
       if (array[array.length - 1] === item) {
-        if (isCloseMax(item)) item.previousElementSibling!.remove();  
+        if (isCloseMax(item)) item.previousElementSibling!.remove();
         return;
       }
-      if (isClose(item)) item.remove();      
+      if (isClose(item)) item.remove();
     });
   }
 

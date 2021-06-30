@@ -1,24 +1,32 @@
-import IView from '../IView';
+import { viewConfig, viewElements } from '../../types';
+import ViewTooltip from './ViewTooltip'
 
 class ViewPoint {
   divElement!: HTMLDivElement;
 
-  field!: HTMLDivElement;
+  root!: HTMLElement;
 
   isHorizontal!: boolean;
 
   isRangeSlider!: boolean;
 
-  constructor(View: IView) {
-    this.init(View);
+  tooltip!: ViewTooltip;
+
+  constructor(data: viewConfig & viewElements) {
+    this.init(data);
+    this.createPoint(data)
   }
 
-  createPoint(): HTMLDivElement {
+  createPoint(data: viewConfig & viewElements): void {
     this.divElement = document.createElement('div');
     this.divElement.className = 'js-slider__point';
     if(!this.isHorizontal) this.divElement.classList.add('js-slider__point_isVertical')
-    this.field.append(this.divElement);
-    return this.divElement;
+    this.root.append(this.divElement);
+    this.createTooltip(data)
+  }
+
+  private createTooltip(data: viewConfig & viewElements): void{
+    this.tooltip = new ViewTooltip({...data, root: this.divElement})
   }
 
   movePoint(value: number): void {
@@ -33,14 +41,15 @@ class ViewPoint {
     const offsetDirection = this.isHorizontal ? 'offsetLeft' : 'offsetTop';
     const size = this.isHorizontal ? 'offsetWidth': 'offsetHeight';
     const pointOffset = this.divElement[offsetDirection];
-    const result = pointOffset * 100 / this.field[size]
+    const result = pointOffset * 100 / this.root[size]
     return result;
   }
 
-  private init(View: IView): void {
-    this.field = View.field.divElement;
-    this.isHorizontal = View.config.isHorizontal;
-    this.isRangeSlider = View.config.isRangeSlider;
+  private init(data: viewConfig & viewElements): void {
+    const { isHorizontal, isRangeSlider, root} = data
+    this.root = root!;
+    this.isHorizontal = isHorizontal;
+    this.isRangeSlider = isRangeSlider;
   }
 }
 export default ViewPoint;

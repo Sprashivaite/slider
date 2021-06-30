@@ -1,4 +1,4 @@
-import '../sliderPlugin/style.css';
+import '../slider/style.css';
 import './demo-page-style.css';
-import '../sliderPlugin/jQueryApi/jQueryAPI';
+import '../slider/SliderPlugin/SliderPlugin';
 import './index.ts';

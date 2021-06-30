@@ -1,6 +1,6 @@
-import Observer from '../Observer/Observer';
 import { DEFAULT_MODEL_CONFIG } from '../defaults';
-import { pointData, modelConfig, userConfig } from '../types';
+import { pointData, modelConfig, userConfig, eventTypes } from '../types';
+import Observer from '../Observer/Observer';
 
 class Model extends Observer {
   config!: modelConfig;
@@ -13,7 +13,7 @@ class Model extends Observer {
   setConfig(config: userConfig): void {
     this.config = { ...this.config, ...config };
     this.validate();
-    this.calcSteps()
+    this.updateSteps();
   }
 
   notifyListeners(): void{
@@ -54,12 +54,14 @@ class Model extends Observer {
 
   updatePoint(data: pointData): void {
     const value = this.calcValue(data);
-    this.emit('updatePoint', {value, ...data})
+    this.emit(eventTypes.updatePoint, {value, ...data})    
+    if(data.pointName === 'firstPoint' && !Number.isNaN(value)) this.config.firstValue = value
+    if(data.pointName === 'secondPoint' && !Number.isNaN(value)) this.config.secondValue = value    
   }  
 
   updateSteps(): void {
     const steps = this.calcSteps()
-    this.emit('stepsUpdate', steps);
+    this.emit(eventTypes.stepsUpdate, steps);
   }  
 
   private init(config: userConfig): void {

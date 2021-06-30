@@ -10,6 +10,7 @@ const DEFAULT_MODEL_CONFIG: modelConfig = {
 };
 
 const DEFAULT_VIEW_CONFIG: viewConfig = {
+  target: undefined,
   isHorizontal: true,
   isRangeSlider: true,
   isTooltip: true,

@@ -50,7 +50,7 @@
 }
 
 .js-slider__point_isVertical {
-  transform: translateX(-25%);
+  transform: translate(-25%, -50%);
 }
 
 .-js-slider__tooltip {
@@ -63,7 +63,6 @@
   justify-content: center;
   min-width: 10px;
   min-height: 16px;
-
   flex-shrink: 0;
 }
 
@@ -75,6 +74,11 @@
 .-js-slider__tooltip_isVertical {
   left: 150%;
   position: absolute;
+}
+
+.-js-slider__tooltip_type_total {
+  position: absolute;
+  visibility: hidden;
 }
 
 .-js-slider__tooltip_hide {
@@ -138,7 +142,7 @@
   font-size: 14px;
   font-stretch: expanded;
   flex-direction: column;
-  height: 90%;
+  height: 100%;
   position: relative;
   right: 30px;
   align-items: flex-end;
@@ -152,7 +156,7 @@
 }
 
 .js-slider__scale_vertical div {
-  transform: translateY(-50%);
+  transform: translateY(-100%);
 }
 
 .js-slider__scale_vertical div {
