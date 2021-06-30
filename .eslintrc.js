@@ -6,6 +6,7 @@ module.exports = {
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
+    'plugin:@typescript-eslint/eslint-recommended',
     "plugin:fsd/all",
     "airbnb-base",
     "prettier",
@@ -22,6 +23,10 @@ module.exports = {
     "import/no-extraneous-dependencies": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-shadow": "error",
+    "no-unused-vars": "off",
+    "no-shadow": "off",
   },
   settings: { 
   },
