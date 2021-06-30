@@ -4,28 +4,6 @@ Frontend-education-program with Webpack, Pug and Stylus, TypeScript-jQuery-Jasmi
 <img src="./slider_gif.gif" width="75%">
 # How to use it
 
-#### Install dependencies
-```commandline
-npm install
-```
-
-#### Start dev server
-```commandline
-npm run dev
-```
-
-http://localhost:8080/ адрес локального сервера.
-
-#### Start test
-```commandline
-npm run test
-```
-
-#### Production
-```commandline
-npm run prod
-```
-
 # Initialization
 
 ## HTML
@@ -75,9 +53,13 @@ slider.setValue('secondPoint', number)
 ```javascript
 slider.setConfig(parameters)
 ```
-### set subscribe
+### subscribe
 ```javascript
-slider.subscribe('valueChanged', {value})  // Подписать на изменения значения слайдера
+slider.subscribe('valueChanged', data)  // Подписать на изменение первого значения
+if(data.pointName === 'firstPoint') target = data.value
+
+slider.subscribe('valueChanged', data)  // Подписать на изменение второго значения
+if(data.pointName === 'secondPoint') target = data.value
 ```
 Событие 
 # Architecture
@@ -88,38 +70,5 @@ Model содержит в себе бизнес-логику, которая в�
 View содержит логику, связанную с отображением, а также реагирует на взаимодействие пользователя с приложением. View разделён на subView, которые зависят от главного класса. Во View создаются экземпляры классов subView, и передаёт им собственные значения через параметр метода. Таким образом логика разделена на отдельные файлы, которые зависят от состояния View.
 ### Presenter
 Presenter зависит от Model и View. Обновления данных происходит путём подписки View и Model.
-
-## File structure
-#### `coverage`
-
-`coverage` содержить визуальное отображение тестов.
-
-`dist` итоговые файлы.
-
-`src` файлы разработки.
-```
-slider
-└─── coverage
-|  |  Model.js
-|  |  Model.html
-|  |  ...
-└─── dist
-|  |  index.html
-|  |  style.css
-|  |  index.js
-└─── src
-|  └─── Model
-|  |  |  Model.ts
-|  |  |  IModelConfig.ts
-|  └─── View
-|  |  |  View.ts
-|  |  └─── subView
-|  |  |  | ...
-|  └─── Presenter
-|  |  | Presenter.ts 
-|  └─── tests
-|  |  | Model.test.ts
-|  |  | ...
-```
 
 
