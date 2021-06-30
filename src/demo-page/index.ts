@@ -8,6 +8,7 @@ const slider1 = $('.js-slider-container_order_first > .js-slider')
     isRangeSlider: true,
     step: 50,
     min: 0,
+    secondValue: 50
   })
   .data('sliderPlugin');
 
@@ -17,6 +18,7 @@ const slider2 = $('.js-slider-container_order_second > .js-slider')
     step: 11,
     max: 14,
     min: 0,
+    secondValue: 11
   })
   .data('sliderPlugin');
 
@@ -25,7 +27,7 @@ const slider3 = $('.js-slider-container_order_third > .js-slider')
   .data('sliderPlugin');
 
 const slider4 = $('.js-slider-container_order_fourth > .js-slider')
-  .sliderPlugin({ isHorizontal: false, step: 250, max: 1500 })
+  .sliderPlugin({ isHorizontal: false, step: 250, max: 1500, secondValue: 250 })
   .data('sliderPlugin');
 
 const slider5 = $('.js-slider-container_order_fifth > .js-slider')
@@ -38,19 +40,19 @@ const slider5 = $('.js-slider-container_order_fifth > .js-slider')
   })
   .data('sliderPlugin');
 
-const configContainer1 = document.querySelector(
+const configContainer1: HTMLElement = document.querySelector(
   '.js-slider-container_order_first > .config'
 )!;
-const configContainer2 = document.querySelector(
+const configContainer2: HTMLElement = document.querySelector(
   '.js-slider-container_order_second > .config'
 )!;
-const configContainer3 = document.querySelector(
+const configContainer3: HTMLElement = document.querySelector(
   '.js-slider-container_order_third > .config'
 )!;
-const configContainer4 = document.querySelector(
+const configContainer4: HTMLElement = document.querySelector(
   '.js-slider-container_order_fourth > .config'
 )!;
-const configContainer5 = document.querySelector(
+const configContainer5: HTMLElement = document.querySelector(
   '.js-slider-container_order_fifth > .config'
 )!;
 
