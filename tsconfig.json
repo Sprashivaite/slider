@@ -1,13 +1,16 @@
 {
-      "compilerOptions": {
-        "esModuleInterop": true,
-        "lib": ["es6", "DOM"],
-        "module": "commonjs",
-        "outDir": "dist",
-        "rootDir": "src",
-        "strict": true,
-        "target": "es5",
-        "alwaysStrict": true,
-        "sourceMap": true,
-      }
-    }
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "lib": [
+      "es6",
+      "DOM"
+    ],
+    "module": "commonjs",
+    "outDir": "dist",
+    "rootDir": "src",
+    "strict": true,
+    "target": "es5",
+    "alwaysStrict": true,
+    "sourceMap": true,
+  }
+}

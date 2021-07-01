@@ -17,7 +17,7 @@ Frontend-education-program with Webpack, Pug and Stylus, TypeScript-jQuery-Jasmi
 В папке style.css можно изменить стили плагина. Элементы слайдер будут подстраиваться под ширину контейнера.
 
 ## JavaScript
-После подключения файлов, плагин иницилизируется на элементе при помощи  JQuery.
+После подключения файлов, плагин инициализируется на элементе при помощи  JQuery.
 ```javascript
 $(selector).sliderPlugin();
 ```
