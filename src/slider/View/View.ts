@@ -30,10 +30,9 @@ class View extends Observer {
 
   mouseCoords!: number;
 
-  constructor(config: userConfig) {
+  constructor(config?: userConfig) {
     super();
-    this.slider = new ViewContainer(config.target);
-    this.init(config);
+    this.init(config);    
     this.renderElements();
     this.addHandlers()
   }
@@ -44,7 +43,6 @@ class View extends Observer {
     this.removeElements();
     this.renderElements();
     this.addHandlers();
-    this.emit('elementsRendered')
   }
 
   getElements(): viewElements { 
@@ -77,13 +75,6 @@ class View extends Observer {
     this.addScaleHandler();
   }
 
-  notifyListeners(): void {
-    this.emit(eventTypes.pointStopped, this.getFirstPointData());
-    if (this.config.isRangeSlider) {
-      this.emit(eventTypes.pointStopped, this.getSecondPointData());
-    }
-  }
-
   getFirstPointData(): pointData {
     return {
       pointOffset: this.firstPoint.getPointOffset(),
@@ -98,11 +89,12 @@ class View extends Observer {
     };
   }
 
-  private init(config: userConfig): void {
+  private init(config?: userConfig): void {
     let newConfig = config;
     if (typeof newConfig !== 'object') newConfig = {};
     this.config = { ...DEFAULT_VIEW_CONFIG, ...newConfig };
     this.validate();
+    this.slider = new ViewContainer(config!.target);
   }
 
   private validate(): void {

@@ -30,16 +30,10 @@ class SliderPlugin extends Observer {
 
   constructor(config: userConfig) {
     super()
-    this.initApp(config);
-  }
-
-  private initApp(config: userConfig): void {
-    const modelUserConfig = separateModelConfig(config);
-    const viewUserConfig = separateViewConfig(config);
-    this.view = new View(viewUserConfig);
-    this.model = new Model(modelUserConfig);
+    this.model = new Model();
+    this.view = new View({target: config.target});
     this.presenter = new Presenter(this.model, this.view);
-    
+    this.setConfig(config)
   }
 
   setValue(point: string, value: number): void {
@@ -52,16 +46,15 @@ class SliderPlugin extends Observer {
     if (point === 'secondPoint') {
       this.model.changeValue({ value: result, pointName: 'secondPoint'});
     }
-    this.view.notifyListeners();
   }
 
   setConfig(config: userConfig): void {
     const modelUserConfig = separateModelConfig(config);
     const viewUserConfig = separateViewConfig(config);
-    this.model.setConfig(modelUserConfig);
     if (Object.keys(viewUserConfig).length > 0) {
       this.view.setConfig(viewUserConfig);
-    }    
+    }
+    this.model.setConfig(modelUserConfig);
     this.emit(eventTypes.configChanged, { ...this.model.config, ...this.view.config })
   }
 
@@ -73,7 +66,6 @@ class SliderPlugin extends Observer {
     super.subscribe(event, listener)
     this.model.subscribe(event, listener);
     this.view.subscribe(event, listener);
-    this.view.notifyListeners();
     return this
   }
 }

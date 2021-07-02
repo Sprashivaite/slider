@@ -5,7 +5,7 @@ import Observer from '../Observer/Observer';
 class Model extends Observer {
   config!: modelConfig;
 
-  constructor(config: userConfig) {
+  constructor(config?: userConfig) {
     super();
     this.init(config);
   }
@@ -13,14 +13,7 @@ class Model extends Observer {
   setConfig(config: userConfig): void {
     this.config = { ...this.config, ...config };
     this.validate();
-    this.updateSteps();
-  }
-
-  notifyListeners(): void{
-    const { firstValue, secondValue } = this.config; 
-    this.changeValue({value: firstValue, pointName: 'firstPoint'})
-    this.changeValue({value: secondValue, pointName: 'secondPoint'})
-    this.updateSteps()
+    this.notifyListeners();
   }
 
   calcStopPoint(data: pointData): void {
@@ -49,12 +42,12 @@ class Model extends Observer {
     const { max, min } = this.config;
     const {value, pointName} = data
     const result: number = (100 / (max - min)) * (value! - min);
-    this.updatePoint({ value, pointName, pointOffset: result });
+    this.calcStopPoint({ value, pointName, pointOffset: result });
   }
 
   updatePoint(data: pointData): void {
     const value = this.calcValue(data);
-    this.emit(eventTypes.updatePoint, {value, ...data})    
+    this.emit(eventTypes.updatePoint, {...data, value })    
     if(data.pointName === 'firstPoint' && !Number.isNaN(value)) this.config.firstValue = value
     if(data.pointName === 'secondPoint' && !Number.isNaN(value)) this.config.secondValue = value    
   }  
@@ -64,11 +57,18 @@ class Model extends Observer {
     this.emit(eventTypes.stepsUpdate, steps);
   }  
 
-  private init(config: userConfig): void {
+  private init(config?: userConfig): void {
     let newConfig = config;
     if(typeof newConfig !== 'object') newConfig = {};
     this.config = { ...DEFAULT_MODEL_CONFIG, ...newConfig };
     this.validate();
+  }
+
+  private notifyListeners(): void{
+    const { firstValue, secondValue } = this.config; 
+    this.changeValue({value: firstValue, pointName: 'firstPoint'})
+    this.changeValue({value: secondValue, pointName: 'secondPoint'})
+    this.updateSteps()
   }
 
   private validate(): void {

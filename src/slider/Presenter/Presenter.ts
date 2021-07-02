@@ -14,12 +14,6 @@ class Presenter {
   }
 
   private subscribeListeners(): void {
-    this.subscribe();
-    this.model.notifyListeners();
-    this.view.notifyListeners();
-  }
-
-  private subscribe(): void {
     const { model, view } = this;
     model
       .subscribe(eventTypes.stepsUpdate, view.updateScale.bind(view))
@@ -28,7 +22,6 @@ class Presenter {
       .subscribe(eventTypes.valueChanged, model.changeValue.bind(model))
       .subscribe(eventTypes.pointStopped, model.calcStopPoint.bind(model))
       .subscribe(eventTypes.pointMoving, model.updatePoint.bind(model))
-      .subscribe(eventTypes.elementsRendered, model.notifyListeners.bind(model))
   }
 }
 export default Presenter;
