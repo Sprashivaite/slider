@@ -1,3 +1,5 @@
+import ViewPoint from "./View/subView/ViewPoint";
+
 type modelConfig = {
   firstValue: number;
   secondValue: number;
@@ -49,13 +51,20 @@ type pointValue = {
   value: number;
 };
 
+type progressBar = {
+  root: HTMLElement,
+  firstPoint: ViewPoint,
+  secondPoint?: ViewPoint
+}
+
 enum eventTypes {
   valueChanged = 'valueChanged',
   pointStopped = 'pointStopped',
   pointMoving = 'pointMoving',
   stepsUpdate = 'stepsUpdate',
   updatePoint = 'updatePoint',
-  elementsRendered = 'elementsRendered'
+  configChanged = 'configChanged',
+  elementsRendered = 'elementsRendered',
 }
 
 type eventName = keyof typeof eventTypes;
@@ -67,6 +76,7 @@ export {
   viewConfig,
   pointData,
   pointValue,
+  progressBar,
   eventTypes,
   viewElements,
   eventName,

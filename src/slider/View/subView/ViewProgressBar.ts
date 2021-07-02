@@ -1,4 +1,5 @@
-import { viewConfig, viewElements } from '../../types';
+import { viewConfig, progressBar } from '../../types';
+import ViewPoint from './ViewPoint';
 
 class ViewProgressBar {
   divElement!: HTMLElement;
@@ -9,15 +10,15 @@ class ViewProgressBar {
 
   private isRangeSlider!: boolean;
 
-  private firstPoint!: HTMLElement;
+  private firstPoint!: ViewPoint;
 
-  private secondPoint!: HTMLElement;
+  private secondPoint!: ViewPoint;
 
   private hasProgressBar!: boolean;
 
   private styleDirection!: string;
 
-  constructor(data: viewConfig & viewElements) {
+  constructor(data: viewConfig & progressBar) {
     this.init(data);
     this.createProgressBar()
   }
@@ -25,12 +26,12 @@ class ViewProgressBar {
   progressBarMove(): void {
     const direction = this.isHorizontal ? 'left' : 'top';
     const size = this.isHorizontal ? 'width' : 'height';    
-    const firstPointOffset = this.firstPoint.style[direction]    
-    this.divElement.style[size] = firstPointOffset;
+    const firstPointOffset = this.firstPoint.getPointOffset()   
+    this.divElement.style[size] = `${firstPointOffset}%`;
     if (this.isRangeSlider) {
-      const secondPointOffset = this.secondPoint.style[direction]
-      this.divElement.style[direction] = firstPointOffset;
-      let rangePercent = parseInt(secondPointOffset, 10) - parseInt(firstPointOffset, 10)
+      const secondPointOffset = this.secondPoint.getPointOffset()
+      this.divElement.style[direction] = `${firstPointOffset}%`;
+      let rangePercent = secondPointOffset - firstPointOffset
       if(rangePercent < 0) rangePercent = 0
       this.divElement.style[size] = `${rangePercent}%`;
     }
@@ -45,7 +46,7 @@ class ViewProgressBar {
     this.divElement.classList.remove('-js-slider__bar_hide');
   }
 
-  private init(data: viewConfig & viewElements): void {
+  private init(data: viewConfig & progressBar): void {
     const {isHorizontal, isRangeSlider, hasProgressBar, firstPoint, secondPoint, root} = data
     this.root = root!;
     this.firstPoint = firstPoint!;
@@ -80,7 +81,7 @@ class ViewProgressBar {
     if (progressBarSize >= fieldSize / 2) {
       styleColor = `js-progressBar_color_third`;
     } 
-    if (progressBarSize >= fieldSize - this.firstPoint.offsetWidth) {
+    if (progressBarSize >= fieldSize) {
       styleColor = `js-progressBar_color_fourth`;
     }    
     this.divElement.className = `js-progressBar ${this.styleDirection} ${styleColor}`;

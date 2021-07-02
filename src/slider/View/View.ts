@@ -129,8 +129,8 @@ class View extends Observer {
     this.firstPoint = new ViewPoint({...this.config, root: this.field.divElement });
     this.progressBar = new ViewProgressBar({
       root: this.field.divElement,
+      firstPoint :this.firstPoint,
       ...this.config,
-      ...this.getElements()
     });
     this.scale = new ViewScale({ ...this.config, root: this.slider.divElement });
     if (isRangeSlider) {
@@ -139,8 +139,9 @@ class View extends Observer {
       this.tooltipTotal.divElement.classList.add('-js-slider__tooltip_type_total')
       this.progressBar = new ViewProgressBar({
         root: this.field.divElement,
+        firstPoint :this.firstPoint,
+        secondPoint: this.secondPoint,
         ...this.config,
-        ...this.getElements(),
       });      
     }
   }
