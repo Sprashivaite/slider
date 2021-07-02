@@ -2,27 +2,27 @@ import SliderPlugin from '../slider/SliderPlugin/SliderPlugin';
 import { pointData } from '../slider/types';
 
 class Config {
-  slider: SliderPlugin;
+  private slider: SliderPlugin;
 
-  firstPoint!: HTMLInputElement;
+  private firstPoint!: HTMLInputElement;
 
-  secondPoint!: HTMLInputElement;
+  private secondPoint!: HTMLInputElement;
 
-  max!: HTMLInputElement;
+  private max!: HTMLInputElement;
 
-  min!: HTMLInputElement;
+  private min!: HTMLInputElement;
 
-  step!: HTMLInputElement;
+  private step!: HTMLInputElement;
 
-  tooltip!: HTMLInputElement;
+  private tooltip!: HTMLInputElement;
 
-  scale!: HTMLInputElement;
+  private scale!: HTMLInputElement;
 
-  orientation!: HTMLInputElement;
+  private orientation!: HTMLInputElement;
 
-  range!: HTMLInputElement;
+  private range!: HTMLInputElement;
 
-  container!: HTMLElement;
+  private container!: HTMLElement;
 
   constructor(slider: SliderPlugin, container: HTMLElement) {
     this.slider = slider;

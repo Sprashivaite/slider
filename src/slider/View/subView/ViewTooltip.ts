@@ -3,13 +3,13 @@ import { viewConfig, viewElements } from '../../types';
 class Tooltip {
   divElement!: HTMLElement;
 
-  root!: HTMLElement; 
+  private root!: HTMLElement; 
 
-  isHorizontal!: boolean;
+  private isHorizontal!: boolean;
 
-  isRangeSlider!: boolean;
+  private isRangeSlider!: boolean;
 
-  hasTooltip!: boolean;
+  private hasTooltip!: boolean;
 
   constructor(data: viewConfig & viewElements) {
     this.init(data)

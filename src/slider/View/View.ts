@@ -20,10 +20,6 @@ class View extends Observer {
 
   field!: ViewField;
 
-  firstTooltip!: ViewTooltip;
-
-  secondTooltip!: ViewTooltip;
-
   progressBar!: ViewProgressBar;
 
   scale!: ViewScale;
@@ -74,7 +70,6 @@ class View extends Observer {
     }
     this.progressBar.progressBarMove();
     assignTooltips(this);
-    // this.notifyListeners()
   }
 
   updateScale(data: number[]): void {

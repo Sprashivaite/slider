@@ -4,13 +4,13 @@ import ViewTooltip from './ViewTooltip'
 class ViewPoint {
   divElement!: HTMLDivElement;
 
-  root!: HTMLElement;
-
-  isHorizontal!: boolean;
-
-  isRangeSlider!: boolean;
-
   tooltip!: ViewTooltip;
+
+  private root!: HTMLElement;
+
+  private isHorizontal!: boolean;
+
+  private isRangeSlider!: boolean;  
 
   constructor(data: viewConfig & viewElements) {
     this.init(data);

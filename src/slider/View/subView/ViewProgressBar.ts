@@ -3,19 +3,19 @@ import { viewConfig, viewElements } from '../../types';
 class ViewProgressBar {
   divElement!: HTMLElement;
 
-  root!: HTMLElement;
+  private root!: HTMLElement;
 
-  isHorizontal!: boolean;
+  private isHorizontal!: boolean;
 
-  isRangeSlider!: boolean;
+  private isRangeSlider!: boolean;
 
-  firstPoint!: HTMLElement;
+  private firstPoint!: HTMLElement;
 
-  secondPoint!: HTMLElement;
+  private secondPoint!: HTMLElement;
 
-  hasProgressBar!: boolean;
+  private hasProgressBar!: boolean;
 
-  styleDirection!: string;
+  private styleDirection!: string;
 
   constructor(data: viewConfig & viewElements) {
     this.init(data);

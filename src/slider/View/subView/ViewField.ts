@@ -3,10 +3,6 @@ import { viewConfig, viewElements } from '../../types';
 class ViewField {
   divElement!: HTMLDivElement;
 
-  isHorizontal!: boolean;
-
-  slider!: HTMLElement;
-
   constructor(data: viewConfig & viewElements) {
     this.createField(data);
   }
