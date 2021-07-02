@@ -111,7 +111,7 @@ class Config {
 
   private initTooltip(): void {
     const tooltipChanged = () => {
-      this.slider.setConfig({isTooltip: !this.slider.getConfig().isTooltip})
+      this.slider.setConfig({hasTooltip: !this.slider.getConfig().hasTooltip})
       this.updateInputs()
     };
     this.tooltip.addEventListener('change', tooltipChanged);
@@ -119,7 +119,7 @@ class Config {
 
   private initScale(): void {
     const scaleChanged = () => {
-      this.slider.setConfig({isScale: !this.slider.getConfig().isScale})
+      this.slider.setConfig({hasScale: !this.slider.getConfig().hasScale})
       this.updateInputs()
     };
     this.scale.addEventListener('change', scaleChanged);
@@ -142,8 +142,8 @@ class Config {
   }
 
   private updateInputs(): void {
-    this.tooltip.checked = this.slider.getConfig().isTooltip;
-    this.scale.checked = this.slider.getConfig().isScale;
+    this.tooltip.checked = this.slider.getConfig().hasTooltip;
+    this.scale.checked = this.slider.getConfig().hasScale;
     this.range.checked = this.slider.getConfig().isRangeSlider;
     this.orientation.checked = this.slider.getConfig().isHorizontal;
     this.step.value = `${this.slider.getConfig().step}`;

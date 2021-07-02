@@ -18,25 +18,25 @@ describe('установка параметров View', () => {
     view = new View({
       isRangeSlider: true,
       isHorizontal: false,
-      isProgressBar: true,
-      isScale: false,
+      hasProgressBar: true,
+      hasScale: false,
     });
     expect(view.config.isRangeSlider).toBe(true);
     expect(view.config.isHorizontal).toBe(false);
-    expect(view.config.isProgressBar).toBe(true);
-    expect(view.config.isScale).toBe(false);
+    expect(view.config.hasProgressBar).toBe(true);
+    expect(view.config.hasScale).toBe(false);
   });
   it('невалидные параметры', () => {
     view = new View({
       isRangeSlider: 22,
       isHorizontal: 'value',
-      isProgressBar: '',
-      isScale: null,
+      hasProgressBar: '',
+      hasScale: null,
     });
     expect(view.config.isRangeSlider).toBe(true);
     expect(view.config.isHorizontal).toBe(true);
-    expect(view.config.isProgressBar).toBe(true);
-    expect(view.config.isScale).toBe(true);
+    expect(view.config.hasProgressBar).toBe(true);
+    expect(view.config.hasScale).toBe(true);
   });
 });
 

@@ -6,7 +6,7 @@
   user-select: none;
 }
 
-.js-slider__field_horizontal {
+.js-slider__field {
   position: relative;
   background: rgba(31, 32, 65, 0.25);
   border-radius: 3px;
@@ -20,15 +20,8 @@
 }
 
 .js-slider__field_vertical {
-  position: relative;
-  background: rgba(31, 32, 65, 0.25);
-  border-radius: 3px;
   height: 100%;
   width: 8px;
-  cursor: pointer;
-  z-index: 0;
-  display: flex;
-  align-items: center;
 }
 
 .js-slider__point {
@@ -45,11 +38,11 @@
   transform: translateX(-50%);
 }
 
-.js-slider__point_isTarget {
+.js-slider__point_target {
   z-index: 10;
 }
 
-.js-slider__point_isVertical {
+.js-slider__point_vertical {
   transform: translate(-25%, -50%);
 }
 
@@ -64,16 +57,15 @@
   min-width: 10px;
   min-height: 16px;
   flex-shrink: 0;
-}
-
-.-js-slider__tooltip_isHorizontal {
-  transform: translateY(-120%);
   white-space: nowrap;
+  transform: translateY(-120%);
 }
 
-.-js-slider__tooltip_isVertical {
+.-js-slider__tooltip_vertical {
   left: 150%;
   position: absolute;
+  white-space: normal;
+  transform: translateY(0);
 }
 
 .-js-slider__tooltip_type_total {
@@ -81,7 +73,7 @@
   visibility: hidden;
 }
 
-.-js-slider__tooltip_hide {
+.-js-slider__tooltip_visibility_hide {
   visibility: hidden;
 }
 
@@ -91,39 +83,37 @@
   transition-property: background-color;
   transition-duration: 0.5s;
   z-index: 1;
-}
-
-.js-progressBar_horizontal {
   left: 0;
   height: 100%;
-}
+} 
 
 .js-progressBar_vertical {
   top: 0;
   width: 100%;
+  height: auto;
 }
 
-.js-progressBar_color_1 {
+.js-progressBar_color_first {
   background-color: #915e4e;
 }
 
-.js-progressBar_color_2 {
+.js-progressBar_color_second {
   background-color: #cf866f;
 }
 
-.js-progressBar_color_3 {
+.js-progressBar_color_third {
   background-color: #4e9179;
 }
 
-.js-progressBar_color_4 {
+.js-progressBar_color_fourth {
   background-color: #6fcf97;
 }
 
-.-js-slider__bar_hide {
+.-js-slider__bar_visibility_hide {
   opacity: 0;
 }
 
-.js-slider__scale_horizontal {
+.js-slider__scale {
   display: flex;
   font-size: 14px;
   margin: 30px 0px 0px 0px;
@@ -132,37 +122,28 @@
   width: 100%;
 }
 
-.js-slider__scale_horizontal div {
-  position: absolute;
-  transform: translateX(-50%);
-}
-
 .js-slider__scale_vertical {
-  display: flex;
-  font-size: 14px;
+  position: relative;
   font-stretch: expanded;
   flex-direction: column;
   height: 100%;
-  position: relative;
   right: 30px;
   align-items: flex-end;
   margin-top: 10px;
+  width: auto;
 }
 
-.js-slider__scale_horizontal div,
-.js-slider__scale_vertical div {
+.js-scale__value {
+  transform: translateX(-50%);
   cursor: pointer;
   position: absolute;
 }
 
-.js-slider__scale_vertical div {
+.js-slider__scale_vertical .js-scale__value {
   transform: translateY(-100%);
-}
-
-.js-slider__scale_vertical div {
   height: 15px;
 }
 
-.-js-slider__scale_hide {
+.-js-slider__scale_visibility_hide {
   visibility: hidden;
 }

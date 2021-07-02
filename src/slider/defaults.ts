@@ -13,9 +13,9 @@ const DEFAULT_VIEW_CONFIG: viewConfig = {
   target: undefined,
   isHorizontal: true,
   isRangeSlider: true,
-  isTooltip: true,
-  isProgressBar: true,
-  isScale: true,
+  hasTooltip: true,
+  hasProgressBar: true,
+  hasScale: true,
 };
 
 const DEFAULT_CONFIG: viewConfig | modelConfig = {

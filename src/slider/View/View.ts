@@ -147,20 +147,20 @@ class View extends Observer {
   }
 
   private validate(): void {
-    let { isHorizontal, isRangeSlider, isTooltip, isProgressBar, isScale } =
+    let { isHorizontal, isRangeSlider, hasTooltip, hasProgressBar, hasScale } =
       this.config;
     if (typeof isHorizontal !== 'boolean') isHorizontal = true;
     if (typeof isRangeSlider !== 'boolean') isRangeSlider = true;
-    if (typeof isTooltip !== 'boolean') isTooltip = true;
-    if (typeof isProgressBar !== 'boolean') isProgressBar = true;
-    if (typeof isScale !== 'boolean') isScale = true;
+    if (typeof hasTooltip !== 'boolean') hasTooltip = true;
+    if (typeof hasProgressBar !== 'boolean') hasProgressBar = true;
+    if (typeof hasScale !== 'boolean') hasScale = true;
     this.config = {
       ...this.config,
       isHorizontal,
       isRangeSlider,
-      isTooltip,
-      isProgressBar,
-      isScale,
+      hasTooltip,
+      hasProgressBar,
+      hasScale,
     };
   }
 

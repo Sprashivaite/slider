@@ -9,7 +9,7 @@ class Tooltip {
 
   isRangeSlider!: boolean;
 
-  isTooltip!: boolean;
+  hasTooltip!: boolean;
 
   constructor(data: viewConfig & viewElements) {
     this.init(data)
@@ -19,11 +19,10 @@ class Tooltip {
   createTooltip(): void {
     this.divElement = document.createElement("div");
     this.divElement.className = "-js-slider__tooltip";
-    if(this.isHorizontal) this.divElement.classList.add('-js-slider__tooltip_isHorizontal')
-    if(!this.isHorizontal) this.divElement.classList.add('-js-slider__tooltip_isVertical')
+    if(!this.isHorizontal) this.divElement.classList.add('-js-slider__tooltip_vertical')
     this.divElement.innerHTML = "0";
     this.root.append(this.divElement);
-    if(!this.isTooltip) this.hideTooltip()
+    if(!this.hasTooltip) this.hideTooltip()
   }
 
   changeTooltipValue(value: number): void {
@@ -31,19 +30,19 @@ class Tooltip {
   }
 
   hideTooltip(): void {
-    this.divElement.classList.add("-js-slider__tooltip_hide");
+    this.divElement.classList.add("-js-slider__tooltip_visibility_hide");
   }
 
   showTooltip(): void {
-    this.divElement.classList.remove("-js-slider__tooltip_hide");
+    this.divElement.classList.remove("-js-slider__tooltip_visibility_hide");
   }
 
   private init(data: viewConfig & viewElements): void { 
-    const { isHorizontal, isRangeSlider, isTooltip, root } = data
+    const { isHorizontal, isRangeSlider, hasTooltip, root } = data
     this.root = root!;
     this.isHorizontal = isHorizontal
     this.isRangeSlider = isRangeSlider
-    this.isTooltip = isTooltip
+    this.hasTooltip = hasTooltip
   } 
 }
 export default Tooltip;

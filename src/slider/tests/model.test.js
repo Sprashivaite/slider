@@ -31,13 +31,13 @@ document.body.insertAdjacentHTML(
 const container = document.querySelector('.slider');
 container.insertAdjacentHTML(
   'afterbegin',
-  "<div class='js-slider__field_horizontal'></div>"
+  "<div class='js-slider__field'></div>"
 );
 container.insertAdjacentHTML(
   'beforeend',
   "<div class='js-slider__field_vertical'></div>"
 );
-const fieldHorizontal = document.querySelector('.js-slider__field_horizontal');
+const fieldHorizontal = document.querySelector('.js-slider__field');
 fieldHorizontal.insertAdjacentHTML(
   'afterbegin',
   "<div class='js-slider__point'></div>"

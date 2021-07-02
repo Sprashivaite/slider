@@ -20,7 +20,7 @@ class ViewPoint {
   createPoint(data: viewConfig & viewElements): void {
     this.divElement = document.createElement('div');
     this.divElement.className = 'js-slider__point';
-    if(!this.isHorizontal) this.divElement.classList.add('js-slider__point_isVertical')
+    if(!this.isHorizontal) this.divElement.classList.add('js-slider__point_vertical')
     this.root.append(this.divElement);
     this.createTooltip(data)
   }

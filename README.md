@@ -35,8 +35,8 @@ $(selector).sliderPlugin();
 | step              | number             | 1                     | Шаг                                                                                             |
 | isHorizontal      | boolean            | true                  | Горизонтальный/Вертикальный                                                                     |
 | isRangeSlider     | boolean            | true                  | Одиночный/Диапазон                                                                               |
-| isTooltip            | boolean            | true                  | Показывает/скрывает флажок                                                                      |
-| isScale           | boolean            | true                  | Показывает/скрывает шкалу                                                                       |
+| hasTooltip            | boolean            | true                  | Показывает/скрывает флажок                                                                      |
+| hasScale           | boolean            | true                  | Показывает/скрывает шкалу                                                                       |
 | scaleQuantity     | number             | 11                    | Количество делений шкалы                                                                        |
 
 # Plugin methods

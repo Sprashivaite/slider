@@ -11,9 +11,9 @@ type viewConfig = {
   target?: HTMLElement;
   isHorizontal: boolean;
   isRangeSlider: boolean;
-  isTooltip: boolean;
-  isScale: boolean;
-  isProgressBar: boolean;
+  hasTooltip: boolean;
+  hasScale: boolean;
+  hasProgressBar: boolean;
 };
 
 type viewElements = {
@@ -33,9 +33,9 @@ type userConfig = {
   target?: HTMLElement;
   isHorizontal?: boolean;
   isRangeSlider?: boolean;
-  isTooltip?: boolean;
-  isScale?: boolean;
-  isProgressBar?: boolean;  
+  hasTooltip?: boolean;
+  hasScale?: boolean;
+  hasProgressBar?: boolean;  
 };
 
 type pointData = {

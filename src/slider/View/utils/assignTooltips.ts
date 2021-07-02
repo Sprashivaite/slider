@@ -2,7 +2,7 @@ import View from '../View';
 
 const assignTooltips = (view: View): void => {
   const { config, firstPoint, secondPoint, tooltipTotal } = view;
-  const invalid = !config.isTooltip || !config.isRangeSlider;
+  const invalid = !config.hasTooltip || !config.isRangeSlider;
   if (invalid) return;
   const firstOffset = config.isHorizontal ? 'right' : 'bottom';
   const secondOffset = config.isHorizontal ? 'left' : 'top';

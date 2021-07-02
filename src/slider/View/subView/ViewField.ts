@@ -14,10 +14,8 @@ class ViewField {
   private createField(data: viewConfig & viewElements): void {
     const { isHorizontal, root } = data;
     this.divElement = document.createElement('div');
-    const styleDirection = isHorizontal
-      ? 'js-slider__field_horizontal'
-      : 'js-slider__field_vertical';
-    this.divElement.className = `${styleDirection}`;
+    this.divElement.className = 'js-slider__field';
+    if(!isHorizontal) this.divElement.classList.add('js-slider__field_vertical');
     root!.append(this.divElement);
   }
 }

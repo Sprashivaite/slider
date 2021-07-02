@@ -112,9 +112,9 @@ class Model extends Observer {
 
   private roundByStep(value: number): number {
     const { step } = this.config;
-    const isFractional = Number.isInteger(step);
+    const isInteger= Number.isInteger(step);
     const digitsAfterDot = String(step).split('.').pop()!.length;
-    return !isFractional ? Number(value.toFixed(digitsAfterDot)) : Number(value.toFixed(0));
+    return !isInteger ? Number(value.toFixed(digitsAfterDot)) : Number(value.toFixed(0));
   }
 
   private calcValue(data: pointData): number {
