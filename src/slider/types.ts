@@ -44,6 +44,11 @@ type pointData = {
   value?: number;
 };
 
+type pointValue = {
+  pointName: string;
+  value: number;
+};
+
 enum eventTypes {
   valueChanged = 'valueChanged',
   pointStopped = 'pointStopped',
@@ -61,6 +66,7 @@ export {
   userConfig,
   viewConfig,
   pointData,
+  pointValue,
   eventTypes,
   viewElements,
   eventName,

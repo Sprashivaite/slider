@@ -1,5 +1,5 @@
 import { DEFAULT_MODEL_CONFIG } from '../defaults';
-import { pointData, modelConfig, userConfig, eventTypes } from '../types';
+import { pointData, pointValue, modelConfig, userConfig, eventTypes } from '../types';
 import Observer from '../Observer/Observer';
 
 class Model extends Observer {
@@ -18,8 +18,8 @@ class Model extends Observer {
 
   notifyListeners(): void{
     const { firstValue, secondValue } = this.config; 
-    this.moveToValue({value: firstValue, pointName: 'firstPoint', pointOffset: 0})
-    this.moveToValue({value: secondValue, pointName: 'secondPoint', pointOffset: 0})
+    this.changeValue({value: firstValue, pointName: 'firstPoint'})
+    this.changeValue({value: secondValue, pointName: 'secondPoint'})
     this.updateSteps()
   }
 
@@ -45,11 +45,11 @@ class Model extends Observer {
     this.updatePoint({ ...data, pointOffset: stopPoint });
   }
 
-  moveToValue(data: pointData): void {
+  changeValue(data: pointValue): void {
     const { max, min } = this.config;
-    const { value } = data;
+    const {value, pointName} = data
     const result: number = (100 / (max - min)) * (value! - min);
-    this.updatePoint({ ...data, pointOffset: result });
+    this.updatePoint({ value, pointName, pointOffset: result });
   }
 
   updatePoint(data: pointData): void {

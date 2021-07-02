@@ -44,10 +44,10 @@ class SliderPlugin {
     if (result > this.model.config.max) result = this.model.config.max;
     if (result < this.model.config.min) result = this.model.config.min;
     if (point === 'firstPoint') {
-      this.model.moveToValue({ value: result, ...this.view.getFirstPointData()});
+      this.model.changeValue({ value: result, pointName: 'firstPoint'});
     }
     if (point === 'secondPoint') {
-      this.model.moveToValue({ value: result, ...this.view.getSecondPointData() });
+      this.model.changeValue({ value: result, pointName: 'secondPoint'});
     }
     this.view.notifyListeners();
   }
