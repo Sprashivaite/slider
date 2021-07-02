@@ -17,11 +17,11 @@ class Presenter {
     const { model, view } = this;
     model
       .subscribe(eventTypes.stepsUpdate, view.updateScale.bind(view))
-      .subscribe(eventTypes.updatePoint, view.changeView.bind(view))
+      .subscribe(eventTypes.updatePoint, view.updatePoints.bind(view))
     view
       .subscribe(eventTypes.valueChanged, model.changeValue.bind(model))
-      .subscribe(eventTypes.pointStopped, model.calcStopPoint.bind(model))
       .subscribe(eventTypes.pointMoving, model.updatePoint.bind(model))
+      .subscribe(eventTypes.pointStopped, model.calcStopPoint.bind(model))
   }
 }
 export default Presenter;

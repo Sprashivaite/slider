@@ -31,7 +31,7 @@ class SliderPlugin extends Observer {
   constructor(config: userConfig) {
     super()
     this.model = new Model();
-    this.view = new View({target: config.target});
+    this.view = new View();
     this.presenter = new Presenter(this.model, this.view);
     this.setConfig(config)
   }

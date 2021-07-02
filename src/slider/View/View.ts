@@ -56,7 +56,7 @@ class View extends Observer {
     }
   }
 
-  changeView(data: pointData): void {
+  updatePoints(data: pointData): void {
     const { pointOffset, pointName, value } = data;
     if (pointName === 'firstPoint') {
       this.firstPoint.movePoint(pointOffset);
@@ -75,26 +75,11 @@ class View extends Observer {
     this.addScaleHandler();
   }
 
-  getFirstPointData(): pointData {
-    return {
-      pointOffset: this.firstPoint.getPointOffset(),
-      pointName: 'firstPoint',
-    };
-  }
-
-  getSecondPointData(): pointData {
-    return {
-      pointOffset: this.secondPoint.getPointOffset(),
-      pointName: 'secondPoint',
-    };
-  }
-
   private init(config?: userConfig): void {
     let newConfig = config;
     if (typeof newConfig !== 'object') newConfig = {};
     this.config = { ...DEFAULT_VIEW_CONFIG, ...newConfig };
-    this.validate();
-    this.slider = new ViewContainer(config!.target);
+    this.validate();    
   }
 
   private validate(): void {
@@ -117,6 +102,7 @@ class View extends Observer {
 
   private renderElements(): void {
     const { isRangeSlider } = this.config;
+    this.slider = new ViewContainer(this.config.target);
     this.field = new ViewField({ ...this.config, root: this.slider.divElement });
     this.firstPoint = new ViewPoint({...this.config, root: this.field.divElement });
     this.progressBar = new ViewProgressBar({
@@ -149,9 +135,8 @@ class View extends Observer {
   }
 
   private addHandlers(): void {
-    this.addFieldHandler();
     this.getMouseCoords();
-    this.addScaleHandler();
+    this.addFieldHandler();
     this.addPointHandler();
   }
 
@@ -166,6 +151,20 @@ class View extends Observer {
       this.mouseCoords = (this.mouseCoords * 100) / this.field.divElement[size];
     };
     document.addEventListener('mousemove', Coords);
+  }
+
+  private getFirstPointData(): pointData {
+    return {
+      pointOffset: this.firstPoint.getPointOffset(),
+      pointName: 'firstPoint',
+    };
+  }
+
+  private getSecondPointData(): pointData {
+    return {
+      pointOffset: this.secondPoint.getPointOffset(),
+      pointName: 'secondPoint',
+    };
   }
 
   private addPointHandler(): void {

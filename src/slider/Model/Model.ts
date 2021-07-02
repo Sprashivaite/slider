@@ -50,12 +50,7 @@ class Model extends Observer {
     this.emit(eventTypes.updatePoint, {...data, value })    
     if(data.pointName === 'firstPoint' && !Number.isNaN(value)) this.config.firstValue = value
     if(data.pointName === 'secondPoint' && !Number.isNaN(value)) this.config.secondValue = value    
-  }  
-
-  updateSteps(): void {
-    const steps = this.calcSteps()
-    this.emit(eventTypes.stepsUpdate, steps);
-  }  
+  }
 
   private init(config?: userConfig): void {
     let newConfig = config;
@@ -64,7 +59,7 @@ class Model extends Observer {
     this.validate();
   }
 
-  private notifyListeners(): void{
+  private notifyListeners(): void {
     const { firstValue, secondValue } = this.config; 
     this.changeValue({value: firstValue, pointName: 'firstPoint'})
     this.changeValue({value: secondValue, pointName: 'secondPoint'})
@@ -109,6 +104,11 @@ class Model extends Observer {
     step = validateLargeNumbers(step);
     this.config = { ...this.config, step };
   }
+
+  private updateSteps(): void {
+    const steps = this.calcSteps()
+    this.emit(eventTypes.stepsUpdate, steps);
+  }  
 
   private roundByStep(value: number): number {
     const { step } = this.config;
