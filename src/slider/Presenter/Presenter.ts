@@ -25,7 +25,7 @@ class Presenter {
       .subscribe(eventTypes.stepsUpdate, view.updateScale.bind(view))
       .subscribe(eventTypes.updatePoint, view.changeView.bind(view))
     view
-      .subscribe(eventTypes.valueChanged, model.moveToValue.bind(model))
+      .subscribe(eventTypes.valueChanged, model.changeValue.bind(model))
       .subscribe(eventTypes.pointStopped, model.calcStopPoint.bind(model))
       .subscribe(eventTypes.pointMoving, model.updatePoint.bind(model))
       .subscribe(eventTypes.elementsRendered, model.notifyListeners.bind(model))
