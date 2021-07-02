@@ -8,10 +8,12 @@ import {
   viewConfig,
   eventName,
   eventCallback,
+  eventTypes
 } from '../types';
 import Model from '../Model/Model';
 import View from '../View/View';
 import Presenter from '../Presenter/Presenter';
+import Observer from '../Observer/Observer';
 
 declare global {
   interface JQuery {
@@ -19,7 +21,7 @@ declare global {
   }
 }
 
-class SliderPlugin {
+class SliderPlugin extends Observer {
   private model!: Model;
 
   private view!: View;
@@ -27,6 +29,7 @@ class SliderPlugin {
   private presenter!: Presenter;
 
   constructor(config: userConfig) {
+    super()
     this.initApp(config);
   }
 
@@ -58,17 +61,20 @@ class SliderPlugin {
     this.model.setConfig(modelUserConfig);
     if (Object.keys(viewUserConfig).length > 0) {
       this.view.setConfig(viewUserConfig);
-    }
+    }    
+    this.emit(eventTypes.configChanged, { ...this.model.config, ...this.view.config })
   }
 
   getConfig(): viewConfig & modelConfig {
     return { ...this.model.config, ...this.view.config };
   }
 
-  subscribe(event: eventName, listener: eventCallback): void {
+  subscribe(event: eventName, listener: eventCallback): this {
+    super.subscribe(event, listener)
     this.model.subscribe(event, listener);
     this.view.subscribe(event, listener);
     this.view.notifyListeners();
+    return this
   }
 }
 

@@ -1,6 +1,6 @@
 import { pointData, eventTypes,  eventName,  eventCallback } from '../types';
 
-type data = pointData |  number[] | undefined;
+type data = pointData |  number[] | undefined | any;
 
 class Observer {
   events: {[key in eventTypes]?: eventCallback[]};
