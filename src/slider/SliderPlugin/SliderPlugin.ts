@@ -35,8 +35,6 @@ class SliderPlugin {
     const viewUserConfig = separateViewConfig(config);
     this.view = new View(viewUserConfig);
     this.model = new Model(modelUserConfig);
-    this.view.renderElements();
-    this.view.addHandlers();
     this.presenter = new Presenter(this.model, this.view);
     
   }

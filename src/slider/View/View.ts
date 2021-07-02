@@ -38,6 +38,8 @@ class View extends Observer {
     super();
     this.slider = new ViewContainer(config.target);
     this.init(config);
+    this.renderElements();
+    this.addHandlers()
   }
 
   setConfig(config: userConfig): void {
@@ -60,45 +62,6 @@ class View extends Observer {
     }
   }
 
-  renderElements(): void {
-    const { isRangeSlider } = this.config;
-    this.field = new ViewField({ ...this.config, root: this.slider.divElement });
-    this.firstPoint = new ViewPoint({...this.config, root: this.field.divElement });
-    this.progressBar = new ViewProgressBar({
-      root: this.field.divElement,
-      ...this.config,
-      ...this.getElements()
-    });
-    this.scale = new ViewScale({ ...this.config, root: this.slider.divElement });
-    if (isRangeSlider) {
-      this.secondPoint = new ViewPoint({ ...this.config, root: this.field.divElement });
-      this.tooltipTotal = new ViewTooltip({ ...this.config, root: this.firstPoint.divElement }, );
-      this.tooltipTotal.divElement.classList.add('-js-slider__tooltip_type_total')
-      this.progressBar = new ViewProgressBar({
-        root: this.field.divElement,
-        ...this.config,
-        ...this.getElements(),
-      });      
-    }
-  }
-
-  removeElements(): void {
-    [
-      this.firstPoint.divElement,
-      this.field.divElement,
-      this.progressBar.divElement,
-      this.scale.divElement,
-    ].forEach((item) => item.remove());
-    if (this.config.isRangeSlider) this.secondPoint.divElement.remove()
-  }
-
-  addHandlers(): void {
-    this.addFieldHandler();
-    this.getMouseCoords();
-    this.addScaleHandler();
-    this.addPointHandler();
-  }
-
   changeView(data: pointData): void {
     const { pointOffset, pointName, value } = data;
     if (pointName === 'firstPoint') {
@@ -111,6 +74,7 @@ class View extends Observer {
     }
     this.progressBar.progressBarMove();
     assignTooltips(this);
+    // this.notifyListeners()
   }
 
   updateScale(data: number[]): void {
@@ -162,6 +126,45 @@ class View extends Observer {
       hasProgressBar,
       hasScale,
     };
+  }
+
+  private renderElements(): void {
+    const { isRangeSlider } = this.config;
+    this.field = new ViewField({ ...this.config, root: this.slider.divElement });
+    this.firstPoint = new ViewPoint({...this.config, root: this.field.divElement });
+    this.progressBar = new ViewProgressBar({
+      root: this.field.divElement,
+      ...this.config,
+      ...this.getElements()
+    });
+    this.scale = new ViewScale({ ...this.config, root: this.slider.divElement });
+    if (isRangeSlider) {
+      this.secondPoint = new ViewPoint({ ...this.config, root: this.field.divElement });
+      this.tooltipTotal = new ViewTooltip({ ...this.config, root: this.firstPoint.divElement }, );
+      this.tooltipTotal.divElement.classList.add('-js-slider__tooltip_type_total')
+      this.progressBar = new ViewProgressBar({
+        root: this.field.divElement,
+        ...this.config,
+        ...this.getElements(),
+      });      
+    }
+  }
+
+  private removeElements(): void {
+    [
+      this.firstPoint.divElement,
+      this.field.divElement,
+      this.progressBar.divElement,
+      this.scale.divElement,
+    ].forEach((item) => item.remove());
+    if (this.config.isRangeSlider) this.secondPoint.divElement.remove()
+  }
+
+  private addHandlers(): void {
+    this.addFieldHandler();
+    this.getMouseCoords();
+    this.addScaleHandler();
+    this.addPointHandler();
   }
 
   private getMouseCoords(): void {
