@@ -59,6 +59,7 @@
   flex-shrink: 0;
   white-space: nowrap;
   transform: translateY(-120%);
+  user-select: none;
 }
 
 .-js-slider__tooltip_vertical {
@@ -120,6 +121,7 @@
   font-stretch: expanded;
   position: absolute;
   width: 100%;
+  user-select: none;
 }
 
 .js-slider__scale_vertical {
