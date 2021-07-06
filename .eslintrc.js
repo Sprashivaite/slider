@@ -27,6 +27,7 @@ module.exports = {
     "@typescript-eslint/no-shadow": "error",
     "no-unused-vars": "off",
     "no-shadow": "off",
+    "no-undef": "off"
   },
   settings: { 
   },
