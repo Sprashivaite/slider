@@ -131,7 +131,7 @@
   height: 100%;
   right: 30px;
   align-items: flex-end;
-  margin-top: 10px;
+  margin-top: 0px;
   width: auto;
 }
 
@@ -142,7 +142,7 @@
 }
 
 .js-slider__scale_vertical .js-scale__value {
-  transform: translateY(-100%);
+  transform: translateY(-50%);
   height: 15px;
 }
 
