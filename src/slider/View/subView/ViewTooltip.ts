@@ -22,18 +22,22 @@ class Tooltip {
     if(!this.isHorizontal) this.divElement.classList.add('-js-slider__tooltip_vertical')
     this.divElement.innerHTML = "0";
     this.root.append(this.divElement);
-    if(!this.hasTooltip) this.hideTooltip()
+    if(!this.hasTooltip) this.hide()
   }
 
-  changeTooltipValue(value: number): void {
+  changeValue(value: number): void {
     this.divElement.innerHTML = `${value}`;
   }
 
-  hideTooltip(): void {
+  getValue(): number {
+    return Number(this.divElement.innerHTML)
+  }
+
+  hide(): void {
     this.divElement.classList.add("-js-slider__tooltip_hidden");
   }
 
-  showTooltip(): void {
+  show(): void {
     this.divElement.classList.remove("-js-slider__tooltip_hidden");
   }
 

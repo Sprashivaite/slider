@@ -4,12 +4,9 @@ import ViewTooltip from './subView/ViewTooltip';
 import ViewProgressBar from './subView/ViewProgressBar';
 import ViewScale from './subView/ViewScale';
 import ViewContainer from './subView/ViewContainer';
-import assignTooltips from './utils/assignTooltips';
 import { DEFAULT_VIEW_CONFIG } from '../defaults';
 import { ViewConfig, UserConfig, PointData, EventTypes, ViewElements } from '../types';
 import Observer from '../Observer/Observer';
-import isFirstPointClosest from './utils/isFirstPointClosest'
-import demarcatePoints from './utils/demarcatePoints'
 
 class View extends Observer {
   slider!: ViewContainer;
@@ -60,14 +57,14 @@ class View extends Observer {
     const { pointOffset, pointName, value } = data;
     if (pointName === 'firstPoint') {
       this.firstPoint.movePoint(pointOffset);
-      this.firstPoint.tooltip.changeTooltipValue(value!);
+      this.firstPoint.tooltip.changeValue(value!);
     }
     if (pointName === 'secondPoint' && this.config.isRangeSlider) {
       this.secondPoint.movePoint(pointOffset);
-      this.secondPoint.tooltip.changeTooltipValue(value!);
+      this.secondPoint.tooltip.changeValue(value!);
     }
     this.progressBar.progressBarMove();
-    assignTooltips(this);
+    this.joinTooltips();
   }
 
   updateScale(data: number[]): void {
@@ -169,7 +166,7 @@ class View extends Observer {
 
   private addPointHandler(): void {
     const useHandlers = (event: MouseEvent) => {
-      if (!isFirstPointClosest(this, event)) {
+      if (!this.isFirstPointClosest(event)) {
         this.handlePoint(this.secondPoint, this.getSecondPointData.bind(this))
       } else {        
         this.handlePoint(this.firstPoint, this.getFirstPointData.bind(this))
@@ -183,7 +180,7 @@ class View extends Observer {
 
   private addFieldHandler(): void {
     const useHandlers = (event: MouseEvent) => {
-      if (!isFirstPointClosest(this, event)) {
+      if (!this.isFirstPointClosest(event)) {
         this.secondPoint.movePoint(this.mouseCoords);
         this.emit(EventTypes.pointStopped, this.getSecondPointData());
       } else {
@@ -197,7 +194,7 @@ class View extends Observer {
   private addScaleHandler(): void {
     const handleScaleClick = (event: MouseEvent) => {
       const value = event.currentTarget!.innerHTML;
-      if (!isFirstPointClosest(this, event)) {
+      if (!this.isFirstPointClosest(event)) {
         this.emit(EventTypes.valueChanged, { value, ...this.getSecondPointData() });
       } else {
         this.emit(EventTypes.valueChanged, { value, ...this.getFirstPointData() });
@@ -214,8 +211,8 @@ class View extends Observer {
     };
     const emitMouseMove = () => {
       point.movePoint(this.mouseCoords - shift);
-      demarcatePoints(this, data().pointName)
-      assignTooltips(this)
+      this.demarcatePoints(data().pointName)
+      this.joinTooltips()
       this.emit(EventTypes.pointMoving, data());
     };
     emitMouseDown();
@@ -226,6 +223,66 @@ class View extends Observer {
       this.emit(EventTypes.pointStopped, data());
       document.onmouseup = null;
     };
+  }
+
+  private isFirstPointClosest(event: MouseEvent): boolean {
+    const { config, firstPoint, secondPoint, mouseCoords } = this;
+    if (!config.isRangeSlider) return true;
+    if (event.target === firstPoint.divElement) return true;
+    if (event.target === secondPoint.divElement) return false;
+    const firstPointOffset = firstPoint.getPointOffset();
+    const secondPointOffset = secondPoint.getPointOffset();
+    const betweenPoints = (secondPointOffset + firstPointOffset) / 2;
+    const isPointClose = mouseCoords > betweenPoints;
+    if (isPointClose) return false;
+    return true;
+  }
+
+  private demarcatePoints(pointName: string): void {
+    const { config, firstPoint, secondPoint } = this;
+    if (!config.isRangeSlider) return;
+    if (firstPoint.getPointOffset() <= secondPoint.getPointOffset()) return;
+    if (pointName === 'secondPoint') {
+      secondPoint.movePoint(firstPoint.getPointOffset());
+      secondPoint.divElement.classList.add('js-slider__point_target');
+      firstPoint.divElement.classList.remove('js-slider__point_target');
+    } else {
+      firstPoint.movePoint(secondPoint.getPointOffset());
+      firstPoint.divElement.classList.add('js-slider__point_target');
+      secondPoint.divElement.classList.remove('js-slider__point_target');
+    }
+  }
+
+  private joinTooltips(): void {
+    const { config, firstPoint, secondPoint, tooltipTotal } = this;
+    const invalid = !config.hasTooltip || !config.isRangeSlider;
+    if (invalid) return;
+
+    const firstOffset = config.isHorizontal ? 'right' : 'bottom';
+    const secondOffset = config.isHorizontal ? 'left' : 'top';
+    const delimiter = config.isHorizontal ? ' - ' : ' ';
+
+    const firstTooltip = firstPoint.tooltip;
+    const secondTooltip = secondPoint.tooltip;
+
+    const firstTooltipOffset = firstTooltip.divElement.getBoundingClientRect()[firstOffset];
+    const secondTooltipOffset = secondTooltip.divElement.getBoundingClientRect()[secondOffset];
+    const tooltipTotalOffset = `${(secondTooltipOffset - firstTooltipOffset) / 2}px`;
+
+    const firstValue = firstTooltip.getValue()
+    const secondValue = secondTooltip.getValue()
+    const text = `${firstValue}${delimiter}${secondValue}`;
+
+    tooltipTotal.divElement.style[secondOffset] = tooltipTotalOffset;
+    tooltipTotal.divElement.innerHTML = text;
+
+    if (firstTooltipOffset >= secondTooltipOffset) {
+      [firstTooltip, secondTooltip].forEach((tooltip) => tooltip.hide());
+      tooltipTotal.divElement.style.visibility = 'visible'
+    } else {
+      [firstTooltip, secondTooltip].forEach((tooltip) => tooltip.show());
+      tooltipTotal.divElement.style.visibility = 'hidden'
+    }
   }
 }
 export default View;

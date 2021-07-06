@@ -70,8 +70,7 @@ class SliderPlugin extends Observer {
   }
 }
 
-(function addFunction($) {
-  
+(function addFunction($) {  
   jQuery.fn.sliderPlugin = function sliderPlugin(config: UserConfig) {
     return this.each(function each() {
       if (!$.data(this, 'sliderPlugin')) {
