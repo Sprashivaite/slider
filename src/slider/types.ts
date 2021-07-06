@@ -1,6 +1,6 @@
 import ViewPoint from "./View/subView/ViewPoint";
 
-type modelConfig = {
+type ModelConfig = {
   firstValue: number;
   secondValue: number;
   isRangeSlider: boolean;
@@ -9,7 +9,7 @@ type modelConfig = {
   step: number;
 };
 
-type viewConfig = {
+type ViewConfig = {
   target?: HTMLElement;
   isHorizontal: boolean;
   isRangeSlider: boolean;
@@ -18,7 +18,7 @@ type viewConfig = {
   hasProgressBar: boolean;
 };
 
-type viewElements = {
+type ViewElements = {
   slider?: HTMLElement;
   field?: HTMLElement;
   firstPoint?: HTMLElement;
@@ -26,7 +26,7 @@ type viewElements = {
   root?: HTMLElement;
 };
 
-type userConfig = {  
+type UserConfig = {  
   firstValue?: number;
   secondValue?: number;
   max?: number;
@@ -40,24 +40,13 @@ type userConfig = {
   hasProgressBar?: boolean;  
 };
 
-type pointData = {
-  pointOffset: number;
-  pointName: string;
-  value?: number;
-};
-
-type pointValue = {
-  pointName: string;
-  value: number;
-};
-
-type progressBar = {
+type ProgressBar = {
   root: HTMLElement,
   firstPoint: ViewPoint,
   secondPoint?: ViewPoint
 }
 
-enum eventTypes {
+enum EventTypes {
   valueChanged = 'valueChanged',
   pointStopped = 'pointStopped',
   pointMoving = 'pointMoving',
@@ -67,18 +56,35 @@ enum eventTypes {
   elementsRendered = 'elementsRendered',
 }
 
-type eventName = keyof typeof eventTypes;
-type eventCallback = (data: any) => void 
+enum PointNames {
+  firstPoint = 'firstPoint',
+  secondPoint = 'secondPoint'
+}
+
+type EventName = keyof typeof EventTypes;
+type PointName = keyof typeof PointNames;
+type EventCallback = (data: any) => void 
+
+type PointData = {
+  pointOffset: number;
+  pointName: PointName;
+  value?: number;
+};
+
+type PointValue = {
+  pointName: PointName;
+  value: number;
+};
 
 export { 
-  modelConfig,
-  userConfig,
-  viewConfig,
-  pointData,
-  pointValue,
-  progressBar,
-  eventTypes,
-  viewElements,
-  eventName,
-  eventCallback
+  ModelConfig,
+  UserConfig,
+  ViewConfig,
+  PointData,
+  PointValue,
+  ProgressBar,
+  EventTypes,
+  ViewElements,
+  EventName,
+  EventCallback
 };

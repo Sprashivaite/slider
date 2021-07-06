@@ -1,22 +1,22 @@
 import { DEFAULT_MODEL_CONFIG } from '../defaults';
-import { pointData, pointValue, modelConfig, userConfig, eventTypes } from '../types';
+import { PointData, PointValue, ModelConfig, UserConfig, EventTypes } from '../types';
 import Observer from '../Observer/Observer';
 
 class Model extends Observer {
-  config!: modelConfig;
+  config!: ModelConfig;
 
-  constructor(config?: userConfig) {
+  constructor(config?: UserConfig) {
     super();
     this.init(config);
   }
 
-  updateConfig(config: userConfig): void {
+  updateConfig(config: UserConfig): void {
     this.config = { ...this.config, ...config };
     this.validate();
     this.notifyListeners();
   }
 
-  calcStopPoint(data: pointData): void {
+  calcStopPoint(data: PointData): void {
     const { max, min, step } = this.config;
     const { pointOffset } = data;
     const stepPercent: number = (100 * step) / (max - min);
@@ -38,21 +38,21 @@ class Model extends Observer {
     this.updatePoint({ ...data, pointOffset: stopPoint });
   }
 
-  changeValue(data: pointValue): void {
+  changeValue(data: PointValue): void {
     const { max, min } = this.config;
     const {value, pointName} = data
     const result: number = (100 / (max - min)) * (value! - min);
     this.calcStopPoint({ value, pointName, pointOffset: result });
   }
 
-  updatePoint(data: pointData): void {
+  updatePoint(data: PointData): void {
     const value = this.calcValue(data);
-    this.emit(eventTypes.updatePoint, {...data, value })    
+    this.emit(EventTypes.updatePoint, {...data, value })    
     if(data.pointName === 'firstPoint' && !Number.isNaN(value)) this.config.firstValue = value
     if(data.pointName === 'secondPoint' && !Number.isNaN(value)) this.config.secondValue = value    
   }
 
-  private init(config?: userConfig): void {
+  private init(config?: UserConfig): void {
     let newConfig = config;
     if(typeof newConfig !== 'object') newConfig = {};
     this.config = { ...DEFAULT_MODEL_CONFIG, ...newConfig };
@@ -107,7 +107,7 @@ class Model extends Observer {
 
   private updateSteps(): void {
     const steps = this.calcSteps()
-    this.emit(eventTypes.stepsUpdate, steps);
+    this.emit(EventTypes.stepsUpdate, steps);
   }  
 
   private roundByStep(value: number): number {
@@ -117,7 +117,7 @@ class Model extends Observer {
     return !isInteger ? Number(value.toFixed(digitsAfterDot)) : Number(value.toFixed(0));
   }
 
-  private calcValue(data: pointData): number {
+  private calcValue(data: PointData): number {
     const { max, min } = this.config;
     const { pointOffset }  = data;
     const value: number = min + (pointOffset * (max - min)) / 100;

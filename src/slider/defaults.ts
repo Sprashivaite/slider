@@ -1,6 +1,6 @@
-import { modelConfig, viewConfig } from './types';
+import { ModelConfig, ViewConfig } from './types';
 
-const DEFAULT_MODEL_CONFIG: modelConfig = {
+const DEFAULT_MODEL_CONFIG: ModelConfig = {
   firstValue: 0, 
   secondValue: 0,
   isRangeSlider: true,
@@ -9,7 +9,7 @@ const DEFAULT_MODEL_CONFIG: modelConfig = {
   step: 1
 };
 
-const DEFAULT_VIEW_CONFIG: viewConfig = {
+const DEFAULT_VIEW_CONFIG: ViewConfig = {
   target: undefined,
   isHorizontal: true,
   isRangeSlider: true,
@@ -18,7 +18,7 @@ const DEFAULT_VIEW_CONFIG: viewConfig = {
   hasScale: true,
 };
 
-const DEFAULT_CONFIG: viewConfig | modelConfig = {
+const DEFAULT_CONFIG: ViewConfig | ModelConfig = {
   ...DEFAULT_MODEL_CONFIG,
   ...DEFAULT_VIEW_CONFIG,
 };

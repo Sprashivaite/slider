@@ -1,4 +1,4 @@
-import { viewConfig, viewElements } from '../../types';
+import { ViewConfig, ViewElements } from '../../types';
 
 class ViewScale {
   divElement!: HTMLElement;
@@ -11,7 +11,7 @@ class ViewScale {
 
   private hasScale!: boolean;
 
-  constructor(data: viewConfig & viewElements) {
+  constructor(data: ViewConfig & ViewElements) {
     this.init(data);
     this.createScale();
   }
@@ -48,7 +48,7 @@ class ViewScale {
     this.divElement.classList.remove('-js-slider__scale_hidden');
   }
 
-  private init(data: viewConfig & viewElements) {
+  private init(data: ViewConfig & ViewElements) {
     const { isHorizontal, hasScale, root } = data;
     this.root = root!;
     this.isHorizontal = isHorizontal;

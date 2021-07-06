@@ -3,12 +3,12 @@ import {
   separateModelConfig,
 } from './utils/separateConfig';
 import {
-  modelConfig,
-  userConfig,
-  viewConfig,
-  eventName,
-  eventCallback,
-  eventTypes
+  ModelConfig,
+  UserConfig,
+  ViewConfig,
+  EventName,
+  EventCallback,
+  EventTypes
 } from '../types';
 import Model from '../Model/Model';
 import View from '../View/View';
@@ -17,7 +17,7 @@ import Observer from '../Observer/Observer';
 
 declare global {
   interface JQuery {
-    sliderPlugin: (config: userConfig) => this;
+    sliderPlugin: (config: UserConfig) => this;
   }
 }
 
@@ -28,7 +28,7 @@ class SliderPlugin extends Observer {
 
   private presenter!: Presenter;
 
-  constructor(config: userConfig) {
+  constructor(config: UserConfig) {
     super()
     this.model = new Model();
     this.view = new View();
@@ -48,21 +48,21 @@ class SliderPlugin extends Observer {
     }
   }
 
-  updateConfig(config: userConfig): void {
+  updateConfig(config: UserConfig): void {
     const modelUserConfig = separateModelConfig(config);
     const viewUserConfig = separateViewConfig(config);
     if (Object.keys(viewUserConfig).length > 0) {
       this.view.updateConfig(viewUserConfig);
     }
     this.model.updateConfig(modelUserConfig);
-    this.emit(eventTypes.configChanged, { ...this.model.config, ...this.view.config })
+    this.emit(EventTypes.configChanged, { ...this.model.config, ...this.view.config })
   }
 
-  getConfig(): viewConfig & modelConfig {
+  getConfig(): ViewConfig & ModelConfig {
     return { ...this.model.config, ...this.view.config };
   }
 
-  subscribe(event: eventName, listener: eventCallback): this {
+  subscribe(event: EventName, listener: EventCallback): this {
     super.subscribe(event, listener)
     this.model.subscribe(event, listener);
     this.view.subscribe(event, listener);
@@ -72,7 +72,7 @@ class SliderPlugin extends Observer {
 
 (function addFunction($) {
   
-  jQuery.fn.sliderPlugin = function sliderPlugin(config: userConfig) {
+  jQuery.fn.sliderPlugin = function sliderPlugin(config: UserConfig) {
     return this.each(function each() {
       if (!$.data(this, 'sliderPlugin')) {
         $.data(

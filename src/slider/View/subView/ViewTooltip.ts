@@ -1,4 +1,4 @@
-import { viewConfig, viewElements } from '../../types';
+import { ViewConfig, ViewElements } from '../../types';
 
 class Tooltip {
   divElement!: HTMLElement;
@@ -11,7 +11,7 @@ class Tooltip {
 
   private hasTooltip!: boolean;
 
-  constructor(data: viewConfig & viewElements) {
+  constructor(data: ViewConfig & ViewElements) {
     this.init(data)
     this.createTooltip()
   }
@@ -37,7 +37,7 @@ class Tooltip {
     this.divElement.classList.remove("-js-slider__tooltip_hidden");
   }
 
-  private init(data: viewConfig & viewElements): void { 
+  private init(data: ViewConfig & ViewElements): void { 
     const { isHorizontal, isRangeSlider, hasTooltip, root } = data
     this.root = root!;
     this.isHorizontal = isHorizontal

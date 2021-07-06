@@ -6,7 +6,7 @@ import ViewScale from './subView/ViewScale';
 import ViewContainer from './subView/ViewContainer';
 import assignTooltips from './utils/assignTooltips';
 import { DEFAULT_VIEW_CONFIG } from '../defaults';
-import { viewConfig, userConfig, pointData, eventTypes, viewElements } from '../types';
+import { ViewConfig, UserConfig, PointData, EventTypes, ViewElements } from '../types';
 import Observer from '../Observer/Observer';
 import isFirstPointClosest from './utils/isFirstPointClosest'
 import demarcatePoints from './utils/demarcatePoints'
@@ -24,20 +24,20 @@ class View extends Observer {
 
   scale!: ViewScale;
 
-  config!: viewConfig;
+  config!: ViewConfig;
 
   tooltipTotal!: ViewTooltip;
 
   mouseCoords!: number;
 
-  constructor(config?: userConfig) {
+  constructor(config?: UserConfig) {
     super();
     this.init(config);    
     this.renderElements();
     this.addHandlers()
   }
 
-  updateConfig(config: userConfig): void {
+  updateConfig(config: UserConfig): void {
     this.config = { ...this.config, ...config };
     this.validate();
     this.removeElements();
@@ -45,7 +45,7 @@ class View extends Observer {
     this.addHandlers();
   }
 
-  getElements(): viewElements { 
+  getElements(): ViewElements { 
     let secondPoint
     if(this.secondPoint) secondPoint = this.secondPoint.divElement
     return {
@@ -56,7 +56,7 @@ class View extends Observer {
     }
   }
 
-  updatePoints(data: pointData): void {
+  updatePoints(data: PointData): void {
     const { pointOffset, pointName, value } = data;
     if (pointName === 'firstPoint') {
       this.firstPoint.movePoint(pointOffset);
@@ -75,7 +75,7 @@ class View extends Observer {
     this.addScaleHandler();
   }
 
-  private init(config?: userConfig): void {
+  private init(config?: UserConfig): void {
     let newConfig = config;
     if (typeof newConfig !== 'object') newConfig = {};
     this.config = { ...DEFAULT_VIEW_CONFIG, ...newConfig };
@@ -153,14 +153,14 @@ class View extends Observer {
     document.addEventListener('mousemove', Coords);
   }
 
-  private getFirstPointData(): pointData {
+  private getFirstPointData(): PointData {
     return {
       pointOffset: this.firstPoint.getPointOffset(),
       pointName: 'firstPoint',
     };
   }
 
-  private getSecondPointData(): pointData {
+  private getSecondPointData(): PointData {
     return {
       pointOffset: this.secondPoint.getPointOffset(),
       pointName: 'secondPoint',
@@ -185,10 +185,10 @@ class View extends Observer {
     const useHandlers = (event: MouseEvent) => {
       if (!isFirstPointClosest(this, event)) {
         this.secondPoint.movePoint(this.mouseCoords);
-        this.emit(eventTypes.pointStopped, this.getSecondPointData());
+        this.emit(EventTypes.pointStopped, this.getSecondPointData());
       } else {
         this.firstPoint.movePoint(this.mouseCoords);
-        this.emit(eventTypes.pointStopped, this.getFirstPointData());
+        this.emit(EventTypes.pointStopped, this.getFirstPointData());
       }
     };
     this.field.divElement.addEventListener('mousedown', useHandlers);
@@ -198,16 +198,16 @@ class View extends Observer {
     const handleScaleClick = (event: MouseEvent) => {
       const value = event.currentTarget!.innerHTML;
       if (!isFirstPointClosest(this, event)) {
-        this.emit(eventTypes.valueChanged, { value, ...this.getSecondPointData() });
+        this.emit(EventTypes.valueChanged, { value, ...this.getSecondPointData() });
       } else {
-        this.emit(eventTypes.valueChanged, { value, ...this.getFirstPointData() });
+        this.emit(EventTypes.valueChanged, { value, ...this.getFirstPointData() });
       }
     };
     const scaleChildren = this.field.divElement.nextElementSibling!.querySelectorAll('div');
     scaleChildren.forEach((element) => element.addEventListener('click', handleScaleClick));
   }
 
-  private handlePoint(point: ViewPoint, data: () => pointData): void {
+  private handlePoint(point: ViewPoint, data: () => PointData): void {
     let shift: number;   
     const emitMouseDown = () => {
       shift = this.mouseCoords - point.getPointOffset();
@@ -216,14 +216,14 @@ class View extends Observer {
       point.movePoint(this.mouseCoords - shift);
       demarcatePoints(this, data().pointName)
       assignTooltips(this)
-      this.emit(eventTypes.pointMoving, data());
+      this.emit(EventTypes.pointMoving, data());
     };
     emitMouseDown();
     emitMouseMove();
     document.addEventListener('mousemove', emitMouseMove);
     document.onmouseup = () => {
       document.removeEventListener('mousemove', emitMouseMove);
-      this.emit(eventTypes.pointStopped, data());
+      this.emit(EventTypes.pointStopped, data());
       document.onmouseup = null;
     };
   }

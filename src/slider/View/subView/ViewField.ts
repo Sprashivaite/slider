@@ -1,13 +1,13 @@
-import { viewConfig, viewElements } from '../../types';
+import { ViewConfig, ViewElements } from '../../types';
 
 class ViewField {
   divElement!: HTMLDivElement;
 
-  constructor(data: viewConfig & viewElements) {
+  constructor(data: ViewConfig & ViewElements) {
     this.createField(data);
   }
 
-  private createField(data: viewConfig & viewElements): void {
+  private createField(data: ViewConfig & ViewElements): void {
     const { isHorizontal, root } = data;
     this.divElement = document.createElement('div');
     this.divElement.className = 'js-slider__field';

@@ -1,5 +1,5 @@
 import SliderPlugin from '../slider/SliderPlugin/SliderPlugin';
-import { pointData, eventTypes, modelConfig } from '../slider/types';
+import { PointData, EventTypes, ModelConfig } from '../slider/types';
 
 class Config {
   private slider: SliderPlugin;
@@ -57,7 +57,7 @@ class Config {
   }
 
   private initFirstValue(): void {
-    const updateValue = (data: pointData) => {
+    const updateValue = (data: PointData) => {
       const { value, pointName } = data
       if(pointName === 'firstPoint') this.firstPoint.value = `${value}`;      
     };
@@ -73,7 +73,7 @@ class Config {
       this.secondPoint.setAttribute('disabled', 'true');
       return;
     }
-    const updateValue = (data: pointData) => {
+    const updateValue = (data: PointData) => {
       const { value, pointName } = data
       if(pointName === 'secondPoint') this.secondPoint.value = `${value}`;
     };    
@@ -86,8 +86,8 @@ class Config {
   }
 
   private initMinValue(): void {
-    const changeMin = (data: modelConfig) => {this.min.value = `${data.min}`}
-    this.slider.subscribe(eventTypes.configChanged, changeMin)
+    const changeMin = (data: ModelConfig) => {this.min.value = `${data.min}`}
+    this.slider.subscribe(EventTypes.configChanged, changeMin)
     const minChanged = () => {
       this.slider.updateConfig({ min: this.min.valueAsNumber });
     };
@@ -95,8 +95,8 @@ class Config {
   }
 
   private initMaxValue(): void {
-    const changeMax = (data: modelConfig) => {this.max.value = `${data.max}`}
-    this.slider.subscribe(eventTypes.configChanged, changeMax)
+    const changeMax = (data: ModelConfig) => {this.max.value = `${data.max}`}
+    this.slider.subscribe(EventTypes.configChanged, changeMax)
     const maxChanged = () => {
       this.slider.updateConfig({ max: Number(this.max.value) });
     };
@@ -104,8 +104,8 @@ class Config {
   }
 
   private initStep(): void {
-    const changeStep = (data: modelConfig) => {this.step.value = `${data.step}`}
-    this.slider.subscribe(eventTypes.configChanged, changeStep)
+    const changeStep = (data: ModelConfig) => {this.step.value = `${data.step}`}
+    this.slider.subscribe(EventTypes.configChanged, changeStep)
     const stepChanged = () => {
       this.slider.updateConfig({ step: Number(this.step.value) });
     };

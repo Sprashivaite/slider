@@ -1,4 +1,4 @@
-import { viewConfig, progressBar } from '../../types';
+import { ViewConfig, ProgressBar } from '../../types';
 import ViewPoint from './ViewPoint';
 
 class ViewProgressBar {
@@ -18,7 +18,7 @@ class ViewProgressBar {
 
   private styleDirection!: string;
 
-  constructor(data: viewConfig & progressBar) {
+  constructor(data: ViewConfig & ProgressBar) {
     this.init(data);
     this.createProgressBar()
   }
@@ -46,7 +46,7 @@ class ViewProgressBar {
     this.divElement.classList.remove('-js-slider__bar_hide');
   }
 
-  private init(data: viewConfig & progressBar): void {
+  private init(data: ViewConfig & ProgressBar): void {
     const {isHorizontal, isRangeSlider, hasProgressBar, firstPoint, secondPoint, root} = data
     this.root = root!;
     this.firstPoint = firstPoint!;

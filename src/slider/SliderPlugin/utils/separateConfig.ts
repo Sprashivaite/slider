@@ -1,17 +1,17 @@
 import { DEFAULT_MODEL_CONFIG, DEFAULT_VIEW_CONFIG } from '../../defaults';
-import { userConfig } from '../../types';
+import { UserConfig } from '../../types';
 
-const separateViewConfig = (config: userConfig): userConfig => {
+const separateViewConfig = (config: UserConfig): UserConfig => {
   const viewConfigKeys = Object.keys(DEFAULT_VIEW_CONFIG);
   const userConfigEntries = Object.entries(config);
-  let viewConfig: userConfig = {};
+  let viewConfig: UserConfig = {};
   userConfigEntries.forEach(([key, value]) => {
     if (viewConfigKeys.includes(key)) viewConfig = {...viewConfig, [key]: value}
   });
   return viewConfig;
 };
 
-const separateModelConfig = (config: userConfig): userConfig => {
+const separateModelConfig = (config: UserConfig): UserConfig => {
   const modelConfigKeys = Object.keys(DEFAULT_MODEL_CONFIG);
   const userConfigEntries = Object.entries(config);
   let modelConfig = {};

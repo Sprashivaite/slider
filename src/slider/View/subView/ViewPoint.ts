@@ -1,4 +1,4 @@
-import { viewConfig, viewElements } from '../../types';
+import { ViewConfig, ViewElements } from '../../types';
 import ViewTooltip from './ViewTooltip'
 
 class ViewPoint {
@@ -12,12 +12,12 @@ class ViewPoint {
 
   private isRangeSlider!: boolean;  
 
-  constructor(data: viewConfig & viewElements) {
+  constructor(data: ViewConfig & ViewElements) {
     this.init(data);
     this.createPoint(data)
   }
 
-  createPoint(data: viewConfig & viewElements): void {
+  createPoint(data: ViewConfig & ViewElements): void {
     this.divElement = document.createElement('div');
     this.divElement.className = 'js-slider__point';
     if(!this.isHorizontal) this.divElement.classList.add('js-slider__point_vertical')
@@ -25,7 +25,7 @@ class ViewPoint {
     this.createTooltip(data)
   }
 
-  private createTooltip(data: viewConfig & viewElements): void{
+  private createTooltip(data: ViewConfig & ViewElements): void{
     this.tooltip = new ViewTooltip({...data, root: this.divElement})
   }
 
@@ -45,7 +45,7 @@ class ViewPoint {
     return result;
   }
 
-  private init(data: viewConfig & viewElements): void {
+  private init(data: ViewConfig & ViewElements): void {
     const { isHorizontal, isRangeSlider, root} = data
     this.root = root!;
     this.isHorizontal = isHorizontal;
