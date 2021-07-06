@@ -89,7 +89,7 @@ class Config {
     const changeMin = (data: modelConfig) => {this.min.value = `${data.min}`}
     this.slider.subscribe(eventTypes.configChanged, changeMin)
     const minChanged = () => {
-      this.slider.setConfig({ min: this.min.valueAsNumber });
+      this.slider.updateConfig({ min: this.min.valueAsNumber });
     };
     this.min.addEventListener('change', minChanged);
   }
@@ -98,7 +98,7 @@ class Config {
     const changeMax = (data: modelConfig) => {this.max.value = `${data.max}`}
     this.slider.subscribe(eventTypes.configChanged, changeMax)
     const maxChanged = () => {
-      this.slider.setConfig({ max: Number(this.max.value) });
+      this.slider.updateConfig({ max: Number(this.max.value) });
     };
     this.max.addEventListener('change', maxChanged);
   }
@@ -107,35 +107,35 @@ class Config {
     const changeStep = (data: modelConfig) => {this.step.value = `${data.step}`}
     this.slider.subscribe(eventTypes.configChanged, changeStep)
     const stepChanged = () => {
-      this.slider.setConfig({ step: Number(this.step.value) });
+      this.slider.updateConfig({ step: Number(this.step.value) });
     };
     this.step.addEventListener('change', stepChanged);
   }
 
   private initTooltip(): void {
     const tooltipChanged = () => {
-      this.slider.setConfig({hasTooltip: !this.slider.getConfig().hasTooltip})
+      this.slider.updateConfig({hasTooltip: !this.slider.getConfig().hasTooltip})
     };
     this.tooltip.addEventListener('change', tooltipChanged);
   }
 
   private initScale(): void {
     const scaleChanged = () => {
-      this.slider.setConfig({hasScale: !this.slider.getConfig().hasScale})
+      this.slider.updateConfig({hasScale: !this.slider.getConfig().hasScale})
     };
     this.scale.addEventListener('change', scaleChanged);
   }
 
   private initOrientation(): void {
     const orientationChanged = () => {
-      this.slider.setConfig({isHorizontal: !this.slider.getConfig().isHorizontal})
+      this.slider.updateConfig({isHorizontal: !this.slider.getConfig().isHorizontal})
     };
     this.orientation.addEventListener('change', orientationChanged);
   }
 
   private initRange(): void {
     const rangeChanged = () => {
-      this.slider.setConfig({isRangeSlider: !this.slider.getConfig().isRangeSlider})
+      this.slider.updateConfig({isRangeSlider: !this.slider.getConfig().isRangeSlider})
     };
     this.range.addEventListener('change', rangeChanged);
   }

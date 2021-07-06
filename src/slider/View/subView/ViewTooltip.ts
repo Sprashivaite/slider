@@ -30,11 +30,11 @@ class Tooltip {
   }
 
   hideTooltip(): void {
-    this.divElement.classList.add("-js-slider__tooltip_visibility_hide");
+    this.divElement.classList.add("-js-slider__tooltip_hidden");
   }
 
   showTooltip(): void {
-    this.divElement.classList.remove("-js-slider__tooltip_visibility_hide");
+    this.divElement.classList.remove("-js-slider__tooltip_hidden");
   }
 
   private init(data: viewConfig & viewElements): void { 

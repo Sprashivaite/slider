@@ -74,7 +74,7 @@
   visibility: hidden;
 }
 
-.-js-slider__tooltip_visibility_hide {
+.-js-slider__tooltip_hidden {
   visibility: hidden;
 }
 
@@ -110,7 +110,7 @@
   background-color: #6fcf97;
 }
 
-.-js-slider__bar_visibility_hide {
+.-js-slider__bar_hidden {
   opacity: 0;
 }
 
@@ -146,6 +146,6 @@
   height: 15px;
 }
 
-.-js-slider__scale_visibility_hide {
+.-js-slider__scale_hidden {
   visibility: hidden;
 }

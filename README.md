@@ -51,7 +51,7 @@ slider.setValue('secondPoint', number)
 ```
 ### set config
 ```javascript
-slider.setConfig(parameters)
+slider.updateConfig(parameters)
 ```
 ### subscribe
 ```javascript

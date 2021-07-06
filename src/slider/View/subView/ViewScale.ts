@@ -41,11 +41,11 @@ class ViewScale {
   }
 
   hideScale(): void {
-    this.divElement.classList.add('-js-slider__scale_visibility_hide');
+    this.divElement.classList.add('-js-slider__scale_hidden');
   }
 
   showScale(): void {
-    this.divElement.classList.remove('-js-slider__scale_visibility_hide');
+    this.divElement.classList.remove('-js-slider__scale_hidden');
   }
 
   private init(data: viewConfig & viewElements) {
@@ -59,10 +59,10 @@ class ViewScale {
     const scaleChildren = Array.from(this.divElement.children);
     const current = this.isHorizontal ? 'left' : 'top';
     const previous = this.isHorizontal ? 'right' : 'bottom';
-    const offset = 5;
+    const OFFSET = 5;
     const isClose = (item: Element) => (
       item.getBoundingClientRect()[current] <
-      item.previousElementSibling!.getBoundingClientRect()[previous] + offset
+      item.previousElementSibling!.getBoundingClientRect()[previous] + OFFSET
     )
     const isCloseMax = (item: Element) => (
       item.getBoundingClientRect()[current] <

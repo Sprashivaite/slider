@@ -33,7 +33,7 @@ class SliderPlugin extends Observer {
     this.model = new Model();
     this.view = new View();
     this.presenter = new Presenter(this.model, this.view);
-    this.setConfig(config)
+    this.updateConfig(config)
   }
 
   setValue(point: string, value: number): void {
@@ -48,13 +48,13 @@ class SliderPlugin extends Observer {
     }
   }
 
-  setConfig(config: userConfig): void {
+  updateConfig(config: userConfig): void {
     const modelUserConfig = separateModelConfig(config);
     const viewUserConfig = separateViewConfig(config);
     if (Object.keys(viewUserConfig).length > 0) {
-      this.view.setConfig(viewUserConfig);
+      this.view.updateConfig(viewUserConfig);
     }
-    this.model.setConfig(modelUserConfig);
+    this.model.updateConfig(modelUserConfig);
     this.emit(eventTypes.configChanged, { ...this.model.config, ...this.view.config })
   }
 

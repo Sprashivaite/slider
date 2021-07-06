@@ -10,7 +10,7 @@ class Model extends Observer {
     this.init(config);
   }
 
-  setConfig(config: userConfig): void {
+  updateConfig(config: userConfig): void {
     this.config = { ...this.config, ...config };
     this.validate();
     this.notifyListeners();

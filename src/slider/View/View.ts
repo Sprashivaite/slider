@@ -37,7 +37,7 @@ class View extends Observer {
     this.addHandlers()
   }
 
-  setConfig(config: userConfig): void {
+  updateConfig(config: userConfig): void {
     this.config = { ...this.config, ...config };
     this.validate();
     this.removeElements();
