@@ -74,8 +74,10 @@ class Model extends Observer {
 
   private validateValues(): void {
     let { firstValue, secondValue } = this.config;
-    if (typeof firstValue !== 'number') firstValue = 0;
-    if (typeof secondValue !== 'number') secondValue = 100;
+    if (typeof firstValue !== 'number') firstValue = Number(firstValue);
+    if (typeof secondValue !== 'number') secondValue = Number(secondValue);
+    if (Number.isNaN(firstValue)) firstValue = 0;    
+    if (Number.isNaN(secondValue)) secondValue = 1;    
     if (firstValue >= secondValue) firstValue = secondValue - 1;
     if (secondValue <= firstValue) secondValue = firstValue + 1;
     this.config = { ...this.config, firstValue, secondValue };
@@ -83,8 +85,10 @@ class Model extends Observer {
 
   private validateMinMax(): void {
     let { max, min } = this.config;
-    if (typeof min !== 'number') min = 0;
-    if (typeof max !== 'number') max = 100;
+    if (typeof min !== 'number') min = Number(min);
+    if (typeof max !== 'number') max = Number(max);
+    if (Number.isNaN(max)) max = 100;    
+    if (Number.isNaN(min)) min = 0;    
     if (min >= max) min = max - 1;
     if (max <= min) max = min + 1;
     this.config = { ...this.config, max, min };
@@ -93,7 +97,9 @@ class Model extends Observer {
   private validateStep(): void {
     const { max, min } = this.config;
     let { step } = this.config;
-    if (typeof step !== 'number') step = 1;
+
+    if (typeof step !== 'number') step = Number(step);
+    if (Number.isNaN(step)) step = 1;    
     if (step >= max - min) step = max - min;
     if (step <= 0) step = 1;
     const validateLargeNumbers = (value: number): number => {
