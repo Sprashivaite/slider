@@ -9,55 +9,61 @@ const slider1 = $('.js-slider-container_order_first > .js-slider')
     step: 50,
     min: 0,
     secondValue: 50
+  })  
+
+const slider2 = $('.js-slider-container_order_second > .js-slider')
+  .sliderPlugin({
+    isRangeSlider: true,
+    step: 11,
+    max: 14,
+    min: 0,
+    secondValue: 11
+  })  
+
+const slider3 = $('.js-slider-container_order_third > .js-slider')
+  .sliderPlugin({ 
+    min: -1, 
+    max: 1, 
+    step: 0.2, 
+    isRangeSlider: false 
+  })  
+
+const slider4 = $('.js-slider-container_order_fourth > .js-slider')
+  .sliderPlugin({ 
+    isHorizontal: false, 
+    step: 250, 
+    max: 1500, 
+    secondValue: 250 
+  })  
+
+const slider5 = $('.js-slider-container_order_fifth > .js-slider')
+  .sliderPlugin({
+    isHorizontal: false,
+    isRangeSlider: false,
+    step: 40,
+    max: 100,
+    min: -100,
   })
-  .data('sliderPlugin');;
-
-// const slider2 = $('.js-slider-container_order_second > .js-slider')
-//   .sliderPlugin({
-//     isRangeSlider: true,
-//     step: 11,
-//     max: 14,
-//     min: 0,
-//     secondValue: 11
-//   })
-//   .data('sliderPlugin');
-
-// const slider3 = $('.js-slider-container_order_third > .js-slider')
-//   .sliderPlugin({ min: -1, max: 1, step: 0.2, isRangeSlider: false })
-//   .data('sliderPlugin');
-
-// const slider4 = $('.js-slider-container_order_fourth > .js-slider')
-//   .sliderPlugin({ isHorizontal: false, step: 250, max: 1500, secondValue: 250 })
-//   .data('sliderPlugin');
-
-// const slider5 = $('.js-slider-container_order_fifth > .js-slider')
-//   .sliderPlugin({
-//     isHorizontal: false,
-//     isRangeSlider: false,
-//     step: 40,
-//     max: 100,
-//     min: -100,
-//   })
-//   .data('sliderPlugin');
+  
 
 const configContainer1: HTMLElement = document.querySelector(
   '.js-slider-container_order_first > .config'
 )!;
-// const configContainer2: HTMLElement = document.querySelector(
-//   '.js-slider-container_order_second > .config'
-// )!;
-// const configContainer3: HTMLElement = document.querySelector(
-//   '.js-slider-container_order_third > .config'
-// )!;
-// const configContainer4: HTMLElement = document.querySelector(
-//   '.js-slider-container_order_fourth > .config'
-// )!;
-// const configContainer5: HTMLElement = document.querySelector(
-//   '.js-slider-container_order_fifth > .config'
-// )!;
+const configContainer2: HTMLElement = document.querySelector(
+  '.js-slider-container_order_second > .config'
+)!;
+const configContainer3: HTMLElement = document.querySelector(
+  '.js-slider-container_order_third > .config'
+)!;
+const configContainer4: HTMLElement = document.querySelector(
+  '.js-slider-container_order_fourth > .config'
+)!;
+const configContainer5: HTMLElement = document.querySelector(
+  '.js-slider-container_order_fifth > .config'
+)!;
 
 new Config(slider1, configContainer1);
-// new Config(slider2, configContainer2);
-// new Config(slider3, configContainer3);
-// new Config(slider4, configContainer4);
-// new Config(slider5, configContainer5);
+new Config(slider2, configContainer2);
+new Config(slider3, configContainer3);
+new Config(slider4, configContainer4);
+new Config(slider5, configContainer5);

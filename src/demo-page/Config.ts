@@ -24,8 +24,8 @@ class Config {
 
   private container!: HTMLElement;
 
-  constructor(slider: SliderPlugin, container: HTMLElement) {
-    this.slider = slider;
+  constructor(slider: JQuery<HTMLElement>, container: HTMLElement) {
+    this.slider = slider.data('sliderPlugin');
     this.container = container;
     this.initInputs();
   }
