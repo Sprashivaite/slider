@@ -60,11 +60,10 @@ if(data.pointName === 'firstPoint') target = data.value
 
 slider.subscribe('valueChanged', data)  // Подписать на изменение второго значения
 if(data.pointName === 'secondPoint') target = data.value
+
 slider.subscribe('configChanged', data)  // Подписать на изменение конфигурации
 
-
 ```
-Событие 
 # Architecture
 Всё приложение разделено на три слоя: Model, View, Presenter.
 ### Model 
