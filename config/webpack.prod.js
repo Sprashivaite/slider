@@ -1,7 +1,6 @@
 const merge = require('webpack-merge');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const common = require('./webpack.common');
 const path = require('path');
+const common = require('./webpack.common');
 
 const PATHS = {
   src: path.join(__dirname, '../src'),
@@ -10,7 +9,7 @@ const PATHS = {
 };
 
 module.exports = merge(common, {
-  entry: `./src/sliderPlugin/index.js`,
+  entry: `${PATHS.src}/slider/index.js`,
   output: {
     filename: '[name].js',
     path: `${PATHS.dist}`,
