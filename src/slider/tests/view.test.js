@@ -1,10 +1,15 @@
 import View from '../View/View';
 
-const container = document.querySelector('.slider');
-let view;
-
-beforeEach(() => {
-  view = new View();
+let view = new View();
+afterEach(function () {
+  view.updateConfig({
+    target: undefined,
+    isHorizontal: true,
+    isRangeSlider: true,
+    hasProgressBar: true,
+    hasScale: true,
+    hasTooltip: true,
+  });
 });
 
 describe('наличие класса', () => {
@@ -15,7 +20,7 @@ describe('наличие класса', () => {
 
 describe('установка параметров View', () => {
   it('валидные параметры', () => {
-    view = new View({
+    view.updateConfig({
       isRangeSlider: true,
       isHorizontal: false,
       hasProgressBar: true,
@@ -27,7 +32,7 @@ describe('установка параметров View', () => {
     expect(view.config.hasScale).toBe(false);
   });
   it('невалидные параметры', () => {
-    view = new View({
+    view.updateConfig({
       isRangeSlider: 22,
       isHorizontal: 'value',
       hasProgressBar: '',
@@ -42,8 +47,12 @@ describe('установка параметров View', () => {
 
 describe('Создание/поиск контейнера View', () => {
   it('Установка контейнера', () => {
+    document.body.insertAdjacentHTML(
+      'afterbegin',
+      "<div class='slider' style='width:100px; height: 100px;'></div>"
+    );
     const container = document.querySelector('.slider');
-    const view = new View({ target: container });
+    view.updateConfig({ target: container });
     expect(view.slider.divElement).toEqual(container);
   });
   it('Поиск контейнера по дата селектору', () => {
@@ -51,17 +60,15 @@ describe('Создание/поиск контейнера View', () => {
       'afterbegin',
       "<div data-slider style='width:100px;'></div>"
     );
-    container.classList = 'none';
-    view = new View();
+    view.updateConfig({ target: undefined });
     const div = document.querySelector('[data-slider]');
     expect(view.slider.divElement).toEqual(div);
     div.remove();
-    container.classList = 'slider';
   });
   it('Создание контейнера', () => {
     const div = document.querySelector('.slider');
     div.className = '';
-    view = new View();
+    view.updateConfig({ target: undefined });
     expect(view.slider.divElement).toBeDefined();
     div.className = 'slider';
   });
@@ -69,227 +76,147 @@ describe('Создание/поиск контейнера View', () => {
 
 describe('работа фасада renderElements', () => {
   it('view.renderElements', () => {
-    view.renderElements();
     expect(view.field).toBeDefined();
     expect(view.firstPoint.divElement).toBeDefined();
-    expect(view.firstTooltip).toBeDefined();
+    expect(view.firstPoint.tooltip.divElement).toBeDefined();
+    expect(view.scale.divElement).toBeDefined();
     expect(view.progressBar.divElement).toBeDefined();
-    view.removeElements();
   });
 });
 
-describe('удаление элементов View', () => {
-  it('view.removeElements', () => {
-    view.renderElements();
-    view.removeElements();
-    expect(view.slider.childnodes).toBeUndefined();
+describe('update Points', () => {
+  it('first point', () => {
+    view.updateConfig({ isRangeSlider: false })
+    view.updatePoints({pointOffset: 50, pointName: 'firstPoint', value: 50});    
+    expect(view.firstPoint.getPointOffset()).toBeGreaterThan(49);    
+    expect(view.firstPoint.tooltip.divElement.innerHTML).toBe('50');
+  });
+  it('second point', () => {
+    view.updatePoints({pointOffset: 50, pointName: 'secondPoint', value: 50});    
+    expect(view.secondPoint.getPointOffset()).toBeGreaterThan(49);    
+    expect(view.secondPoint.tooltip.divElement.innerHTML).toBe('50');
   });
 });
 
-describe('движение View point', () => {
-  afterEach(() => {
-    view.removeElements();
-  });
+describe('движение point', () => {
   it('view.point.movePoint horizontal', () => {
-    view = new View({ isRangeSlider: false });
-    view.renderElements();
-    view.firstPoint.movePoint(50);
-    expect(getComputedStyle(view.firstPoint.divElement).left).toBe('50px');
-  });
-  it('view.point.movePoint Vertical', () => {
-    view = new View({ isHorizontal: false, isRangeSlider: false });
-    view.renderElements();
-    view.firstPoint.movePoint(50);
-    expect(getComputedStyle(view.firstPoint.divElement).top).toBe('50px');
+    view.secondPoint.movePoint(50);
+    expect(view.secondPoint.getPointOffset()).toBeGreaterThan(49);    
   });
 });
 
 describe('toggle View tooltip', () => {
-  beforeEach(() => {
-    view.renderElements();
-  });
-  afterEach(() => {
-    view.removeElements();
-  });
   it('view.tooltip.showTooltip', () => {
-    view.firstTooltip.showTooltip();
-    expect(getComputedStyle(view.firstTooltip.divElement).visibility).toBe('visible');
+    view.firstPoint.tooltip.show();
+    expect(
+      getComputedStyle(view.firstPoint.tooltip.divElement).visibility
+    ).toBe('visible');
   });
   it('view.hideTooltip', () => {
-    view.firstTooltip.hideTooltip();
-    expect(getComputedStyle(view.firstTooltip.divElement).visibility).toBe('hidden');
+    view.firstPoint.tooltip.hide();
+    expect(
+      getComputedStyle(view.firstPoint.tooltip.divElement).visibility
+    ).toBe('hidden');
   });
 });
 
 describe('значение View tooltip', () => {
   it('view.changeTooltipValue', () => {
-    view.renderElements();
-    view.firstTooltip.changeTooltipValue(50);
-    expect(view.firstTooltip.divElement.innerHTML).toBe('50');
-    view.removeElements();
-  });
+    view.firstPoint.tooltip.changeValue(50);
+    expect(view.firstPoint.tooltip.divElement.innerHTML).toBe('50');
+  });  
+});
+
+describe('слияние подсказок', () => {
+  it('view.joinTooltips horizontal', () => {
+    view.updatePoints({pointName: 'firstPoint', pointOffset: 50})
+    view.updatePoints({pointName: 'secondPoint', pointOffset: 50})
+    expect(view.secondPoint.tooltip.divElement.classList.contains('-js-slider__tooltip_hidden')).toBeTruthy();
+    expect(view.tooltipTotal.divElement.style.visibility).toBe('visible');
+  });  
+  it('view.joinTooltips vertical', () => {
+    
+    view.updateConfig({ isHorizontal: false })
+    view.updatePoints({pointName: 'firstPoint', pointOffset: 50})
+    view.updatePoints({pointName: 'secondPoint', pointOffset: 50})
+    expect(view.secondPoint.tooltip.divElement.classList.contains('-js-slider__tooltip_hidden')).toBeTruthy();
+    expect(view.tooltipTotal.divElement.style.visibility).toBe('visible');
+  });  
 });
 
 describe('движение View progressBar', () => {
-  it('view.progressBar range', () => {
-    view = new View({ isRangeSlider: true });
-    view.renderElements();
+  it(' range', () => {
     view.secondPoint.movePoint(95);
     view.progressBar.progressBarMove();
     expect(view.progressBar.divElement.offsetWidth).toBeGreaterThan(60);
-    view.removeElements();
   });
-  it('view.progressBar solo', () => {
-    view = new View({ isRangeSlider: false });
-    view.renderElements();
-    view.firstPoint.movePoint(100);
+  it(' solo', () => {
+    view.updateConfig({ isRangeSlider: false });
+    view.firstPoint.movePoint(90);
     view.progressBar.progressBarMove();
-    expect(view.progressBar.divElement.offsetWidth).toBeGreaterThan(90);
-    view.removeElements();
+    expect(view.progressBar.divElement.offsetWidth).toBeGreaterThan(80);
   });
-  it('view.progressBar Vertical', () => {
-    view = new View({ isRangeSlider: false, isHorizontal: false });
-    view.renderElements();
-    view.firstPoint.movePoint(30);
-    view.progressBar.progressBarMove();
-    expect(view.progressBar.divElement.offsetHeight).toBeGreaterThan(10);
-    view.removeElements();
-  });
-  it('view.progressBar range Vertical', () => {
-    view = new View({ isHorizontal: false, isRangeSlider: true });
-    view.renderElements();
-    view.secondPoint.movePoint(60);
-    view.progressBar.progressBarMove();
-    expect(view.progressBar.divElement.offsetHeight).toBeGreaterThan(30);
-    view.removeElements();
+});
+
+describe('шкала', () => {
+  it('scale.updateValues', () => {
+    view.scale.updateValues([0, 50, 100]);
+    expect(view.scale.divElement.children.length).toBe(3);
   });
 });
 
 describe('координаты мыши', () => {
-  afterEach(() => view.removeElements());
   it('view.getMouseCoords horizontal', () => {
-    view.renderElements();
     const fieldOffset = view.field.divElement.getBoundingClientRect().left;
-    view.addHandlers();
     const mousemove = new MouseEvent('mousemove', { clientX: 50 });
     document.dispatchEvent(mousemove);
-
-    expect(view.notifier.mouseCoords).toBe(50 - fieldOffset);
-  });
-  it('view.getMouseCoords vertical', () => {
-    view = new View({ isHorizontal: false });
-    view.renderElements();
-    const fieldOffset = view.field.divElement.getBoundingClientRect().top;
-    view.addHandlers();
-    const mousemove = new MouseEvent('mousemove', { clientY: 50 });
-    document.dispatchEvent(mousemove);
-    expect(view.notifier.mouseCoords).toBe(50 - fieldOffset);
+    expect(view.mouseCoords).toBe(((50 - fieldOffset) * 100) / view.field.divElement.offsetWidth);
   });
 });
 
 describe('события мыши', () => {
   let mousedown; let mousemove; let mouseup;
-
   beforeEach(() => {
-    view = new View({ isRangeSlider: false });
-    view.renderElements();
     mousedown = new MouseEvent('mousedown');
     mousemove = new MouseEvent('mousemove', { clientX: 10 });
     mouseup = new MouseEvent('mouseup');
   });
 
-  afterEach(() => {
-    view.removeElements();
-  });
-
-  it('view.notifier.addFieldHandler defaultPrevented', () => {
-    const contextmenu = new MouseEvent('contextmenu', { cancelable: true });
-    const mousedown = new MouseEvent('mousedown', { cancelable: true });
-
-    view.renderElements();
-    view.addHandlers();
-
-    let contextmenuCalled = true;
-    let mousedownCalled = true;
-
-    view.field.divElement.addEventListener('contextmenu', (event) => {
-      if (event.defaultPrevented) contextmenuCalled = false;
-    });
-
-    view.field.divElement.addEventListener('mousedown', (event) => {
-      if (event.defaultPrevented) mousedownCalled = false;
-    });
-
-    view.field.divElement.dispatchEvent(mousedown);
-    view.field.divElement.dispatchEvent(contextmenu);
-
-    expect(contextmenuCalled).toBeFalsy();
-    expect(mousedownCalled).toBeFalsy();
-  });
-
-  it('view.notifier.addPointHandler mouse down', () => {
+  it('view notify mouseMoving', () => {
     const notify = jasmine.createSpy('notify');
-    view.addHandlers();
-    view.notifier.subscribe('firstPointMouseDown', notify);
-    view.firstPoint.divElement.dispatchEvent(mousedown);
-
-    expect(notify).toHaveBeenCalled();
-    expect(notify.calls.count()).toEqual(1);
-  });
-
-  it('view.notifier.addPointPointr mouse move', () => {
-    const notify = jasmine.createSpy('notify');
-    view.addHandlers();
-    view.notifier.subscribe('firstPointMoving', notify);
+    view.subscribe('pointMoving', notify);
     view.firstPoint.divElement.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);
     expect(notify).toHaveBeenCalled();
-    expect(notify.calls.count()).toEqual(2);
   });
-  it('view.notifier.addPointPointr mouseup', () => {
+  it('view notify mouseStopped', () => {
     const notify = jasmine.createSpy('notify');
-    view.addHandlers();
-    view.notifier.subscribe('firstPointMoving', notify);
-    view.notifier.subscribe('firstPointStopped', notify);
+    view.subscribe('pointStopped', notify);
     view.firstPoint.divElement.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);
     document.dispatchEvent(mouseup);
     expect(notify).toHaveBeenCalled();
-    expect(notify.calls.count()).toEqual(3);
   });
 });
 
-describe('события мыши range', () => {
-  let mousedown; let mousemove; let mouseup; let something;
-
-  beforeEach(() => {
-    view = new View({ isRangeSlider: true });
-    view.renderElements();
-    something = {
-      firstPointMovingPoint: () => {},
-      firstPointStopped: () => {},
-      secondPointMoves: () => {},
-      secondPointStopped: () => {},
-    };
-    mousedown = new MouseEvent('mousedown');
-    mousemove = new MouseEvent('mousemove', { clientX: 50 });
-    mouseup = new MouseEvent('mouseup');
-  });
-
-  afterEach(() => {
-    view.removeElements();
-  });
-  it('view.notifier.addFieldPointr mouse event secondPoint', () => {
+describe('клик по полю', () => {
+  it('', () => {
     const notify = jasmine.createSpy('notify');
-    view.addHandlers();
-    view.notifier.subscribe('secondPointMoves', notify);
-    view.notifier.subscribe('secondPointStopped', notify);
-    view.notifier.mouseCoords = 60;
+    view.subscribe('pointStopped', notify);
+    let mousedown = new MouseEvent('mousedown');
     view.field.divElement.dispatchEvent(mousedown);
-    document.dispatchEvent(mousemove);
-    document.dispatchEvent(mouseup);
-
     expect(notify).toHaveBeenCalled();
-    expect(notify.calls.count()).toEqual(2);
+  });
+});
+
+describe('клик по шкале', () => {
+  it('', () => {
+    view.updateScale([0, 50, 100]);
+    const notify = jasmine.createSpy('notify');
+    view.subscribe('valueChanged', notify);
+    let click = new MouseEvent('click');
+    const scaleChildren = view.scale.divElement.querySelectorAll('div');
+    scaleChildren[0].dispatchEvent(click);
+    expect(notify).toHaveBeenCalled();
   });
 });

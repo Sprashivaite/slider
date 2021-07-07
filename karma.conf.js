@@ -1,4 +1,4 @@
-const testCode = 'src/sliderPlugin/tests/*test.js';
+const testCode = 'src/slider/tests/*test.js';
 const webpackConfig = require('./config/webpack.common'); 
 
 module.exports = function karma(config) {
@@ -13,7 +13,7 @@ module.exports = function karma(config) {
       reports: ['html'],
     },
     exclude: [],
-    files: [{ pattern: testCode, watched: true }, 'src/sliderPlugin/style.css'],
+    files: [{ pattern: testCode, watched: true }, 'src/slider/style.css'],
     frameworks: ['jasmine'],
     logLevel: config.LOG_INFO,
     port: 9876,
