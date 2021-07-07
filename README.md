@@ -9,8 +9,8 @@ Frontend-education-program with Webpack, Pug and Stylus, TypeScript-jQuery-Jasmi
 ## HTML
 Используемые файлы находятся в папке plugin-files. Подключить к странице index.js и style.css.
 ```javascript
-<link rel="stylesheet" href="/dist/style.css" />
-<script src="./dist/index.js"></script>
+<link rel="stylesheet" href="/plugin-files/style.css" />
+<script src="./plugin-files/index.js"></script>
 ```
 
 ## CSS
@@ -60,6 +60,9 @@ if(data.pointName === 'firstPoint') target = data.value
 
 slider.subscribe('valueChanged', data)  // Подписать на изменение второго значения
 if(data.pointName === 'secondPoint') target = data.value
+slider.subscribe('configChanged', data)  // Подписать на изменение конфигурации
+
+
 ```
 Событие 
 # Architecture
