@@ -5,7 +5,7 @@ import ViewProgressBar from './subView/ViewProgressBar';
 import ViewScale from './subView/ViewScale';
 import ViewContainer from './subView/ViewContainer';
 import { DEFAULT_VIEW_CONFIG } from '../defaults';
-import { ViewConfig, UserConfig, PointData, EventTypes, ViewElements } from '../types';
+import { ViewConfig, UserConfig, PointData, EventTypes } from '../types';
 import Observer from '../Observer/Observer';
 
 class View extends Observer {
@@ -40,17 +40,6 @@ class View extends Observer {
     this.removeElements();
     this.renderElements();
     this.addHandlers();
-  }
-
-  getElements(): ViewElements { 
-    let secondPoint
-    if(this.secondPoint) secondPoint = this.secondPoint.divElement
-    return {
-      slider: this.slider.divElement,
-      field: this.field.divElement,
-      firstPoint: this.firstPoint.divElement,
-      secondPoint,
-    }
   }
 
   updatePoints(data: PointData): void {
@@ -200,7 +189,7 @@ class View extends Observer {
         this.emit(EventTypes.valueChanged, { value, ...this.getFirstPointData() });
       }
     };
-    const scaleChildren = this.field.divElement.nextElementSibling!.querySelectorAll('div');
+    const scaleChildren = this.scale.divElement.querySelectorAll('div');
     scaleChildren.forEach((element) => element.addEventListener('click', handleScaleClick));
   }
 
