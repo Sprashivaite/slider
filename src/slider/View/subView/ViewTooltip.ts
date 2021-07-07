@@ -16,15 +16,6 @@ class Tooltip {
     this.createTooltip()
   }
 
-  createTooltip(): void {
-    this.divElement = document.createElement("div");
-    this.divElement.className = "-js-slider__tooltip";
-    if(!this.isHorizontal) this.divElement.classList.add('-js-slider__tooltip_vertical')
-    this.divElement.innerHTML = "0";
-    this.root.append(this.divElement);
-    if(!this.hasTooltip) this.hide()
-  }
-
   changeValue(value: number): void {
     this.divElement.innerHTML = `${value}`;
   }
@@ -48,5 +39,14 @@ class Tooltip {
     this.isRangeSlider = isRangeSlider
     this.hasTooltip = hasTooltip
   } 
+
+  private createTooltip(): void {
+    this.divElement = document.createElement("div");
+    this.divElement.className = "-js-slider__tooltip";
+    if(!this.isHorizontal) this.divElement.classList.add('-js-slider__tooltip_vertical')
+    this.divElement.innerHTML = "0";
+    this.root.append(this.divElement);
+    if(!this.hasTooltip) this.hide()
+  }
 }
 export default Tooltip;

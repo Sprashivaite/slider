@@ -17,18 +17,6 @@ class ViewPoint {
     this.createPoint(data)
   }
 
-  createPoint(data: ViewConfig & ViewElements): void {
-    this.divElement = document.createElement('div');
-    this.divElement.className = 'js-slider__point';
-    if(!this.isHorizontal) this.divElement.classList.add('js-slider__point_vertical')
-    this.root.append(this.divElement);
-    this.createTooltip(data)
-  }
-
-  private createTooltip(data: ViewConfig & ViewElements): void{
-    this.tooltip = new ViewTooltip({...data, root: this.divElement})
-  }
-
   movePoint(value: number): void {
     const direction = this.isHorizontal ? 'left' : 'top';
     let result = value
@@ -50,6 +38,18 @@ class ViewPoint {
     this.root = root!;
     this.isHorizontal = isHorizontal;
     this.isRangeSlider = isRangeSlider;
+  }
+
+  private createTooltip(data: ViewConfig & ViewElements): void{
+    this.tooltip = new ViewTooltip({...data, root: this.divElement})
+  }
+
+  private createPoint(data: ViewConfig & ViewElements): void {
+    this.divElement = document.createElement('div');
+    this.divElement.className = 'js-slider__point';
+    if(!this.isHorizontal) this.divElement.classList.add('js-slider__point_vertical')
+    this.root.append(this.divElement);
+    this.createTooltip(data)
   }
 }
 export default ViewPoint;

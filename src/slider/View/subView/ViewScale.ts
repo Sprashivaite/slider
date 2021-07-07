@@ -16,14 +16,6 @@ class ViewScale {
     this.createScale();
   }
 
-  createScale(): void {
-    this.divElement = document.createElement('div');
-    this.divElement.className = 'js-slider__scale';
-    if(!this.isHorizontal) this.divElement.classList.add('js-slider__scale_vertical')    
-    this.root.append(this.divElement);
-    if (!this.hasScale) this.hideScale();
-  }
-
   updateValues(scaleValues: number[]): void {
     this.calcScaleOffsets(scaleValues);
     this.divElement.innerHTML = '';
@@ -53,6 +45,14 @@ class ViewScale {
     this.root = root!;
     this.isHorizontal = isHorizontal;
     this.hasScale = hasScale;
+  }
+
+  private createScale(): void {
+    this.divElement = document.createElement('div');
+    this.divElement.className = 'js-slider__scale';
+    if(!this.isHorizontal) this.divElement.classList.add('js-slider__scale_vertical')    
+    this.root.append(this.divElement);
+    if (!this.hasScale) this.hideScale();
   }
 
   private removeExtraValues(): void {

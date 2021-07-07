@@ -7,12 +7,12 @@ class ViewContainer {
     if (!this.divElement) this.createContainer();
   }
 
-  searchContainer(): void {
+  private searchContainer(): void {
     const container: HTMLDivElement | null = document.querySelector('[data-slider]');
     if (container) this.divElement = container;
   }
 
-  createContainer(): void {
+  private createContainer(): void {
     const sliderDiv = document.createElement('div');
     sliderDiv.classList.add('slider');
     document.body.append(sliderDiv);
