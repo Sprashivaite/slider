@@ -73,4 +73,4 @@ View содержит логику, связанную с отображение
 ### Presenter
 Presenter зависит от Model и View. Обновления данных происходит путём подписки View и Model.
 
-
+<img src="./uml.png" width="75%">
