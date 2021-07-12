@@ -8,11 +8,9 @@ class ViewProgressBar {
 
   private isHorizontal!: boolean;
 
-  private isRange!: boolean;
-
   private firstPoint!: ViewPoint;
 
-  private secondPoint!: ViewPoint;
+  private secondPoint?: ViewPoint;
 
   private hasProgressBar!: boolean;
 
@@ -28,7 +26,7 @@ class ViewProgressBar {
     const size = this.isHorizontal ? 'width' : 'height';    
     const firstPointOffset = this.firstPoint.getPointOffset()   
     this.divElement.style[size] = `${firstPointOffset}%`;
-    if (this.isRange) {
+    if (this.secondPoint) {
       const secondPointOffset = this.secondPoint.getPointOffset()
       this.divElement.style[direction] = `${firstPointOffset}%`;
       let rangePercent = secondPointOffset - firstPointOffset
@@ -47,12 +45,11 @@ class ViewProgressBar {
   }
 
   private init(data: ViewConfig & ProgressBar): void {
-    const {isHorizontal, isRange, hasProgressBar, firstPoint, secondPoint, root} = data
+    const {isHorizontal, hasProgressBar, firstPoint, secondPoint, root} = data
     this.root = root!;
-    this.firstPoint = firstPoint!;
-    if (isRange) this.secondPoint = secondPoint!;
+    this.firstPoint = firstPoint;
+    this.secondPoint = secondPoint;
     this.isHorizontal = isHorizontal;
-    this.isRange = isRange;
     this.hasProgressBar = hasProgressBar;
   }
   

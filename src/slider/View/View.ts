@@ -90,27 +90,22 @@ class View extends Observer {
   }
 
   private renderElements(): void {
-    const { isRange } = this.config;
-    this.slider = new ViewContainer(this.config.target);
-    this.field = new ViewField({ ...this.config, root: this.slider.divElement });
-    this.firstPoint = new ViewPoint({...this.config, root: this.field.divElement });
+    const { config } = this;
+    this.slider = new ViewContainer(config.target);
+    this.field = new ViewField(config, this.slider.divElement);
+    this.firstPoint = new ViewPoint(config, this.field.divElement);
+    this.scale = new ViewScale(config, this.slider.divElement);
+    if (config.isRange) {
+      this.secondPoint = new ViewPoint(config, this.field.divElement);
+      this.tooltipTotal = new ViewTooltip(config, this.firstPoint.divElement);
+      this.tooltipTotal.divElement.classList.add('-js-slider__tooltip_type_total')
+    }
     this.progressBar = new ViewProgressBar({
       root: this.field.divElement,
       firstPoint :this.firstPoint,
-      ...this.config,
+      secondPoint: this?.secondPoint,
+      ...config,
     });
-    this.scale = new ViewScale({ ...this.config, root: this.slider.divElement });
-    if (isRange) {
-      this.secondPoint = new ViewPoint({ ...this.config, root: this.field.divElement });
-      this.tooltipTotal = new ViewTooltip({ ...this.config, root: this.firstPoint.divElement }, );
-      this.tooltipTotal.divElement.classList.add('-js-slider__tooltip_type_total')
-      this.progressBar = new ViewProgressBar({
-        root: this.field.divElement,
-        firstPoint :this.firstPoint,
-        secondPoint: this.secondPoint,
-        ...this.config,
-      });      
-    }
   }
 
   private removeElements(): void {

@@ -18,14 +18,6 @@ type ViewConfig = {
   hasProgressBar: boolean;
 };
 
-type ViewElements = {
-  slider?: HTMLElement;
-  field?: HTMLElement;
-  firstPoint?: HTMLElement;
-  secondPoint?: HTMLElement;
-  root?: HTMLElement;
-};
-
 type UserConfig = {  
   firstValue?: number;
   secondValue?: number;
@@ -84,7 +76,6 @@ export {
   PointValue,
   ProgressBar,
   EventTypes,
-  ViewElements,
   EventName,
   EventCallback
 };
