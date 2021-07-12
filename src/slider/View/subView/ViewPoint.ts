@@ -31,11 +31,11 @@ class ViewPoint {
   }
 
   addTarget(): void {
-    this.divElement.classList.add('js-slider__point_target');
+    this.divElement.style.zIndex = "10";
   }
 
   removeTarget(): void {
-    this.divElement.classList.remove('js-slider__point_target');
+    this.divElement.style.zIndex = "3";
   }
 
   private createTooltip(config: ViewConfig): void{
