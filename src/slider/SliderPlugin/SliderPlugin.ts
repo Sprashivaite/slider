@@ -37,14 +37,11 @@ class SliderPlugin extends Observer {
   }
 
   setValue(point: string, value: number): void {
-    let result = value;
-    if (result > this.model.config.max) result = this.model.config.max;
-    if (result < this.model.config.min) result = this.model.config.min;
     if (point === 'firstPoint') {
-      this.model.changeValue({ value: result, pointName: 'firstPoint'});
+      this.model.changeValue({ value, pointName: 'firstPoint'});
     }
     if (point === 'secondPoint') {
-      this.model.changeValue({ value: result, pointName: 'secondPoint'});
+      this.model.changeValue({ value, pointName: 'secondPoint'});
     }
   }
 
@@ -55,11 +52,11 @@ class SliderPlugin extends Observer {
       this.view.updateConfig(viewUserConfig);
     }
     this.model.updateConfig(modelUserConfig);
-    this.emit(EventTypes.configChanged, { ...this.model.config, ...this.view.config })
+    this.emit(EventTypes.configChanged, { ...this.model.getConfig(), ...this.view.getConfig() })
   }
 
   getConfig(): ViewConfig & ModelConfig {
-    return { ...this.model.config, ...this.view.config };
+    return { ...this.model.getConfig(), ...this.view.getConfig() };
   }
 
   subscribe(event: EventName, listener: EventCallback): this {
