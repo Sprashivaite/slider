@@ -48,7 +48,7 @@ class View extends Observer {
       this.firstPoint.movePoint(pointOffset);
       this.firstPoint.tooltip.changeValue(value!);
     }
-    if (pointName === 'secondPoint' && this.config.isRangeSlider) {
+    if (pointName === 'secondPoint' && this.config.isRange) {
       this.secondPoint.movePoint(pointOffset);
       this.secondPoint.tooltip.changeValue(value!);
     }
@@ -69,17 +69,17 @@ class View extends Observer {
   }
 
   private validate(): void {
-    let { isHorizontal, isRangeSlider, hasTooltip, hasProgressBar, hasScale } =
+    let { isHorizontal, isRange, hasTooltip, hasProgressBar, hasScale } =
       this.config;
     if (typeof isHorizontal !== 'boolean') isHorizontal = true;
-    if (typeof isRangeSlider !== 'boolean') isRangeSlider = true;
+    if (typeof isRange !== 'boolean') isRange = true;
     if (typeof hasTooltip !== 'boolean') hasTooltip = true;
     if (typeof hasProgressBar !== 'boolean') hasProgressBar = true;
     if (typeof hasScale !== 'boolean') hasScale = true;
     this.config = {
       ...this.config,
       isHorizontal,
-      isRangeSlider,
+      isRange,
       hasTooltip,
       hasProgressBar,
       hasScale,
@@ -87,7 +87,7 @@ class View extends Observer {
   }
 
   private renderElements(): void {
-    const { isRangeSlider } = this.config;
+    const { isRange } = this.config;
     this.slider = new ViewContainer(this.config.target);
     this.field = new ViewField({ ...this.config, root: this.slider.divElement });
     this.firstPoint = new ViewPoint({...this.config, root: this.field.divElement });
@@ -97,7 +97,7 @@ class View extends Observer {
       ...this.config,
     });
     this.scale = new ViewScale({ ...this.config, root: this.slider.divElement });
-    if (isRangeSlider) {
+    if (isRange) {
       this.secondPoint = new ViewPoint({ ...this.config, root: this.field.divElement });
       this.tooltipTotal = new ViewTooltip({ ...this.config, root: this.firstPoint.divElement }, );
       this.tooltipTotal.divElement.classList.add('-js-slider__tooltip_type_total')
@@ -117,7 +117,7 @@ class View extends Observer {
       this.progressBar.divElement,
       this.scale.divElement,
     ].forEach((item) => item.remove());
-    if (this.config.isRangeSlider) this.secondPoint.divElement.remove()
+    if (this.config.isRange) this.secondPoint.divElement.remove()
   }
 
   private addHandlers(): void {
@@ -162,7 +162,7 @@ class View extends Observer {
       }
     };
     this.firstPoint.divElement.addEventListener('mousedown', useHandlers);
-    if (this.config.isRangeSlider) {
+    if (this.config.isRange) {
       this.secondPoint.divElement.addEventListener('mousedown', useHandlers);
     }
   }
@@ -216,7 +216,7 @@ class View extends Observer {
 
   private isFirstPointClosest(event: MouseEvent): boolean {
     const { config, firstPoint, secondPoint, mouseCoords } = this;
-    if (!config.isRangeSlider) return true;
+    if (!config.isRange) return true;
     if (event.target === firstPoint.divElement) return true;
     if (event.target === secondPoint.divElement) return false;
     const firstPointOffset = firstPoint.getPointOffset();
@@ -229,7 +229,7 @@ class View extends Observer {
 
   private demarcatePoints(pointName: string): void {
     const { config, firstPoint, secondPoint } = this;
-    if (!config.isRangeSlider) return;
+    if (!config.isRange) return;
     if (firstPoint.getPointOffset() <= secondPoint.getPointOffset()) return;
     if (pointName === 'secondPoint') {
       secondPoint.movePoint(firstPoint.getPointOffset());
@@ -244,7 +244,7 @@ class View extends Observer {
 
   private joinTooltips(): void {
     const { config, firstPoint, secondPoint, tooltipTotal } = this;
-    const invalid = !config.hasTooltip || !config.isRangeSlider;
+    const invalid = !config.hasTooltip || !config.isRange;
     if (invalid) return;
 
     const firstOffset = config.isHorizontal ? 'right' : 'bottom';

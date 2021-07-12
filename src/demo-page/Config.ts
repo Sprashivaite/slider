@@ -69,7 +69,7 @@ class Config {
   }
 
   private initSecondValue(): void {
-    if (!this.slider.getConfig().isRangeSlider) {
+    if (!this.slider.getConfig().isRange) {
       this.secondPoint.setAttribute('disabled', 'true');
       return;
     }
@@ -77,7 +77,7 @@ class Config {
       const { value, pointName } = data
       if(pointName === 'secondPoint') this.secondPoint.value = `${value}`;
     };    
-    if (this.slider.getConfig().isRangeSlider) this.secondPoint.removeAttribute('disabled');
+    if (this.slider.getConfig().isRange) this.secondPoint.removeAttribute('disabled');
     this.slider.subscribe('updatePoint', updateValue);    
     const setPointValue = () => {
       this.slider.setValue('secondPoint', this.secondPoint.valueAsNumber)
@@ -135,7 +135,7 @@ class Config {
 
   private initRange(): void {
     const rangeChanged = () => {
-      this.slider.updateConfig({isRangeSlider: !this.slider.getConfig().isRangeSlider})
+      this.slider.updateConfig({isRange: !this.slider.getConfig().isRange})
     };
     this.range.addEventListener('change', rangeChanged);
   }
@@ -143,7 +143,7 @@ class Config {
   private updateInputs(): void {
     this.tooltip.checked = this.slider.getConfig().hasTooltip;
     this.scale.checked = this.slider.getConfig().hasScale;
-    this.range.checked = this.slider.getConfig().isRangeSlider;
+    this.range.checked = this.slider.getConfig().isRange;
     this.orientation.checked = this.slider.getConfig().isHorizontal;
     this.step.value = `${this.slider.getConfig().step}`;
     this.min.value = `${this.slider.getConfig().min}`;

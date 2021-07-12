@@ -34,7 +34,7 @@ $(selector).sliderPlugin();
 | max               | number             | 100                   | Максимальное значение слайдера                                                                  |
 | step              | number             | 1                     | Шаг                                                                                             |
 | isHorizontal      | boolean            | true                  | Горизонтальный/Вертикальный                                                                     |
-| isRangeSlider     | boolean            | true                  | Одиночный/Диапазон                                                                               |
+| isRange     | boolean            | true                  | Одиночный/Диапазон                                                                               |
 | hasTooltip            | boolean            | true                  | Показывает/скрывает флажок                                                                      |
 | hasScale           | boolean            | true                  | Показывает/скрывает шкалу                                                                       |
 | scaleQuantity     | number             | 11                    | Количество делений шкалы                                                                        |

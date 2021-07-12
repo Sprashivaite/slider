@@ -5,7 +5,7 @@ afterEach(function () {
   view.updateConfig({
     target: undefined,
     isHorizontal: true,
-    isRangeSlider: true,
+    isRange: true,
     hasProgressBar: true,
     hasScale: true,
     hasTooltip: true,
@@ -21,24 +21,24 @@ describe('наличие класса', () => {
 describe('установка параметров View', () => {
   it('валидные параметры', () => {
     view.updateConfig({
-      isRangeSlider: true,
+      isRange: true,
       isHorizontal: false,
       hasProgressBar: true,
       hasScale: false,
     });
-    expect(view.config.isRangeSlider).toBe(true);
+    expect(view.config.isRange).toBe(true);
     expect(view.config.isHorizontal).toBe(false);
     expect(view.config.hasProgressBar).toBe(true);
     expect(view.config.hasScale).toBe(false);
   });
   it('невалидные параметры', () => {
     view.updateConfig({
-      isRangeSlider: 22,
+      isRange: 22,
       isHorizontal: 'value',
       hasProgressBar: '',
       hasScale: null,
     });
-    expect(view.config.isRangeSlider).toBe(true);
+    expect(view.config.isRange).toBe(true);
     expect(view.config.isHorizontal).toBe(true);
     expect(view.config.hasProgressBar).toBe(true);
     expect(view.config.hasScale).toBe(true);
@@ -86,7 +86,7 @@ describe('работа фасада renderElements', () => {
 
 describe('update Points', () => {
   it('first point', () => {
-    view.updateConfig({ isRangeSlider: false })
+    view.updateConfig({ isRange: false })
     view.updatePoints({pointOffset: 50, pointName: 'firstPoint', value: 50});    
     expect(view.firstPoint.getPointOffset()).toBeGreaterThan(49);    
     expect(view.firstPoint.tooltip.divElement.innerHTML).toBe('50');
@@ -151,7 +151,7 @@ describe('движение View progressBar', () => {
     expect(view.progressBar.divElement.offsetWidth).toBeGreaterThan(60);
   });
   it(' solo', () => {
-    view.updateConfig({ isRangeSlider: false });
+    view.updateConfig({ isRange: false });
     view.firstPoint.movePoint(90);
     view.progressBar.progressBarMove();
     expect(view.progressBar.divElement.offsetWidth).toBeGreaterThan(80);

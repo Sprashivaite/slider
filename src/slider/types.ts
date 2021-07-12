@@ -3,7 +3,7 @@ import ViewPoint from "./View/subView/ViewPoint";
 type ModelConfig = {
   firstValue: number;
   secondValue: number;
-  isRangeSlider: boolean;
+  isRange: boolean;
   max: number;
   min: number;
   step: number;
@@ -12,7 +12,7 @@ type ModelConfig = {
 type ViewConfig = {
   target?: HTMLElement;
   isHorizontal: boolean;
-  isRangeSlider: boolean;
+  isRange: boolean;
   hasTooltip: boolean;
   hasScale: boolean;
   hasProgressBar: boolean;
@@ -34,7 +34,7 @@ type UserConfig = {
   step?: number;
   target?: HTMLElement;
   isHorizontal?: boolean;
-  isRangeSlider?: boolean;
+  isRange?: boolean;
   hasTooltip?: boolean;
   hasScale?: boolean;
   hasProgressBar?: boolean;  

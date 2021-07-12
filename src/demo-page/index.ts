@@ -5,7 +5,7 @@ const slider1 = $('.js-slider-container_order_first > .js-slider')
   .sliderPlugin({
     max: 1000,
     isHorizontal: true,
-    isRangeSlider: true,
+    isRange: true,
     step: 50,
     min: 0,
     secondValue: 50
@@ -13,7 +13,7 @@ const slider1 = $('.js-slider-container_order_first > .js-slider')
 
 const slider2 = $('.js-slider-container_order_second > .js-slider')
   .sliderPlugin({
-    isRangeSlider: true,
+    isRange: true,
     step: 11,
     max: 14,
     min: 0,
@@ -25,7 +25,7 @@ const slider3 = $('.js-slider-container_order_third > .js-slider')
     min: -1, 
     max: 1, 
     step: 0.2, 
-    isRangeSlider: false 
+    isRange: false 
   })  
 
 const slider4 = $('.js-slider-container_order_fourth > .js-slider')
@@ -39,7 +39,7 @@ const slider4 = $('.js-slider-container_order_fourth > .js-slider')
 const slider5 = $('.js-slider-container_order_fifth > .js-slider')
   .sliderPlugin({
     isHorizontal: false,
-    isRangeSlider: false,
+    isRange: false,
     step: 40,
     max: 100,
     min: -100,

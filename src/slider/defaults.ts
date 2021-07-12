@@ -3,7 +3,7 @@ import { ModelConfig, ViewConfig } from './types';
 const DEFAULT_MODEL_CONFIG: ModelConfig = {
   firstValue: 0, 
   secondValue: 0,
-  isRangeSlider: true,
+  isRange: true,
   max: 100,
   min: 0,
   step: 1
@@ -12,7 +12,7 @@ const DEFAULT_MODEL_CONFIG: ModelConfig = {
 const DEFAULT_VIEW_CONFIG: ViewConfig = {
   target: undefined,
   isHorizontal: true,
-  isRangeSlider: true,
+  isRange: true,
   hasTooltip: true,
   hasProgressBar: true,
   hasScale: true,

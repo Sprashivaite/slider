@@ -10,7 +10,7 @@ class ViewPoint {
 
   private isHorizontal!: boolean;
 
-  private isRangeSlider!: boolean;  
+  private isRange!: boolean;  
 
   constructor(data: ViewConfig & ViewElements) {
     this.init(data);
@@ -34,10 +34,10 @@ class ViewPoint {
   }
 
   private init(data: ViewConfig & ViewElements): void {
-    const { isHorizontal, isRangeSlider, root} = data
+    const { isHorizontal, isRange, root} = data
     this.root = root!;
     this.isHorizontal = isHorizontal;
-    this.isRangeSlider = isRangeSlider;
+    this.isRange = isRange;
   }
 
   private createTooltip(data: ViewConfig & ViewElements): void{
