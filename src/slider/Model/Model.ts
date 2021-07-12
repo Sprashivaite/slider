@@ -33,16 +33,13 @@ class Model extends Observer {
       arrStopPoints.push(i)
     }
     arrStopPoints.push(100)
-
-    let stopPoint;
-    stopPoint = arrStopPoints.find((value, index, array) => {
+    
+    const stopPoint = arrStopPoints.find((value, index, array) => {
       const halfStep = (value + array[index + 1]) /2
       return pointOffset <= halfStep
     })
     
-    if(stopPoint === undefined) stopPoint = 100
-    
-    this.updatePoint({ ...data, pointOffset: stopPoint });
+    this.updatePoint({ ...data, pointOffset: stopPoint ?? 100 });
   }
 
   changeValue(data: PointValue): void {
@@ -155,14 +152,12 @@ class Model extends Observer {
     }
 
     arrStopPoints.push(max)
-    let result;
-    result = arrStopPoints.find((item, index, array) => {
+    const result = arrStopPoints.find((item, index, array) => {
       const halfStep = (item + array[index + 1]) /2
       return roundedValue <= halfStep
     })
 
-    if(result === undefined) result = max
-    return this.roundByStep(result);
+    return this.roundByStep(result ?? max);
   }
 }
 export default Model;
