@@ -59,14 +59,14 @@ describe('конструктор класса', () => {
 });
 
 describe('вычислить точку шага', () => {
-  it('model.calcStopPoint', () => {
+  it('model.correctStepPoint', () => {
     model.config.step = 50;
-    model.calcStopPoint({
+    model.correctStepPoint({
       point: 'firstPoint',
       pointOffset: 20,
     });
     expect(someObject.pointPX).toBe(0);
-    model.calcStopPoint({
+    model.correctStepPoint({
       point: 'firstPoint',
       pointOffset: 75,
     });

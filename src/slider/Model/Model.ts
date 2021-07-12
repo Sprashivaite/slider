@@ -16,7 +16,7 @@ class Model extends Observer {
     this.notifyListeners();
   }
 
-  calcStopPoint(data: PointData): void {
+  correctStepPoint(data: PointData): void {
     const { max, min, step } = this.config;
     const { pointOffset } = data;
     const stepPercent: number = (100 * step) / (max - min);
@@ -42,7 +42,7 @@ class Model extends Observer {
     const { max, min } = this.config;
     const {value, pointName} = data
     const result: number = (100 / (max - min)) * (value! - min);
-    this.calcStopPoint({ value, pointName, pointOffset: result });
+    this.correctStepPoint({ value, pointName, pointOffset: result });
   }
 
   updatePoint(data: PointData): void {
