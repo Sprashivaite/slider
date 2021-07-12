@@ -9,23 +9,23 @@ import { ViewConfig, UserConfig, PointData, EventTypes } from '../types';
 import Observer from '../Observer/Observer';
 
 class View extends Observer {
-  slider!: ViewContainer;
+  private slider!: ViewContainer;
 
-  firstPoint!: ViewPoint;
+  private firstPoint!: ViewPoint;
 
-  secondPoint!: ViewPoint;
+  private secondPoint!: ViewPoint;
 
-  field!: ViewField;
+  private field!: ViewField;
 
-  progressBar!: ViewProgressBar;
+  private progressBar!: ViewProgressBar;
 
-  scale!: ViewScale;
+  private scale!: ViewScale;
 
-  config!: ViewConfig;
+  private config!: ViewConfig;
 
-  tooltipTotal!: ViewTooltip;
+  private tooltipTotal!: ViewTooltip;
 
-  mouseCoords!: number;
+  private mouseCoords!: number;
 
   constructor(config?: UserConfig) {
     super();
@@ -40,6 +40,10 @@ class View extends Observer {
     this.removeElements();
     this.renderElements();
     this.addHandlers();
+  }
+
+  getConfig(): ViewConfig {
+    return this.config
   }
 
   updatePoints(data: PointData): void {

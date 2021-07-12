@@ -3,7 +3,7 @@ import { PointData, PointValue, ModelConfig, UserConfig, EventTypes } from '../t
 import Observer from '../Observer/Observer';
 
 class Model extends Observer {
-  config!: ModelConfig;
+  private config!: ModelConfig;
 
   constructor(config?: UserConfig) {
     super();
@@ -16,17 +16,22 @@ class Model extends Observer {
     this.notifyListeners();
   }
 
+  getConfig(): ModelConfig {
+    return this.config
+  }
+
   correctStepPoint(data: PointData): void {
     const { max, min, step } = this.config;
     const { pointOffset } = data;
     const stepPercent: number = (100 * step) / (max - min);
+
     const arrStopPoints = []
     for (let i = 0; i < 100; i += stepPercent) {
       i = this.roundByStep(i)
       arrStopPoints.push(i)
     }
-
     arrStopPoints.push(100)
+
     let stopPoint;
     stopPoint = arrStopPoints.find((value, index, array) => {
       const halfStep = (value + array[index + 1]) /2
