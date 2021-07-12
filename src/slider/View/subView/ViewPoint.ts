@@ -22,12 +22,20 @@ class ViewPoint {
     this.divElement.style[direction] = `${result}%`;
   }
 
-  getPointOffset(): number {
+  getOffset(): number {
     const offsetDirection = this.isHorizontal ? 'offsetLeft' : 'offsetTop';
     const size = this.isHorizontal ? 'offsetWidth': 'offsetHeight';
     const pointOffset = this.divElement[offsetDirection];
     const result = pointOffset * 100 / this.root[size]
     return result;
+  }
+
+  addTarget(): void {
+    this.divElement.classList.add('js-slider__point_target');
+  }
+
+  removeTarget(): void {
+    this.divElement.classList.remove('js-slider__point_target');
   }
 
   private createTooltip(config: ViewConfig): void{

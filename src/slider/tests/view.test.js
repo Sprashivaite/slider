@@ -88,12 +88,12 @@ describe('update Points', () => {
   it('first point', () => {
     view.updateConfig({ isRange: false })
     view.updatePoints({pointOffset: 50, pointName: 'firstPoint', value: 50});    
-    expect(view.firstPoint.getPointOffset()).toBeGreaterThan(49);    
+    expect(view.firstPoint.getOffset()).toBeGreaterThan(49);    
     expect(view.firstPoint.tooltip.divElement.innerHTML).toBe('50');
   });
   it('second point', () => {
     view.updatePoints({pointOffset: 50, pointName: 'secondPoint', value: 50});    
-    expect(view.secondPoint.getPointOffset()).toBeGreaterThan(49);    
+    expect(view.secondPoint.getOffset()).toBeGreaterThan(49);    
     expect(view.secondPoint.tooltip.divElement.innerHTML).toBe('50');
   });
 });
@@ -101,7 +101,7 @@ describe('update Points', () => {
 describe('движение point', () => {
   it('view.point.movePoint horizontal', () => {
     view.secondPoint.movePoint(50);
-    expect(view.secondPoint.getPointOffset()).toBeGreaterThan(49);    
+    expect(view.secondPoint.getOffset()).toBeGreaterThan(49);    
   });
 });
 

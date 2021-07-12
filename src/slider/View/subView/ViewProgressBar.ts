@@ -24,10 +24,10 @@ class ViewProgressBar {
   progressBarMove(): void {
     const direction = this.isHorizontal ? 'left' : 'top';
     const size = this.isHorizontal ? 'width' : 'height';    
-    const firstPointOffset = this.firstPoint.getPointOffset()   
+    const firstPointOffset = this.firstPoint.getOffset()   
     this.divElement.style[size] = `${firstPointOffset}%`;
     if (this.secondPoint) {
-      const secondPointOffset = this.secondPoint.getPointOffset()
+      const secondPointOffset = this.secondPoint.getOffset()
       this.divElement.style[direction] = `${firstPointOffset}%`;
       let rangePercent = secondPointOffset - firstPointOffset
       if(rangePercent < 0) rangePercent = 0
