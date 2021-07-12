@@ -46,7 +46,7 @@ module.exports = {
       {
         enforce: 'post',
         exclude: /(node_modules|\.test\.[tj]sx?$)/,
-        test: /\.[tj]s$/,
+        test: /\.js$/,
         use: {
           loader: 'istanbul-instrumenter-loader',
           options: { esModules: true },

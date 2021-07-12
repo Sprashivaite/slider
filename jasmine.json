@@ -1,6 +1,6 @@
 {
   "random": true,
-  "spec_dir": "src/slider",
+  "spec_dir": "src/slider/tests",
   "spec_files": [
     "/*test.js"
   ],
