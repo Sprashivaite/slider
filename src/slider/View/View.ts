@@ -51,9 +51,9 @@ class View extends Observer {
       this.firstPoint.movePoint(pointOffset);
       this.firstPoint.tooltip.changeValue(value!);
     }
-    if (pointName === 'secondPoint' && this.config.isRange) {
-      this.secondPoint.movePoint(pointOffset);
-      this.secondPoint.tooltip.changeValue(value!);
+    if (pointName === 'secondPoint') {
+      this.secondPoint?.movePoint(pointOffset);
+      this.secondPoint?.tooltip.changeValue(value!);
     }
     this.progressBar.progressBarMove();
     this.joinTooltips();
@@ -119,8 +119,8 @@ class View extends Observer {
       this.field.divElement,
       this.progressBar.divElement,
       this.scale.divElement,
+      this.secondPoint?.divElement
     ].forEach((item) => item.remove());
-    if (this.config.isRange) this.secondPoint.divElement.remove()
   }
 
   private addHandlers(): void {
@@ -149,7 +149,7 @@ class View extends Observer {
 
   private getSecondPointData(): PointData {
     return {
-      pointOffset: this.secondPoint.getPointOffset(),
+      pointOffset: this.secondPoint?.getPointOffset(),
       pointName: 'secondPoint',
     };
   }
@@ -163,9 +163,7 @@ class View extends Observer {
       }
     };
     this.firstPoint.divElement.addEventListener('mousedown', useHandlers);
-    if (this.config.isRange) {
-      this.secondPoint.divElement.addEventListener('mousedown', useHandlers);
-    }
+    this.secondPoint?.divElement.addEventListener('mousedown', useHandlers);
   }
 
   private addFieldHandler(): void {

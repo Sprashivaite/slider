@@ -7,8 +7,6 @@ class Tooltip {
 
   private isHorizontal!: boolean;
 
-  private isRange!: boolean;
-
   private hasTooltip!: boolean;
 
   constructor(data: ViewConfig & ViewElements) {
@@ -33,10 +31,9 @@ class Tooltip {
   }
 
   private init(data: ViewConfig & ViewElements): void { 
-    const { isHorizontal, isRange, hasTooltip, root } = data
+    const { isHorizontal, hasTooltip, root } = data
     this.root = root!;
     this.isHorizontal = isHorizontal
-    this.isRange = isRange
     this.hasTooltip = hasTooltip
   } 
 

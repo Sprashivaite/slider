@@ -10,8 +10,6 @@ class ViewPoint {
 
   private isHorizontal!: boolean;
 
-  private isRange!: boolean;  
-
   constructor(data: ViewConfig & ViewElements) {
     this.init(data);
     this.createPoint(data)
@@ -34,10 +32,9 @@ class ViewPoint {
   }
 
   private init(data: ViewConfig & ViewElements): void {
-    const { isHorizontal, isRange, root} = data
+    const { isHorizontal, root} = data
     this.root = root!;
     this.isHorizontal = isHorizontal;
-    this.isRange = isRange;
   }
 
   private createTooltip(data: ViewConfig & ViewElements): void{
