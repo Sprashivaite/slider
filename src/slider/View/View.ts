@@ -29,12 +29,11 @@ class View extends Observer {
 
   constructor(config?: UserConfig) {
     super();
-    this.init(config);    
-    this.renderElements();
-    this.addHandlers()
+    this.init(config);
   }
 
   updateConfig(config: UserConfig): void {
+    if (typeof config !== 'object') return;
     this.config = { ...this.config, ...config };
     this.validate();
     this.removeElements();
@@ -65,11 +64,11 @@ class View extends Observer {
     this.addScaleHandler();
   }
 
-  private init(config?: UserConfig): void {
-    let newConfig = config;
-    if (typeof newConfig !== 'object') newConfig = {};
-    this.config = { ...DEFAULT_VIEW_CONFIG, ...newConfig };
-    this.validate();    
+  private init(config?: UserConfig): void {    
+    this.config = DEFAULT_VIEW_CONFIG;
+    this.renderElements();
+    this.addHandlers()
+    if (config) this.updateConfig(config)
   }
 
   private validate(): void {
@@ -135,10 +134,8 @@ class View extends Observer {
       const direction = this.config.isHorizontal ? 'left' : 'top';
       const coordinate = this.config.isHorizontal ? 'clientX' : 'clientY';
       const size = this.config.isHorizontal ? 'offsetWidth' : 'offsetHeight';
-      this.mouseCoords =
-        event[coordinate] -
-        this.field.divElement.getBoundingClientRect()[direction];
-      this.mouseCoords = (this.mouseCoords * 100) / this.field.divElement[size];
+      const mouseCoordsPX = event[coordinate] - this.field.divElement.getBoundingClientRect()[direction];
+      this.mouseCoords = (mouseCoordsPX * 100) / this.field.divElement[size];
     };
     document.addEventListener('mousemove', Coords);
   }

@@ -3,14 +3,16 @@ import { PointData, PointValue, ModelConfig, UserConfig, EventTypes } from '../t
 import Observer from '../Observer/Observer';
 
 class Model extends Observer {
-  private config!: ModelConfig;
+  private config: ModelConfig;
 
   constructor(config?: UserConfig) {
     super();
-    this.init(config);
+    this.config = DEFAULT_MODEL_CONFIG;
+    if (config) this.updateConfig(config)
   }
 
   updateConfig(config: UserConfig): void {
+    if (typeof config !== 'object') return
     this.config = { ...this.config, ...config };
     this.validate();
     this.notifyListeners();
@@ -55,13 +57,6 @@ class Model extends Observer {
     this.emit(EventTypes.updatePoint, {...data, value })    
     if(data.pointName === 'firstPoint' && !Number.isNaN(value)) this.config.firstValue = value
     if(data.pointName === 'secondPoint' && !Number.isNaN(value)) this.config.secondValue = value    
-  }
-
-  private init(config?: UserConfig): void {
-    let newConfig = config;
-    if(typeof newConfig !== 'object') newConfig = {};
-    this.config = { ...DEFAULT_MODEL_CONFIG, ...newConfig };
-    this.validate();
   }
 
   private notifyListeners(): void {
