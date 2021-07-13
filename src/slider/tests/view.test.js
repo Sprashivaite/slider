@@ -147,13 +147,13 @@ describe('слияние подсказок', () => {
 describe('движение View progressBar', () => {
   it(' range', () => {
     view.secondPoint.movePoint(95);
-    view.progressBar.progressBarMove();
+    view.progressBar.changeSize();
     expect(view.progressBar.divElement.offsetWidth).toBeGreaterThan(60);
   });
   it(' solo', () => {
     view.updateConfig({ isRange: false });
     view.firstPoint.movePoint(90);
-    view.progressBar.progressBarMove();
+    view.progressBar.changeSize();
     expect(view.progressBar.divElement.offsetWidth).toBeGreaterThan(80);
   });
 });

@@ -18,17 +18,15 @@ class ViewScale {
 
   updateValues(scaleValues: number[]): void {
     this.calcScaleOffsets(scaleValues);
-    this.divElement.innerHTML = '';
-    for (let i = 0; i < scaleValues.length; i += 1) {
-      this.divElement.insertAdjacentHTML('beforeend', '<div class="js-scale__value"></div>');
-    }
-    const scaleChildren = this.divElement.children;
+    this.divElement.innerHTML = '';    
     const direction = this.isHorizontal ? 'left' : 'top';
     scaleValues.forEach((item, index) => {
-      scaleChildren[index].innerHTML = `${item}`;
-      scaleChildren[index].style[direction] = `${this.scaleOffsets[index]}%`;
+      const offset = `${direction}: ${this.scaleOffsets[index]}%`
+      this.divElement.insertAdjacentHTML(
+        'beforeend', 
+        `<div class="js-scale__value" style="${offset}">${item}</div>`
+      );
     });
-
     this.removeExtraValues();
   }
 
@@ -55,6 +53,17 @@ class ViewScale {
     if (!this.hasScale) this.hideScale();
   }
 
+  private calcScaleOffsets(scaleValues: number[]): void {
+    const firstValue = scaleValues[0];
+    const lastValue = scaleValues[scaleValues.length - 1];
+    this.scaleOffsets = [];
+    const step = 100 / (lastValue - firstValue);
+    scaleValues.forEach((value) => {
+      const moduleValue = value - firstValue;
+      this.scaleOffsets.push(moduleValue * step);
+    });
+  }
+
   private removeExtraValues(): void {
     const scaleChildren = Array.from(this.divElement.children);
     const current = this.isHorizontal ? 'left' : 'top';
@@ -64,28 +73,13 @@ class ViewScale {
       item.getBoundingClientRect()[current] <
       item.previousElementSibling!.getBoundingClientRect()[previous] + OFFSET
     )
-    const isCloseMax = (item: Element) => (
-      item.getBoundingClientRect()[current] <
-      item.previousElementSibling!.getBoundingClientRect()[previous]
-    )
     scaleChildren.forEach((item, index, array) => {
       if (index === 0) return;
-      if (array[array.length - 1] === item) {
-        if (isCloseMax(item)) item.previousElementSibling!.remove();
+      if (array.length - 1 === index) {
+        if (isClose(item)) item.previousElementSibling!.remove();
         return;
       }
       if (isClose(item)) item.remove();
-    });
-  }
-
-  private calcScaleOffsets(scaleValues: number[]): void {
-    const firstValue = scaleValues[0];
-    const lastValue = scaleValues[scaleValues.length - 1];
-    this.scaleOffsets = [];
-    const step = 100 / (lastValue - firstValue);
-    scaleValues.forEach((value) => {
-      const moduleValue = value - firstValue;
-      this.scaleOffsets.push(moduleValue * step);
     });
   }
 }

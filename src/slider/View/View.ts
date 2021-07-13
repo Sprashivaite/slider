@@ -52,7 +52,7 @@ class View extends Observer {
       this.secondPoint?.movePoint(pointOffset);
       this.secondPoint?.tooltip.changeValue(value!);
     }
-    this.progressBar.progressBarMove();
+    this.progressBar.changeSize();
     this.joinTooltips();
   }
 

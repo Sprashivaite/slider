@@ -14,74 +14,68 @@ class ViewProgressBar {
 
   private hasProgressBar!: boolean;
 
-  private styleDirection!: string;
+  private styleColor!: string;
+
+  private isRange!: boolean;
 
   constructor(data: ViewConfig & ProgressBar) {
     this.init(data);
-    this.createProgressBar()
+    this.createElement()
   }
 
-  progressBarMove(): void {
-    const direction = this.isHorizontal ? 'left' : 'top';
+  changeSize(): void {    
     const size = this.isHorizontal ? 'width' : 'height';    
     const firstPointOffset = this.firstPoint.getOffset()   
     this.divElement.style[size] = `${firstPointOffset}%`;
-    if (this.secondPoint) {
+    if (this.isRange && this.secondPoint) {
       const secondPointOffset = this.secondPoint.getOffset()
+      const direction = this.isHorizontal ? 'left' : 'top';
       this.divElement.style[direction] = `${firstPointOffset}%`;
-      let rangePercent = secondPointOffset - firstPointOffset
-      if(rangePercent < 0) rangePercent = 0
+      const rangePercent = secondPointOffset - firstPointOffset
       this.divElement.style[size] = `${rangePercent}%`;
     }
-    this.changeColorBar();
+    this.changeColor();
   }
 
-  hideBar(): void {
+  hide(): void {
     this.divElement.classList.add('-js-slider__bar_hide');
   }
 
-  showBar(): void {
+  show(): void {
     this.divElement.classList.remove('-js-slider__bar_hide');
   }
 
   private init(data: ViewConfig & ProgressBar): void {
-    const {isHorizontal, hasProgressBar, firstPoint, secondPoint, root} = data
+    const {isHorizontal, isRange, hasProgressBar, firstPoint, secondPoint, root} = data
     this.root = root!;
     this.firstPoint = firstPoint;
     this.secondPoint = secondPoint;
     this.isHorizontal = isHorizontal;
     this.hasProgressBar = hasProgressBar;
+    this.isRange = isRange;
   }
   
-  private createProgressBar(): void {
+  private createElement(): void {
     this.divElement = document.createElement('div');
     this.divElement.className = 'js-progressBar';
-    this.styleDirection = this.isHorizontal
+    const styleDirection = this.isHorizontal
       ? 'js-progressBar'
       : 'js-progressBar js-progressBar_vertical';
-    this.divElement.className = this.styleDirection;
+    this.divElement.className = styleDirection;
     this.root.append(this.divElement);
-    if (!this.hasProgressBar) this.hideBar();
+    if (!this.hasProgressBar) this.hide();
   }
 
-  private changeColorBar(): void {
+  private changeColor(): void {
     const size = this.isHorizontal ? 'offsetWidth' : 'offsetHeight';
     const fieldSize = this.root[size];
     const progressBarSize = this.divElement[size];    
-    let styleColor;
-    if (progressBarSize <= fieldSize / 4) {
-      styleColor = 'js-progressBar js-progressBar_color_first';
-    } 
-    if (progressBarSize >= fieldSize / 4) {
-      styleColor = `js-progressBar_color_second`;
-    } 
-    if (progressBarSize >= fieldSize / 2) {
-      styleColor = `js-progressBar_color_third`;
-    } 
-    if (progressBarSize >= fieldSize) {
-      styleColor = `js-progressBar_color_fourth`;
-    }    
-    this.divElement.className = `js-progressBar ${this.styleDirection} ${styleColor}`;
+    this.divElement.classList.remove(this.styleColor)  
+    if (progressBarSize <= fieldSize / 4) this.styleColor = 'js-progressBar_color_first';
+    if (progressBarSize >= fieldSize / 4) this.styleColor = `js-progressBar_color_second`;    
+    if (progressBarSize >= fieldSize / 2) this.styleColor = `js-progressBar_color_third`;    
+    if (progressBarSize >= fieldSize) this.styleColor = `js-progressBar_color_fourth`;    
+    this.divElement.classList.add(this.styleColor)
   }
 }
 export default ViewProgressBar;

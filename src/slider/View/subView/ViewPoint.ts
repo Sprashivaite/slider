@@ -37,11 +37,7 @@ class ViewPoint {
   removeTarget(): void {
     this.divElement.style.zIndex = "3";
   }
-
-  private createTooltip(config: ViewConfig): void{
-    this.tooltip = new ViewTooltip(config, this.divElement)
-  }
-
+  
   private createPoint(config: ViewConfig, root: HTMLElement): void {
     this.root = root;
     this.isHorizontal = config.isHorizontal
@@ -50,6 +46,10 @@ class ViewPoint {
     if(!this.isHorizontal) this.divElement.classList.add('js-slider__point_vertical')
     this.root.append(this.divElement);
     this.createTooltip(config)
+  }
+
+  private createTooltip(config: ViewConfig): void{
+    this.tooltip = new ViewTooltip(config, this.divElement)
   }
 }
 export default ViewPoint;
