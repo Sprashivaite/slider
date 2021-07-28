@@ -5,7 +5,10 @@ Frontend-education-program with Webpack, Pug and Stylus, TypeScript-jQuery-Jasmi
 # How to use it
 
 # Initialization
-
+#### Clone repo
+```commandline
+git clone https://github.com/Sprashivaite/slider.git
+```
 ## HTML
 Используемые файлы находятся в папке plugin-files. Подключить к странице index.js и style.css.
 ```javascript
