@@ -18,13 +18,13 @@ class ViewScale {
 
   updateValues(scaleValues: number[]): void {
     this.calcScaleOffsets(scaleValues);
-    this.divElement.innerHTML = '';    
+    this.divElement.innerHTML = '';
     const direction = this.isHorizontal ? 'left' : 'top';
     scaleValues.forEach((item, index) => {
-      const offset = `${direction}: ${this.scaleOffsets[index]}%`
+      const offset = `${direction}: ${this.scaleOffsets[index]}%`;
       this.divElement.insertAdjacentHTML(
-        'beforeend', 
-        `<div class="js-scale__value" style="${offset}">${item}</div>`
+        'beforeend',
+        `<div class="js-scale__value" style="${offset}">${item}</div>`,
       );
     });
     this.removeExtraValues();
@@ -48,7 +48,7 @@ class ViewScale {
   private createScale(): void {
     this.divElement = document.createElement('div');
     this.divElement.className = 'js-slider__scale';
-    if(!this.isHorizontal) this.divElement.classList.add('js-slider__scale_vertical')    
+    if (!this.isHorizontal) this.divElement.classList.add('js-slider__scale_vertical');
     this.root.append(this.divElement);
     if (!this.hasScale) this.hideScale();
   }
@@ -58,7 +58,7 @@ class ViewScale {
     const lastValue = scaleValues[scaleValues.length - 1];
     this.scaleOffsets = [];
     const step = 100 / (lastValue - firstValue);
-    scaleValues.forEach((value) => {
+    scaleValues.forEach(value => {
       const moduleValue = value - firstValue;
       this.scaleOffsets.push(moduleValue * step);
     });
@@ -69,10 +69,9 @@ class ViewScale {
     const current = this.isHorizontal ? 'left' : 'top';
     const previous = this.isHorizontal ? 'right' : 'bottom';
     const OFFSET = 5;
-    const isClose = (item: Element) => (
+    const isClose = (item: Element) =>
       item.getBoundingClientRect()[current] <
-      item.previousElementSibling!.getBoundingClientRect()[previous] + OFFSET
-    )
+      item.previousElementSibling!.getBoundingClientRect()[previous] + OFFSET;
     scaleChildren.forEach((item, index, array) => {
       if (index === 0) return;
       if (array.length - 1 === index) {

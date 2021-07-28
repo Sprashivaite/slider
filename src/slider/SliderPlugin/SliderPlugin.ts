@@ -1,14 +1,11 @@
-import {
-  separateViewConfig,
-  separateModelConfig,
-} from './utils/separateConfig';
+import { separateViewConfig, separateModelConfig } from './utils/separateConfig';
 import {
   ModelConfig,
   UserConfig,
   ViewConfig,
   EventName,
   EventCallback,
-  EventTypes
+  EventTypes,
 } from '../types';
 import Model from '../Model/Model';
 import View from '../View/View';
@@ -29,19 +26,19 @@ class SliderPlugin extends Observer {
   private presenter!: Presenter;
 
   constructor(config: UserConfig) {
-    super()
+    super();
     this.model = new Model();
     this.view = new View();
     this.presenter = new Presenter(this.model, this.view);
-    this.updateConfig(config)
+    this.updateConfig(config);
   }
 
   setValue(point: string, value: number): void {
     if (point === 'firstPoint') {
-      this.model.changeValue({ value, pointName: 'firstPoint'});
+      this.model.changeValue({ value, pointName: 'firstPoint' });
     }
     if (point === 'secondPoint') {
-      this.model.changeValue({ value, pointName: 'secondPoint'});
+      this.model.changeValue({ value, pointName: 'secondPoint' });
     }
   }
 
@@ -52,7 +49,10 @@ class SliderPlugin extends Observer {
       this.view.updateConfig(viewUserConfig);
     }
     this.model.updateConfig(modelUserConfig);
-    this.emit(EventTypes.configChanged, { ...this.model.getConfig(), ...this.view.getConfig() })
+    this.emit(EventTypes.configChanged, {
+      ...this.model.getConfig(),
+      ...this.view.getConfig(),
+    });
   }
 
   getConfig(): ViewConfig & ModelConfig {
@@ -60,22 +60,18 @@ class SliderPlugin extends Observer {
   }
 
   subscribe(event: EventName, listener: EventCallback): this {
-    super.subscribe(event, listener)
+    super.subscribe(event, listener);
     this.model.subscribe(event, listener);
     this.view.subscribe(event, listener);
-    return this
+    return this;
   }
 }
 
-(function addFunction($) {  
+(function addFunction($) {
   jQuery.fn.sliderPlugin = function sliderPlugin(config: UserConfig) {
     return this.each(function each() {
       if (!$.data(this, 'sliderPlugin')) {
-        $.data(
-          this,
-          'sliderPlugin',
-          new SliderPlugin({ ...config, target: this })
-        );
+        $.data(this, 'sliderPlugin', new SliderPlugin({ ...config, target: this }));
       }
     });
   };

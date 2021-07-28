@@ -92,7 +92,7 @@ class View extends Observer {
       this.progressBar.divElement,
       this.scale.divElement,
       this.secondPoint?.divElement,
-    ].forEach((item) => item.remove());
+    ].forEach(item => item.remove());
   }
 
   private addHandlers(): void {
@@ -107,8 +107,7 @@ class View extends Observer {
       const coordinate = this.config.isHorizontal ? 'clientX' : 'clientY';
       const size = this.config.isHorizontal ? 'offsetWidth' : 'offsetHeight';
       const mouseCoordsPX =
-        event[coordinate] -
-        this.field.divElement.getBoundingClientRect()[direction];
+        event[coordinate] - this.field.divElement.getBoundingClientRect()[direction];
       this.mouseCoords = (mouseCoordsPX * 100) / this.field.divElement[size];
     };
     document.addEventListener('mousemove', calcCoords);
@@ -130,9 +129,9 @@ class View extends Observer {
 
   private addPointHandler(): void {
     const useHandlers = (event: MouseEvent) => {
-      this.isFirstPointClosest(event) 
-      ? this.handlePoint(this.firstPoint, this.getFirstPointData.bind(this)) 
-      : this.handlePoint(this.secondPoint,this.getSecondPointData.bind(this));
+      this.isFirstPointClosest(event)
+        ? this.handlePoint(this.firstPoint, this.getFirstPointData.bind(this))
+        : this.handlePoint(this.secondPoint, this.getSecondPointData.bind(this));
     };
     this.firstPoint.divElement.addEventListener('mousedown', useHandlers);
     this.secondPoint?.divElement.addEventListener('mousedown', useHandlers);
@@ -154,14 +153,12 @@ class View extends Observer {
   private addScaleHandler(): void {
     const handleScaleClick = (event: MouseEvent) => {
       const value = event.currentTarget!.innerHTML;
-      this.isFirstPointClosest(event) 
-      ? this.emit(EventTypes.valueChanged, { value, ...this.getFirstPointData() })
-      : this.emit(EventTypes.valueChanged, { value, ...this.getSecondPointData() })      
+      this.isFirstPointClosest(event)
+        ? this.emit(EventTypes.valueChanged, { value, ...this.getFirstPointData() })
+        : this.emit(EventTypes.valueChanged, { value, ...this.getSecondPointData() });
     };
     const scaleChildren = this.scale.divElement.querySelectorAll('div');
-    scaleChildren.forEach(
-      (element) => element.addEventListener('click', handleScaleClick)
-    );
+    scaleChildren.forEach(element => element.addEventListener('click', handleScaleClick));
   }
 
   private handlePoint(point: ViewPoint, data: () => PointData): void {
@@ -188,9 +185,9 @@ class View extends Observer {
     if (event.target === secondPoint.divElement) return false;
 
     const firstPointOffset = firstPoint.getOffset();
-    const secondPointOffset = secondPoint.getOffset();    
+    const secondPointOffset = secondPoint.getOffset();
     const betweenPoints = (secondPointOffset + firstPointOffset) / 2;
-    
+
     if (mouseCoords > betweenPoints) return false;
     return true;
   }
@@ -200,15 +197,17 @@ class View extends Observer {
     if (!config.isRange) return;
 
     if (pointName === 'firstPoint') {
-      firstPoint.addTarget(); secondPoint.removeTarget()
+      firstPoint.addTarget();
+      secondPoint.removeTarget();
     } else {
-      secondPoint.addTarget(); firstPoint.removeTarget()
-    }  
+      secondPoint.addTarget();
+      firstPoint.removeTarget();
+    }
 
     if (firstPoint.getOffset() <= secondPoint.getOffset()) return;
     pointName === 'firstPoint'
       ? firstPoint.movePoint(secondPoint.getOffset())
-      : secondPoint.movePoint(firstPoint.getOffset());    
+      : secondPoint.movePoint(firstPoint.getOffset());
   }
 
   private joinTooltips(): void {
@@ -225,12 +224,12 @@ class View extends Observer {
     const secondTooltip = secondPoint.tooltip;
 
     const firstTooltipOffset = firstTooltip.getOffset() + firstTooltip.divElement[size];
-    const secondTooltipOffset = secondTooltip.getOffset();    
+    const secondTooltipOffset = secondTooltip.getOffset();
     const tooltipTotalOffset = `${(secondTooltipOffset - firstTooltipOffset) / 2}px`;
 
     const direction = config.isHorizontal ? 'left' : 'top';
-    this.tooltipTotal.divElement.style[direction] = tooltipTotalOffset;    
-    
+    this.tooltipTotal.divElement.style[direction] = tooltipTotalOffset;
+
     const firstValue = firstTooltip.getValue();
     const secondValue = secondTooltip.getValue();
     const delimiter = config.isHorizontal ? ' - ' : ' ';
@@ -238,10 +237,12 @@ class View extends Observer {
     this.tooltipTotal.divElement.innerHTML = text;
 
     if (firstTooltipOffset >= secondTooltipOffset) {
-      firstTooltip.hide(); secondTooltip.hide(); 
+      firstTooltip.hide();
+      secondTooltip.hide();
       this.tooltipTotal.show();
     } else {
-      firstTooltip.show(); secondTooltip.show();
+      firstTooltip.show();
+      secondTooltip.show();
       this.tooltipTotal.hide();
     }
   }

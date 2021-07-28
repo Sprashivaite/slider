@@ -1,4 +1,4 @@
-import ViewPoint from "./View/subView/ViewPoint";
+import ViewPoint from './View/subView/ViewPoint';
 
 type ModelConfig = {
   firstValue: number;
@@ -18,7 +18,7 @@ type ViewConfig = {
   hasProgressBar: boolean;
 };
 
-type UserConfig = {  
+type UserConfig = {
   firstValue?: number;
   secondValue?: number;
   max?: number;
@@ -29,14 +29,14 @@ type UserConfig = {
   isRange?: boolean;
   hasTooltip?: boolean;
   hasScale?: boolean;
-  hasProgressBar?: boolean;  
+  hasProgressBar?: boolean;
 };
 
 type ProgressBar = {
-  root: HTMLElement,
-  firstPoint: ViewPoint,
-  secondPoint?: ViewPoint
-}
+  root: HTMLElement;
+  firstPoint: ViewPoint;
+  secondPoint?: ViewPoint;
+};
 
 enum EventTypes {
   valueChanged = 'valueChanged',
@@ -50,12 +50,12 @@ enum EventTypes {
 
 enum PointNames {
   firstPoint = 'firstPoint',
-  secondPoint = 'secondPoint'
+  secondPoint = 'secondPoint',
 }
 
 type EventName = keyof typeof EventTypes;
 type PointName = keyof typeof PointNames;
-type EventCallback = (data: any) => void 
+type EventCallback = (data: any) => void;
 
 type PointData = {
   pointOffset: number;
@@ -68,7 +68,7 @@ type PointValue = {
   value: number;
 };
 
-export { 
+export {
   ModelConfig,
   UserConfig,
   ViewConfig,
@@ -77,5 +77,5 @@ export {
   ProgressBar,
   EventTypes,
   EventName,
-  EventCallback
+  EventCallback,
 };

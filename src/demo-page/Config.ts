@@ -32,7 +32,7 @@ class Config {
 
   private initInputs(): void {
     this.findElements();
-    this.updateInputs()
+    this.updateInputs();
     this.initFirstValue();
     this.initSecondValue();
     this.initMinValue();
@@ -58,12 +58,12 @@ class Config {
 
   private initFirstValue(): void {
     const updateValue = (data: PointData) => {
-      const { value, pointName } = data
-      if(pointName === 'firstPoint') this.firstPoint.value = `${value}`;      
+      const { value, pointName } = data;
+      if (pointName === 'firstPoint') this.firstPoint.value = `${value}`;
     };
     this.slider.subscribe('updatePoint', updateValue);
     const setPointValue = () => {
-      this.slider.setValue('firstPoint', this.firstPoint.valueAsNumber)
+      this.slider.setValue('firstPoint', this.firstPoint.valueAsNumber);
     };
     this.firstPoint.addEventListener('change', setPointValue);
   }
@@ -74,20 +74,22 @@ class Config {
       return;
     }
     const updateValue = (data: PointData) => {
-      const { value, pointName } = data
-      if(pointName === 'secondPoint') this.secondPoint.value = `${value}`;
-    };    
+      const { value, pointName } = data;
+      if (pointName === 'secondPoint') this.secondPoint.value = `${value}`;
+    };
     if (this.slider.getConfig().isRange) this.secondPoint.removeAttribute('disabled');
-    this.slider.subscribe('updatePoint', updateValue);    
+    this.slider.subscribe('updatePoint', updateValue);
     const setPointValue = () => {
-      this.slider.setValue('secondPoint', this.secondPoint.valueAsNumber)
+      this.slider.setValue('secondPoint', this.secondPoint.valueAsNumber);
     };
     this.secondPoint.addEventListener('change', setPointValue);
   }
 
   private initMinValue(): void {
-    const changeMin = (data: ModelConfig) => {this.min.value = `${data.min}`}
-    this.slider.subscribe(EventTypes.configChanged, changeMin)
+    const changeMin = (data: ModelConfig) => {
+      this.min.value = `${data.min}`;
+    };
+    this.slider.subscribe(EventTypes.configChanged, changeMin);
     const minChanged = () => {
       this.slider.updateConfig({ min: this.min.valueAsNumber });
     };
@@ -95,8 +97,10 @@ class Config {
   }
 
   private initMaxValue(): void {
-    const changeMax = (data: ModelConfig) => {this.max.value = `${data.max}`}
-    this.slider.subscribe(EventTypes.configChanged, changeMax)
+    const changeMax = (data: ModelConfig) => {
+      this.max.value = `${data.max}`;
+    };
+    this.slider.subscribe(EventTypes.configChanged, changeMax);
     const maxChanged = () => {
       this.slider.updateConfig({ max: Number(this.max.value) });
     };
@@ -104,8 +108,10 @@ class Config {
   }
 
   private initStep(): void {
-    const changeStep = (data: ModelConfig) => {this.step.value = `${data.step}`}
-    this.slider.subscribe(EventTypes.configChanged, changeStep)
+    const changeStep = (data: ModelConfig) => {
+      this.step.value = `${data.step}`;
+    };
+    this.slider.subscribe(EventTypes.configChanged, changeStep);
     const stepChanged = () => {
       this.slider.updateConfig({ step: Number(this.step.value) });
     };
@@ -114,28 +120,28 @@ class Config {
 
   private initTooltip(): void {
     const tooltipChanged = () => {
-      this.slider.updateConfig({hasTooltip: !this.slider.getConfig().hasTooltip})
+      this.slider.updateConfig({ hasTooltip: !this.slider.getConfig().hasTooltip });
     };
     this.tooltip.addEventListener('change', tooltipChanged);
   }
 
   private initScale(): void {
     const scaleChanged = () => {
-      this.slider.updateConfig({hasScale: !this.slider.getConfig().hasScale})
+      this.slider.updateConfig({ hasScale: !this.slider.getConfig().hasScale });
     };
     this.scale.addEventListener('change', scaleChanged);
   }
 
   private initOrientation(): void {
     const orientationChanged = () => {
-      this.slider.updateConfig({isHorizontal: !this.slider.getConfig().isHorizontal})
+      this.slider.updateConfig({ isHorizontal: !this.slider.getConfig().isHorizontal });
     };
     this.orientation.addEventListener('change', orientationChanged);
   }
 
   private initRange(): void {
     const rangeChanged = () => {
-      this.slider.updateConfig({isRange: !this.slider.getConfig().isRange})
+      this.slider.updateConfig({ isRange: !this.slider.getConfig().isRange });
     };
     this.range.addEventListener('change', rangeChanged);
   }
@@ -150,6 +156,5 @@ class Config {
     this.max.value = `${this.slider.getConfig().max}`;
     this.initSecondValue();
   }
-
 }
 export default Config;
