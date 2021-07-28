@@ -48,6 +48,7 @@
     "build": "webpack --config config/webpack.build.js",
     "prod": "webpack --config config/webpack.prod.js",
     "test": "karma start",
+    "eslint": "./node_modules/.bin/eslint ./src",
     "deploy": "gh-pages -d dist"
   },
   "repository": {
