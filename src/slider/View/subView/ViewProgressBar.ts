@@ -2,21 +2,21 @@ import { ViewConfig, ProgressBar } from '../../types';
 import ViewPoint from './ViewPoint';
 
 class ViewProgressBar {
-  divElement!: HTMLElement;
+  divElement: HTMLElement;
 
-  private root!: HTMLElement;
+  private root: HTMLElement;
 
-  private isHorizontal!: boolean;
+  private isHorizontal: boolean;
 
-  private firstPoint!: ViewPoint;
+  private firstPoint: ViewPoint;
 
   private secondPoint?: ViewPoint;
 
-  private hasProgressBar!: boolean;
+  private hasProgressBar: boolean;
 
-  private styleColor!: string;
+  private styleColor: string;
 
-  private isRange!: boolean;
+  private isRange: boolean;
 
   constructor(data: ViewConfig & ProgressBar) {
     this.init(data);
@@ -51,7 +51,7 @@ class ViewProgressBar {
 
   private init(data: ViewConfig & ProgressBar): void {
     const { isHorizontal, isRange, hasProgressBar, firstPoint, secondPoint, root } = data;
-    this.root = root!;
+    this.root = root;
     this.firstPoint = firstPoint;
     this.secondPoint = secondPoint;
     this.isHorizontal = isHorizontal;

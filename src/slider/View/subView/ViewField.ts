@@ -1,7 +1,7 @@
 import { ViewConfig } from '../../types';
 
 class ViewField {
-  divElement!: HTMLDivElement;
+  divElement: HTMLDivElement;
 
   constructor(config: ViewConfig, root: HTMLElement) {
     this.createField(config, root);
@@ -16,7 +16,7 @@ class ViewField {
       this.divElement.classList.add(modifier);
       this.divElement.classList.add(`js-${modifier}`);
     }
-    root!.append(this.divElement);
+    root.append(this.divElement);
   }
 }
 export default ViewField;

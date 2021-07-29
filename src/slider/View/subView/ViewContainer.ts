@@ -1,5 +1,5 @@
 class ViewContainer {
-  divElement!: HTMLElement;
+  divElement: HTMLElement;
 
   constructor(slider?: HTMLElement) {
     if (slider) this.divElement = slider;

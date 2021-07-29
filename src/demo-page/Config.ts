@@ -4,25 +4,25 @@ import { PointData, EventTypes, ModelConfig } from '../slider/types';
 class Config {
   private slider: SliderPlugin;
 
-  private firstPoint!: HTMLInputElement;
+  private firstPoint: HTMLInputElement;
 
-  private secondPoint!: HTMLInputElement;
+  private secondPoint: HTMLInputElement;
 
-  private max!: HTMLInputElement;
+  private max: HTMLInputElement;
 
-  private min!: HTMLInputElement;
+  private min: HTMLInputElement;
 
-  private step!: HTMLInputElement;
+  private step: HTMLInputElement;
 
-  private tooltip!: HTMLInputElement;
+  private tooltip: HTMLInputElement;
 
-  private scale!: HTMLInputElement;
+  private scale: HTMLInputElement;
 
-  private orientation!: HTMLInputElement;
+  private orientation: HTMLInputElement;
 
-  private range!: HTMLInputElement;
+  private range: HTMLInputElement;
 
-  private container!: HTMLElement;
+  private container: HTMLElement;
 
   constructor(slider: JQuery<HTMLElement>, container: HTMLElement) {
     this.slider = slider.data('sliderPlugin');
@@ -45,15 +45,19 @@ class Config {
   }
 
   private findElements(): void {
-    this.firstPoint = this.container.querySelector('[name=firstPoint]')!;
-    this.secondPoint = this.container.querySelector('[name=secondPoint]')!;
-    this.max = this.container.querySelector('[name=max]')!;
-    this.min = this.container.querySelector('[name=min]')!;
-    this.step = this.container.querySelector('[name=step]')!;
-    this.tooltip = this.container.querySelector('[name=tooltip]')!;
-    this.scale = this.container.querySelector('[name=scale]')!;
-    this.orientation = this.container.querySelector('[name=orientation]')!;
-    this.range = this.container.querySelector('[name=range]')!;
+    this.firstPoint = <HTMLInputElement>this.container.querySelector('[name=firstPoint]');
+    this.secondPoint = <HTMLInputElement>(
+      this.container.querySelector('[name=secondPoint]')
+    );
+    this.max = <HTMLInputElement>this.container.querySelector('[name=max]');
+    this.min = <HTMLInputElement>this.container.querySelector('[name=min]');
+    this.step = <HTMLInputElement>this.container.querySelector('[name=step]');
+    this.tooltip = <HTMLInputElement>this.container.querySelector('[name=tooltip]');
+    this.scale = <HTMLInputElement>this.container.querySelector('[name=scale]');
+    this.orientation = <HTMLInputElement>(
+      this.container.querySelector('[name=orientation]')
+    );
+    this.range = <HTMLInputElement>this.container.querySelector('[name=range]');
   }
 
   private initFirstValue(): void {

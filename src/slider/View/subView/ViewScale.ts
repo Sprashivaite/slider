@@ -1,15 +1,15 @@
 import { ViewConfig } from '../../types';
 
 class ViewScale {
-  divElement!: HTMLElement;
+  divElement: HTMLElement;
 
-  private root!: HTMLElement;
+  private root: HTMLElement;
 
-  private isHorizontal!: boolean;
+  private isHorizontal: boolean;
 
-  private scaleOffsets!: number[];
+  private scaleOffsets: number[];
 
-  private hasScale!: boolean;
+  private hasScale: boolean;
 
   constructor(config: ViewConfig, root: HTMLElement) {
     this.init(config, root);
@@ -77,16 +77,23 @@ class ViewScale {
 
   private removeExtraValues(): void {
     const scaleChildren = Array.from(this.divElement.children);
+
     const current = this.isHorizontal ? 'left' : 'top';
     const previous = this.isHorizontal ? 'right' : 'bottom';
     const OFFSET = 5;
+
+    const previousOffset = (element: Element) =>
+      element.previousElementSibling
+        ? element.previousElementSibling.getBoundingClientRect()[previous] + OFFSET
+        : 0;
+
     const isClose = (item: Element) =>
-      item.getBoundingClientRect()[current] <
-      item.previousElementSibling!.getBoundingClientRect()[previous] + OFFSET;
+      item.getBoundingClientRect()[current] < previousOffset(item);
+
     scaleChildren.forEach((item, index, array) => {
       if (index === 0) return;
       if (array.length - 1 === index) {
-        if (isClose(item)) item.previousElementSibling!.remove();
+        if (isClose(item)) item.previousElementSibling?.remove();
         return;
       }
       if (isClose(item)) item.remove();

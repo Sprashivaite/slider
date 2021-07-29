@@ -40,21 +40,21 @@ const slider5 = $('.js-slider-container_order_fifth > .js-slider').sliderPlugin(
   min: -100,
 });
 
-const configContainer1: HTMLElement = document.querySelector(
-  '.js-slider-container_order_first > .config',
-)!;
-const configContainer2: HTMLElement = document.querySelector(
-  '.js-slider-container_order_second > .config',
-)!;
-const configContainer3: HTMLElement = document.querySelector(
-  '.js-slider-container_order_third > .config',
-)!;
-const configContainer4: HTMLElement = document.querySelector(
-  '.js-slider-container_order_fourth > .config',
-)!;
-const configContainer5: HTMLElement = document.querySelector(
-  '.js-slider-container_order_fifth > .config',
-)!;
+const configContainer1 = <HTMLElement>(
+  document.querySelector('.js-slider-container_order_first > .config')
+);
+const configContainer2 = <HTMLElement>(
+  document.querySelector('.js-slider-container_order_second > .config')
+);
+const configContainer3 = <HTMLElement>(
+  document.querySelector('.js-slider-container_order_third > .config')
+);
+const configContainer4 = <HTMLElement>(
+  document.querySelector('.js-slider-container_order_fourth > .config')
+);
+const configContainer5 = <HTMLElement>(
+  document.querySelector('.js-slider-container_order_fifth > .config')
+);
 
 new Config(slider1, configContainer1);
 new Config(slider2, configContainer2);

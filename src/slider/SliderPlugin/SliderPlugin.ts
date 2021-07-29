@@ -19,11 +19,11 @@ declare global {
 }
 
 class SliderPlugin extends Observer {
-  private model!: Model;
+  private model: Model;
 
-  private view!: View;
+  private view: View;
 
-  private presenter!: Presenter;
+  private presenter: Presenter;
 
   constructor(config: UserConfig) {
     super();

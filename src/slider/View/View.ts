@@ -9,21 +9,21 @@ import { ViewConfig, UserConfig, PointData, EventTypes } from '../types';
 import Observer from '../Observer/Observer';
 
 class View extends Observer {
-  private firstPoint!: ViewPoint;
+  private firstPoint: ViewPoint;
 
-  private secondPoint!: ViewPoint;
+  private secondPoint: ViewPoint;
 
-  private field!: ViewField;
+  private field: ViewField;
 
-  private progressBar!: ViewProgressBar;
+  private progressBar: ViewProgressBar;
 
-  private scale!: ViewScale;
+  private scale: ViewScale;
 
-  private config!: ViewConfig;
+  private config: ViewConfig;
 
-  private tooltipTotal!: ViewTooltip;
+  private tooltipTotal: ViewTooltip;
 
-  private mouseCoords!: number;
+  private mouseCoords: number;
 
   constructor(config?: UserConfig) {
     super();

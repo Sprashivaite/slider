@@ -12,5 +12,6 @@
     "target": "es5",
     "alwaysStrict": true,
     "sourceMap": true,
+    "strictPropertyInitialization": false,
   }
 }

@@ -2,13 +2,13 @@ import { ViewConfig } from '../../types';
 import ViewTooltip from './ViewTooltip';
 
 class ViewPoint {
-  divElement!: HTMLDivElement;
+  divElement: HTMLDivElement;
 
-  tooltip!: ViewTooltip;
+  tooltip: ViewTooltip;
 
-  private root!: HTMLElement;
+  private root: HTMLElement;
 
-  private isHorizontal!: boolean;
+  private isHorizontal: boolean;
 
   constructor(config: ViewConfig, root: HTMLElement) {
     this.createPoint(config, root);

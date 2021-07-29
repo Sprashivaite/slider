@@ -1,9 +1,9 @@
 import { ViewConfig } from '../../types';
 
 class Tooltip {
-  divElement!: HTMLElement;
+  divElement: HTMLElement;
 
-  isHorizontal!: boolean;
+  isHorizontal: boolean;
 
   constructor(config: ViewConfig, root: HTMLElement) {
     this.createTooltip(config, root);
