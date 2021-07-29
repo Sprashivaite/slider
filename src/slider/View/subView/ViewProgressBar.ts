@@ -19,8 +19,15 @@ class ViewProgressBar {
   private isRange: boolean;
 
   constructor(data: ViewConfig & ProgressBar) {
-    this.init(data);
-    this.createElement();
+    const { isHorizontal, isRange, hasProgressBar, firstPoint, secondPoint, root } = data;
+    this.root = root;
+    this.firstPoint = firstPoint;
+    this.secondPoint = secondPoint;
+    this.isHorizontal = isHorizontal;
+    this.hasProgressBar = hasProgressBar;
+    this.isRange = isRange;
+    this.divElement = this.createElement();
+    this.styleColor = 'progressBar_color_first';
   }
 
   changeSize(): void {
@@ -49,17 +56,7 @@ class ViewProgressBar {
     this.divElement.classList.remove(`js-${modifier}`);
   }
 
-  private init(data: ViewConfig & ProgressBar): void {
-    const { isHorizontal, isRange, hasProgressBar, firstPoint, secondPoint, root } = data;
-    this.root = root;
-    this.firstPoint = firstPoint;
-    this.secondPoint = secondPoint;
-    this.isHorizontal = isHorizontal;
-    this.hasProgressBar = hasProgressBar;
-    this.isRange = isRange;
-  }
-
-  private createElement(): void {
+  private createElement(): HTMLElement {
     this.divElement = document.createElement('div');
     const style = 'progressBar';
     this.divElement.className = `${style} js-${style}`;
@@ -70,6 +67,7 @@ class ViewProgressBar {
     }
     this.root.append(this.divElement);
     if (!this.hasProgressBar) this.hide();
+    return this.divElement;
   }
 
   private changeColor(): void {

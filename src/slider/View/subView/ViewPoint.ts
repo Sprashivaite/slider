@@ -2,7 +2,7 @@ import { ViewConfig } from '../../types';
 import ViewTooltip from './ViewTooltip';
 
 class ViewPoint {
-  divElement: HTMLDivElement;
+  divElement: HTMLElement;
 
   tooltip: ViewTooltip;
 
@@ -11,7 +11,10 @@ class ViewPoint {
   private isHorizontal: boolean;
 
   constructor(config: ViewConfig, root: HTMLElement) {
-    this.createPoint(config, root);
+    this.root = root;
+    this.isHorizontal = config.isHorizontal;
+    this.divElement = this.createPoint();
+    this.tooltip = new ViewTooltip(config, this.divElement);
   }
 
   movePoint(value: number): void {
@@ -42,9 +45,7 @@ class ViewPoint {
     this.divElement.classList.remove(`js-${modifier}`);
   }
 
-  private createPoint(config: ViewConfig, root: HTMLElement): void {
-    this.root = root;
-    this.isHorizontal = config.isHorizontal;
+  private createPoint(): HTMLElement {
     this.divElement = document.createElement('div');
     const style = 'slider__point';
     this.divElement.className = `${style} js-${style}`;
@@ -54,11 +55,7 @@ class ViewPoint {
       this.divElement.classList.add(`js-${modifier}`);
     }
     this.root.append(this.divElement);
-    this.createTooltip(config);
-  }
-
-  private createTooltip(config: ViewConfig): void {
-    this.tooltip = new ViewTooltip(config, this.divElement);
+    return this.divElement;
   }
 }
 export default ViewPoint;

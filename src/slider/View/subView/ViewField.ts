@@ -1,13 +1,13 @@
 import { ViewConfig } from '../../types';
 
 class ViewField {
-  divElement: HTMLDivElement;
+  divElement: HTMLElement;
 
   constructor(config: ViewConfig, root: HTMLElement) {
-    this.createField(config, root);
+    this.divElement = this.createField(config, root);
   }
 
-  private createField(config: ViewConfig, root: HTMLElement): void {
+  private createField(config: ViewConfig, root: HTMLElement): HTMLElement {
     this.divElement = document.createElement('div');
     const style = 'slider__field';
     this.divElement.className = `${style} js-${style}`;
@@ -17,6 +17,7 @@ class ViewField {
       this.divElement.classList.add(`js-${modifier}`);
     }
     root.append(this.divElement);
+    return this.divElement;
   }
 }
 export default ViewField;

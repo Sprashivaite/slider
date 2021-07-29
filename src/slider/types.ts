@@ -1,4 +1,9 @@
+import ViewContainer from './View/subView/ViewContainer';
+import ViewField from './View/subView/ViewField';
 import ViewPoint from './View/subView/ViewPoint';
+import ViewProgressBar from './View/subView/ViewProgressBar';
+import ViewScale from './View/subView/ViewScale';
+import ViewTooltip from './View/subView/ViewTooltip';
 
 type ModelConfig = {
   firstValue: number;
@@ -30,6 +35,16 @@ type UserConfig = {
   hasTooltip?: boolean;
   hasScale?: boolean;
   hasProgressBar?: boolean;
+};
+
+type SubViews = {
+  slider: ViewContainer;
+  firstPoint: ViewPoint;
+  secondPoint?: ViewPoint;
+  field: ViewField;
+  progressBar: ViewProgressBar;
+  scale: ViewScale;
+  tooltipTotal?: ViewTooltip;
 };
 
 type ProgressBar = {
@@ -72,6 +87,7 @@ export {
   ModelConfig,
   UserConfig,
   ViewConfig,
+  SubViews,
   PointData,
   PointValue,
   ProgressBar,

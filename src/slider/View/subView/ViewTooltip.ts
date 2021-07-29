@@ -6,7 +6,8 @@ class Tooltip {
   isHorizontal: boolean;
 
   constructor(config: ViewConfig, root: HTMLElement) {
-    this.createTooltip(config, root);
+    this.isHorizontal = config.isHorizontal;
+    this.divElement = this.createTooltip(config, root);
   }
 
   changeValue(value: number): void {
@@ -41,8 +42,7 @@ class Tooltip {
     this.divElement.classList.add(`js-${modifier}`);
   }
 
-  private createTooltip(config: ViewConfig, root: HTMLElement): void {
-    this.isHorizontal = config.isHorizontal;
+  private createTooltip(config: ViewConfig, root: HTMLElement): HTMLElement {
     this.divElement = document.createElement('div');
     const style = 'slider__tooltip';
     this.divElement.className = `${style} js-${style}`;
@@ -54,6 +54,7 @@ class Tooltip {
     this.divElement.innerHTML = '0';
     root.append(this.divElement);
     if (!config.hasTooltip) this.hide();
+    return this.divElement;
   }
 }
 export default Tooltip;

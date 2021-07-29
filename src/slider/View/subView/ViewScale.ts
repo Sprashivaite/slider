@@ -12,8 +12,12 @@ class ViewScale {
   private hasScale: boolean;
 
   constructor(config: ViewConfig, root: HTMLElement) {
-    this.init(config, root);
-    this.createScale();
+    const { isHorizontal, hasScale } = config;
+    this.root = root;
+    this.isHorizontal = isHorizontal;
+    this.hasScale = hasScale;
+    this.divElement = this.createScale();
+    this.scaleOffsets = [];
   }
 
   updateValues(scaleValues: number[]): void {
@@ -44,14 +48,7 @@ class ViewScale {
     this.divElement.classList.remove(`js-${modifier}`);
   }
 
-  private init(config: ViewConfig, root: HTMLElement) {
-    const { isHorizontal, hasScale } = config;
-    this.root = root;
-    this.isHorizontal = isHorizontal;
-    this.hasScale = hasScale;
-  }
-
-  private createScale(): void {
+  private createScale(): HTMLElement {
     this.divElement = document.createElement('div');
     const style = 'slider__scale';
     this.divElement.className = `${style} js-${style}`;
@@ -62,6 +59,7 @@ class ViewScale {
     }
     this.root.append(this.divElement);
     if (!this.hasScale) this.hideScale();
+    return this.divElement;
   }
 
   private calcScaleOffsets(scaleValues: number[]): void {

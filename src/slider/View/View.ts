@@ -5,35 +5,29 @@ import ViewProgressBar from './subView/ViewProgressBar';
 import ViewScale from './subView/ViewScale';
 import ViewContainer from './subView/ViewContainer';
 import { DEFAULT_VIEW_CONFIG } from '../defaults';
-import { ViewConfig, UserConfig, PointData, EventTypes } from '../types';
+import { ViewConfig, PointData, EventTypes, SubViews } from '../types';
 import Observer from '../Observer/Observer';
 
 class View extends Observer {
-  private firstPoint: ViewPoint;
-
-  private secondPoint: ViewPoint;
-
-  private field: ViewField;
-
-  private progressBar: ViewProgressBar;
-
-  private scale: ViewScale;
-
   private config: ViewConfig;
 
-  private tooltipTotal: ViewTooltip;
+  private subViews: SubViews;
 
   private mouseCoords: number;
 
   constructor(config?: Partial<ViewConfig>) {
     super();
-    this.init(config);
+    this.config = DEFAULT_VIEW_CONFIG;
+    this.subViews = this.renderElements();
+    this.mouseCoords = 0;
+    this.addHandlers();
+    if (config) this.updateConfig(config);
   }
 
   updateConfig(config: Partial<ViewConfig>): void {
     this.config = { ...this.config, ...config };
     this.removeElements();
-    this.renderElements();
+    this.subViews = this.renderElements();
     this.addHandlers();
   }
 
@@ -43,57 +37,56 @@ class View extends Observer {
 
   updatePoints(data: PointData): void {
     const { pointOffset, pointName, value } = data;
+    const { firstPoint, secondPoint, progressBar } = this.subViews;
+
     if (pointName === 'firstPoint') {
-      this.firstPoint.movePoint(pointOffset);
-      this.firstPoint.tooltip.changeValue(value!);
+      firstPoint.movePoint(pointOffset);
+      firstPoint.tooltip.changeValue(value!);
     }
     if (pointName === 'secondPoint') {
-      this.secondPoint?.movePoint(pointOffset);
-      this.secondPoint?.tooltip.changeValue(value!);
+      secondPoint?.movePoint(pointOffset);
+      secondPoint?.tooltip.changeValue(value!);
     }
-    this.progressBar.changeSize();
+    progressBar.changeSize();
     this.joinTooltips();
   }
 
   updateScale(data: number[]): void {
-    this.scale.updateValues(data);
+    this.subViews.scale.updateValues(data);
     this.addScaleHandler();
   }
 
-  private init(config?: UserConfig): void {
-    this.config = DEFAULT_VIEW_CONFIG;
-    this.renderElements();
-    this.addHandlers();
-    if (config) this.updateConfig(config);
-  }
-
-  private renderElements(): void {
+  private renderElements(): SubViews {
     const { config } = this;
     const slider = new ViewContainer(config.target);
-    this.field = new ViewField(config, slider.divElement);
-    this.firstPoint = new ViewPoint(config, this.field.divElement);
-    this.scale = new ViewScale(config, slider.divElement);
-    if (config.isRange) {
-      this.secondPoint = new ViewPoint(config, this.field.divElement);
-      this.tooltipTotal = new ViewTooltip(config, this.firstPoint.divElement);
-      this.tooltipTotal.addModifierTotal();
-    }
-    this.progressBar = new ViewProgressBar({
-      root: this.field.divElement,
-      firstPoint: this.firstPoint,
-      secondPoint: this?.secondPoint,
+    const field = new ViewField(config, slider.divElement);
+    const firstPoint = new ViewPoint(config, field.divElement);
+    const scale = new ViewScale(config, slider.divElement);
+    const secondPoint = config.isRange
+      ? new ViewPoint(config, field.divElement)
+      : undefined;
+    const tooltipTotal = config.isRange
+      ? new ViewTooltip(config, firstPoint.divElement)
+      : undefined;
+    tooltipTotal?.addModifierTotal();
+    const progressBar = new ViewProgressBar({
+      root: field.divElement,
+      firstPoint,
+      secondPoint,
       ...config,
     });
+    return { slider, field, firstPoint, secondPoint, tooltipTotal, progressBar, scale };
   }
 
   private removeElements(): void {
+    const { firstPoint, secondPoint, field, progressBar, scale } = this.subViews;
     [
-      this.firstPoint.divElement,
-      this.field.divElement,
-      this.progressBar.divElement,
-      this.scale.divElement,
-      this.secondPoint?.divElement,
-    ].forEach(item => item.remove());
+      firstPoint.divElement,
+      field.divElement,
+      progressBar.divElement,
+      scale.divElement,
+      secondPoint?.divElement,
+    ].forEach(item => item?.remove());
   }
 
   private addHandlers(): void {
@@ -107,61 +100,71 @@ class View extends Observer {
   }
 
   private calcMouseCoords(event: MouseEvent): void {
+    const { field } = this.subViews;
     const direction = this.config.isHorizontal ? 'left' : 'top';
     const coordinate = this.config.isHorizontal ? 'clientX' : 'clientY';
     const size = this.config.isHorizontal ? 'offsetWidth' : 'offsetHeight';
     const mouseCoordsPX =
-      event[coordinate] - this.field.divElement.getBoundingClientRect()[direction];
-    this.mouseCoords = (mouseCoordsPX * 100) / this.field.divElement[size];
+      event[coordinate] - field.divElement.getBoundingClientRect()[direction];
+    this.mouseCoords = (mouseCoordsPX * 100) / field.divElement[size];
   }
 
   private getFirstPointData(): PointData {
+    const { firstPoint } = this.subViews;
     return {
-      pointOffset: this.firstPoint.getOffset(),
+      pointOffset: firstPoint.getOffset(),
       pointName: 'firstPoint',
     };
   }
 
   private getSecondPointData(): PointData {
+    const { secondPoint } = this.subViews;
     return {
-      pointOffset: this.secondPoint?.getOffset(),
+      pointOffset: secondPoint?.getOffset() || 0,
       pointName: 'secondPoint',
     };
   }
 
   private addPointHandler(): void {
-    this.firstPoint.divElement.addEventListener(
+    const { firstPoint, secondPoint } = this.subViews;
+    firstPoint.divElement.addEventListener(
       'mousedown',
       this.handlePointMouseDown.bind(this),
     );
-    this.secondPoint?.divElement.addEventListener(
+    secondPoint?.divElement.addEventListener(
       'mousedown',
       this.handlePointMouseDown.bind(this),
     );
   }
 
   private handlePointMouseDown(event: MouseEvent): void {
-    this.isFirstPointClosest(event)
-      ? this.handlePoint(this.firstPoint, this.getFirstPointData.bind(this))
-      : this.handlePoint(this.secondPoint, this.getSecondPointData.bind(this));
+    const { firstPoint, secondPoint } = this.subViews;
+    if (this.isFirstPointClosest(event))
+      this.handlePoint(firstPoint, this.getFirstPointData.bind(this));
+    else if (secondPoint)
+      this.handlePoint(secondPoint, this.getSecondPointData.bind(this));
   }
 
   private addFieldHandler(): void {
-    this.field.divElement.addEventListener('mousedown', this.handleFieldClick.bind(this));
+    this.subViews.field.divElement.addEventListener(
+      'mousedown',
+      this.handleFieldClick.bind(this),
+    );
   }
 
   private handleFieldClick(event: MouseEvent): void {
+    const { firstPoint, secondPoint } = this.subViews;
     if (this.isFirstPointClosest(event)) {
-      this.firstPoint.movePoint(this.mouseCoords);
+      firstPoint.movePoint(this.mouseCoords);
       this.emit(EventTypes.pointStopped, this.getFirstPointData());
     } else {
-      this.secondPoint.movePoint(this.mouseCoords);
+      secondPoint?.movePoint(this.mouseCoords);
       this.emit(EventTypes.pointStopped, this.getSecondPointData());
     }
   }
 
   private addScaleHandler(): void {
-    const scaleChildren = this.scale.divElement.querySelectorAll('div');
+    const scaleChildren = this.subViews.scale.divElement.querySelectorAll('div');
     scaleChildren.forEach(element =>
       element.addEventListener('click', this.handleScaleClick.bind(this)),
     );
@@ -191,8 +194,10 @@ class View extends Observer {
   }
 
   private isFirstPointClosest(event: MouseEvent): boolean {
-    const { config, firstPoint, secondPoint, mouseCoords } = this;
+    const { config, mouseCoords } = this;
+    const { firstPoint, secondPoint } = this.subViews;
     if (!config.isRange) return true;
+    if (!secondPoint) return true;
 
     if (event.target === firstPoint.divElement) return true;
     if (event.target === secondPoint.divElement) return false;
@@ -206,8 +211,8 @@ class View extends Observer {
   }
 
   private demarcatePoints(pointName: string): void {
-    const { config, firstPoint, secondPoint } = this;
-    if (!config.isRange) return;
+    const { firstPoint, secondPoint } = this.subViews;
+    if (!secondPoint) return;
 
     if (pointName === 'firstPoint') {
       firstPoint.addTarget();
@@ -224,8 +229,10 @@ class View extends Observer {
   }
 
   private joinTooltips(): void {
-    const { config, firstPoint, secondPoint } = this;
-    if (!config.hasTooltip || !config.isRange) return;
+    const { firstPoint, secondPoint, tooltipTotal } = this.subViews;
+    const { config } = this;
+    if (!config.hasTooltip) return;
+    if (!secondPoint || !tooltipTotal) return;
 
     const size = config.isHorizontal ? 'offsetWidth' : 'offsetHeight';
     const firstTooltip = firstPoint.tooltip;
@@ -236,22 +243,22 @@ class View extends Observer {
     const tooltipTotalOffset = `${(secondTooltipOffset - firstTooltipOffset) / 2}px`;
 
     const direction = config.isHorizontal ? 'left' : 'top';
-    this.tooltipTotal.divElement.style[direction] = tooltipTotalOffset;
+    tooltipTotal.divElement.style[direction] = tooltipTotalOffset;
 
     const firstValue = firstTooltip.getValue();
     const secondValue = secondTooltip.getValue();
     const delimiter = config.isHorizontal ? ' - ' : ' ';
     const text = `${firstValue}${delimiter}${secondValue}`;
-    this.tooltipTotal.divElement.innerHTML = text;
+    tooltipTotal.divElement.innerHTML = text;
 
     if (firstTooltipOffset >= secondTooltipOffset) {
       firstTooltip.hide();
       secondTooltip.hide();
-      this.tooltipTotal.show();
+      tooltipTotal.show();
     } else {
       firstTooltip.show();
       secondTooltip.show();
-      this.tooltipTotal.hide();
+      tooltipTotal.hide();
     }
   }
 }

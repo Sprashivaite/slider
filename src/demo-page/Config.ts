@@ -22,10 +22,10 @@ class Config {
 
   private range: HTMLInputElement;
 
-  private container: HTMLElement;
+  private container: Element;
 
-  constructor(slider: JQuery<HTMLElement>, container: HTMLElement) {
-    this.slider = slider.data('sliderPlugin');
+  constructor(slider: SliderPlugin, container: Element) {
+    this.slider = slider;
     this.container = container;
     this.initInputs();
   }
@@ -38,19 +38,32 @@ class Config {
   }
 
   private findElements(): void {
-    this.firstPoint = <HTMLInputElement>this.container.querySelector('[name=firstPoint]');
-    this.secondPoint = <HTMLInputElement>(
-      this.container.querySelector('[name=secondPoint]')
-    );
-    this.max = <HTMLInputElement>this.container.querySelector('[name=max]');
-    this.min = <HTMLInputElement>this.container.querySelector('[name=min]');
-    this.step = <HTMLInputElement>this.container.querySelector('[name=step]');
-    this.tooltip = <HTMLInputElement>this.container.querySelector('[name=tooltip]');
-    this.scale = <HTMLInputElement>this.container.querySelector('[name=scale]');
-    this.orientation = <HTMLInputElement>(
-      this.container.querySelector('[name=orientation]')
-    );
-    this.range = <HTMLInputElement>this.container.querySelector('[name=range]');
+    const firstPoint = this.container.querySelector('[name=firstPoint]');
+    if (firstPoint instanceof HTMLInputElement) this.firstPoint = firstPoint;
+
+    const secondPoint = this.container.querySelector('[name=secondPoint]');
+    if (secondPoint instanceof HTMLInputElement) this.secondPoint = secondPoint;
+
+    const max = this.container.querySelector('[name=max]');
+    if (max instanceof HTMLInputElement) this.max = max;
+
+    const min = this.container.querySelector('[name=min]');
+    if (min instanceof HTMLInputElement) this.min = min;
+
+    const step = this.container.querySelector('[name=step]');
+    if (step instanceof HTMLInputElement) this.step = step;
+
+    const tooltip = this.container.querySelector('[name=tooltip]');
+    if (tooltip instanceof HTMLInputElement) this.tooltip = tooltip;
+
+    const scale = this.container.querySelector('[name=scale]');
+    if (scale instanceof HTMLInputElement) this.scale = scale;
+
+    const orientation = this.container.querySelector('[name=orientation]');
+    if (orientation instanceof HTMLInputElement) this.orientation = orientation;
+
+    const range = this.container.querySelector('[name=range]');
+    if (range instanceof HTMLInputElement) this.range = range;
   }
 
   private updateValues(): void {
