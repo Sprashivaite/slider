@@ -25,13 +25,12 @@ class View extends Observer {
 
   private mouseCoords: number;
 
-  constructor(config?: UserConfig) {
+  constructor(config?: Partial<ViewConfig>) {
     super();
     this.init(config);
   }
 
-  updateConfig(config: UserConfig): void {
-    if (typeof config !== 'object') return;
+  updateConfig(config: Partial<ViewConfig>): void {
     this.config = { ...this.config, ...config };
     this.removeElements();
     this.renderElements();

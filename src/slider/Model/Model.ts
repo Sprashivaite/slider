@@ -1,18 +1,17 @@
 import { DEFAULT_MODEL_CONFIG } from '../defaults';
-import { PointData, PointValue, ModelConfig, UserConfig, EventTypes } from '../types';
+import { PointData, PointValue, ModelConfig, EventTypes } from '../types';
 import Observer from '../Observer/Observer';
 
 class Model extends Observer {
   private config: ModelConfig;
 
-  constructor(config?: UserConfig) {
+  constructor(config?: Partial<ModelConfig>) {
     super();
     this.config = DEFAULT_MODEL_CONFIG;
     if (config) this.updateConfig(config);
   }
 
-  updateConfig(config: UserConfig): void {
-    if (typeof config !== 'object') return;
+  updateConfig(config: Partial<ModelConfig>): void {
     this.config = { ...this.config, ...config };
     this.validate();
     this.notifyListeners();
