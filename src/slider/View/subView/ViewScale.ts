@@ -20,22 +20,28 @@ class ViewScale {
     this.calcScaleOffsets(scaleValues);
     this.divElement.innerHTML = '';
     const direction = this.isHorizontal ? 'left' : 'top';
+    const style = 'scale__value';
+    const modifier = this.isHorizontal ? `` : `${style}_vertical js-${style}_vertical`;
     scaleValues.forEach((item, index) => {
       const offset = `${direction}: ${this.scaleOffsets[index]}%`;
       this.divElement.insertAdjacentHTML(
         'beforeend',
-        `<div class="js-scale__value" style="${offset}">${item}</div>`,
+        `<div class="${style} ${modifier}" style="${offset}">${item}</div>`,
       );
     });
     this.removeExtraValues();
   }
 
   hideScale(): void {
-    this.divElement.classList.add('-js-slider__scale_hidden');
+    const modifier = 'slider__scale_hidden';
+    this.divElement.classList.add(modifier);
+    this.divElement.classList.add(`js-${modifier}`);
   }
 
   showScale(): void {
-    this.divElement.classList.remove('-js-slider__scale_hidden');
+    const modifier = 'slider__scale_hidden';
+    this.divElement.classList.remove(modifier);
+    this.divElement.classList.remove(`js-${modifier}`);
   }
 
   private init(config: ViewConfig, root: HTMLElement) {
@@ -47,8 +53,13 @@ class ViewScale {
 
   private createScale(): void {
     this.divElement = document.createElement('div');
-    this.divElement.className = 'js-slider__scale';
-    if (!this.isHorizontal) this.divElement.classList.add('js-slider__scale_vertical');
+    const style = 'slider__scale';
+    this.divElement.className = `${style} js-${style}`;
+    if (!this.isHorizontal) {
+      const modifier = 'slider__scale_vertical';
+      this.divElement.classList.add(modifier);
+      this.divElement.classList.add(`js-${modifier}`);
+    }
     this.root.append(this.divElement);
     if (!this.hasScale) this.hideScale();
   }

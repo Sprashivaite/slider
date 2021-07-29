@@ -6,7 +6,7 @@
   user-select: none;
 }
 
-.js-slider__field {
+.slider__field {
   position: relative;
   background: rgba(31, 32, 65, 0.25);
   border-radius: 3px;
@@ -19,12 +19,12 @@
   box-sizing: border-box;
 }
 
-.js-slider__field_vertical {
+.slider__field_vertical {
   height: 100%;
   width: 8px;
 }
 
-.js-slider__point {
+.slider__point {
   display: inline-flex;
   position: absolute;
   width: 18px;
@@ -38,15 +38,15 @@
   transform: translateX(-50%);
 }
 
-.js-slider__point_target {
+.slider__point_target {
   z-index: 10;
 }
 
-.js-slider__point_vertical {
+.slider__point_vertical {
   transform: translate(-25%, -50%);
 }
 
-.-js-slider__tooltip {
+.slider__tooltip {
   padding: 1px 5px;
   background: linear-gradient(180deg, #6fcf97 0%, #66d2ea 100%);
   font-size: 13px;
@@ -62,19 +62,18 @@
   user-select: none;
 }
 
-.-js-slider__tooltip_vertical {
+.slider__tooltip_vertical {
   left: 150%;
   position: absolute;
   white-space: normal;
   transform: translateY(0);
 }
 
-.-js-slider__tooltip_type_total {
+.slider__tooltip_type_total {
   position: absolute;
-  visibility: hidden;
 }
 
-.-js-slider__tooltip_hidden {
+.slider__tooltip_hidden {
   visibility: hidden;
 }
 
@@ -88,33 +87,33 @@
   height: 100%;
 } 
 
-.js-progressBar_vertical {
+.progressBar_vertical {
   top: 0;
   width: 100%;
   height: auto;
 }
 
-.js-progressBar_color_first {
+.progressBar_color_first {
   background-color: #915e4e;
 }
 
-.js-progressBar_color_second {
+.progressBar_color_second {
   background-color: #cf866f;
 }
 
-.js-progressBar_color_third {
+.progressBar_color_third {
   background-color: #4e9179;
 }
 
-.js-progressBar_color_fourth {
+.progressBar_color_fourth {
   background-color: #6fcf97;
 }
 
-.-js-slider__bar_hidden {
+.slider__bar_hidden {
   opacity: 0;
 }
 
-.js-slider__scale {
+.slider__scale {
   display: flex;
   font-size: 14px;
   margin: 30px 0px 0px 0px;
@@ -124,7 +123,7 @@
   user-select: none;
 }
 
-.js-slider__scale_vertical {
+.slider__scale_vertical {
   position: relative;
   font-stretch: expanded;
   flex-direction: column;
@@ -135,18 +134,19 @@
   width: auto;
 }
 
-.js-scale__value {
+.slider__scale_hidden {
+  visibility: hidden;
+}
+
+.scale__value {
   transform: translateX(-50%);
   cursor: pointer;
   position: absolute;
 }
 
-.js-slider__scale_vertical .js-scale__value {
+.scale__value_vertical {
   transform: translateY(-50%);
   height: 15px;
 }
 
-.-js-slider__scale_hidden {
-  visibility: hidden;
-}
 

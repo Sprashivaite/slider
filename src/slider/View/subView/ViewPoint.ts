@@ -31,19 +31,28 @@ class ViewPoint {
   }
 
   addTarget(): void {
-    this.divElement.style.zIndex = '10';
+    const modifier = 'slider__point_target';
+    this.divElement.classList.add(modifier);
+    this.divElement.classList.add(`js-${modifier}`);
   }
 
   removeTarget(): void {
-    this.divElement.style.zIndex = '3';
+    const modifier = 'slider__point_target';
+    this.divElement.classList.remove(modifier);
+    this.divElement.classList.remove(`js-${modifier}`);
   }
 
   private createPoint(config: ViewConfig, root: HTMLElement): void {
     this.root = root;
     this.isHorizontal = config.isHorizontal;
     this.divElement = document.createElement('div');
-    this.divElement.className = 'js-slider__point';
-    if (!this.isHorizontal) this.divElement.classList.add('js-slider__point_vertical');
+    const style = 'slider__point';
+    this.divElement.className = `${style} js-${style}`;
+    if (!this.isHorizontal) {
+      const modifier = 'slider__point_vertical';
+      this.divElement.classList.add(modifier);
+      this.divElement.classList.add(`js-${modifier}`);
+    }
     this.root.append(this.divElement);
     this.createTooltip(config);
   }

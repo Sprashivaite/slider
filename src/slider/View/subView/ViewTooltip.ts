@@ -18,11 +18,15 @@ class Tooltip {
   }
 
   hide(): void {
-    this.divElement.classList.add('-js-slider__tooltip_hidden');
+    const modifier = 'slider__tooltip_hidden';
+    this.divElement.classList.add(modifier);
+    this.divElement.classList.add(`js-${modifier}`);
   }
 
   show(): void {
-    this.divElement.classList.remove('-js-slider__tooltip_hidden');
+    const modifier = 'slider__tooltip_hidden';
+    this.divElement.classList.remove(modifier);
+    this.divElement.classList.remove(`js-${modifier}`);
   }
 
   getOffset(): number {
@@ -31,11 +35,22 @@ class Tooltip {
       : this.divElement.getBoundingClientRect().top;
   }
 
+  addModifierTotal(): void {
+    const modifier = 'slider__tooltip_type_total';
+    this.divElement.classList.add(modifier);
+    this.divElement.classList.add(`js-${modifier}`);
+  }
+
   private createTooltip(config: ViewConfig, root: HTMLElement): void {
     this.isHorizontal = config.isHorizontal;
     this.divElement = document.createElement('div');
-    this.divElement.className = '-js-slider__tooltip';
-    if (!this.isHorizontal) this.divElement.classList.add('-js-slider__tooltip_vertical');
+    const style = 'slider__tooltip';
+    this.divElement.className = `${style} js-${style}`;
+    if (!this.isHorizontal) {
+      const modifier = 'slider__tooltip_vertical';
+      this.divElement.classList.add(modifier);
+      this.divElement.classList.add(`js-${modifier}`);
+    }
     this.divElement.innerHTML = '0';
     root.append(this.divElement);
     if (!config.hasTooltip) this.hide();

@@ -76,6 +76,8 @@ class View extends Observer {
     this.scale = new ViewScale(config, slider.divElement);
     if (config.isRange) {
       this.secondPoint = new ViewPoint(config, this.field.divElement);
+      this.tooltipTotal = new ViewTooltip(config, this.firstPoint.divElement);
+      this.tooltipTotal.addModifierTotal();
     }
     this.progressBar = new ViewProgressBar({
       root: this.field.divElement,
@@ -213,11 +215,6 @@ class View extends Observer {
   private joinTooltips(): void {
     const { config, firstPoint, secondPoint } = this;
     if (!config.hasTooltip || !config.isRange) return;
-
-    if (!this.tooltipTotal) {
-      this.tooltipTotal = new ViewTooltip(config, firstPoint.divElement);
-      this.tooltipTotal.divElement.classList.add('-js-slider__tooltip_type_total');
-    }
 
     const size = config.isHorizontal ? 'offsetWidth' : 'offsetHeight';
     const firstTooltip = firstPoint.tooltip;
