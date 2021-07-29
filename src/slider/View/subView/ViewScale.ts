@@ -21,7 +21,7 @@ class ViewScale {
     this.divElement.innerHTML = '';
     const direction = this.isHorizontal ? 'left' : 'top';
     const style = 'scale__value';
-    const modifier = this.isHorizontal ? `` : `${style}_vertical js-${style}_vertical`;
+    const modifier = this.isHorizontal ? '' : `${style}_vertical js-${style}_vertical`;
     scaleValues.forEach((item, index) => {
       const offset = `${direction}: ${this.scaleOffsets[index]}%`;
       this.divElement.insertAdjacentHTML(
@@ -78,26 +78,30 @@ class ViewScale {
   private removeExtraValues(): void {
     const scaleChildren = Array.from(this.divElement.children);
 
-    const current = this.isHorizontal ? 'left' : 'top';
-    const previous = this.isHorizontal ? 'right' : 'bottom';
-    const OFFSET = 5;
-
-    const previousOffset = (element: Element) =>
-      element.previousElementSibling
-        ? element.previousElementSibling.getBoundingClientRect()[previous] + OFFSET
-        : 0;
-
-    const isClose = (item: Element) =>
-      item.getBoundingClientRect()[current] < previousOffset(item);
-
     scaleChildren.forEach((item, index, array) => {
       if (index === 0) return;
       if (array.length - 1 === index) {
-        if (isClose(item)) item.previousElementSibling?.remove();
+        if (this.isPreviousItemTooClose(item)) item.previousElementSibling?.remove();
         return;
       }
-      if (isClose(item)) item.remove();
+      if (this.isPreviousItemTooClose(item)) item.remove();
     });
+  }
+
+  private isPreviousItemTooClose(element: Element): boolean {
+    const current = this.isHorizontal ? 'left' : 'top';
+    return (
+      element.getBoundingClientRect()[current] < this.calcPreviousItemOffset(element)
+    );
+  }
+
+  private calcPreviousItemOffset(element: Element): number {
+    const previous = this.isHorizontal ? 'right' : 'bottom';
+    const OFFSET = 5;
+    const result = element.previousElementSibling
+      ? element.previousElementSibling.getBoundingClientRect()[previous] + OFFSET
+      : 0;
+    return result;
   }
 }
 

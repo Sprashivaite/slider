@@ -100,13 +100,16 @@ class Model extends Observer {
     if (!Number.isFinite(step)) step = 1;
     if (step >= max - min) step = max - min;
     if (step <= 0) step = 1;
-    const validateLargeNumbers = (value: number): number => {
-      if (value * 200 > max - min) return value;
-      return validateLargeNumbers(value + 1);
-    };
 
-    step = validateLargeNumbers(step);
+    step = this.validateLargeNumbers(step);
     this.config = { ...this.config, step };
+  }
+
+  private validateLargeNumbers(value: number): number {
+    const { max, min } = this.config;
+
+    if (value * 200 > max - min) return value;
+    return this.validateLargeNumbers(value + 1);
   }
 
   private updateSteps(): void {
