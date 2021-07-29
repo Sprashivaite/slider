@@ -70,17 +70,13 @@ enum PointNames {
 
 type EventName = keyof typeof EventTypes;
 type PointName = keyof typeof PointNames;
-type EventCallback = (data: any) => void;
+type EventCallback<A, B> = (data: A) => B;
 
 type PointData = {
   pointOffset: number;
   pointName: PointName;
   value?: number;
-};
-
-type PointValue = {
-  pointName: PointName;
-  value: number;
+  steps?: number[];
 };
 
 export {
@@ -89,7 +85,6 @@ export {
   ViewConfig,
   SubViews,
   PointData,
-  PointValue,
   ProgressBar,
   EventTypes,
   EventName,

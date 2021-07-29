@@ -1,8 +1,8 @@
 import { DEFAULT_MODEL_CONFIG } from '../defaults';
-import { PointData, PointValue, ModelConfig, EventTypes } from '../types';
+import { PointData, ModelConfig, EventTypes } from '../types';
 import Observer from '../Observer/Observer';
 
-class Model extends Observer {
+class Model extends Observer<PointData> {
   private config: ModelConfig;
 
   constructor(config?: Partial<ModelConfig>) {
@@ -41,11 +41,11 @@ class Model extends Observer {
     this.updatePoint({ ...data, pointOffset: stopPoint ?? 100 });
   }
 
-  changeValue(data: PointValue): void {
+  changeValue(data: PointData): void {
     const { max, min } = this.config;
     const { value, pointName } = data;
     const result: number = (100 / (max - min)) * (value! - min);
-    this.correctStepPoint({ value, pointName, pointOffset: result });
+    this.correctStepPoint({ ...data, value, pointName, pointOffset: result });
   }
 
   updatePoint(data: PointData): void {
@@ -59,9 +59,14 @@ class Model extends Observer {
 
   private notifyListeners(): void {
     const { firstValue, secondValue } = this.config;
-    this.changeValue({ value: firstValue, pointName: 'firstPoint' });
-    this.changeValue({ value: secondValue, pointName: 'secondPoint' });
-    this.updateSteps();
+    const steps = this.calcSteps();
+    this.changeValue({
+      steps,
+      value: firstValue,
+      pointName: 'firstPoint',
+      pointOffset: 0,
+    });
+    this.changeValue({ value: secondValue, pointName: 'secondPoint', pointOffset: 0 });
   }
 
   private validate(): void {
@@ -110,11 +115,6 @@ class Model extends Observer {
 
     if (value * 200 > max - min) return value;
     return this.validateLargeNumbers(value + 1);
-  }
-
-  private updateSteps(): void {
-    const steps = this.calcSteps();
-    this.emit(EventTypes.stepsUpdate, steps);
   }
 
   private roundByStep(value: number): number {

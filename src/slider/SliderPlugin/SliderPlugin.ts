@@ -6,6 +6,7 @@ import {
   EventName,
   EventCallback,
   EventTypes,
+  PointData,
 } from '../types';
 import Model from '../Model/Model';
 import View from '../View/View';
@@ -18,7 +19,7 @@ declare global {
   }
 }
 
-class SliderPlugin extends Observer {
+class SliderPlugin extends Observer<UserConfig | PointData> {
   private model: Model;
 
   private view: View;
@@ -35,10 +36,10 @@ class SliderPlugin extends Observer {
 
   setValue(point: string, value: number): void {
     if (point === 'firstPoint') {
-      this.model.changeValue({ value, pointName: 'firstPoint' });
+      this.model.changeValue({ value, pointName: 'firstPoint', pointOffset: 0 });
     }
     if (point === 'secondPoint') {
-      this.model.changeValue({ value, pointName: 'secondPoint' });
+      this.model.changeValue({ value, pointName: 'secondPoint', pointOffset: 0 });
     }
   }
 
@@ -59,7 +60,10 @@ class SliderPlugin extends Observer {
     return { ...this.model.getConfig(), ...this.view.getConfig() };
   }
 
-  subscribe(event: EventName, listener: EventCallback): this {
+  subscribe(
+    event: EventName,
+    listener: EventCallback<PointData | UserConfig, void>,
+  ): this {
     super.subscribe(event, listener);
     this.model.subscribe(event, listener);
     this.view.subscribe(event, listener);

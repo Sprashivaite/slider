@@ -8,7 +8,7 @@ import { DEFAULT_VIEW_CONFIG } from '../defaults';
 import { ViewConfig, PointData, EventTypes, SubViews } from '../types';
 import Observer from '../Observer/Observer';
 
-class View extends Observer {
+class View extends Observer<PointData> {
   private config: ViewConfig;
 
   private subViews: SubViews;
@@ -36,7 +36,7 @@ class View extends Observer {
   }
 
   updatePoints(data: PointData): void {
-    const { pointOffset, pointName, value } = data;
+    const { pointOffset, pointName, value, steps } = data;
     const { firstPoint, secondPoint, progressBar } = this.subViews;
 
     if (pointName === 'firstPoint') {
@@ -48,10 +48,11 @@ class View extends Observer {
       secondPoint?.tooltip.changeValue(value!);
     }
     progressBar.changeSize();
+    if (steps !== undefined) this.updateScale(steps);
     this.joinTooltips();
   }
 
-  updateScale(data: number[]): void {
+  private updateScale(data: number[]): void {
     this.subViews.scale.updateValues(data);
     this.addScaleHandler();
   }

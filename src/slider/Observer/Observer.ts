@@ -1,20 +1,18 @@
-import { PointData, EventTypes, EventName, EventCallback, UserConfig } from '../types';
+import { EventTypes, EventName, EventCallback } from '../types';
 
-type Data = PointData | number[] | undefined | UserConfig;
-
-class Observer {
-  events: { [key in EventTypes]?: EventCallback[] };
+class Observer<A> {
+  events: { [key in EventTypes]?: EventCallback<A, void>[] };
 
   constructor() {
     this.events = {};
   }
 
-  emit(eventName: EventName, data?: Data): void {
+  emit(eventName: EventName, data: A): void {
     const event = this.events[eventName];
-    if (event) event.forEach((el: (data: Data) => void) => el(data));
+    if (event) event.forEach(el => el(data));
   }
 
-  subscribe(eventName: EventName, listener: EventCallback): this {
+  subscribe(eventName: EventName, listener: EventCallback<A, void>): this {
     const event = this.events[eventName];
     if (event && !event.includes(listener)) event.push(listener);
     else {
