@@ -75,8 +75,8 @@ class Model extends Observer {
     let { firstValue, secondValue } = this.config;
     if (typeof firstValue !== 'number') firstValue = Number(firstValue);
     if (typeof secondValue !== 'number') secondValue = Number(secondValue);
-    if (Number.isNaN(firstValue)) firstValue = 0;
-    if (Number.isNaN(secondValue)) secondValue = 1;
+    if (!Number.isFinite(firstValue)) firstValue = 0;
+    if (!Number.isFinite(secondValue)) secondValue = 1;
     if (firstValue >= secondValue) firstValue = secondValue - 1;
     if (secondValue <= firstValue) secondValue = firstValue + 1;
     this.config = { ...this.config, firstValue, secondValue };
@@ -86,8 +86,8 @@ class Model extends Observer {
     let { max, min } = this.config;
     if (typeof min !== 'number') min = Number(min);
     if (typeof max !== 'number') max = Number(max);
-    if (Number.isNaN(max)) max = 100;
-    if (Number.isNaN(min)) min = 0;
+    if (!Number.isFinite(max)) max = 100;
+    if (!Number.isFinite(min)) min = 0;
     if (min >= max) min = max - 1;
     if (max <= min) max = min + 1;
     this.config = { ...this.config, max, min };
@@ -98,7 +98,7 @@ class Model extends Observer {
     let { step } = this.config;
 
     if (typeof step !== 'number') step = Number(step);
-    if (Number.isNaN(step)) step = 1;
+    if (!Number.isFinite(step)) step = 1;
     if (step >= max - min) step = max - min;
     if (step <= 0) step = 1;
     const validateLargeNumbers = (value: number): number => {
