@@ -5,7 +5,7 @@ Frontend-education-program with Webpack, Pug and Stylus, TypeScript-jQuery-Jasmi
 # How to use it
 
 # Initialization
-#### Clone repo
+## Clone repo
 ```commandline
 git clone https://github.com/Sprashivaite/slider.git
 ```
@@ -58,13 +58,13 @@ slider.updateConfig(parameters)
 ```
 ### subscribe
 ```javascript
-slider.subscribe('valueChanged', data)  // Подписать на изменение первого значения
-if(data.pointName === 'firstPoint') target = data.value
-
-slider.subscribe('valueChanged', data)  // Подписать на изменение второго значения
-if(data.pointName === 'secondPoint') target = data.value
-
 slider.subscribe('configChanged', data)  // Подписать на изменение конфигурации
+
+const getFirstValue = (data) => data.firstValue // Подписать на изменение первого значения
+slider.subscribe('updatePoint', getFirstValue)
+
+const getSecondValue = (data) => data.secondValue // Подписать на изменение второго значения
+slider.subscribe('updatePoint', getSecondValue)  
 
 ```
 # Architecture
