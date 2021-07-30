@@ -68,7 +68,7 @@ class Config {
     return this.inputs;
   }
 
-  private updateValues(): void {
+  private updateValues = (): void => {
     const config = this.slider.getConfig();
     const {
       firstPoint,
@@ -95,11 +95,11 @@ class Config {
     } else {
       secondPoint.setAttribute('disabled', 'true');
     }
-  }
+  };
 
   private subscribeInputs(): void {
-    this.slider.subscribe(EventTypes.configChanged, this.updateValues.bind(this));
-    this.slider.subscribe(EventTypes.updatePoint, this.updateValues.bind(this));
+    this.slider.subscribe(EventTypes.configChanged, this.updateValues);
+    this.slider.subscribe(EventTypes.updatePoint, this.updateValues);
   }
 
   private bindListeners(): void {
@@ -114,51 +114,51 @@ class Config {
       orientation,
       range,
     } = this.inputs;
-    firstPoint.addEventListener('change', this.handleFirstPointChange.bind(this));
-    secondPoint.addEventListener('change', this.handleSecondPointChange.bind(this));
-    min.addEventListener('change', this.handleMinChange.bind(this));
-    max.addEventListener('change', this.handleMaxChange.bind(this));
-    step.addEventListener('change', this.handleStepChange.bind(this));
-    tooltip.addEventListener('change', this.handleTooltipChange.bind(this));
-    scale.addEventListener('change', this.handleScalseChange.bind(this));
-    orientation.addEventListener('change', this.handleOrientationChange.bind(this));
-    range.addEventListener('change', this.handleRangeChange.bind(this));
+    firstPoint.addEventListener('change', this.handleFirstPointChange);
+    secondPoint.addEventListener('change', this.handleSecondPointChange);
+    min.addEventListener('change', this.handleMinChange);
+    max.addEventListener('change', this.handleMaxChange);
+    step.addEventListener('change', this.handleStepChange);
+    tooltip.addEventListener('change', this.handleTooltipChange);
+    scale.addEventListener('change', this.handleScalseChange);
+    orientation.addEventListener('change', this.handleOrientationChange);
+    range.addEventListener('change', this.handleRangeChange);
   }
 
-  private handleFirstPointChange(): void {
+  private handleFirstPointChange = (): void => {
     this.slider.setValue('firstPoint', this.inputs.firstPoint.valueAsNumber);
-  }
+  };
 
-  private handleSecondPointChange(): void {
+  private handleSecondPointChange = (): void => {
     this.slider.setValue('secondPoint', this.inputs.secondPoint.valueAsNumber);
-  }
+  };
 
-  private handleMinChange(): void {
+  private handleMinChange = (): void => {
     this.slider.updateConfig({ min: this.inputs.min.valueAsNumber });
-  }
+  };
 
-  private handleMaxChange(): void {
+  private handleMaxChange = (): void => {
     this.slider.updateConfig({ max: Number(this.inputs.max.value) });
-  }
+  };
 
-  private handleStepChange(): void {
+  private handleStepChange = (): void => {
     this.slider.updateConfig({ step: Number(this.inputs.step.value) });
-  }
+  };
 
-  private handleTooltipChange(): void {
+  private handleTooltipChange = (): void => {
     this.slider.updateConfig({ hasTooltip: !this.slider.getConfig().hasTooltip });
-  }
+  };
 
-  private handleScalseChange(): void {
+  private handleScalseChange = (): void => {
     this.slider.updateConfig({ hasScale: !this.slider.getConfig().hasScale });
-  }
+  };
 
-  private handleOrientationChange(): void {
+  private handleOrientationChange = (): void => {
     this.slider.updateConfig({ isHorizontal: !this.slider.getConfig().isHorizontal });
-  }
+  };
 
-  private handleRangeChange(): void {
+  private handleRangeChange = (): void => {
     this.slider.updateConfig({ isRange: !this.slider.getConfig().isRange });
-  }
+  };
 }
 export default Config;

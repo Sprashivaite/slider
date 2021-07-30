@@ -97,10 +97,10 @@ class View extends Observer<PointData> {
   }
 
   private addMouseMoveHandler(): void {
-    document.addEventListener('mousemove', this.calcMouseCoords.bind(this));
+    document.addEventListener('mousemove', this.calcMouseCoords);
   }
 
-  private calcMouseCoords(event: MouseEvent): void {
+  private calcMouseCoords = (event: MouseEvent): void => {
     const { field } = this.subViews;
     const direction = this.config.isHorizontal ? 'left' : 'top';
     const coordinate = this.config.isHorizontal ? 'clientX' : 'clientY';
@@ -108,52 +108,42 @@ class View extends Observer<PointData> {
     const mouseCoordsPX =
       event[coordinate] - field.divElement.getBoundingClientRect()[direction];
     this.mouseCoords = (mouseCoordsPX * 100) / field.divElement[size];
-  }
+  };
 
-  private getFirstPointData(): PointData {
+  private getFirstPointData = (): PointData => {
     const { firstPoint } = this.subViews;
     return {
       pointOffset: firstPoint.getOffset(),
       pointName: 'firstPoint',
     };
-  }
+  };
 
-  private getSecondPointData(): PointData {
+  private getSecondPointData = (): PointData => {
     const { secondPoint } = this.subViews;
     return {
       pointOffset: secondPoint?.getOffset() || 0,
       pointName: 'secondPoint',
     };
-  }
+  };
 
   private addPointHandler(): void {
     const { firstPoint, secondPoint } = this.subViews;
-    firstPoint.divElement.addEventListener(
-      'mousedown',
-      this.handlePointMouseDown.bind(this),
-    );
-    secondPoint?.divElement.addEventListener(
-      'mousedown',
-      this.handlePointMouseDown.bind(this),
-    );
+    firstPoint.divElement.addEventListener('mousedown', this.handlePointMouseDown);
+    secondPoint?.divElement.addEventListener('mousedown', this.handlePointMouseDown);
   }
 
-  private handlePointMouseDown(event: MouseEvent): void {
+  private handlePointMouseDown = (event: MouseEvent): void => {
     const { firstPoint, secondPoint } = this.subViews;
     if (this.isFirstPointClosest(event))
-      this.handlePoint(firstPoint, this.getFirstPointData.bind(this));
-    else if (secondPoint)
-      this.handlePoint(secondPoint, this.getSecondPointData.bind(this));
-  }
+      this.handlePoint(firstPoint, this.getFirstPointData);
+    else if (secondPoint) this.handlePoint(secondPoint, this.getSecondPointData);
+  };
 
   private addFieldHandler(): void {
-    this.subViews.field.divElement.addEventListener(
-      'mousedown',
-      this.handleFieldClick.bind(this),
-    );
+    this.subViews.field.divElement.addEventListener('mousedown', this.handleFieldClick);
   }
 
-  private handleFieldClick(event: MouseEvent): void {
+  private handleFieldClick = (event: MouseEvent): void => {
     const { firstPoint, secondPoint } = this.subViews;
     if (this.isFirstPointClosest(event)) {
       firstPoint.movePoint(this.mouseCoords);
@@ -162,21 +152,21 @@ class View extends Observer<PointData> {
       secondPoint?.movePoint(this.mouseCoords);
       this.emit(EventTypes.pointStopped, this.getSecondPointData());
     }
-  }
+  };
 
   private addScaleHandler(): void {
     const scaleChildren = this.subViews.scale.divElement.querySelectorAll('div');
     scaleChildren.forEach(element =>
-      element.addEventListener('click', this.handleScaleClick.bind(this)),
+      element.addEventListener('click', this.handleScaleClick),
     );
   }
 
-  private handleScaleClick(event: MouseEvent): void {
+  private handleScaleClick = (event: MouseEvent): void => {
     const value = event.currentTarget!.innerHTML;
     this.isFirstPointClosest(event)
       ? this.emit(EventTypes.valueChanged, { value, ...this.getFirstPointData() })
       : this.emit(EventTypes.valueChanged, { value, ...this.getSecondPointData() });
-  }
+  };
 
   private handlePoint(point: ViewPoint, data: () => PointData): void {
     const shift = this.mouseCoords - point.getOffset();
