@@ -1,3 +1,5 @@
+import './ViewContainer.css';
+
 class ViewContainer {
   divElement: HTMLElement;
 

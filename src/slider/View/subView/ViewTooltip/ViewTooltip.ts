@@ -1,4 +1,5 @@
-import { ViewConfig } from '../../types';
+import './ViewTooltip.css';
+import { ViewConfig } from '../../../types';
 
 class Tooltip {
   divElement: HTMLElement;
@@ -19,13 +20,13 @@ class Tooltip {
   }
 
   hide(): void {
-    const modifier = 'slider__tooltip_hidden';
+    const modifier = 'tooltip_hidden';
     this.divElement.classList.add(modifier);
     this.divElement.classList.add(`js-${modifier}`);
   }
 
   show(): void {
-    const modifier = 'slider__tooltip_hidden';
+    const modifier = 'tooltip_hidden';
     this.divElement.classList.remove(modifier);
     this.divElement.classList.remove(`js-${modifier}`);
   }
@@ -37,17 +38,17 @@ class Tooltip {
   }
 
   addModifierTotal(): void {
-    const modifier = 'slider__tooltip_type_total';
+    const modifier = 'tooltip_type_total';
     this.divElement.classList.add(modifier);
     this.divElement.classList.add(`js-${modifier}`);
   }
 
   private createTooltip(config: ViewConfig, root: HTMLElement): HTMLElement {
     this.divElement = document.createElement('div');
-    const style = 'slider__tooltip';
+    const style = 'tooltip';
     this.divElement.className = `${style} js-${style}`;
     if (!this.isHorizontal) {
-      const modifier = 'slider__tooltip_vertical';
+      const modifier = 'tooltip_vertical';
       this.divElement.classList.add(modifier);
       this.divElement.classList.add(`js-${modifier}`);
     }

@@ -1,4 +1,5 @@
-import { ViewConfig } from '../../types';
+import './ViewField.css';
+import { ViewConfig } from '../../../types';
 
 class ViewField {
   divElement: HTMLElement;
@@ -9,10 +10,10 @@ class ViewField {
 
   private createField(config: ViewConfig, root: HTMLElement): HTMLElement {
     this.divElement = document.createElement('div');
-    const style = 'slider__field';
+    const style = 'field';
     this.divElement.className = `${style} js-${style}`;
     if (!config.isHorizontal) {
-      const modifier = 'slider__field_vertical';
+      const modifier = 'field_vertical';
       this.divElement.classList.add(modifier);
       this.divElement.classList.add(`js-${modifier}`);
     }

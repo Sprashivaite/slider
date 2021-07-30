@@ -49,7 +49,7 @@ describe('Создание/поиск контейнера View', () => {
   it('Установка контейнера', () => {
     document.body.insertAdjacentHTML(
       'afterbegin',
-      "<div class='slider' style='width:100px; height: 100px;'></div>"
+      "<div class='slider' style='width:100px; height: 100px;'></div>",
     );
     const container = document.querySelector('.slider');
     view.updateConfig({ target: container });
@@ -58,7 +58,7 @@ describe('Создание/поиск контейнера View', () => {
   it('Поиск контейнера по дата селектору', () => {
     document.body.insertAdjacentHTML(
       'afterbegin',
-      "<div data-slider style='width:100px;'></div>"
+      "<div data-slider style='width:100px;'></div>",
     );
     view.updateConfig({ target: undefined });
     const div = document.querySelector('[data-slider]');
@@ -86,14 +86,14 @@ describe('работа фасада renderElements', () => {
 
 describe('update Points', () => {
   it('first point', () => {
-    view.updateConfig({ isRange: false })
-    view.updatePoints({pointOffset: 50, pointName: 'firstPoint', value: 50});    
-    expect(view.firstPoint.getOffset()).toBeGreaterThan(49);    
+    view.updateConfig({ isRange: false });
+    view.updatePoints({ pointOffset: 50, pointName: 'firstPoint', value: 50 });
+    expect(view.firstPoint.getOffset()).toBeGreaterThan(49);
     expect(view.firstPoint.tooltip.divElement.innerHTML).toBe('50');
   });
   it('second point', () => {
-    view.updatePoints({pointOffset: 50, pointName: 'secondPoint', value: 50});    
-    expect(view.secondPoint.getOffset()).toBeGreaterThan(49);    
+    view.updatePoints({ pointOffset: 50, pointName: 'secondPoint', value: 50 });
+    expect(view.secondPoint.getOffset()).toBeGreaterThan(49);
     expect(view.secondPoint.tooltip.divElement.innerHTML).toBe('50');
   });
 });
@@ -101,22 +101,22 @@ describe('update Points', () => {
 describe('движение point', () => {
   it('view.point.movePoint horizontal', () => {
     view.secondPoint.movePoint(50);
-    expect(view.secondPoint.getOffset()).toBeGreaterThan(49);    
+    expect(view.secondPoint.getOffset()).toBeGreaterThan(49);
   });
 });
 
 describe('toggle View tooltip', () => {
   it('view.tooltip.showTooltip', () => {
     view.firstPoint.tooltip.show();
-    expect(
-      getComputedStyle(view.firstPoint.tooltip.divElement).visibility
-    ).toBe('visible');
+    expect(getComputedStyle(view.firstPoint.tooltip.divElement).visibility).toBe(
+      'visible',
+    );
   });
   it('view.hideTooltip', () => {
     view.firstPoint.tooltip.hide();
-    expect(
-      getComputedStyle(view.firstPoint.tooltip.divElement).visibility
-    ).toBe('hidden');
+    expect(getComputedStyle(view.firstPoint.tooltip.divElement).visibility).toBe(
+      'hidden',
+    );
   });
 });
 
@@ -124,24 +124,27 @@ describe('значение View tooltip', () => {
   it('view.changeTooltipValue', () => {
     view.firstPoint.tooltip.changeValue(50);
     expect(view.firstPoint.tooltip.divElement.innerHTML).toBe('50');
-  });  
+  });
 });
 
 describe('слияние подсказок', () => {
   it('view.joinTooltips horizontal', () => {
-    view.updatePoints({pointName: 'firstPoint', pointOffset: 50})
-    view.updatePoints({pointName: 'secondPoint', pointOffset: 50})
-    expect(view.secondPoint.tooltip.divElement.classList.contains('-js-slider__tooltip_hidden')).toBeTruthy();
+    view.updatePoints({ pointName: 'firstPoint', pointOffset: 50 });
+    view.updatePoints({ pointName: 'secondPoint', pointOffset: 50 });
+    expect(
+      view.secondPoint.tooltip.divElement.classList.contains('-js-tooltip_hidden'),
+    ).toBeTruthy();
     expect(view.tooltipTotal.divElement.style.visibility).toBe('visible');
-  });  
+  });
   it('view.joinTooltips vertical', () => {
-    
-    view.updateConfig({ isHorizontal: false })
-    view.updatePoints({pointName: 'firstPoint', pointOffset: 50})
-    view.updatePoints({pointName: 'secondPoint', pointOffset: 50})
-    expect(view.secondPoint.tooltip.divElement.classList.contains('-js-slider__tooltip_hidden')).toBeTruthy();
+    view.updateConfig({ isHorizontal: false });
+    view.updatePoints({ pointName: 'firstPoint', pointOffset: 50 });
+    view.updatePoints({ pointName: 'secondPoint', pointOffset: 50 });
+    expect(
+      view.secondPoint.tooltip.divElement.classList.contains('-js-tooltip_hidden'),
+    ).toBeTruthy();
     expect(view.tooltipTotal.divElement.style.visibility).toBe('visible');
-  });  
+  });
 });
 
 describe('движение View progressBar', () => {
@@ -170,12 +173,16 @@ describe('координаты мыши', () => {
     const fieldOffset = view.field.divElement.getBoundingClientRect().left;
     const mousemove = new MouseEvent('mousemove', { clientX: 50 });
     document.dispatchEvent(mousemove);
-    expect(view.mouseCoords).toBe(((50 - fieldOffset) * 100) / view.field.divElement.offsetWidth);
+    expect(view.mouseCoords).toBe(
+      ((50 - fieldOffset) * 100) / view.field.divElement.offsetWidth,
+    );
   });
 });
 
 describe('события мыши', () => {
-  let mousedown; let mousemove; let mouseup;
+  let mousedown;
+  let mousemove;
+  let mouseup;
   beforeEach(() => {
     mousedown = new MouseEvent('mousedown');
     mousemove = new MouseEvent('mousemove', { clientX: 10 });

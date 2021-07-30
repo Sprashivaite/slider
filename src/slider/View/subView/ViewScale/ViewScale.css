@@ -1,0 +1,35 @@
+.scale {
+  display: flex;
+  font-size: 14px;
+  margin: 30px 0px 0px 0px;
+  font-stretch: expanded;
+  position: absolute;
+  width: 100%;
+  user-select: none;
+}
+  
+.scale_vertical {
+  position: relative;
+  font-stretch: expanded;
+  flex-direction: column;
+  height: 100%;
+  right: 30px;
+  align-items: flex-end;
+  margin-top: 0px;
+  width: auto;
+}
+
+.scale_hidden {
+  visibility: hidden;
+}
+
+.scale__value {
+  transform: translateX(-50%);
+  cursor: pointer;
+  position: absolute;
+}
+
+.scale__value_vertical {
+  transform: translateY(-50%);
+  height: 15px;
+}

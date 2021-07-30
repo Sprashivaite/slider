@@ -1,0 +1,22 @@
+.point {
+  display: inline-flex;
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(180deg, #6fcf97 0%, #66d2ea 100%);
+  border: 2px solid #ffffff;
+  border-radius: 10px;
+  cursor: pointer;
+  z-index: 2;
+  justify-content: center;
+  transform: translateX(-50%);
+}
+  
+.point_target {
+  z-index: 10;
+}
+  
+.point_vertical {
+  transform: translate(-25%, -50%);
+}
+  

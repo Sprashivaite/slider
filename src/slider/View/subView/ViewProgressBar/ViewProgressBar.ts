@@ -1,5 +1,6 @@
-import { ViewConfig, ProgressBar } from '../../types';
-import ViewPoint from './ViewPoint';
+import './ViewProgressBar.css';
+import { ViewConfig, ProgressBar } from '../../../types';
+import ViewPoint from '../ViewPoint/ViewPoint';
 
 class ViewProgressBar {
   divElement: HTMLElement;
@@ -45,13 +46,13 @@ class ViewProgressBar {
   }
 
   hide(): void {
-    const modifier = 'slider__bar_hidden';
+    const modifier = 'progressBar_hidden';
     this.divElement.classList.add(modifier);
     this.divElement.classList.add(`js-${modifier}`);
   }
 
   show(): void {
-    const modifier = 'slider__bar_hidden';
+    const modifier = 'progressBar_hidden';
     this.divElement.classList.remove(modifier);
     this.divElement.classList.remove(`js-${modifier}`);
   }

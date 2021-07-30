@@ -1,9 +1,9 @@
-import ViewContainer from './View/subView/ViewContainer';
-import ViewField from './View/subView/ViewField';
-import ViewPoint from './View/subView/ViewPoint';
-import ViewProgressBar from './View/subView/ViewProgressBar';
-import ViewScale from './View/subView/ViewScale';
-import ViewTooltip from './View/subView/ViewTooltip';
+import ViewContainer from './View/subView/ViewContainer/ViewContainer';
+import ViewField from './View/subView/ViewField/ViewField';
+import ViewPoint from './View/subView/ViewPoint/ViewPoint';
+import ViewProgressBar from './View/subView/ViewProgressBar/ViewProgressBar';
+import ViewScale from './View/subView/ViewScale/ViewScale';
+import ViewTooltip from './View/subView/ViewTooltip/ViewTooltip';
 
 type ModelConfig = {
   firstValue: number;

@@ -1,5 +1,6 @@
-import { ViewConfig } from '../../types';
-import ViewTooltip from './ViewTooltip';
+import './ViewPoint.css';
+import { ViewConfig } from '../../../types';
+import ViewTooltip from '../ViewTooltip/ViewTooltip';
 
 class ViewPoint {
   divElement: HTMLElement;
@@ -34,23 +35,23 @@ class ViewPoint {
   }
 
   addTarget(): void {
-    const modifier = 'slider__point_target';
+    const modifier = 'point_target';
     this.divElement.classList.add(modifier);
     this.divElement.classList.add(`js-${modifier}`);
   }
 
   removeTarget(): void {
-    const modifier = 'slider__point_target';
+    const modifier = 'point_target';
     this.divElement.classList.remove(modifier);
     this.divElement.classList.remove(`js-${modifier}`);
   }
 
   private createPoint(): HTMLElement {
     this.divElement = document.createElement('div');
-    const style = 'slider__point';
+    const style = 'point';
     this.divElement.className = `${style} js-${style}`;
     if (!this.isHorizontal) {
-      const modifier = 'slider__point_vertical';
+      const modifier = 'point_vertical';
       this.divElement.classList.add(modifier);
       this.divElement.classList.add(`js-${modifier}`);
     }

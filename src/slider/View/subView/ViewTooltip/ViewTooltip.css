@@ -1,0 +1,30 @@
+.tooltip {
+  padding: 1px 5px;
+  background: linear-gradient(180deg, #6fcf97 0%, #66d2ea 100%);
+  font-size: 13px;
+  z-index: 2;
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: center;
+  min-width: 10px;
+  min-height: 16px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  transform: translateY(-120%);
+  user-select: none;
+}
+  
+.tooltip_vertical {
+  left: 150%;
+  position: absolute;
+  white-space: normal;
+  transform: translateY(0);
+}
+
+.tooltip_type_total {
+  position: absolute;
+}
+
+.tooltip_hidden {
+  visibility: hidden;
+}

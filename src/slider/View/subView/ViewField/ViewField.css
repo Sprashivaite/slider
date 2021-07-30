@@ -1,0 +1,17 @@
+.field {
+  position: relative;
+  background: rgba(31, 32, 65, 0.25);
+  border-radius: 3px;
+  height: 8px;
+  width: 100%;
+  cursor: pointer;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+  
+.field_vertical {
+  height: 100%;
+  width: 8px;
+}

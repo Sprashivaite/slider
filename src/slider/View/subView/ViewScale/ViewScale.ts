@@ -1,4 +1,5 @@
-import { ViewConfig } from '../../types';
+import './ViewScale.css';
+import { ViewConfig } from '../../../types';
 
 class ViewScale {
   divElement: HTMLElement;
@@ -37,23 +38,23 @@ class ViewScale {
   }
 
   hideScale(): void {
-    const modifier = 'slider__scale_hidden';
+    const modifier = 'scale_hidden';
     this.divElement.classList.add(modifier);
     this.divElement.classList.add(`js-${modifier}`);
   }
 
   showScale(): void {
-    const modifier = 'slider__scale_hidden';
+    const modifier = 'scale_hidden';
     this.divElement.classList.remove(modifier);
     this.divElement.classList.remove(`js-${modifier}`);
   }
 
   private createScale(): HTMLElement {
     this.divElement = document.createElement('div');
-    const style = 'slider__scale';
+    const style = 'scale';
     this.divElement.className = `${style} js-${style}`;
     if (!this.isHorizontal) {
-      const modifier = 'slider__scale_vertical';
+      const modifier = 'scale_vertical';
       this.divElement.classList.add(modifier);
       this.divElement.classList.add(`js-${modifier}`);
     }

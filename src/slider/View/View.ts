@@ -1,9 +1,9 @@
-import ViewField from './subView/ViewField';
-import ViewPoint from './subView/ViewPoint';
-import ViewTooltip from './subView/ViewTooltip';
-import ViewProgressBar from './subView/ViewProgressBar';
-import ViewScale from './subView/ViewScale';
-import ViewContainer from './subView/ViewContainer';
+import ViewField from './subView/ViewField/ViewField';
+import ViewPoint from './subView/ViewPoint/ViewPoint';
+import ViewTooltip from './subView/ViewTooltip/ViewTooltip';
+import ViewProgressBar from './subView/ViewProgressBar/ViewProgressBar';
+import ViewScale from './subView/ViewScale/ViewScale';
+import ViewContainer from './subView/ViewContainer/ViewContainer';
 import { DEFAULT_VIEW_CONFIG } from '../defaults';
 import { ViewConfig, PointData, EventTypes, SubViews } from '../types';
 import Observer from '../Observer/Observer';
