@@ -15,7 +15,7 @@ type ModelConfig = {
 };
 
 type ViewConfig = {
-  target?: HTMLElement;
+  target?: HTMLDivElement;
   isHorizontal: boolean;
   isRange: boolean;
   hasTooltip: boolean;
@@ -29,7 +29,7 @@ type UserConfig = {
   max?: number;
   min?: number;
   step?: number;
-  target?: HTMLElement;
+  target?: HTMLDivElement;
   isHorizontal?: boolean;
   isRange?: boolean;
   hasTooltip?: boolean;
@@ -48,7 +48,7 @@ type SubViews = {
 };
 
 type ProgressBar = {
-  root: HTMLElement;
+  root: HTMLDivElement;
   firstPoint: ViewPoint;
   secondPoint?: ViewPoint;
 };

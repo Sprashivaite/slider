@@ -2,11 +2,11 @@ import './ViewTooltip.css';
 import { ViewConfig } from '../../../types';
 
 class Tooltip {
-  divElement: HTMLElement;
+  divElement: HTMLDivElement;
 
   isHorizontal: boolean;
 
-  constructor(config: ViewConfig, root: HTMLElement) {
+  constructor(config: ViewConfig, root: HTMLDivElement) {
     this.isHorizontal = config.isHorizontal;
     this.divElement = this.createTooltip(config, root);
   }
@@ -43,7 +43,7 @@ class Tooltip {
     this.divElement.classList.add(`js-${modifier}`);
   }
 
-  private createTooltip(config: ViewConfig, root: HTMLElement): HTMLElement {
+  private createTooltip(config: ViewConfig, root: HTMLDivElement): HTMLDivElement {
     this.divElement = document.createElement('div');
     const style = 'tooltip';
     this.divElement.className = `${style} js-${style}`;

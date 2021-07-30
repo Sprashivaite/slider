@@ -64,5 +64,6 @@ const configContainer5 = document.querySelector(
   [slider5, configContainer5],
 ].forEach(item => {
   if (item[0] === null) return;
-  if (item[1] instanceof Element) new Config(item[0].data('sliderPlugin'), item[1]);
+  if (item[1] instanceof HTMLDivElement)
+    new Config(item[0].data('sliderPlugin'), item[1]);
 });

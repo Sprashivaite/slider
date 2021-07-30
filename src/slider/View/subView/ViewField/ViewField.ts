@@ -2,13 +2,13 @@ import './ViewField.css';
 import { ViewConfig } from '../../../types';
 
 class ViewField {
-  divElement: HTMLElement;
+  divElement: HTMLDivElement;
 
-  constructor(config: ViewConfig, root: HTMLElement) {
+  constructor(config: ViewConfig, root: HTMLDivElement) {
     this.divElement = this.createField(config, root);
   }
 
-  private createField(config: ViewConfig, root: HTMLElement): HTMLElement {
+  private createField(config: ViewConfig, root: HTMLDivElement): HTMLDivElement {
     this.divElement = document.createElement('div');
     const style = 'field';
     this.divElement.className = `${style} js-${style}`;

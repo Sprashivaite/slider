@@ -2,9 +2,9 @@ import './ViewScale.css';
 import { ViewConfig } from '../../../types';
 
 class ViewScale {
-  divElement: HTMLElement;
+  divElement: HTMLDivElement;
 
-  private root: HTMLElement;
+  private root: HTMLDivElement;
 
   private isHorizontal: boolean;
 
@@ -12,7 +12,7 @@ class ViewScale {
 
   private hasScale: boolean;
 
-  constructor(config: ViewConfig, root: HTMLElement) {
+  constructor(config: ViewConfig, root: HTMLDivElement) {
     const { isHorizontal, hasScale } = config;
     this.root = root;
     this.isHorizontal = isHorizontal;
@@ -49,7 +49,7 @@ class ViewScale {
     this.divElement.classList.remove(`js-${modifier}`);
   }
 
-  private createScale(): HTMLElement {
+  private createScale(): HTMLDivElement {
     this.divElement = document.createElement('div');
     const style = 'scale';
     this.divElement.className = `${style} js-${style}`;

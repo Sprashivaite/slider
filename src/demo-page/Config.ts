@@ -19,9 +19,9 @@ class Config {
 
   private inputs: Inputs;
 
-  private container: Element;
+  private container: HTMLDivElement;
 
-  constructor(slider: SliderPlugin, container: Element) {
+  constructor(slider: SliderPlugin, container: HTMLDivElement) {
     this.slider = slider;
     this.container = container;
     this.inputs = this.findElements();

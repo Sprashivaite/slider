@@ -3,15 +3,15 @@ import { ViewConfig } from '../../../types';
 import ViewTooltip from '../ViewTooltip/ViewTooltip';
 
 class ViewPoint {
-  divElement: HTMLElement;
+  divElement: HTMLDivElement;
 
   tooltip: ViewTooltip;
 
-  private root: HTMLElement;
+  private root: HTMLDivElement;
 
   private isHorizontal: boolean;
 
-  constructor(config: ViewConfig, root: HTMLElement) {
+  constructor(config: ViewConfig, root: HTMLDivElement) {
     this.root = root;
     this.isHorizontal = config.isHorizontal;
     this.divElement = this.createPoint();
@@ -46,7 +46,7 @@ class ViewPoint {
     this.divElement.classList.remove(`js-${modifier}`);
   }
 
-  private createPoint(): HTMLElement {
+  private createPoint(): HTMLDivElement {
     this.divElement = document.createElement('div');
     const style = 'point';
     this.divElement.className = `${style} js-${style}`;

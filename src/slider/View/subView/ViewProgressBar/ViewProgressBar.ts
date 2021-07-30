@@ -3,9 +3,9 @@ import { ViewConfig, ProgressBar } from '../../../types';
 import ViewPoint from '../ViewPoint/ViewPoint';
 
 class ViewProgressBar {
-  divElement: HTMLElement;
+  divElement: HTMLDivElement;
 
-  private root: HTMLElement;
+  private root: HTMLDivElement;
 
   private isHorizontal: boolean;
 
@@ -57,7 +57,7 @@ class ViewProgressBar {
     this.divElement.classList.remove(`js-${modifier}`);
   }
 
-  private createElement(): HTMLElement {
+  private createElement(): HTMLDivElement {
     this.divElement = document.createElement('div');
     const style = 'progressBar';
     this.divElement.className = `${style} js-${style}`;
