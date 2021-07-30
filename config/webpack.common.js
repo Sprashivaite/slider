@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 const PATHS = {
   src: path.join(__dirname, '../src'),
@@ -62,6 +63,9 @@ module.exports = {
       template: './src/demo-page/demo-page.html',
       filename: 'index.html',
       scriptLoading: 'blocking',
+    }),
+    new FaviconsWebpackPlugin({
+      logo: './src/demo-page/favicon.svg',
     }),
     new MiniCssExtractPlugin(),
     new webpack.ProvidePlugin({
