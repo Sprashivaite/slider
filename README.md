@@ -4,22 +4,51 @@ Frontend-education-program with Webpack, Pug and Stylus, TypeScript-jQuery-Jasmi
 <img src="./slider_gif.gif" width="75%">
 # How to use it
 
-# Initialization
-## Clone repo
+## Initialization
+#### Clone repo
 ```commandline
 git clone https://github.com/Sprashivaite/slider.git
 ```
-## HTML
+#### Install dependencies
+```commandline
+npm install
+```
+
+#### Start dev server
+```commandline
+npm run dev
+```
+
+http://localhost:8080/ адрес локального сервера.
+
+#### Start test
+```commandline
+npm run test
+```
+
+#### Start eslint
+```commandline
+npm run eslint
+```
+
+#### Production
+```commandline
+npm run prod
+```
+
+## Connect files
+
+### HTML
 Используемые файлы находятся в папке plugin-files. Подключить к странице index.js и style.css.
 ```javascript
 <link rel="stylesheet" href="/plugin-files/style.css" />
 <script src="./plugin-files/index.js"></script>
 ```
 
-## CSS
+### CSS
 В папке style.css можно изменить стили плагина. Элементы слайдер будут подстраиваться под ширину контейнера.
 
-## JavaScript
+### JavaScript
 После подключения файлов, плагин инициализируется на элементе при помощи  JQuery.
 ```javascript
 $(selector).sliderPlugin();
