@@ -44,7 +44,8 @@ class Model extends Observer<PointData> {
   changeValue(data: PointData): void {
     const { max, min } = this.config;
     const { value, pointName } = data;
-    const result: number = (100 / (max - min)) * (value! - min);
+    if (value === undefined) return;
+    const result: number = (100 / (max - min)) * (value - min);
     this.correctStepPoint({ ...data, value, pointName, pointOffset: result });
   }
 
