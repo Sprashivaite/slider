@@ -41,11 +41,11 @@ class View extends Observer<PointData> {
 
     if (pointName === 'firstPoint') {
       firstPoint.movePoint(pointOffset);
-      firstPoint.tooltip.changeValue(value!);
+      if (value) firstPoint.tooltip.changeValue(value);
     }
     if (pointName === 'secondPoint') {
       secondPoint?.movePoint(pointOffset);
-      secondPoint?.tooltip.changeValue(value!);
+      if (value) secondPoint?.tooltip.changeValue(value);
     }
     progressBar.changeSize();
     if (steps !== undefined) this.updateScale(steps);
