@@ -1,5 +1,4 @@
-
-.progressBar {
+.progress-bar {
   position: absolute;
   border-radius: 3px;
   transition-property: background-color;
@@ -9,29 +8,29 @@
   height: 100%;
 } 
   
-.progressBar_vertical {
+.progress-bar_vertical {
   top: 0;
   width: 100%;
   height: auto;
 }
   
-.progressBar_color_first {
+.progress-bar_color_first {
   background-color: #915e4e;
 }
   
-.progressBar_color_second {
+.progress-bar_color_second {
   background-color: #cf866f;
 }
   
-.progressBar_color_third {
+.progress-bar_color_third {
   background-color: #4e9179;
 }
   
-.progressBar_color_fourth {
+.progress-bar_color_fourth {
   background-color: #6fcf97;
 }
   
-.progressBar_hidden {
+.progress-bar_hidden {
   opacity: 0;
 }
   

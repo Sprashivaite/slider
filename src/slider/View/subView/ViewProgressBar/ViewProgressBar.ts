@@ -28,7 +28,7 @@ class ViewProgressBar {
     this.hasProgressBar = hasProgressBar;
     this.isRange = isRange;
     this.divElement = this.createElement();
-    this.styleColor = 'progressBar_color_first';
+    this.styleColor = 'progress-bar_color_first';
   }
 
   changeSize(): void {
@@ -46,23 +46,23 @@ class ViewProgressBar {
   }
 
   hide(): void {
-    const modifier = 'progressBar_hidden';
+    const modifier = 'progress-bar_hidden';
     this.divElement.classList.add(modifier);
     this.divElement.classList.add(`js-${modifier}`);
   }
 
   show(): void {
-    const modifier = 'progressBar_hidden';
+    const modifier = 'progress-bar_hidden';
     this.divElement.classList.remove(modifier);
     this.divElement.classList.remove(`js-${modifier}`);
   }
 
   private createElement(): HTMLDivElement {
     this.divElement = document.createElement('div');
-    const style = 'progressBar';
+    const style = 'progress-bar';
     this.divElement.className = `${style} js-${style}`;
     if (!this.isHorizontal) {
-      const modifier = 'progressBar_vertical';
+      const modifier = 'progress-bar_vertical';
       this.divElement.classList.add(modifier);
       this.divElement.classList.add(`js-${modifier}`);
     }
@@ -77,10 +77,10 @@ class ViewProgressBar {
     const progressBarSize = this.divElement[size];
     this.divElement.classList.remove(this.styleColor);
     this.divElement.classList.remove(`js-${this.styleColor}`);
-    if (progressBarSize <= fieldSize / 4) this.styleColor = 'progressBar_color_first';
-    if (progressBarSize >= fieldSize / 4) this.styleColor = `progressBar_color_second`;
-    if (progressBarSize >= fieldSize / 2) this.styleColor = `progressBar_color_third`;
-    if (progressBarSize >= fieldSize) this.styleColor = `progressBar_color_fourth`;
+    if (progressBarSize <= fieldSize / 4) this.styleColor = 'progress-bar_color_first';
+    if (progressBarSize >= fieldSize / 4) this.styleColor = `progress-bar_color_second`;
+    if (progressBarSize >= fieldSize / 2) this.styleColor = `progress-bar_color_third`;
+    if (progressBarSize >= fieldSize) this.styleColor = `progress-bar_color_fourth`;
     this.divElement.classList.add(this.styleColor);
     this.divElement.classList.add(`js-${this.styleColor}`);
   }
