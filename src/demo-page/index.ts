@@ -1,7 +1,7 @@
 /* eslint-disable no-new */
 import Config from './Config';
 
-const slider1 = $('.js-slider-container_order_first > .js-slider').sliderPlugin({
+const slider1 = $('.js-slider-container_order_first .js-slider').sliderPlugin({
   max: 1000,
   isHorizontal: true,
   isRange: true,
@@ -10,7 +10,7 @@ const slider1 = $('.js-slider-container_order_first > .js-slider').sliderPlugin(
   secondValue: 50,
 });
 
-const slider2 = $('.js-slider-container_order_second > .js-slider').sliderPlugin({
+const slider2 = $('.js-slider-container_order_second .js-slider').sliderPlugin({
   isRange: true,
   step: 11,
   max: 14,
@@ -18,21 +18,21 @@ const slider2 = $('.js-slider-container_order_second > .js-slider').sliderPlugin
   secondValue: 11,
 });
 
-const slider3 = $('.js-slider-container_order_third > .js-slider').sliderPlugin({
+const slider3 = $('.js-slider-container_order_third .js-slider').sliderPlugin({
   min: -1,
   max: 1,
   step: 0.2,
   isRange: false,
 });
 
-const slider4 = $('.js-slider-container_order_fourth > .js-slider').sliderPlugin({
+const slider4 = $('.js-slider-container_order_fourth .js-slider').sliderPlugin({
   isHorizontal: false,
   step: 250,
   max: 1500,
   secondValue: 250,
 });
 
-const slider5 = $('.js-slider-container_order_fifth > .js-slider').sliderPlugin({
+const slider5 = $('.js-slider-container_order_fifth .js-slider').sliderPlugin({
   isHorizontal: false,
   isRange: false,
   step: 40,
