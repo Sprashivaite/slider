@@ -47,24 +47,21 @@ class ViewProgressBar {
 
   hide(): void {
     const modifier = 'progress-bar_hidden';
-    this.divElement.classList.add(modifier);
-    this.divElement.classList.add(`js-${modifier}`);
+    this.divElement.classList.add(modifier, `js-${modifier}`);
   }
 
   show(): void {
     const modifier = 'progress-bar_hidden';
-    this.divElement.classList.remove(modifier);
-    this.divElement.classList.remove(`js-${modifier}`);
+    this.divElement.classList.remove(modifier, `js-${modifier}`);
   }
 
   private createElement(): HTMLDivElement {
     this.divElement = document.createElement('div');
-    const style = 'progress-bar';
-    this.divElement.className = `${style} js-${style}`;
+    const barStyle = 'progress-bar';
+    this.divElement.classList.add(barStyle, `js-${barStyle}`);
     if (!this.isHorizontal) {
       const modifier = 'progress-bar_vertical';
-      this.divElement.classList.add(modifier);
-      this.divElement.classList.add(`js-${modifier}`);
+      this.divElement.classList.add(modifier, `js-${modifier}`);
     }
     this.root.append(this.divElement);
     if (!this.hasProgressBar) this.hide();
@@ -81,8 +78,7 @@ class ViewProgressBar {
     if (progressBarSize >= fieldSize / 4) this.styleColor = `progress-bar_color_second`;
     if (progressBarSize >= fieldSize / 2) this.styleColor = `progress-bar_color_third`;
     if (progressBarSize >= fieldSize) this.styleColor = `progress-bar_color_fourth`;
-    this.divElement.classList.add(this.styleColor);
-    this.divElement.classList.add(`js-${this.styleColor}`);
+    this.divElement.classList.add(this.styleColor, `js-${this.styleColor}`);
   }
 }
 export default ViewProgressBar;

@@ -21,14 +21,12 @@ class Tooltip {
 
   hide(): void {
     const modifier = 'tooltip_hidden';
-    this.divElement.classList.add(modifier);
-    this.divElement.classList.add(`js-${modifier}`);
+    this.divElement.classList.add(modifier, `js-${modifier}`);
   }
 
   show(): void {
     const modifier = 'tooltip_hidden';
-    this.divElement.classList.remove(modifier);
-    this.divElement.classList.remove(`js-${modifier}`);
+    this.divElement.classList.remove(modifier, `js-${modifier}`);
   }
 
   getOffset(): number {
@@ -39,18 +37,16 @@ class Tooltip {
 
   addModifierTotal(): void {
     const modifier = 'tooltip_type_total';
-    this.divElement.classList.add(modifier);
-    this.divElement.classList.add(`js-${modifier}`);
+    this.divElement.classList.add(modifier, `js-${modifier}`);
   }
 
   private createTooltip(config: ViewConfig, root: HTMLDivElement): HTMLDivElement {
     this.divElement = document.createElement('div');
-    const style = 'tooltip';
-    this.divElement.className = `${style} js-${style}`;
+    const tooltipStyle = 'tooltip';
+    this.divElement.classList.add(tooltipStyle, `js-${tooltipStyle}`);
     if (!this.isHorizontal) {
       const modifier = 'tooltip_vertical';
-      this.divElement.classList.add(modifier);
-      this.divElement.classList.add(`js-${modifier}`);
+      this.divElement.classList.add(modifier, `js-${modifier}`);
     }
     this.divElement.innerHTML = '0';
     root.append(this.divElement);

@@ -36,24 +36,21 @@ class ViewPoint {
 
   addTarget(): void {
     const modifier = 'point_target';
-    this.divElement.classList.add(modifier);
-    this.divElement.classList.add(`js-${modifier}`);
+    this.divElement.classList.add(modifier, `js-${modifier}`);
   }
 
   removeTarget(): void {
     const modifier = 'point_target';
-    this.divElement.classList.remove(modifier);
-    this.divElement.classList.remove(`js-${modifier}`);
+    this.divElement.classList.remove(modifier, `js-${modifier}`);
   }
 
   private createPoint(): HTMLDivElement {
     this.divElement = document.createElement('div');
-    const style = 'point';
-    this.divElement.className = `${style} js-${style}`;
+    const pointStyle = 'point';
+    this.divElement.classList.add(pointStyle, `js-${pointStyle}`);
     if (!this.isHorizontal) {
       const modifier = 'point_vertical';
-      this.divElement.classList.add(modifier);
-      this.divElement.classList.add(`js-${modifier}`);
+      this.divElement.classList.add(modifier, `js-${modifier}`);
     }
     this.root.append(this.divElement);
     return this.divElement;

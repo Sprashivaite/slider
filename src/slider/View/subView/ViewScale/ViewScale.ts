@@ -25,13 +25,15 @@ class ViewScale {
     this.calcScaleOffsets(scaleValues);
     this.divElement.innerHTML = '';
     const direction = this.isHorizontal ? 'left' : 'top';
-    const style = 'scale__value';
-    const modifier = this.isHorizontal ? '' : `${style}_vertical js-${style}_vertical`;
+    const scaleValueStyle = 'scale__value';
+    const modifier = this.isHorizontal
+      ? ''
+      : `${scaleValueStyle}_vertical js-${scaleValueStyle}_vertical`;
     scaleValues.forEach((item, index) => {
       const offset = `${direction}: ${this.scaleOffsets[index]}%`;
       this.divElement.insertAdjacentHTML(
         'beforeend',
-        `<div class="${style} ${modifier}" style="${offset}">${item}</div>`,
+        `<div class="${scaleValueStyle} ${modifier}" scaleValueStyle="${offset}">${item}</div>`,
       );
     });
     this.removeExtraValues();
@@ -39,24 +41,21 @@ class ViewScale {
 
   hideScale(): void {
     const modifier = 'scale_hidden';
-    this.divElement.classList.add(modifier);
-    this.divElement.classList.add(`js-${modifier}`);
+    this.divElement.classList.add(modifier, `js-${modifier}`);
   }
 
   showScale(): void {
     const modifier = 'scale_hidden';
-    this.divElement.classList.remove(modifier);
-    this.divElement.classList.remove(`js-${modifier}`);
+    this.divElement.classList.remove(modifier, `js-${modifier}`);
   }
 
   private createScale(): HTMLDivElement {
     this.divElement = document.createElement('div');
-    const style = 'scale';
-    this.divElement.className = `${style} js-${style}`;
+    const scaleStyle = 'scale';
+    this.divElement.classList.add(scaleStyle, `js-${scaleStyle}`);
     if (!this.isHorizontal) {
       const modifier = 'scale_vertical';
-      this.divElement.classList.add(modifier);
-      this.divElement.classList.add(`js-${modifier}`);
+      this.divElement.classList.add(modifier, `js-${modifier}`);
     }
     this.root.append(this.divElement);
     if (!this.hasScale) this.hideScale();
