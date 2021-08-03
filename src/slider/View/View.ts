@@ -115,6 +115,7 @@ class View extends Observer<PointData> {
     return {
       pointOffset: firstPoint.getOffset(),
       pointName: 'firstPoint',
+      value: firstPoint.tooltip.getValue(),
     };
   };
 
@@ -123,6 +124,7 @@ class View extends Observer<PointData> {
     return {
       pointOffset: secondPoint?.getOffset() || 0,
       pointName: 'secondPoint',
+      value: secondPoint?.tooltip.getValue() || 0,
     };
   };
 
@@ -162,10 +164,10 @@ class View extends Observer<PointData> {
   }
 
   private handleScaleClick = (event: MouseEvent): void => {
-    const value = event.currentTarget?.innerHTML;
+    const value = Number(event.currentTarget?.innerHTML);
     this.isFirstPointClosest(event)
-      ? this.emit(EventTypes.valueChanged, { value, ...this.getFirstPointData() })
-      : this.emit(EventTypes.valueChanged, { value, ...this.getSecondPointData() });
+      ? this.emit(EventTypes.valueChanged, { ...this.getFirstPointData(), value })
+      : this.emit(EventTypes.valueChanged, { ...this.getSecondPointData(), value });
   };
 
   private handlePoint(point: ViewPoint, data: () => PointData): void {

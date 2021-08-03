@@ -21,32 +21,13 @@ class Model extends Observer<PointData> {
     return this.config;
   }
 
-  correctStepPoint(data: PointData): void {
-    const { max, min, step } = this.config;
-    const { pointOffset } = data;
-    const stepPercent: number = (100 * step) / (max - min);
-
-    const arrStopPoints = [];
-    for (let i = 0; i < 100; i += stepPercent) {
-      i = this.roundByStep(i);
-      arrStopPoints.push(i);
-    }
-    arrStopPoints.push(100);
-
-    const stopPoint = arrStopPoints.find((value, index, array) => {
-      const halfStep = (value + array[index + 1]) / 2;
-      return pointOffset <= halfStep;
-    });
-
-    this.updatePoint({ ...data, pointOffset: stopPoint ?? 100 });
-  }
-
   changeValue(data: PointData): void {
     const { max, min } = this.config;
     const { value, pointName } = data;
     if (value === undefined) return;
-    const result: number = (100 / (max - min)) * (value - min);
-    this.correctStepPoint({ ...data, value, pointName, pointOffset: result });
+    const nearestValue = this.findNearestValue(value);
+    const result: number = (100 / (max - min)) * (nearestValue - min);
+    this.updatePoint({ ...data, value, pointName, pointOffset: result });
   }
 
   updatePoint(data: PointData): void {
@@ -107,15 +88,7 @@ class Model extends Observer<PointData> {
     if (step >= max - min) step = max - min;
     if (step <= 0) step = 1;
 
-    step = this.validateLargeNumbers(step);
     this.config = { ...this.config, step };
-  }
-
-  private validateLargeNumbers(value: number): number {
-    const { max, min } = this.config;
-
-    if (value * 200 > max - min) return value;
-    return this.validateLargeNumbers(value + 1);
   }
 
   private roundByStep(value: number): number {

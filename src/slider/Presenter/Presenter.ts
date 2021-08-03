@@ -19,7 +19,7 @@ class Presenter {
     view
       .subscribe(EventTypes.valueChanged, model.changeValue.bind(model))
       .subscribe(EventTypes.pointMoving, model.updatePoint.bind(model))
-      .subscribe(EventTypes.pointStopped, model.correctStepPoint.bind(model));
+      .subscribe(EventTypes.pointStopped, model.changeValue.bind(model));
   }
 }
 export default Presenter;

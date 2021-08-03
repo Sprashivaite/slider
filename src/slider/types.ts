@@ -75,7 +75,7 @@ type EventCallback<A, B> = (data: A) => B;
 type PointData = {
   pointOffset: number;
   pointName: PointName;
-  value?: number;
+  value: number;
   steps?: number[];
 };
 
