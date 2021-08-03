@@ -179,11 +179,14 @@ class View extends Observer<PointData> {
     };
 
     document.addEventListener('mousemove', movePoint);
-    document.onmouseup = () => {
-      document.removeEventListener('mousemove', movePoint);
-      this.emit(EventTypes.pointStopped, data());
-      document.onmouseup = null;
-    };
+    document.addEventListener(
+      'mouseup',
+      () => {
+        document.removeEventListener('mousemove', movePoint);
+        this.emit(EventTypes.pointStopped, data());
+      },
+      { once: true },
+    );
   }
 
   private isFirstPointClosest(event: MouseEvent): boolean {
