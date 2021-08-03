@@ -33,7 +33,7 @@ class ViewScale {
       const offset = `${direction}: ${this.scaleOffsets[index]}%`;
       this.divElement.insertAdjacentHTML(
         'beforeend',
-        `<div class="${scaleValueStyle} ${modifier}" scaleValueStyle="${offset}">${item}</div>`,
+        `<div class="${scaleValueStyle} ${modifier}" style="${offset}">${item}</div>`,
       );
     });
     this.removeExtraValues();
