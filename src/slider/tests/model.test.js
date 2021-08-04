@@ -11,20 +11,17 @@ const someObject = {
   updateValue(data) {
     this.pointValue = data.value;
   },
-  updateScale(scaleValues) {
-    this.scaleValues = scaleValues;
+  updateScale(data) {
+    if(data.steps)this.scaleValues = data.steps;    
   },
 };
 
 beforeEach(() => {
   model = new Model();
-  model.subscribe(
-    'updateFirstPointOffset',
-    someObject.updatePX.bind(someObject)
-  );
+  model.subscribe('updatePoint', someObject.updatePX.bind(someObject));
   model.subscribe('updatePoint', someObject.updatePX.bind(someObject));
   model.subscribe('updatePoint', someObject.updateValue.bind(someObject));
-  model.subscribe('stepsUpdate', someObject.updateScale.bind(someObject));
+  model.subscribe('updatePoint', someObject.updateScale.bind(someObject));
 });
 
 describe('конструктор класса', () => {
@@ -34,10 +31,6 @@ describe('конструктор класса', () => {
   it('Model max 200', () => {
     model = new Model({ max: 200 });
     expect(model.config.max).toBe(200);
-  });
-  it('Model max large', () => {
-    model = new Model({ max: 1000 });
-    expect(model.config.step).toBeGreaterThan(1);
   });
   it('Model min -5', () => {
     model = new Model({ min: -5 });
@@ -55,23 +48,6 @@ describe('конструктор класса', () => {
   it('Model step', () => {
     model = new Model({ step: 0 });
     expect(model.config.step).toBe(1);
-  });
-});
-
-describe('вычислить точку шага', () => {
-  it('model.correctStepPoint', () => {
-    model.config.step = 50;
-    model.correctStepPoint({
-      point: 'firstPoint',
-      pointOffset: 20,
-    });
-    expect(someObject.pointPX).toBe(0);
-    model.correctStepPoint({
-      point: 'firstPoint',
-      pointOffset: 75,
-    });
-    expect(someObject.pointPX).toBe(50);
-    model.config.step = 1;
   });
 });
 

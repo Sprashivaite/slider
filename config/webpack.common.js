@@ -39,19 +39,16 @@ module.exports = {
         test: /\.css$/i,
         use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
+
       {
         exclude: /(node_modules)/,
         loader: 'babel-loader',
         test: /\.[tj]sx?$/,
       },
       {
-        enforce: 'post',
-        exclude: /(node_modules|\.test\.[tj]sx?$)/,
-        test: /\.js$/,
-        use: {
-          loader: 'istanbul-instrumenter-loader',
-          options: { esModules: true },
-        },
+        test: /\.[tj]sx?$/,
+        exclude: /node_modules/,
+        use: ['@jsdevtools/coverage-istanbul-loader', 'babel-loader'],
       },
     ],
   },
