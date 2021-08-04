@@ -35,11 +35,13 @@ class SliderPlugin extends Observer<UserConfig | PointData> {
   }
 
   setValue(point: string, value: number): void {
+    const result = Number(value);
+    if (!Number.isFinite(value)) return;
     if (point === 'firstPoint') {
-      this.model.changeValue({ value, pointName: 'firstPoint', pointOffset: 0 });
+      this.model.changeValue({ value: result, pointName: 'firstPoint', pointOffset: 0 });
     }
     if (point === 'secondPoint') {
-      this.model.changeValue({ value, pointName: 'secondPoint', pointOffset: 0 });
+      this.model.changeValue({ value: result, pointName: 'secondPoint', pointOffset: 0 });
     }
   }
 
@@ -54,6 +56,12 @@ class SliderPlugin extends Observer<UserConfig | PointData> {
       ...this.model.getConfig(),
       ...this.view.getConfig(),
     });
+  }
+
+  getPointValue(point?: string): number {
+    if (point === 'firstPoint') return this.model.getConfig().firstValue;
+    if (point === 'secondPoint') return this.model.getConfig().secondValue;
+    return this.model.getConfig().firstValue;
   }
 
   getConfig(): ViewConfig & ModelConfig {

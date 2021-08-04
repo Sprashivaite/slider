@@ -98,8 +98,8 @@ class Config {
   };
 
   private subscribeInputs(): void {
-    this.slider.subscribe(EventTypes.configChanged, this.updateValues);
     this.slider.subscribe(EventTypes.updatePoint, this.updateValues);
+    this.slider.subscribe(EventTypes.configChanged, this.updateValues);
   }
 
   private bindListeners(): void {

@@ -32,11 +32,9 @@ class Model extends Observer<PointData> {
 
   updatePoint(data: PointData): void {
     const value = this.calcValue(data);
+    if (data.pointName === 'firstPoint') this.config.firstValue = value;
+    if (data.pointName === 'secondPoint') this.config.secondValue = value;
     this.emit(EventTypes.updatePoint, { ...data, value });
-    if (data.pointName === 'firstPoint' && !Number.isFinite(value))
-      this.config.firstValue = value;
-    if (data.pointName === 'secondPoint' && !Number.isFinite(value))
-      this.config.secondValue = value;
   }
 
   private notifyListeners(): void {
