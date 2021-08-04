@@ -80,8 +80,9 @@ class View extends Observer<PointData> {
   }
 
   private removeElements(): void {
-    const { firstPoint, secondPoint, field, progressBar, scale } = this.subViews;
+    const { firstPoint, secondPoint, field, progressBar, scale, slider } = this.subViews;
     [
+      slider.divElement,
       firstPoint.divElement,
       field.divElement,
       progressBar.divElement,
@@ -181,6 +182,7 @@ class View extends Observer<PointData> {
     document.addEventListener('mousemove', movePoint);
     document.addEventListener(
       'mouseup',
+      // eslint-disable-next-line fsd/no-function-declaration-in-event-listener
       () => {
         document.removeEventListener('mousemove', movePoint);
         this.emit(EventTypes.pointStopped, data());
