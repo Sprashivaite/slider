@@ -75,7 +75,8 @@ class SliderPlugin extends Observer<UserConfig | PointData> {
   jQuery.fn.sliderPlugin = function sliderPlugin(config: UserConfig) {
     return this.each(function each() {
       if (!$.data(this, 'sliderPlugin')) {
-        $.data(this, 'sliderPlugin', new SliderPlugin({ ...config, target: this }));
+        if (this instanceof HTMLDivElement)
+          $.data(this, 'sliderPlugin', new SliderPlugin({ ...config, target: this }));
       }
     });
   };
