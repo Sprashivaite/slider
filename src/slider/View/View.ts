@@ -5,7 +5,7 @@ import ViewProgressBar from './subView/ViewProgressBar/ViewProgressBar';
 import ViewScale from './subView/ViewScale/ViewScale';
 import ViewContainer from './subView/ViewContainer/ViewContainer';
 import { DEFAULT_VIEW_CONFIG } from '../defaults';
-import { ViewConfig, PointData, EventTypes, SubViews } from '../types';
+import { ViewConfig, PointData, EventTypes, SubViews, CurrentPoint } from '../types';
 import Observer from '../Observer/Observer';
 
 class View extends Observer<PointData> {
@@ -15,6 +15,8 @@ class View extends Observer<PointData> {
 
   private mouseCoords: number;
 
+  private currentPoint: CurrentPoint;
+
   constructor(config?: Partial<ViewConfig>) {
     super();
     this.config = DEFAULT_VIEW_CONFIG;
@@ -22,6 +24,11 @@ class View extends Observer<PointData> {
     this.mouseCoords = 0;
     this.addHandlers();
     if (config) this.updateConfig(config);
+    this.currentPoint = {
+      point: this.subViews.firstPoint,
+      data: this.getFirstPointData,
+      shift: 0,
+    };
   }
 
   updateConfig(config: Partial<ViewConfig>): void {
@@ -138,8 +145,31 @@ class View extends Observer<PointData> {
   private handlePointMouseDown = (event: MouseEvent): void => {
     const { firstPoint, secondPoint } = this.subViews;
     if (this.isFirstPointClosest(event))
-      this.handlePoint(firstPoint, this.getFirstPointData);
-    else if (secondPoint) this.handlePoint(secondPoint, this.getSecondPointData);
+      this.handleMouseMovePoint(firstPoint, this.getFirstPointData);
+    else if (secondPoint) this.handleMouseMovePoint(secondPoint, this.getSecondPointData);
+  };
+
+  private handleMouseMovePoint(point: ViewPoint, data: () => PointData): void {
+    const shift = this.mouseCoords - point.getOffset();
+    this.currentPoint = {
+      point,
+      data,
+      shift,
+    };
+
+    document.addEventListener('mousemove', this.movePoint);
+    document.addEventListener('mouseup', this.handlePointMouseUp, { once: true });
+  }
+
+  private movePoint = (): void => {
+    this.currentPoint.point.movePoint(this.mouseCoords - this.currentPoint.shift);
+    this.demarcatePoints(this.currentPoint.data().pointName);
+    this.emit(EventTypes.pointMoving, this.currentPoint.data());
+  };
+
+  private handlePointMouseUp = (): void => {
+    document.removeEventListener('mousemove', this.movePoint);
+    this.emit(EventTypes.pointStopped, this.currentPoint.data());
   };
 
   private addFieldHandler(): void {
@@ -170,26 +200,6 @@ class View extends Observer<PointData> {
       ? this.emit(EventTypes.valueChanged, { ...this.getFirstPointData(), value })
       : this.emit(EventTypes.valueChanged, { ...this.getSecondPointData(), value });
   };
-
-  private handlePoint(point: ViewPoint, data: () => PointData): void {
-    const shift = this.mouseCoords - point.getOffset();
-    const movePoint = () => {
-      point.movePoint(this.mouseCoords - shift);
-      this.demarcatePoints(data().pointName);
-      this.emit(EventTypes.pointMoving, data());
-    };
-
-    document.addEventListener('mousemove', movePoint);
-    document.addEventListener(
-      'mouseup',
-      // eslint-disable-next-line fsd/no-function-declaration-in-event-listener
-      () => {
-        document.removeEventListener('mousemove', movePoint);
-        this.emit(EventTypes.pointStopped, data());
-      },
-      { once: true },
-    );
-  }
 
   private isFirstPointClosest(event: MouseEvent): boolean {
     const { config, mouseCoords } = this;

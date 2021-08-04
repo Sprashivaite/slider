@@ -77,12 +77,19 @@ type PointData = {
   steps?: number[];
 };
 
+type CurrentPoint = {
+  point: ViewPoint;
+  data: () => PointData;
+  shift: number;
+};
+
 export {
   ModelConfig,
   UserConfig,
   ViewConfig,
   SubViews,
   PointData,
+  CurrentPoint,
   ProgressBar,
   EventTypes,
   EventName,
