@@ -1,12 +1,4 @@
-.slider {
-  position: relative;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  user-select: none;
-}
-
-.slider__field {
+.field {
   position: relative;
   background: rgba(31, 32, 65, 0.25);
   border-radius: 3px;
@@ -18,13 +10,12 @@
   align-items: center;
   box-sizing: border-box;
 }
-
-.slider__field_vertical {
+  
+.field_vertical {
   height: 100%;
   width: 8px;
 }
-
-.slider__point {
+.point {
   display: inline-flex;
   position: absolute;
   width: 18px;
@@ -37,16 +28,16 @@
   justify-content: center;
   transform: translateX(-50%);
 }
-
-.slider__point_target {
+  
+.point_target {
   z-index: 10;
 }
-
-.slider__point_vertical {
+  
+.point_vertical {
   transform: translate(-25%, -50%);
 }
-
-.slider__tooltip {
+  
+.tooltip {
   padding: 1px 5px;
   background: linear-gradient(180deg, #6fcf97 0%, #66d2ea 100%);
   font-size: 13px;
@@ -61,23 +52,23 @@
   transform: translateY(-120%);
   user-select: none;
 }
-
-.slider__tooltip_vertical {
+  
+.tooltip_vertical {
   left: 150%;
   position: absolute;
   white-space: normal;
   transform: translateY(0);
 }
 
-.slider__tooltip_type_total {
+.tooltip_type_total {
   position: absolute;
 }
 
-.slider__tooltip_hidden {
+.tooltip_hidden {
   visibility: hidden;
 }
 
-.js-progressBar {
+.progress-bar {
   position: absolute;
   border-radius: 3px;
   transition-property: background-color;
@@ -86,34 +77,34 @@
   left: 0;
   height: 100%;
 } 
-
-.progressBar_vertical {
+  
+.progress-bar_vertical {
   top: 0;
   width: 100%;
   height: auto;
 }
-
-.progressBar_color_first {
+  
+.progress-bar_color_first {
   background-color: #915e4e;
 }
-
-.progressBar_color_second {
+  
+.progress-bar_color_second {
   background-color: #cf866f;
 }
-
-.progressBar_color_third {
+  
+.progress-bar_color_third {
   background-color: #4e9179;
 }
-
-.progressBar_color_fourth {
+  
+.progress-bar_color_fourth {
   background-color: #6fcf97;
 }
-
-.slider__bar_hidden {
+  
+.progress-bar_hidden {
   opacity: 0;
 }
-
-.slider__scale {
+  
+.scale {
   display: flex;
   font-size: 14px;
   margin: 30px 0px 0px 0px;
@@ -122,8 +113,8 @@
   width: 100%;
   user-select: none;
 }
-
-.slider__scale_vertical {
+  
+.scale_vertical {
   position: relative;
   font-stretch: expanded;
   flex-direction: column;
@@ -134,7 +125,7 @@
   width: auto;
 }
 
-.slider__scale_hidden {
+.scale_hidden {
   visibility: hidden;
 }
 
@@ -148,5 +139,13 @@
   transform: translateY(-50%);
   height: 15px;
 }
-
-
+.slider {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  user-select: none;
+  height: 100%;
+  min-width: 100px;
+  min-height: 20px;
+}
