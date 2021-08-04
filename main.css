@@ -2,26 +2,34 @@
   padding: 0;
   margin: 0;
 }
+
 body {
   background-color: #fff;
 }
+
 .sliders {
   display: flex;
   flex-wrap: wrap;
 }
-.slider {
+
+.sliders__slider {
   margin: 50px 30px;
+  width: 100%;
 }
+
 @media screen and (max-width: 768px) {
-  .slider {
+  .sliders__slider {
     margin: 50px auto;
   }
 }
+
 .slider-container {
   width: 85%;
   display: flex;
   margin: 100px auto 0;
+  justify-content: space-between;
 }
+
 @media screen and (max-width: 768px) {
   .slider-container {
     width: 75%;
@@ -33,39 +41,44 @@ body {
     flex-direction: row;
   }
 }
+
 .config {
   display: inline-flex;
   flex-direction: column;
   font-family: sans-serif;
   max-width: 300px;
   min-width: 200px;
-  top: 40px;
-  left: 320px;
   background: #689ba3;
   border: 2px solid#3a5a5f;
   border-radius: 13px;
   flex: 0 0 30%;
 }
+
 .config__item {
   display: flex;
   max-width: 200px;
   justify-content: space-between;
   margin: 0 20px 10px;
 }
+
 .config__item:first-child {
   margin-top: 20px;
 }
+
 .config__item:last-child {
   margin-bottom: 20px;
 }
+
 .config__description{
   color: #e6e6e6;
   font-family: 'Times New Roman', serif;
   font-size: 18px;
 }
+
 .config__checkbox {
   min-width: 90px;
 }
+
 .config__value {
   margin-bottom: 5px;
   height: 15.5px;
@@ -144,8 +157,7 @@ body {
   visibility: hidden;
 }
 
-
-.progressBar {
+.progress-bar {
   position: absolute;
   border-radius: 3px;
   transition-property: background-color;
@@ -155,29 +167,29 @@ body {
   height: 100%;
 } 
   
-.progressBar_vertical {
+.progress-bar_vertical {
   top: 0;
   width: 100%;
   height: auto;
 }
   
-.progressBar_color_first {
+.progress-bar_color_first {
   background-color: #915e4e;
 }
   
-.progressBar_color_second {
+.progress-bar_color_second {
   background-color: #cf866f;
 }
   
-.progressBar_color_third {
+.progress-bar_color_third {
   background-color: #4e9179;
 }
   
-.progressBar_color_fourth {
+.progress-bar_color_fourth {
   background-color: #6fcf97;
 }
   
-.progressBar_hidden {
+.progress-bar_hidden {
   opacity: 0;
 }
   
@@ -222,4 +234,5 @@ body {
   display: flex;
   justify-content: center;
   user-select: none;
+  height: 100%;
 }
