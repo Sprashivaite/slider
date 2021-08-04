@@ -173,16 +173,19 @@ class View extends Observer<PointData> {
   };
 
   private addFieldHandler(): void {
-    this.subViews.field.divElement.addEventListener('mousedown', this.handleFieldClick);
+    this.subViews.field.divElement.addEventListener('click', this.handleFieldClick);
   }
 
   private handleFieldClick = (event: MouseEvent): void => {
     const { firstPoint, secondPoint } = this.subViews;
+
     if (this.isFirstPointClosest(event)) {
       firstPoint.movePoint(this.mouseCoords);
+      this.emit(EventTypes.pointMoving, this.getFirstPointData());
       this.emit(EventTypes.pointStopped, this.getFirstPointData());
     } else {
       secondPoint?.movePoint(this.mouseCoords);
+      this.emit(EventTypes.pointMoving, this.getSecondPointData());
       this.emit(EventTypes.pointStopped, this.getSecondPointData());
     }
   };
