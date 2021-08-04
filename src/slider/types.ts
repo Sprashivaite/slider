@@ -57,10 +57,8 @@ enum EventTypes {
   valueChanged = 'valueChanged',
   pointStopped = 'pointStopped',
   pointMoving = 'pointMoving',
-  stepsUpdate = 'stepsUpdate',
   updatePoint = 'updatePoint',
   configChanged = 'configChanged',
-  elementsRendered = 'elementsRendered',
 }
 
 enum PointNames {
