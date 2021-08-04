@@ -25,41 +25,41 @@ beforeEach(() => {
 });
 
 describe('конструктор класса', () => {
-  it('Model', () => {
+  it('инициализирован', () => {
     expect(model).toBeDefined();
   });
-  it('Model max 200', () => {
+  it('значение max === 200', () => {
     model = new Model({ max: 200 });
     expect(model.config.max).toBe(200);
   });
-  it('Model min -5', () => {
+  it('значение min === -5', () => {
     model = new Model({ min: -5 });
     expect(model.config.min).toBe(-5);
   });
-  it('Model step -5', () => {
+  it('значение step === -5', () => {
     model = new Model({ step: -5 });
     expect(model.config.step).toBe(1);
   });
 
-  it('Model step', () => {
+  it('значение step === 10', () => {
     model = new Model({ step: 10 });
     expect(model.config.step).toBe(10);
   });
-  it('Model step', () => {
+  it('значение step !== 0', () => {
     model = new Model({ step: 0 });
     expect(model.config.step).toBe(1);
   });
 });
 
-describe('вычислить значение подсказки', () => {
-  it('целое ', () => {
+describe('значение подсказки', () => {
+  it('целое === 75', () => {
     model.updatePoint({
       point: 'firstPoint',
       pointOffset: 75,
     });
     expect(someObject.pointValue).toBe(75);
   });
-  it('дробное число', () => {
+  it('дробное число === 1.5', () => {
     model.config.step = 0.1;
     model.updatePoint({
       point: 'firstPoint',
@@ -70,8 +70,8 @@ describe('вычислить значение подсказки', () => {
   });
 });
 
-describe('поменять значение', () => {
-  it('model.changeValue', () => {
+describe('поменять значение Point', () => {
+  it('значение === 42', () => {
     model.changeValue({
       pointName: 'firstPoint',
       value: 42,
@@ -82,7 +82,7 @@ describe('поменять значение', () => {
 });
 
 describe('вычислить шаги', () => {
-  it('model.updateSteps', () => {
+  it('при шаге 20 результат [0, 20, 40, 60, 80, 100]', () => {
     model.updateConfig({ max: 100, step: 20 });
     expect(someObject.scaleValues).toEqual([0, 20, 40, 60, 80, 100]);
   });
