@@ -42,6 +42,7 @@ body {
   }
 }
 
+
 .config {
   display: inline-flex;
   flex-direction: column;
@@ -69,7 +70,7 @@ body {
   margin-bottom: 20px;
 }
 
-.config__description{
+.config__description {
   color: #e6e6e6;
   font-family: 'Times New Roman', serif;
   font-size: 18px;
@@ -87,6 +88,7 @@ body {
   border: 1px solid #689ba3;
   font-size: 14px;
 }
+
 .field {
   position: relative;
   background: rgba(31, 32, 65, 0.25);
