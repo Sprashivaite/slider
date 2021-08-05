@@ -24,7 +24,6 @@ class Model extends Observer<PointData> {
   changeValue(data: PointData): void {
     const { max, min } = this.config;
     const { value, pointName } = data;
-    if (value === undefined) return;
     const nearestValue = this.findNearestValue(value);
     const result: number = (100 / (max - min)) * (nearestValue - min);
     this.updatePoint({ ...data, value, pointName, pointOffset: result });
