@@ -40,29 +40,31 @@ const slider5 = $('.js-slider-container_order_fifth .js-slider').sliderPlugin({
   min: -100,
 });
 
-const configContainer1 = document.querySelector(
+const configContainer1: HTMLDivElement | null = document.querySelector(
   '.js-slider-container_order_first > .config',
 );
-const configContainer2 = document.querySelector(
+const configContainer2: HTMLDivElement | null = document.querySelector(
   '.js-slider-container_order_second > .config',
 );
-const configContainer3 = document.querySelector(
+const configContainer3: HTMLDivElement | null = document.querySelector(
   '.js-slider-container_order_third > .config',
 );
-const configContainer4 = document.querySelector(
+const configContainer4: HTMLDivElement | null = document.querySelector(
   '.js-slider-container_order_fourth > .config',
 );
-const configContainer5 = document.querySelector(
+const configContainer5: HTMLDivElement | null = document.querySelector(
   '.js-slider-container_order_fifth > .config',
 );
 
-[
+type configParam = [JQuery<HTMLElement>, HTMLDivElement | null];
+const sliders: configParam[] = [
   [slider1, configContainer1],
   [slider2, configContainer2],
   [slider3, configContainer3],
   [slider4, configContainer4],
   [slider5, configContainer5],
-].forEach(item => {
+];
+sliders.forEach(item => {
   if (item[0] === null) return;
   if (item[1] instanceof HTMLDivElement)
     new Config(item[0].data('sliderPlugin'), item[1]);
