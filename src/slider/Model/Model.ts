@@ -92,7 +92,9 @@ class Model extends Observer<PointData> {
   private roundByStep(value: number): number {
     const { step } = this.config;
     const isInteger = Number.isInteger(step);
-    const digitsAfterDot = String(step).split('.').pop()?.length;
+    const numAfterDot = String(step).split('.').pop();
+    let digitsAfterDot = 0;
+    if (numAfterDot) digitsAfterDot = numAfterDot.length;
     return !isInteger ? Number(value.toFixed(digitsAfterDot)) : Number(value.toFixed(0));
   }
 
