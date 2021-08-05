@@ -10,8 +10,8 @@ class ViewField {
 
   private createField(config: ViewConfig, root: HTMLDivElement): HTMLDivElement {
     this.divElement = document.createElement('div');
-    const fieldStyle = 'field';
-    this.divElement.classList.add(fieldStyle, `js-${fieldStyle}`);
+    const className = 'field';
+    this.divElement.classList.add(className, `js-${className}`);
     if (!config.isHorizontal) {
       const modifier = 'field_vertical';
       this.divElement.classList.add(modifier, `js-${modifier}`);

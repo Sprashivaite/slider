@@ -25,15 +25,15 @@ class ViewScale {
     this.calcScaleOffsets(scaleValues);
     this.divElement.innerHTML = '';
     const direction = this.isHorizontal ? 'left' : 'top';
-    const scaleValueStyle = 'scale__value';
+    const className = 'scale__value';
     const modifier = this.isHorizontal
       ? ''
-      : `${scaleValueStyle}_vertical js-${scaleValueStyle}_vertical`;
+      : `${className}_vertical js-${className}_vertical`;
     scaleValues.forEach((item, index) => {
       const offset = `${direction}: ${this.scaleOffsets[index]}%`;
       this.divElement.insertAdjacentHTML(
         'beforeend',
-        `<div class="${scaleValueStyle} ${modifier}" style="${offset}">${item}</div>`,
+        `<div class="${className} ${modifier}" style="${offset}">${item}</div>`,
       );
     });
     this.removeExtraValues();
@@ -51,8 +51,8 @@ class ViewScale {
 
   private createScale(): HTMLDivElement {
     this.divElement = document.createElement('div');
-    const scaleStyle = 'scale';
-    this.divElement.classList.add(scaleStyle, `js-${scaleStyle}`);
+    const className = 'scale';
+    this.divElement.classList.add(className, `js-${className}`);
     if (!this.isHorizontal) {
       const modifier = 'scale_vertical';
       this.divElement.classList.add(modifier, `js-${modifier}`);

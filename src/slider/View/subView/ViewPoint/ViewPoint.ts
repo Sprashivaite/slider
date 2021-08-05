@@ -46,8 +46,8 @@ class ViewPoint {
 
   private createPoint(): HTMLDivElement {
     this.divElement = document.createElement('div');
-    const pointStyle = 'point';
-    this.divElement.classList.add(pointStyle, `js-${pointStyle}`);
+    const className = 'point';
+    this.divElement.classList.add(className, `js-${className}`);
     if (!this.isHorizontal) {
       const modifier = 'point_vertical';
       this.divElement.classList.add(modifier, `js-${modifier}`);

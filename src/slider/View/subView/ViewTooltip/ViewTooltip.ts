@@ -42,8 +42,8 @@ class Tooltip {
 
   private createTooltip(config: ViewConfig, root: HTMLDivElement): HTMLDivElement {
     this.divElement = document.createElement('div');
-    const tooltipStyle = 'tooltip';
-    this.divElement.classList.add(tooltipStyle, `js-${tooltipStyle}`);
+    const className = 'tooltip';
+    this.divElement.classList.add(className, `js-${className}`);
     if (!this.isHorizontal) {
       const modifier = 'tooltip_vertical';
       this.divElement.classList.add(modifier, `js-${modifier}`);
