@@ -56,10 +56,10 @@ describe('Создание/поиск контейнера View', () => {
   });
   it('Создание контейнера', () => {
     const div = document.querySelector('.slider');
-    div.className = '';
+    div.classList.remove('slider');
     view.updateConfig({ target: undefined });
     expect(view.subViews.slider.divElement).toBeDefined();
-    div.className = 'slider';
+    div.classList.add('slider');
   });
 });
 
