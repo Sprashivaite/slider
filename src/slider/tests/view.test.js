@@ -121,18 +121,26 @@ describe('слияние подсказок', () => {
     view.updatePoints({ pointName: 'firstPoint', pointOffset: 50 });
     view.updatePoints({ pointName: 'secondPoint', pointOffset: 50 });
     expect(
-      view.subViews.secondPoint.tooltip.divElement.classList.contains('js-tooltip_hidden'),
+      view.subViews.secondPoint.tooltip.divElement.classList.contains(
+        'js-tooltip_hidden',
+      ),
     ).toBeTruthy();
-    expect(view.subViews.tooltipTotal.divElement.classList.contains('js-tooltip_hidden')).toBeFalse();
+    expect(
+      view.subViews.tooltipTotal.divElement.classList.contains('js-tooltip_hidden'),
+    ).toBeFalse();
   });
   it('vertical', () => {
     view.updateConfig({ isHorizontal: false });
     view.updatePoints({ pointName: 'firstPoint', pointOffset: 50 });
     view.updatePoints({ pointName: 'secondPoint', pointOffset: 50 });
     expect(
-      view.subViews.secondPoint.tooltip.divElement.classList.contains('js-tooltip_hidden'),
+      view.subViews.secondPoint.tooltip.divElement.classList.contains(
+        'js-tooltip_hidden',
+      ),
     ).toBeTruthy();
-    expect(view.subViews.tooltipTotal.divElement.classList.contains('js-tooltip_hidden')).toBeFalse();
+    expect(
+      view.subViews.tooltipTotal.divElement.classList.contains('js-tooltip_hidden'),
+    ).toBeFalse();
   });
 });
 
@@ -198,8 +206,8 @@ describe('события мыши', () => {
 describe('клик по полю', () => {
   it('', () => {
     const notify = jasmine.createSpy('notify');
-    view.subscribe('pointStopped', notify);
-    let mousedown = new MouseEvent('mousedown');
+    view.subscribe('pointMoving', notify);
+    let mousedown = new MouseEvent('click');
     view.subViews.field.divElement.dispatchEvent(mousedown);
     expect(notify).toHaveBeenCalled();
   });
