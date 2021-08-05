@@ -9,7 +9,8 @@ class ViewContainer {
 
   private createContainer(): HTMLDivElement {
     this.divElement = document.createElement('div');
-    this.divElement.classList.add('slider');
+    const className = 'slider';
+    this.divElement.classList.add(className, `js-${className}`);
     document.body.append(this.divElement);
     return this.divElement;
   }
