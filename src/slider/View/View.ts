@@ -87,9 +87,8 @@ class View extends Observer<PointData> {
   }
 
   private removeElements(): void {
-    const { firstPoint, secondPoint, field, progressBar, scale, slider } = this.subViews;
+    const { firstPoint, secondPoint, field, progressBar, scale } = this.subViews;
     [
-      slider.divElement,
       firstPoint.divElement,
       field.divElement,
       progressBar.divElement,
