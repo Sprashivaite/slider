@@ -12,7 +12,6 @@ import Model from '../Model/Model';
 import View from '../View/View';
 import Presenter from '../Presenter/Presenter';
 import Observer from '../Observer/Observer';
-import isObject from './utils/isObject';
 
 declare global {
   interface JQuery {
@@ -82,12 +81,12 @@ class SliderPlugin extends Observer<UserConfig | PointData> {
 
 (function addFunction($) {
   jQuery.fn.sliderPlugin = function sliderPlugin(config: unknown) {
-    let userConfig = config;
-    if (!isObject(userConfig)) userConfig = {};
     return this.each(function each() {
       if (!$.data(this, 'sliderPlugin')) {
-        if (this instanceof HTMLDivElement && config instanceof Object)
-          $.data(this, 'sliderPlugin', new SliderPlugin({ ...config, target: this }));
+        if (this instanceof HTMLDivElement)
+          config instanceof Object
+            ? $.data(this, 'sliderPlugin', new SliderPlugin({ ...config, target: this }))
+            : $.data(this, 'sliderPlugin', new SliderPlugin({ target: this }));
       }
     });
   };
