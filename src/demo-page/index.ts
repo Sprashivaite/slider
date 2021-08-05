@@ -1,5 +1,5 @@
 /* eslint-disable no-new */
-import Config from './Config';
+import Config from './Config/Config';
 
 const slider1 = $('.js-slider-container_order_first .js-slider').sliderPlugin({
   max: 1000,

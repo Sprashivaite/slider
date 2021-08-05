@@ -1,5 +1,5 @@
-import SliderPlugin from '../slider/SliderPlugin/SliderPlugin';
-import { EventTypes } from '../slider/types';
+import SliderPlugin from '../../slider/SliderPlugin/SliderPlugin';
+import { EventTypes } from '../../slider/types';
 
 enum KeyInputs {
   firstPoint = 'firstPoint',
