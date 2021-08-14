@@ -29,13 +29,11 @@ class ViewScale {
     const modifier = this.isHorizontal
       ? ''
       : `${className}_vertical js-${className}_vertical`;
-    scaleValues.forEach((item, index) => {
+    const values = scaleValues.map((item, index) => {
       const offset = `${direction}: ${this.scaleOffsets[index]}%`;
-      this.divElement.insertAdjacentHTML(
-        'beforeend',
-        `<div class="${className} ${modifier}" style="${offset}">${item}</div>`,
-      );
+      return `<div class="${className} ${modifier}" style="${offset}">${item}</div>`;
     });
+    this.divElement.insertAdjacentHTML('beforeend', values.join(' '));
     this.removeExtraValues();
   }
 
