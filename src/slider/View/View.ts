@@ -199,7 +199,8 @@ class View extends Observer<PointData> {
   private handleScaleClick = (event: MouseEvent): void => {
     const target = event.currentTarget;
     if (!target) return;
-    const value = target instanceof HTMLDivElement ? Number(target.innerHTML) : 0;
+    const value = target instanceof HTMLDivElement && Number(target.innerHTML);
+    if (!value) return;
     this.isFirstPointClosest(event)
       ? this.emit(EventTypes.valueChanged, { ...this.getFirstPointData(), value })
       : this.emit(EventTypes.valueChanged, { ...this.getSecondPointData(), value });
