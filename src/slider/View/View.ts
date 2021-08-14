@@ -42,6 +42,10 @@ class View extends Observer<PointData> {
     return this.config;
   }
 
+  getSubViews(): SubViews {
+    return this.subViews;
+  }
+
   updatePoints(data: PointData): void {
     const { pointOffset, pointName, value, steps } = data;
     const { firstPoint, secondPoint, progressBar } = this.subViews;
@@ -200,7 +204,7 @@ class View extends Observer<PointData> {
     const target = event.currentTarget;
     if (!target) return;
     const value = target instanceof HTMLDivElement && Number(target.innerHTML);
-    if (!value) return;
+    if (!value && value !== 0) return;
     this.isFirstPointClosest(event)
       ? this.emit(EventTypes.valueChanged, { ...this.getFirstPointData(), value })
       : this.emit(EventTypes.valueChanged, { ...this.getSecondPointData(), value });

@@ -1,4 +1,4 @@
-const testCode = 'src/slider/tests/*test.js';
+const testCode = 'src/slider/tests/*test.ts';
 const webpackConfig = require('./config/webpack.common');
 
 module.exports = function karma(config) {

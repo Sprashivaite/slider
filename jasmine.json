@@ -2,7 +2,7 @@
   "random": true,
   "spec_dir": "src/slider/tests",
   "spec_files": [
-    "/*test.js"
+    "/*test.ts"
   ],
   "stopSpecOnExpectationFailure": true
 }
