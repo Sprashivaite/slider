@@ -33,68 +33,63 @@ beforeEach(() => {
   model.subscribe('updatePoint', someObject.updateScale.bind(someObject));
 });
 
-describe('конструктор класса', () => {
-  it('инициализирован', () => {
+describe('Model constructor', () => {
+  it('initialized', () => {
     expect(model).toBeDefined();
   });
-  it('значение max === 200', () => {
-    model = new Model({ max: 200 });
-    expect(model.getConfig().max).toBe(200);
-  });
-  it('значение min === -5', () => {
-    model = new Model({ min: -5 });
-    expect(model.getConfig().min).toBe(-5);
-  });
-  it('значение step === -5', () => {
-    model = new Model({ step: -5 });
+  it('takes valid values', () => {
+    model = new Model({ max: 2, min: 1, step: 1 });
+    expect(model.getConfig().max).toBe(2);
+    expect(model.getConfig().min).toBe(1);
     expect(model.getConfig().step).toBe(1);
   });
-
-  it('значение step === 10', () => {
-    model = new Model({ step: 10 });
-    expect(model.getConfig().step).toBe(10);
+  it('corrects invalid values minmax', () => {
+    model = new Model({ max: 0, min: 1 });
+    expect(model.getConfig().max).toBeGreaterThan(model.getConfig().min);
   });
-  it('значение step !== 0', () => {
+  it('corrects invalid values step', () => {
     model = new Model({ step: 0 });
+    expect(model.getConfig().step).toBe(1);
+    model = new Model({ max: 1, min: 0, step: 2 });
     expect(model.getConfig().step).toBe(1);
   });
 });
 
-describe('значение подсказки', () => {
-  it('целое === 75', () => {
+describe('Model point value takes an', () => {
+  it('integer value', () => {
     model.updatePoint({
       pointName: 'firstPoint',
-      pointOffset: 75,
-      value: 75
+      pointOffset: 1,
+      value: 1
     });
-    expect(someObject.pointValue).toBe(75);
+    expect(someObject.pointValue).toBe(1);
   });
-  it('дробное число === 1.5', () => {
+  it('decimal value', () => {
     model.getConfig().step = 0.1;
     model.updatePoint({
       pointName: 'firstPoint',
-      pointOffset: 1.5,
-      value: 1.5
+      pointOffset: 1.1,
+      value: 1.1
     });
-    expect(someObject.pointValue).toBe(1.5);
+    expect(someObject.pointValue).toBe(1.1);
     model.getConfig().step = 1;
   });
 });
 
-describe('поменять значение Point', () => {
-  it('значение === 42', () => {
+describe('Model point value change', () => {
+  it('value', () => {
     model.changeValue({
       pointName: 'firstPoint',
-      pointOffset: 42,
-      value: 42,
+      pointOffset: 1,
+      value: 1,
     });
-    expect(someObject.pointValue).toBe(42);
-    expect(someObject.pointPX).toBe(42);
+    expect(someObject.pointValue).toBe(1);
+    expect(someObject.pointPX).toBe(1);
   });
 });
 
-describe('вычислить шаги', () => {
-  it('при шаге 20 результат [0, 20, 40, 60, 80, 100]', () => {
+describe('Model calc steps', () => {
+  it('if max equal 100, steps is [0, 20, 40, 60, 80, 100]', () => {
     model.updateConfig({ max: 100, step: 20 });
     expect(someObject.scaleValues).toEqual([0, 20, 40, 60, 80, 100]);
   });

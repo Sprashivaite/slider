@@ -13,14 +13,11 @@ afterEach(function () {
   });
 });
 
-describe('наличие класса', () => {
-  it('View', () => {
+describe('View constructor ', () => {
+  it('initialized', () => {
     expect(view).toBeDefined();
   });
-});
-
-describe('установка параметров View', () => {
-  it('валидные параметры', () => {
+  it('takes valid values', () => {
     view.updateConfig({
       isRange: true,
       isHorizontal: false,
@@ -34,8 +31,8 @@ describe('установка параметров View', () => {
   });
 });
 
-describe('Создание/поиск контейнера View', () => {
-  it('Установка контейнера', () => {
+describe('View container', () => {
+  it('takes target', () => {
     document.body.insertAdjacentHTML(
       'afterbegin',
       "<div class='slider' style='width:100px; height: 100px;'></div>",
@@ -46,7 +43,7 @@ describe('Создание/поиск контейнера View', () => {
       expect(view.getSubViews().slider.divElement).toEqual(container);
     }
   });
-  it('Поиск контейнера по дата селектору', () => {
+  it('search with data-attribute', () => {
     document.body.insertAdjacentHTML(
       'afterbegin',
       "<div data-slider style='width:100px;'></div>",
@@ -58,7 +55,7 @@ describe('Создание/поиск контейнера View', () => {
       div.remove();
     }
   });
-  it('Создание контейнера', () => {
+  it('create if undefined', () => {
     const div = document.querySelector('.slider');
     div && div.classList.remove('slider');
     view.updateConfig({ target: undefined });
@@ -67,8 +64,8 @@ describe('Создание/поиск контейнера View', () => {
   });
 });
 
-describe('работа фасада renderElements', () => {
-  it('все элементы отрисованы', () => {
+describe('View elements', () => {
+  it('rendered', () => {
     expect(view.getSubViews().field).toBeDefined();
     expect(view.getSubViews().firstPoint.divElement).toBeDefined();
     expect(view.getSubViews().firstPoint.tooltip.divElement).toBeDefined();
@@ -77,7 +74,7 @@ describe('работа фасада renderElements', () => {
   });
 });
 
-describe('обновить Points', () => {
+describe('View update', () => {
   it('first point', () => {
     view.updateConfig({ isRange: false });
     view.updatePoints({ pointOffset: 50, pointName: 'firstPoint', value: 50 });
@@ -91,14 +88,14 @@ describe('обновить Points', () => {
   });
 });
 
-describe('движение point', () => {
-  it('на 50', () => {
+describe('View should move point', () => {
+  it('', () => {
     view.getSubViews().secondPoint?.movePoint(50);
     expect(view.getSubViews().secondPoint?.getOffset()).toBeGreaterThan(49);
   });
 });
 
-describe('toggle View tooltip', () => {
+describe('View tooltip', () => {
   it('visible', () => {
     view.getSubViews().firstPoint.tooltip.show();
     expect(
@@ -113,14 +110,14 @@ describe('toggle View tooltip', () => {
   });
 });
 
-describe('значение View tooltip', () => {
-  it('равно 50', () => {
+describe('View tooltip should change value', () => {
+  it('', () => {
     view.getSubViews().firstPoint.tooltip.changeValue(50);
     expect(view.getSubViews().firstPoint.tooltip.divElement.innerHTML).toBe('50');
   });
 });
 
-describe('слияние подсказок', () => {
+describe('View tooltip should collapse', () => {
   it('horizontal', () => {
     view.updatePoints({ pointName: 'firstPoint', pointOffset: 50, value: 50 });
     view.updatePoints({ pointName: 'secondPoint', pointOffset: 50, value: 50 });
@@ -148,7 +145,7 @@ describe('слияние подсказок', () => {
   });
 });
 
-describe('движение View progressBar', () => {
+describe('View progressbar should moving', () => {
   it('range', () => {
     view.getSubViews().secondPoint?.movePoint(95);
     view.getSubViews().progressBar.changeSize();
@@ -162,14 +159,14 @@ describe('движение View progressBar', () => {
   });
 });
 
-describe('шкала', () => {
-  it('3 элемента при [0, 50, 100]', () => {
+describe('View scale should', () => {
+  it('3 elements with [0, 50, 100]', () => {
     view.getSubViews().scale.updateValues([0, 50, 100]);
     expect(view.getSubViews().scale.divElement.children.length).toBe(3);
   });
 });
 
-describe('события мыши', () => {
+describe('View event mouse', () => {
   let mousedown: MouseEvent;
   let mousemove: MouseEvent;
   let mouseup: MouseEvent;
@@ -179,14 +176,14 @@ describe('события мыши', () => {
     mouseup = new MouseEvent('mouseup');
   });
 
-  it('движение', () => {
+  it('moving', () => {
     const notify = jasmine.createSpy('notify');
     view.subscribe('pointMoving', notify);
     view.getSubViews().firstPoint.divElement.dispatchEvent(mousedown);
     document.dispatchEvent(mousemove);
     expect(notify).toHaveBeenCalled();
   });
-  it('остановка', () => {
+  it('stopped', () => {
     const notify = jasmine.createSpy('notify');
     view.subscribe('pointStopped', notify);
     view.getSubViews().firstPoint.divElement.dispatchEvent(mousedown);
@@ -196,18 +193,15 @@ describe('события мыши', () => {
   });
 });
 
-describe('клик по полю', () => {
-  it('', () => {
+describe('View event mouse click', () => {
+  it('on filed', () => {
     const notify = jasmine.createSpy('notify');
     view.subscribe('pointMoving', notify);
     let mousedown = new MouseEvent('click');
     view.getSubViews().field.divElement.dispatchEvent(mousedown);
     expect(notify).toHaveBeenCalled();
   });
-});
-
-describe('клик по шкале', () => {
-  it('', () => {
+  it('on scale', () => {
     view.updatePoints({
       pointName: 'firstPoint',
       pointOffset: 50,
