@@ -13,7 +13,7 @@ afterEach(function () {
   });
 });
 
-describe('View constructor ', () => {
+describe('View constructor should', () => {
   it('initialized', () => {
     expect(view).toBeDefined();
   });
@@ -31,7 +31,7 @@ describe('View constructor ', () => {
   });
 });
 
-describe('View container', () => {
+describe('View container should', () => {
   it('takes target', () => {
     document.body.insertAdjacentHTML(
       'afterbegin',
@@ -64,7 +64,7 @@ describe('View container', () => {
   });
 });
 
-describe('View elements', () => {
+describe('View elements should', () => {
   it('rendered', () => {
     expect(view.getSubViews().field).toBeDefined();
     expect(view.getSubViews().firstPoint.divElement).toBeDefined();
@@ -74,7 +74,7 @@ describe('View elements', () => {
   });
 });
 
-describe('View update', () => {
+describe('View should update', () => {
   it('first point', () => {
     view.updateConfig({ isRange: false });
     view.updatePoints({ pointOffset: 50, pointName: 'firstPoint', value: 50 });
@@ -95,7 +95,7 @@ describe('View should move point', () => {
   });
 });
 
-describe('View tooltip', () => {
+describe('View tooltip should', () => {
   it('visible', () => {
     view.getSubViews().firstPoint.tooltip.show();
     expect(
@@ -160,13 +160,13 @@ describe('View progressbar should moving', () => {
 });
 
 describe('View scale should', () => {
-  it('3 elements with [0, 50, 100]', () => {
+  it('render 3 elements with [0, 50, 100]', () => {
     view.getSubViews().scale.updateValues([0, 50, 100]);
     expect(view.getSubViews().scale.divElement.children.length).toBe(3);
   });
 });
 
-describe('View event mouse', () => {
+describe('View should work event mouse', () => {
   let mousedown: MouseEvent;
   let mousemove: MouseEvent;
   let mouseup: MouseEvent;
@@ -193,15 +193,15 @@ describe('View event mouse', () => {
   });
 });
 
-describe('View event mouse click', () => {
-  it('on filed', () => {
+describe('View event mouse click should work on', () => {
+  it('field', () => {
     const notify = jasmine.createSpy('notify');
     view.subscribe('pointMoving', notify);
     let mousedown = new MouseEvent('click');
     view.getSubViews().field.divElement.dispatchEvent(mousedown);
     expect(notify).toHaveBeenCalled();
   });
-  it('on scale', () => {
+  it('scale', () => {
     view.updatePoints({
       pointName: 'firstPoint',
       pointOffset: 50,

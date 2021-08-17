@@ -33,7 +33,7 @@ beforeEach(() => {
   model.subscribe('updatePoint', someObject.updateScale.bind(someObject));
 });
 
-describe('Model constructor', () => {
+describe('Model constructor should', () => {
   it('initialized', () => {
     expect(model).toBeDefined();
   });
@@ -76,7 +76,7 @@ describe('Model point value takes an', () => {
   });
 });
 
-describe('Model point value change', () => {
+describe('Model should change', () => {
   it('value', () => {
     model.changeValue({
       pointName: 'firstPoint',
