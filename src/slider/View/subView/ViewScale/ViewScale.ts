@@ -26,7 +26,6 @@ class ViewScale {
     const reducedScaleValues = this.cutArray(scaleValues);
     const reducedSaleOffsets = this.cutArray(this.scaleOffsets);
 
-    this.divElement.innerHTML = '';
     const direction = this.isHorizontal ? 'left' : 'top';
     const className = 'scale__value';
     const modifier = this.isHorizontal
@@ -37,7 +36,7 @@ class ViewScale {
       const offset = `${direction}: ${reducedSaleOffsets[index]}%`;
       return `<div class="${className} ${modifier}" style="${offset}">${item}</div>`;
     });
-    this.divElement.insertAdjacentHTML('beforeend', values.join(' '));
+    this.divElement.innerHTML = values.join(' ');
     this.removeExtraValues();
   }
 
