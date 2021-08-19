@@ -1,8 +1,8 @@
 import View from '../View/View';
 
-let view = new View();
+const view = new View();
 
-afterEach(function () {
+afterEach(() => {
   view.updateConfig({
     target: undefined,
     isHorizontal: true,
@@ -57,10 +57,10 @@ describe('View container should', () => {
   });
   it('create if undefined', () => {
     const div = document.querySelector('.slider');
-    div && div.classList.remove('slider');
+    div?.classList.remove('slider');
     view.updateConfig({ target: undefined });
     expect(view.getSubViews().slider.divElement).toBeDefined();
-    div && div.classList.add('slider');
+    div?.classList.add('slider');
   });
 });
 
@@ -197,7 +197,7 @@ describe('View event mouse click should work on', () => {
   it('field', () => {
     const notify = jasmine.createSpy('notify');
     view.subscribe('pointMoving', notify);
-    let mousedown = new MouseEvent('click');
+    const mousedown = new MouseEvent('click');
     view.getSubViews().field.divElement.dispatchEvent(mousedown);
     expect(notify).toHaveBeenCalled();
   });
@@ -210,7 +210,7 @@ describe('View event mouse click should work on', () => {
     });
     const notify = jasmine.createSpy('notify');
     view.subscribe('valueChanged', notify);
-    let click = new MouseEvent('click');
+    const click = new MouseEvent('click');
     const scaleChildren = view.getSubViews().scale.divElement.querySelectorAll('div');
     scaleChildren[0].dispatchEvent(click);
     expect(notify).toHaveBeenCalled();

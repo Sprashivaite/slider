@@ -223,7 +223,7 @@ class View extends Observer<PointData> {
     const secondPointOffset = secondPoint.getOffset();
     const betweenPoints = (secondPointOffset + firstPointOffset) / 2;
 
-    return !(mouseCoords > betweenPoints);
+    return mouseCoords < betweenPoints;
   }
 
   private demarcatePoints(pointName: string): void {

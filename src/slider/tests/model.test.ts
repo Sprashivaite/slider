@@ -9,7 +9,7 @@ type SomeObject = {
   updatePX(data: PointData): void;
   updateValue(data: PointData): void;
   updateScale(data: PointData): void;
-}
+};
 const someObject: SomeObject = {
   pointPX: 0,
   pointValue: 0,
@@ -21,7 +21,7 @@ const someObject: SomeObject = {
     this.pointValue = data.value;
   },
   updateScale(data: PointData) {
-    if(data.steps)this.scaleValues = data.steps;    
+    if (data.steps) this.scaleValues = data.steps;
   },
 };
 
@@ -60,19 +60,19 @@ describe('Model point value takes an', () => {
     model.updatePoint({
       pointName: 'firstPoint',
       pointOffset: 1,
-      value: 1
+      value: 1,
     });
     expect(someObject.pointValue).toBe(1);
   });
   it('decimal value', () => {
-    model.getConfig().step = 0.1;
+    model.updateConfig({ step: 0.1 });
     model.updatePoint({
       pointName: 'firstPoint',
       pointOffset: 1.1,
-      value: 1.1
+      value: 1.1,
     });
     expect(someObject.pointValue).toBe(1.1);
-    model.getConfig().step = 1;
+    model.updateConfig({ step: 1 });
   });
 });
 
