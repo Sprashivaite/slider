@@ -112,7 +112,7 @@ class Model extends Observer<PointData> {
     let stepValue: number = min;
     let result: number;
     for (stepValue; stepValue < max; stepValue += step) {
-      result = this.findNearestValue(stepValue);
+      result = this.roundByStep(stepValue);
       scaleValues.push(result);
     }
     scaleValues.push(max);
