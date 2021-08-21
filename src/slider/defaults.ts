@@ -7,6 +7,7 @@ const DEFAULT_MODEL_CONFIG: ModelConfig = {
   max: 100,
   min: 0,
   step: 1,
+  steps: [],
 };
 
 const DEFAULT_VIEW_CONFIG: ViewConfig = {

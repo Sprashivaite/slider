@@ -12,6 +12,7 @@ type ModelConfig = {
   max: number;
   min: number;
   step: number;
+  steps: number[];
 };
 
 type ViewConfig = {
