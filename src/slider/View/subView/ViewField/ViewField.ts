@@ -4,15 +4,27 @@ import { ViewConfig } from '../../../types';
 class ViewField {
   divElement: HTMLDivElement;
 
+  isHorizontal: boolean;
+
   constructor(config: ViewConfig, root: HTMLDivElement) {
-    this.divElement = this.createField(config, root);
+    this.isHorizontal = config.isHorizontal;
+    this.divElement = this.createField(root);
   }
 
-  private createField(config: ViewConfig, root: HTMLDivElement): HTMLDivElement {
+  getSize(): number {
+    return this.isHorizontal ? this.divElement.offsetWidth : this.divElement.offsetHeight;
+  }
+
+  getOffset(): number {
+    const direction = this.isHorizontal ? 'left' : 'top';
+    return this.divElement.getBoundingClientRect()[direction];
+  }
+
+  private createField(root: HTMLDivElement): HTMLDivElement {
     this.divElement = document.createElement('div');
     const className = 'field';
     this.divElement.classList.add(className, `js-${className}`);
-    if (!config.isHorizontal) {
+    if (!this.isHorizontal) {
       const modifier = 'field_vertical';
       this.divElement.classList.add(modifier, `js-${modifier}`);
     }

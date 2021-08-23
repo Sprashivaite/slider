@@ -11,12 +11,16 @@ class Tooltip {
     this.divElement = this.createTooltip(config, root);
   }
 
-  changeValue(value: number): void {
+  changeValue(value: number | string): void {
     this.divElement.innerHTML = `${value}`;
   }
 
   getValue(): number {
     return Number(this.divElement.innerHTML);
+  }
+
+  getSize(): number {
+    return this.isHorizontal ? this.divElement.offsetWidth : this.divElement.offsetHeight;
   }
 
   hide(): void {

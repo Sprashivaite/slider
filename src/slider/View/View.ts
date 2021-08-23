@@ -32,7 +32,7 @@ class View extends Observer<PointData> {
   }
 
   updateConfig(config: Partial<ViewConfig>): void {
-    this.config = { ...this.config, ...config };
+    this.config = { ...this.getConfig(), ...config };
     this.removeElements();
     this.subViews = this.renderElements();
     this.addHandlers();
@@ -48,7 +48,7 @@ class View extends Observer<PointData> {
 
   updatePoints(data: PointData): void {
     const { pointOffset, pointName, value, steps } = data;
-    const { firstPoint, secondPoint, progressBar } = this.subViews;
+    const { firstPoint, secondPoint, progressBar } = this.getSubViews();
 
     if (pointName === 'firstPoint') {
       firstPoint.movePoint(pointOffset);
@@ -64,12 +64,12 @@ class View extends Observer<PointData> {
   }
 
   private updateScale(data: number[]): void {
-    this.subViews.scale.updateValues(data);
+    this.getSubViews().scale.updateValues(data);
     this.addScaleHandler();
   }
 
   private renderElements(): SubViews {
-    const { config } = this;
+    const config = this.getConfig();
     const slider = new ViewContainer(config.target);
     const field = new ViewField(config, slider.divElement);
     const firstPoint = new ViewPoint(config, field.divElement);
@@ -91,7 +91,7 @@ class View extends Observer<PointData> {
   }
 
   private removeElements(): void {
-    const { firstPoint, secondPoint, field, progressBar, scale } = this.subViews;
+    const { firstPoint, secondPoint, field, progressBar, scale } = this.getSubViews();
     [
       firstPoint.divElement,
       field.divElement,
@@ -112,17 +112,14 @@ class View extends Observer<PointData> {
   }
 
   private calcMouseCoords = (event: MouseEvent): void => {
-    const { field } = this.subViews;
-    const direction = this.config.isHorizontal ? 'left' : 'top';
-    const coordinate = this.config.isHorizontal ? 'clientX' : 'clientY';
-    const size = this.config.isHorizontal ? 'offsetWidth' : 'offsetHeight';
-    const mouseCoordsPX =
-      event[coordinate] - field.divElement.getBoundingClientRect()[direction];
-    this.mouseCoords = (mouseCoordsPX * 100) / field.divElement[size];
+    const { field } = this.getSubViews();
+    const coordinate = this.getConfig().isHorizontal ? 'clientX' : 'clientY';
+    const mouseCoordsPX = event[coordinate] - field.getOffset();
+    this.mouseCoords = (mouseCoordsPX * 100) / field.getSize();
   };
 
   private getFirstPointData = (): PointData => {
-    const { firstPoint } = this.subViews;
+    const { firstPoint } = this.getSubViews();
     return {
       pointOffset: firstPoint.getOffset(),
       pointName: 'firstPoint',
@@ -131,7 +128,7 @@ class View extends Observer<PointData> {
   };
 
   private getSecondPointData = (): PointData => {
-    const { secondPoint } = this.subViews;
+    const { secondPoint } = this.getSubViews();
     return {
       pointOffset: secondPoint?.getOffset() || 0,
       pointName: 'secondPoint',
@@ -140,13 +137,13 @@ class View extends Observer<PointData> {
   };
 
   private addPointHandler(): void {
-    const { firstPoint, secondPoint } = this.subViews;
+    const { firstPoint, secondPoint } = this.getSubViews();
     firstPoint.divElement.addEventListener('mousedown', this.handlePointMouseDown);
     secondPoint?.divElement.addEventListener('mousedown', this.handlePointMouseDown);
   }
 
   private handlePointMouseDown = (event: MouseEvent): void => {
-    const { firstPoint, secondPoint } = this.subViews;
+    const { firstPoint, secondPoint } = this.getSubViews();
     if (this.isFirstPointClosest(event))
       this.handleMouseMovePoint(firstPoint, this.getFirstPointData);
     else if (secondPoint) this.handleMouseMovePoint(secondPoint, this.getSecondPointData);
@@ -159,7 +156,6 @@ class View extends Observer<PointData> {
       data,
       shift,
     };
-
     document.addEventListener('mousemove', this.movePoint);
     document.addEventListener('mouseup', this.handlePointMouseUp, { once: true });
   }
@@ -176,11 +172,11 @@ class View extends Observer<PointData> {
   };
 
   private addFieldHandler(): void {
-    this.subViews.field.divElement.addEventListener('click', this.handleFieldClick);
+    this.getSubViews().field.divElement.addEventListener('click', this.handleFieldClick);
   }
 
   private handleFieldClick = (event: MouseEvent): void => {
-    const { firstPoint, secondPoint } = this.subViews;
+    const { firstPoint, secondPoint } = this.getSubViews();
 
     if (this.isFirstPointClosest(event)) {
       firstPoint.movePoint(this.mouseCoords);
@@ -194,7 +190,7 @@ class View extends Observer<PointData> {
   };
 
   private addScaleHandler(): void {
-    const scaleChildren = this.subViews.scale.divElement.querySelectorAll('div');
+    const scaleChildren = this.getSubViews().scale.divElement.querySelectorAll('div');
     scaleChildren.forEach(element =>
       element.addEventListener('click', this.handleScaleClick),
     );
@@ -211,8 +207,9 @@ class View extends Observer<PointData> {
   };
 
   private isFirstPointClosest(event: MouseEvent): boolean {
-    const { config, mouseCoords } = this;
-    const { firstPoint, secondPoint } = this.subViews;
+    const { firstPoint, secondPoint } = this.getSubViews();
+    const { mouseCoords } = this;
+    const config = this.getConfig();
     if (!config.isRange) return true;
     if (!secondPoint) return true;
 
@@ -227,7 +224,7 @@ class View extends Observer<PointData> {
   }
 
   private demarcatePoints(pointName: string): void {
-    const { firstPoint, secondPoint } = this.subViews;
+    const { firstPoint, secondPoint } = this.getSubViews();
     if (!secondPoint) return;
 
     if (pointName === 'firstPoint') {
@@ -239,22 +236,20 @@ class View extends Observer<PointData> {
     }
 
     if (firstPoint.getOffset() <= secondPoint.getOffset()) return;
-    pointName === 'firstPoint'
-      ? firstPoint.movePoint(secondPoint.getOffset())
-      : secondPoint.movePoint(firstPoint.getOffset());
+    if (pointName === 'firstPoint') firstPoint.movePoint(secondPoint.getOffset());
+    if (pointName === 'secondPoint') secondPoint.movePoint(firstPoint.getOffset());
   }
 
   private joinTooltips(): void {
-    const { firstPoint, secondPoint, tooltipTotal } = this.subViews;
-    const { config } = this;
+    const { firstPoint, secondPoint, tooltipTotal } = this.getSubViews();
+    const config = this.getConfig();
     if (!config.hasTooltip) return;
     if (!secondPoint || !tooltipTotal) return;
 
-    const size = config.isHorizontal ? 'offsetWidth' : 'offsetHeight';
     const firstTooltip = firstPoint.tooltip;
     const secondTooltip = secondPoint.tooltip;
 
-    const firstTooltipOffset = firstTooltip.getOffset() + firstTooltip.divElement[size];
+    const firstTooltipOffset = firstTooltip.getOffset() + firstTooltip.getSize();
     const secondTooltipOffset = secondTooltip.getOffset();
     const tooltipTotalOffset = `${(secondTooltipOffset - firstTooltipOffset) / 2}px`;
 
@@ -265,7 +260,7 @@ class View extends Observer<PointData> {
     const secondValue = secondTooltip.getValue();
     const delimiter = config.isHorizontal ? ' - ' : ' ';
     const text = `${firstValue}${delimiter}${secondValue}`;
-    tooltipTotal.divElement.innerHTML = text;
+    tooltipTotal.changeValue(text);
 
     if (firstTooltipOffset >= secondTooltipOffset) {
       firstTooltip.hide();

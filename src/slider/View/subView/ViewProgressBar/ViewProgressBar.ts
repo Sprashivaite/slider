@@ -35,7 +35,7 @@ class ViewProgressBar {
     const size = this.isHorizontal ? 'width' : 'height';
     const firstPointOffset = this.firstPoint.getOffset();
     this.divElement.style[size] = `${firstPointOffset}%`;
-    if (this.isRange && this.secondPoint) {
+    if (this.secondPoint) {
       const secondPointOffset = this.secondPoint.getOffset();
       const direction = this.isHorizontal ? 'left' : 'top';
       this.divElement.style[direction] = `${firstPointOffset}%`;
