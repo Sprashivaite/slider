@@ -145,7 +145,7 @@ describe('View tooltip should collapse', () => {
   });
 });
 
-describe('View progressbar should moving', () => {
+describe('View progress bar should moving', () => {
   it('range', () => {
     view.getSubViews().secondPoint?.movePoint(95);
     view.getSubViews().progressBar.changeSize();
