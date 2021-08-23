@@ -12,7 +12,7 @@ enum KeyInputs {
   orientation = 'orientation',
   range = 'range',
 }
-type Inputs = { [key in KeyInputs]: HTMLInputElement };
+type Inputs = { [key in KeyInputs]: HTMLInputElement | null };
 
 class Config {
   private slider: SliderPlugin;
@@ -35,36 +35,31 @@ class Config {
   }
 
   private findElements(): Inputs {
-    const firstPoint = this.container.querySelector('[name=firstPoint]');
-    if (firstPoint instanceof HTMLInputElement)
-      this.inputs = { ...this.inputs, firstPoint };
+    const firstPoint: HTMLInputElement | null =
+      this.container.querySelector('[name=firstPoint]');
+    const secondPoint: HTMLInputElement | null =
+      this.container.querySelector('[name=secondPoint]');
+    const max: HTMLInputElement | null = this.container.querySelector('[name=max]');
+    const min: HTMLInputElement | null = this.container.querySelector('[name=min]');
+    const step: HTMLInputElement | null = this.container.querySelector('[name=step]');
+    const tooltip: HTMLInputElement | null =
+      this.container.querySelector('[name=tooltip]');
+    const scale: HTMLInputElement | null = this.container.querySelector('[name=scale]');
+    const orientation: HTMLInputElement | null =
+      this.container.querySelector('[name=orientation]');
+    const range: HTMLInputElement | null = this.container.querySelector('[name=range]');
 
-    const secondPoint = this.container.querySelector('[name=secondPoint]');
-    if (secondPoint instanceof HTMLInputElement)
-      this.inputs = { ...this.inputs, secondPoint };
-
-    const max = this.container.querySelector('[name=max]');
-    if (max instanceof HTMLInputElement) this.inputs = { ...this.inputs, max };
-
-    const min = this.container.querySelector('[name=min]');
-    if (min instanceof HTMLInputElement) this.inputs = { ...this.inputs, min };
-
-    const step = this.container.querySelector('[name=step]');
-    if (step instanceof HTMLInputElement) this.inputs = { ...this.inputs, step };
-
-    const tooltip = this.container.querySelector('[name=tooltip]');
-    if (tooltip instanceof HTMLInputElement) this.inputs = { ...this.inputs, tooltip };
-
-    const scale = this.container.querySelector('[name=scale]');
-    if (scale instanceof HTMLInputElement) this.inputs = { ...this.inputs, scale };
-
-    const orientation = this.container.querySelector('[name=orientation]');
-    if (orientation instanceof HTMLInputElement)
-      this.inputs = { ...this.inputs, orientation };
-
-    const range = this.container.querySelector('[name=range]');
-    if (range instanceof HTMLInputElement) this.inputs = { ...this.inputs, range };
-
+    this.inputs = {
+      firstPoint,
+      secondPoint,
+      max,
+      min,
+      step,
+      tooltip,
+      scale,
+      orientation,
+      range,
+    };
     return this.inputs;
   }
 
@@ -81,18 +76,18 @@ class Config {
       orientation,
       range,
     } = this.inputs;
-    firstPoint.value = `${config.firstValue}`;
-    secondPoint.value = `${config.secondValue}`;
-    tooltip.checked = config.hasTooltip;
-    scale.checked = config.hasScale;
-    range.checked = config.isRange;
-    orientation.checked = config.isHorizontal;
-    step.value = `${config.step}`;
-    min.value = `${config.min}`;
-    max.value = `${config.max}`;
-    if (config.isRange) {
+    if (firstPoint) firstPoint.value = `${config.firstValue}`;
+    if (tooltip) tooltip.checked = config.hasTooltip;
+    if (scale) scale.checked = config.hasScale;
+    if (range) range.checked = config.isRange;
+    if (orientation) orientation.checked = config.isHorizontal;
+    if (step) step.value = `${config.step}`;
+    if (min) min.value = `${config.min}`;
+    if (max) max.value = `${config.max}`;
+    if (secondPoint && config.isRange) {
+      secondPoint.value = `${config.secondValue}`;
       secondPoint.removeAttribute('disabled');
-    } else {
+    } else if (secondPoint) {
       secondPoint.setAttribute('disabled', 'true');
     }
   };
@@ -114,42 +109,45 @@ class Config {
       orientation,
       range,
     } = this.inputs;
-    firstPoint.addEventListener('change', this.handleFirstPointChange);
-    secondPoint.addEventListener('change', this.handleSecondPointChange);
-    min.addEventListener('change', this.handleMinChange);
-    max.addEventListener('change', this.handleMaxChange);
-    step.addEventListener('change', this.handleStepChange);
-    tooltip.addEventListener('change', this.handleTooltipChange);
-    scale.addEventListener('change', this.handleScalseChange);
-    orientation.addEventListener('change', this.handleOrientationChange);
-    range.addEventListener('change', this.handleRangeChange);
+    if (firstPoint) firstPoint.addEventListener('change', this.handleFirstPointChange);
+    if (secondPoint) secondPoint.addEventListener('change', this.handleSecondPointChange);
+    if (min) min.addEventListener('change', this.handleMinChange);
+    if (max) max.addEventListener('change', this.handleMaxChange);
+    if (step) step.addEventListener('change', this.handleStepChange);
+    if (tooltip) tooltip.addEventListener('change', this.handleTooltipChange);
+    if (scale) scale.addEventListener('change', this.handleScaleChange);
+    if (orientation) orientation.addEventListener('change', this.handleOrientationChange);
+    if (range) range.addEventListener('change', this.handleRangeChange);
   }
 
   private handleFirstPointChange = (): void => {
-    this.slider.setValue('firstPoint', this.inputs.firstPoint.valueAsNumber);
+    if (this.inputs.firstPoint)
+      this.slider.setValue('firstPoint', this.inputs.firstPoint.valueAsNumber);
   };
 
   private handleSecondPointChange = (): void => {
-    this.slider.setValue('secondPoint', this.inputs.secondPoint.valueAsNumber);
+    if (this.inputs.secondPoint)
+      this.slider.setValue('secondPoint', this.inputs.secondPoint.valueAsNumber);
   };
 
   private handleMinChange = (): void => {
-    this.slider.updateConfig({ min: this.inputs.min.valueAsNumber });
+    if (this.inputs.min) this.slider.updateConfig({ min: this.inputs.min.valueAsNumber });
   };
 
   private handleMaxChange = (): void => {
-    this.slider.updateConfig({ max: Number(this.inputs.max.value) });
+    if (this.inputs.max) this.slider.updateConfig({ max: Number(this.inputs.max.value) });
   };
 
   private handleStepChange = (): void => {
-    this.slider.updateConfig({ step: Number(this.inputs.step.value) });
+    if (this.inputs.step)
+      this.slider.updateConfig({ step: Number(this.inputs.step.value) });
   };
 
   private handleTooltipChange = (): void => {
     this.slider.updateConfig({ hasTooltip: !this.slider.getConfig().hasTooltip });
   };
 
-  private handleScalseChange = (): void => {
+  private handleScaleChange = (): void => {
     this.slider.updateConfig({ hasScale: !this.slider.getConfig().hasScale });
   };
 

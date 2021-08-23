@@ -15,9 +15,7 @@ class Observer<A> {
   subscribe(eventName: EventName, listener: EventCallback<A, void>): this {
     const event = this.events[eventName];
     if (event && !event.includes(listener)) event.push(listener);
-    else {
-      this.events[eventName] = [listener];
-    }
+    else this.events[eventName] = [listener];
     return this;
   }
 }
