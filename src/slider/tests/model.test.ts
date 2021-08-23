@@ -3,8 +3,8 @@ import { PointData } from '../types';
 
 let model: Model;
 type SomeObject = {
-  pointPX: number;
-  pointValue: number;
+  pointPX: number | undefined;
+  pointValue: number | undefined;
   scaleValues: number[];
   updatePX(data: PointData): void;
   updateValue(data: PointData): void;
@@ -79,10 +79,9 @@ describe('Model point value takes an', () => {
 
 describe('Model should change', () => {
   it('value', () => {
-    model.updateConfig({ firstValue: 0 });
+    model.updateConfig({ firstValue: 0, isRange: false });
     model.changeValue({
       pointName: 'firstPoint',
-      pointOffset: 10,
       value: 10,
     });
     expect(someObject.pointValue).toBe(10);

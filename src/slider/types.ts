@@ -7,7 +7,7 @@ import ViewTooltip from './View/subView/ViewTooltip/ViewTooltip';
 
 type ModelConfig = {
   firstValue: number;
-  secondValue: number;
+  secondValue?: number;
   isRange: boolean;
   max: number;
   min: number;
@@ -72,10 +72,15 @@ type PointName = keyof typeof PointNames;
 type EventCallback<A, B> = (data: A) => B;
 
 type PointData = {
-  pointOffset: number;
+  pointOffset?: number;
+  pointName: PointName;
+  value?: number;
+  steps?: number[];
+};
+
+type PointValue = {
   pointName: PointName;
   value: number;
-  steps?: number[];
 };
 
 type CurrentPoint = {
@@ -90,6 +95,7 @@ export {
   ViewConfig,
   SubViews,
   PointData,
+  PointValue,
   CurrentPoint,
   ProgressBar,
   EventTypes,

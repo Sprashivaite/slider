@@ -2,7 +2,7 @@ import { ModelConfig, ViewConfig } from './types';
 
 const DEFAULT_MODEL_CONFIG: ModelConfig = {
   firstValue: 0,
-  secondValue: 0,
+  secondValue: undefined,
   isRange: true,
   max: 100,
   min: 0,

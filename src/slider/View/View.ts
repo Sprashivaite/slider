@@ -51,11 +51,11 @@ class View extends Observer<PointData> {
     const { firstPoint, secondPoint, progressBar } = this.getSubViews();
 
     if (pointName === 'firstPoint') {
-      firstPoint.movePoint(pointOffset);
+      if (pointOffset || pointOffset === 0) firstPoint.movePoint(pointOffset);
       if (value !== undefined) firstPoint.tooltip.changeValue(value);
     }
     if (pointName === 'secondPoint') {
-      secondPoint?.movePoint(pointOffset);
+      if (pointOffset || pointOffset === 0) secondPoint?.movePoint(pointOffset);
       if (value !== undefined) secondPoint?.tooltip.changeValue(value);
     }
     progressBar.changeSize();

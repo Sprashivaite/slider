@@ -23,29 +23,41 @@ class Model extends Observer<PointData> {
   }
 
   changeValue(data: PointData): void {
-    const { max, min } = this.getConfig();
-    const { value } = data;
-    const nearestValue = this.findNearestValue(value);
+    const { value, pointName } = data;
+    if (pointName === 'firstPoint') this.setConfig({ firstValue: value });
+    if (pointName === 'secondPoint') this.setConfig({ secondValue: value });
+    this.validateValues();
+    const { max, min, firstValue, secondValue } = this.getConfig();
+
+    let validateValue: number = firstValue;
+    if (pointName === 'secondPoint' && secondValue) validateValue = secondValue;
+    const nearestValue = this.findNearestValue(validateValue);
     const result: number = (100 / (max - min)) * (nearestValue - min);
-    this.updatePoint({ ...data, pointOffset: result });
+
+    this.emit(EventTypes.updatePoint, {
+      ...data,
+      pointOffset: result,
+      value: validateValue,
+    });
   }
 
   updatePoint(data: PointData): void {
-    const value = this.calcValue(data.pointOffset);
-    if (data.pointName === 'firstPoint') this.setConfig({ firstValue: value });
-    if (data.pointName === 'secondPoint') this.setConfig({ secondValue: value });
+    const { pointOffset, pointName } = data;
+    if (!pointOffset && pointOffset !== 0) return;
+    const value = this.calcValue(pointOffset);
+    if (pointName === 'firstPoint') this.setConfig({ firstValue: value });
+    if (pointName === 'secondPoint') this.setConfig({ secondValue: value });
     this.emit(EventTypes.updatePoint, { ...data, value });
   }
 
   private notifyListeners(): void {
-    const { firstValue, secondValue, steps } = this.getConfig();
+    const { firstValue, secondValue, steps, isRange } = this.getConfig();
     this.changeValue({
       steps,
       value: firstValue,
       pointName: 'firstPoint',
-      pointOffset: 0,
     });
-    this.changeValue({ value: secondValue, pointName: 'secondPoint', pointOffset: 0 });
+    if (isRange) this.changeValue({ value: secondValue, pointName: 'secondPoint' });
   }
 
   private setConfig(value: Partial<ModelConfig>): void {
@@ -59,14 +71,20 @@ class Model extends Observer<PointData> {
   }
 
   private validateValues(): void {
+    const { min, max, isRange } = this.getConfig();
     let { firstValue, secondValue } = this.getConfig();
     if (typeof firstValue !== 'number') firstValue = Number(firstValue);
-    if (typeof secondValue !== 'number') secondValue = Number(secondValue);
+    if (firstValue < min) firstValue = min;
     if (!Number.isFinite(firstValue)) firstValue = 0;
-    if (!Number.isFinite(secondValue)) secondValue = 1;
-    if (firstValue >= secondValue) firstValue = secondValue - 1;
-    if (secondValue <= firstValue) secondValue = firstValue + 1;
-    this.setConfig({ firstValue, secondValue });
+    if (firstValue > max) firstValue = max;
+    if (isRange) {
+      if (!Number.isFinite(secondValue)) secondValue = 1;
+      if (typeof secondValue !== 'number') secondValue = Number(secondValue);
+      if (firstValue > secondValue) firstValue = secondValue;
+      if (secondValue < firstValue) secondValue = firstValue;
+      if (secondValue > max) secondValue = max;
+      this.setConfig({ firstValue, secondValue });
+    }
   }
 
   private validateMinMax(): void {
