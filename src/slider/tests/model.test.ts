@@ -57,6 +57,7 @@ describe('Model constructor should', () => {
 
 describe('Model point value takes an', () => {
   it('integer value', () => {
+    model.updateConfig({ step: 1 });
     model.updatePoint({
       pointName: 'firstPoint',
       pointOffset: 1,
@@ -78,13 +79,14 @@ describe('Model point value takes an', () => {
 
 describe('Model should change', () => {
   it('value', () => {
+    model.updateConfig({ firstValue: 0 });
     model.changeValue({
       pointName: 'firstPoint',
-      pointOffset: 1,
-      value: 1,
+      pointOffset: 10,
+      value: 10,
     });
-    expect(someObject.pointValue).toBe(1);
-    expect(someObject.pointPX).toBe(1);
+    expect(someObject.pointValue).toBe(10);
+    expect(someObject.pointPX).toBe(10);
   });
 });
 
