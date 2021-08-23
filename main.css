@@ -15,6 +15,7 @@ body {
 .sliders__slider {
   margin: 50px 30px;
   width: 100%;
+  min-height: 100px;
 }
 
 @media screen and (max-width: 768px) {
