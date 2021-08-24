@@ -12,18 +12,22 @@ class ViewScale {
 
   private hasScale: boolean;
 
+  private scaleValues: number[];
+
   constructor(config: ViewConfig, root: HTMLDivElement) {
     const { isHorizontal, hasScale } = config;
     this.root = root;
     this.isHorizontal = isHorizontal;
     this.hasScale = hasScale;
     this.divElement = this.createScale();
+    this.scaleValues = [];
     this.scaleOffsets = [];
   }
 
-  updateValues(scaleValues: number[]): void {
-    this.calcScaleOffsets(scaleValues);
-    const reducedScaleValues = this.cutArray(scaleValues);
+  updateValues(scaleValues?: number[]): void {
+    this.scaleValues = scaleValues ?? this.scaleValues;
+    this.calcScaleOffsets(this.scaleValues);
+    const reducedScaleValues = this.cutArray(this.scaleValues);
     const reducedSaleOffsets = this.cutArray(this.scaleOffsets);
 
     const direction = this.isHorizontal ? 'left' : 'top';
@@ -40,16 +44,6 @@ class ViewScale {
     this.removeExtraValues();
   }
 
-  hideScale(): void {
-    const modifier = 'scale_hidden';
-    this.divElement.classList.add(modifier, `js-${modifier}`);
-  }
-
-  showScale(): void {
-    const modifier = 'scale_hidden';
-    this.divElement.classList.remove(modifier, `js-${modifier}`);
-  }
-
   private createScale(): HTMLDivElement {
     this.divElement = document.createElement('div');
     const className = 'scale';
@@ -59,7 +53,10 @@ class ViewScale {
       this.divElement.classList.add(modifier, `js-${modifier}`);
     }
     this.root.append(this.divElement);
-    if (!this.hasScale) this.hideScale();
+
+    const resizeObserver = new ResizeObserver(() => this.updateValues());
+    resizeObserver.observe(this.divElement);
+
     return this.divElement;
   }
 

@@ -64,7 +64,8 @@ class View extends Observer<PointData> {
   }
 
   private updateScale(data: number[]): void {
-    this.getSubViews().scale.updateValues(data);
+    if (!this.getSubViews().scale) return;
+    this.getSubViews().scale?.updateValues(data);
     this.addScaleHandler();
   }
 
@@ -73,7 +74,7 @@ class View extends Observer<PointData> {
     const slider = new ViewContainer(config.target);
     const field = new ViewField(config, slider.divElement);
     const firstPoint = new ViewPoint(config, field.divElement);
-    const scale = new ViewScale(config, slider.divElement);
+    const scale = config.hasScale ? new ViewScale(config, slider.divElement) : undefined;
     const secondPoint = config.isRange
       ? new ViewPoint(config, field.divElement)
       : undefined;
@@ -96,7 +97,7 @@ class View extends Observer<PointData> {
       firstPoint.divElement,
       field.divElement,
       progressBar.divElement,
-      scale.divElement,
+      scale?.divElement,
       secondPoint?.divElement,
     ].forEach(item => item?.remove());
   }
@@ -190,8 +191,9 @@ class View extends Observer<PointData> {
   };
 
   private addScaleHandler(): void {
-    const scaleChildren = this.getSubViews().scale.divElement.querySelectorAll('div');
-    scaleChildren.forEach(element =>
+    if (!this.getSubViews().scale) return;
+    const scaleChildren = this.getSubViews().scale?.divElement.querySelectorAll('div');
+    scaleChildren?.forEach(element =>
       element.addEventListener('click', this.handleScaleClick),
     );
   }

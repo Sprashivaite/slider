@@ -44,7 +44,7 @@ type SubViews = {
   secondPoint?: ViewPoint;
   field: ViewField;
   progressBar: ViewProgressBar;
-  scale: ViewScale;
+  scale?: ViewScale;
   tooltipTotal?: ViewTooltip;
 };
 
