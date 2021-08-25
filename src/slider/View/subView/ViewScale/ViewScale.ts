@@ -10,15 +10,12 @@ class ViewScale {
 
   private scaleOffsets: number[];
 
-  private hasScale: boolean;
-
   private scaleValues: number[];
 
   constructor(config: ViewConfig, root: HTMLDivElement) {
-    const { isHorizontal, hasScale } = config;
+    const { isHorizontal } = config;
     this.root = root;
     this.isHorizontal = isHorizontal;
-    this.hasScale = hasScale;
     this.divElement = this.createScale();
     this.scaleValues = [];
     this.scaleOffsets = [];
