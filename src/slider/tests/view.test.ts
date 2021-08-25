@@ -69,7 +69,7 @@ describe('View elements should', () => {
     expect(view.getSubViews().field).toBeDefined();
     expect(view.getSubViews().firstPoint.divElement).toBeDefined();
     expect(view.getSubViews().firstPoint.tooltip.divElement).toBeDefined();
-    expect(view.getSubViews().scale.divElement).toBeDefined();
+    expect(view.getSubViews().scale?.divElement).toBeDefined();
     expect(view.getSubViews().progressBar.divElement).toBeDefined();
   });
 });
@@ -161,8 +161,8 @@ describe('View progress bar should moving', () => {
 
 describe('View scale should', () => {
   it('render 3 elements with [0, 50, 100]', () => {
-    view.getSubViews().scale.updateValues([0, 50, 100]);
-    expect(view.getSubViews().scale.divElement.children.length).toBe(3);
+    view.getSubViews().scale?.updateValues([0, 50, 100]);
+    expect(view.getSubViews().scale?.divElement.children.length).toBe(3);
   });
 });
 
@@ -211,8 +211,8 @@ describe('View event mouse click should work on', () => {
     const notify = jasmine.createSpy('notify');
     view.subscribe('valueChanged', notify);
     const click = new MouseEvent('click');
-    const scaleChildren = view.getSubViews().scale.divElement.querySelectorAll('div');
-    scaleChildren[0].dispatchEvent(click);
+    const scaleChildren = view.getSubViews().scale?.divElement.querySelectorAll('div');
+    if (scaleChildren) scaleChildren[0].dispatchEvent(click);
     expect(notify).toHaveBeenCalled();
   });
 });
